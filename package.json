@@ -1,0 +1,41 @@
+{
+  "name": "helly",
+  "version": "1.0.0",
+  "description": "A powerful library for interacting with the Discord API",
+  "main": "./dist/src/index.js",
+  "types": "./dist/types/src/index.d.ts",
+  "keywords": [
+    "discord",
+    "api",
+    "bot",
+    "client",
+    "node",
+    "wrapper",
+    "discordapp",
+    "helly"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/denkylabs/helly.git"
+  },
+  "author": "Davi Patricio <davipatricio@pm.me>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/denkylabs/helly/issues"
+  },
+  "homepage": "https://github.com/denkylabs/helly#readme",
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.2",
+    "@types/node": "^16.11.7",
+    "@types/ws": "^8.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "eslint": "^8.2.0",
+    "eslint-plugin-import": "^2.25.3",
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "ws": "^8.2.3"
+  }
+}
