@@ -1,6 +1,6 @@
 {
   "name": "helly",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A powerful library for interacting with the Discord API",
   "main": "./dist/src/index.js",
   "types": "./dist/types/src/index.d.ts",
@@ -14,16 +14,21 @@
     "discordapp",
     "helly"
   ],
+  "scripts": {
+    "lint:check": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "deprecate": "npm deprecate helly@\"< 1.0.1\" \"You are viewing an old version that is no longer supported\""
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/denkylabs/helly.git"
+    "url": "https://github.com/davipatricio/helly.git"
   },
   "author": "Davi Patricio <davipatricio@pm.me>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/denkylabs/helly/issues"
+    "url": "https://github.com/davipatricio/helly/issues"
   },
-  "homepage": "https://github.com/denkylabs/helly#readme",
+  "homepage": "https://github.com/davipatricio/helly#readme",
   "devDependencies": {
     "@tsconfig/node16": "^1.0.2",
     "@types/node": "^16.11.7",
