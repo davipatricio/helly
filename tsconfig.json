@@ -11,7 +11,7 @@
         "esModuleInterop": true,
         "declaration": true,
         "declarationDir": "./dist/types",
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "importHelpers": true,
         "removeComments": true,
         "preserveConstEnums": true,
@@ -26,6 +26,8 @@
     "exclude": [
         "node_modules",
         "**/*.spec.ts",
+        "package.json",
+        "package-lock.json",
         "dist"
     ]
 }

@@ -47,28 +47,28 @@ class Client extends EventEmitter {
     if (typeof token !== 'string') throw new Error('Token must be a string');
   }
 
-  verifyOptions(options: object) {
+  verifyOptions(options: ClientOptions) {
     if (typeof options !== 'object') throw new Error('Options must be an object');
 
-    if (!Array.isArray(this.options.disabledEvents)) throw new Error('The disabledEvents option must be an array.');
+    if (!Array.isArray(options.disabledEvents)) throw new Error('The disabledEvents option must be an array.');
 
-    if (typeof this.options.properties !== 'object') throw new Error('The properties option must be an object.');
+    if (typeof options.properties !== 'object') throw new Error('The properties option must be an object.');
 
-    if (typeof this.options.shardId !== 'number') throw new Error('The shardId option must be a number.');
-    if (typeof this.options.apiVersion !== 'number') throw new Error('The apiVersion option must be a number.');
-    if (typeof this.options.shardCount !== 'number') throw new Error('The shardCount option must be a number.');
-    if (typeof this.options.large_threshold !== 'number') {
+    if (typeof options.shardId !== 'number') throw new Error('The shardId option must be a number.');
+    if (typeof options.apiVersion !== 'number') throw new Error('The apiVersion option must be a number.');
+    if (typeof options.shardCount !== 'number') throw new Error('The shardCount option must be a number.');
+    if (typeof options.large_threshold !== 'number') {
       throw new Error('The large_threshold option must be a number.');
     }
 
     // Value checking
-    if (this.options.shardId < 0) throw new Error('The shardId option must be a positive number.');
-    if (this.options.shardCount < 1) throw new Error('The shardCount option must be a positive number.');
+    if (options.shardId < 0) throw new Error('The shardId option must be a positive number.');
+    if (options.shardCount < 1) throw new Error('The shardCount option must be a positive number.');
 
-    if (this.options.large_threshold < 50) {
+    if (options.large_threshold < 50) {
       throw new Error('The large_threshold option must be a number between 50 and 250.');
     }
-    if (this.options.large_threshold > 250) {
+    if (options.large_threshold > 250) {
       throw new Error('The large_threshold option must be a number between 50 and 250.');
     }
   }
