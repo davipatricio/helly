@@ -1,15 +1,27 @@
 import EventEmitter from 'events';
-import WebSocket from 'ws';
+import WebSocketManager from './ws/WebsocketManager';
+import ActionManager from '../actions/ActionManager';
+import Heartbeater from './ws/Heartbeater';
 import type { ClientOptions } from './ClientOptions';
+import type ClientUser from '../structures/ClientUser';
 
 class Client extends EventEmitter {
-  ws: WebSocket | null;
-  token: string;
+  ws: WebSocketManager;
+  token!: string;
   options: ClientOptions;
+  api!: any;
+  ping!: number;
+  ready: boolean;
+  actions: ActionManager;
+  user: ClientUser | null;
   constructor(options = {} as ClientOptions) {
     super();
-    this.ws = null;
-    this.token = '';
+    this.ws = new WebSocketManager(this);
+    this.actions = new ActionManager(this);
+    this.api = {};
+    this.ready = false;
+    this.user = null;
+
     this.options = Object.assign(
       {
         autoReconnect: true,
@@ -44,7 +56,45 @@ class Client extends EventEmitter {
   }
 
   login(token: string) {
-    if (typeof token !== 'string') throw new Error('Token must be a string');
+    if (!token) throw new Error('No token provided');
+    this.token = token;
+    this.ping = -1;
+
+    this.emit('debug', '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
+    this.ws.connect();
+  }
+
+  reconnect() {
+    // Stop heartbeating (this automatically verifies if there's a timer)
+    Heartbeater.stop(this);
+
+    this.cleanUp();
+    this.emit('reconnecting');
+
+    // If we don't have a session id, we cannot reconnect
+    this.api.should_resume = Boolean(this.api.sessionId);
+    this.login(this.token);
+  }
+
+  disconnect() {
+    this.ws.connection?.close(1000);
+    // Stop heartbeating (this automatically verifies if there's a timer)
+    Heartbeater.stop(this);
+
+    this.api = {};
+    this.cleanUp();
+  }
+
+  cleanUp() {
+    this.ping = 1;
+    this.ready = false;
+
+    // eslint-disable-next-line capitalized-comments
+    // this.user = null;
+    // this.guilds.cache.clear();
+    // this.emojis.cache.clear();
+    // this.users.cache.clear();
+    // this.channels.cache.clear();
   }
 
   verifyOptions(options: ClientOptions) {

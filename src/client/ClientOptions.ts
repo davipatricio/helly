@@ -10,7 +10,7 @@ export interface ClientOptions {
     disabledEvents?: Array<string>,
     properties?: HTTPOptions,
     failIfNotExists?: boolean,
-    allowedMentions: AllowedMentionsOptions
+    allowedMentions?: AllowedMentionsOptions
 }
 
 export interface HTTPOptions {
