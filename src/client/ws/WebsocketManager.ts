@@ -12,7 +12,7 @@ class WebSocketManager {
     }
 
     connect() {
-        this.connection = new WebSocket(Endpoints.gatewayUrl(this.client.options.apiVersion, 'json'));
+        this.connection = new WebSocket(Endpoints.gatewayUrl(this.client.options.apiVersion!, 'json'));
         this.connection.on('message', message => Parser.message(this.client, message));
 
         this.connection.on('close', code => {

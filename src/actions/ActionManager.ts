@@ -1,8 +1,9 @@
 import { readdirSync } from 'node:fs';
+import type Client from '../client/Client';
 
 class ActionManager {
     loaded: any;
-    constructor(client) {
+    constructor(client: Client) {
         this.loaded = {};
         const actions = readdirSync(__dirname);
 
@@ -13,7 +14,7 @@ class ActionManager {
             if (action === 'ActionManager') continue;
 
             // Do not load disabled events
-            if (client.options.disabledEvents.includes(action)) continue;
+            if (client.options.disabledEvents!.includes(action)) continue;
             this.loaded[action] = require(`./${action}`);
         }
     }

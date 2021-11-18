@@ -4,7 +4,6 @@ import type Client from '../client/Client';
 class ClientUser extends User {
     constructor(client: Client, data: object) {
         super(client, data);
-        this.client = client;
         this.parseData(data);
     }
 

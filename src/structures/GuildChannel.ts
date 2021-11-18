@@ -1,9 +1,19 @@
+import type Client from '../client/Client';
+
 class GuildChannel {
-    name: string;
+    client: Client;
+    // Channel properties
+    name: string | null;
     type: ChannelType;
-    constructor() {
-        this.name = '';
+    id!: string | null;
+    constructor(client: Client) {
+        this.client = client;
+        this.name = null;
         this.type = 'UNKNOWN';
+    }
+
+    toString(): string {
+        return `<#${this.id}>`;
     }
 }
 

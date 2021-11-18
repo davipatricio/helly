@@ -1,13 +1,13 @@
 import EventEmitter from 'events';
 import Heartbeater from './ws/Heartbeater';
 import Intents from '../utils/Intents';
+import { defaultValues, ClientOptions } from './ClientOptions';
 
 import WebSocketManager from './ws/WebsocketManager';
 import ActionManager from '../actions/ActionManager';
 import GuildManager from '../managers/GuildManager';
 import UserManager from '../managers/UserManager';
 
-import type { ClientOptions } from './ClientOptions';
 import type ClientUser from '../structures/ClientUser';
 
 class Client extends EventEmitter {
@@ -24,42 +24,14 @@ class Client extends EventEmitter {
   actions: ActionManager;
   user: ClientUser | null;
 
-  constructor(options = {} as ClientOptions) {
+  constructor(options: ClientOptions = defaultValues) {
+    super();
     super();
     this.api = {};
     this.ready = false;
     this.user = null;
 
-    this.options = Object.assign(
-      {
-        autoReconnect: true,
-        disabledEvents: [],
-
-        // Data sent in IDENTIFY payload
-        shardId: 0,
-        shardCount: 1,
-
-        apiVersion: 9,
-
-        intents: [],
-        large_threshold: 50,
-
-        properties: {
-          $os: process.platform,
-          $browser: 'peachy.js',
-          $device: 'peachy.js',
-        },
-
-        // Default message options
-        failIfNotExists: false,
-        allowedMentions: {
-          parse: ['users', 'roles', 'everyone'],
-          replied_user: true,
-          users: [],
-          roles: [],
-        },
-      }, options);
-
+    this.options = Object.assign(defaultValues, options);
     this.verifyOptions(this.options);
     this.prepareCache();
     this.options.intents = Intents.parse(this.options.intents ?? ['GUILDS']);

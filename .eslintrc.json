@@ -22,6 +22,7 @@
       "global"
     ],
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "no-await-in-loop": "warn",
     "no-compare-neg-zero": "error",
     "no-template-curly-in-string": "error",

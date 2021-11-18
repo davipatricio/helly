@@ -45,7 +45,7 @@ function start(client: Client) {
   }, client.api.heartbeat_interval).unref();
 }
 
-function stop(client) {
+function stop(client: Client) {
   if (client.api.heartbeat_timer) clearInterval(client.api.heartbeat_timer);
   client.api.heartbeat_timer ??= null;
 }

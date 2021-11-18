@@ -1,6 +1,7 @@
+import GuildChannel from './GuildChannel';
+
 import type Client from '../client/Client';
 import type Guild from './Guild';
-import type { ChannelType } from './GuildChannel';
 
 type AllowedMentionsType = 'users' | 'roles' | 'everyone';
 
@@ -8,35 +9,26 @@ export interface AllowedMentionsOptions {
     parse?: Array<AllowedMentionsType>,
     users?: Array<string>,
     roles?: Array<string>,
-    repliedUser?: boolean,
+    replied_user?: boolean,
 }
 
-class TextChannel {
-    client: Client;
-
+class TextChannel extends GuildChannel {
     // Channel properties
-    guildId!: string | null;
-    name!: string | null;
-    type!: ChannelType;
-    id!: string | null;
+    guildId!: string;
     nsfw!: boolean;
     topic!: string | null;
     rateLimitPerUser!: number;
 
-    constructor(client: Client, data: object, guild: Guild) {
-        this.client = client;
-        this.parseData(data, guild);
+    constructor(client: Client, data: object) {
+        super(client);
+        this.parseData(data);
     }
 
     get guild(): Guild | null {
-        return null;
+        return this.client.guilds.cache.get(this.guildId) ?? null;
     }
 
-    toString(): string {
-        return `<#${this.id}>`;
-    }
-
-    parseData(data: any, guild: Guild): any {
+    parseData(data: any): any {
         if (!data) return null;
 
         this.name = data.name;
@@ -46,7 +38,7 @@ class TextChannel {
         this.rateLimitPerUser = data.rate_limit_per_user ?? 0;
 
         this.id = data.id;
-        this.guildId = guild?.id;
+        this.guildId = data.guild_id;
         return data;
     }
 }
