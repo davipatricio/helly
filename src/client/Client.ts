@@ -1,7 +1,12 @@
 import EventEmitter from 'events';
+import Heartbeater from './ws/Heartbeater';
+import Intents from '../utils/Intents';
+
 import WebSocketManager from './ws/WebsocketManager';
 import ActionManager from '../actions/ActionManager';
-import Heartbeater from './ws/Heartbeater';
+import GuildManager from '../managers/GuildManager';
+import UserManager from '../managers/UserManager';
+
 import type { ClientOptions } from './ClientOptions';
 import type ClientUser from '../structures/ClientUser';
 
@@ -12,12 +17,15 @@ class Client extends EventEmitter {
   api!: any;
   ping!: number;
   ready: boolean;
+
+  // Managers
+  guilds!: GuildManager;
+  users!: UserManager;
   actions: ActionManager;
   user: ClientUser | null;
+
   constructor(options = {} as ClientOptions) {
     super();
-    this.ws = new WebSocketManager(this);
-    this.actions = new ActionManager(this);
     this.api = {};
     this.ready = false;
     this.user = null;
@@ -33,7 +41,7 @@ class Client extends EventEmitter {
 
         apiVersion: 9,
 
-        intents: ['GUILDS'],
+        intents: [],
         large_threshold: 50,
 
         properties: {
@@ -50,9 +58,19 @@ class Client extends EventEmitter {
           users: [],
           roles: [],
         },
-      },
-      options,
-    );
+      }, options);
+
+    this.verifyOptions(this.options);
+    this.prepareCache();
+    this.options.intents = Intents.parse(this.options.intents ?? ['GUILDS']);
+
+    this.ws = new WebSocketManager(this);
+    this.actions = new ActionManager(this);
+  }
+
+  prepareCache() {
+    this.guilds = new GuildManager(this, Infinity);
+    this.users = new UserManager(this, Infinity);
   }
 
   login(token: string) {

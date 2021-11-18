@@ -4,7 +4,7 @@ class User {
     client: Client;
 
     // User properties
-    id!: string | null;
+    id!: string;
 
     constructor(client: Client, data: object) {
         this.client = client;
