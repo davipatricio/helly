@@ -10,7 +10,7 @@ class LimitedMap<K, V> extends Map<K, V> {
         this.limit = limit;
     }
 
-    set(key: K, value: V): any {
+    override set(key: K, value: V): any {
         if (this.limit <= 0) return value;
         if (this.size >= this.limit) {
             this.delete(this.keys().next().value);
