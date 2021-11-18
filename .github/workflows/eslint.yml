@@ -1,17 +1,20 @@
-name: Lint
-
 on:
   push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
 
 jobs:
-  build:
+  eslint:
+    name: eslint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Install modules
-      run: yarn
-    - name: Run ESLint
-      run: eslint src
+    - uses: actions/checkout@v1
+    - name: install node v16
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16
+    - name: yarn install
+      run: yarn install
+    - name: eslint
+      uses: icrawl/action-eslint@v1
+      with:
+        custom-glob: src
