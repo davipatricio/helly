@@ -14,4 +14,6 @@ jobs:
       matrix:
         node-version: [16.x]
     steps:
+      - name: Install modules
+        run: npm install
       - uses: iCrawl/action-tsc@v1
