@@ -14,7 +14,7 @@ class Client extends EventEmitter {
   ws: WebSocketManager;
   token!: string;
   options: ClientOptions;
-  api!: any;
+  api!: Record<string, any>;
   ping!: number;
   ready: boolean;
 

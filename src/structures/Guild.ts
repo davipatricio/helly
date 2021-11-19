@@ -18,7 +18,7 @@ class Guild {
         this.parseData(data);
     }
 
-    parseData(data: any): any {
+    parseData(data: Record<string, any>): any {
         if (!data) return null;
 
         this.name = data.name;

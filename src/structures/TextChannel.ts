@@ -28,7 +28,7 @@ class TextChannel extends GuildChannel {
         return this.client.guilds.cache.get(this.guildId) ?? null;
     }
 
-    parseData(data: any): any {
+    parseData(data: Record<string, any>): any {
         if (!data) return null;
 
         this.name = data.name;

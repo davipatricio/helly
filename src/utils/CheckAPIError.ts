@@ -22,7 +22,7 @@ function verifyForStatusCode(endpoint: string, data: BodyInit, code: number, met
     }
 }
 
-function verifyForJSONStatusCode(jsonResponse: any, endpoint: string, data: BodyInit, method: string) {
+function verifyForJSONStatusCode(jsonResponse: Record<string, any>, endpoint: string, data: BodyInit, method: string) {
     if (jsonResponse.code && jsonResponse.message) {
         throw new Error(
             `DiscordAPIError: ${jsonResponse.message} (${jsonResponse.code

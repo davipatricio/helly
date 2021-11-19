@@ -2,7 +2,7 @@ import { readdirSync } from 'node:fs';
 import type Client from '../client/Client';
 
 class ActionManager {
-    loaded: any;
+    loaded: Record<string, any>;
     constructor(client: Client) {
         this.loaded = {};
         const actions = readdirSync(__dirname);

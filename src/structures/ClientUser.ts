@@ -7,7 +7,7 @@ class ClientUser extends User {
         this.parseData(data);
     }
 
-    override parseData(data: any): any {
+    override parseData(data: Record<string, any>): any {
         if (!data) return null;
         return data;
     }

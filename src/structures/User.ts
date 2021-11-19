@@ -11,7 +11,7 @@ class User {
         this.parseData(data);
     }
 
-    parseData(data: any): any {
+    parseData(data: Record<string, any>): any {
         if (!data) return null;
 
         this.id = data.id;

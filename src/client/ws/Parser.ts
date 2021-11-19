@@ -1,9 +1,11 @@
 import Heartbeater from './Heartbeater';
 import Payloads from './Payloads';
-import type Client from '../Client';
 
-function message(client: Client, rawData: any) {
-  const data = JSON.parse(rawData);
+import type Client from '../Client';
+import type { RawData } from 'ws';
+
+function message(client: Client, rawData: RawData | string) {
+  const data = JSON.parse(rawData as unknown as string);
 
   const opcode = data.op;
   const eventData = data.d;
