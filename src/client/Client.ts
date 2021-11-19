@@ -18,7 +18,7 @@ class Client extends EventEmitter {
   api!: Record<string, any>;
   ping!: number;
   ready: boolean;
-  requester!: APIRequest;
+  requester!: APIRequester;
 
   // Managers
   guilds!: GuildManager;
@@ -83,8 +83,9 @@ class Client extends EventEmitter {
 
     this.user = null;
     this.guilds.cache.clear();
-    // this.emojis.cache.clear();
     this.users.cache.clear();
+    // eslint-disable-next-line capitalized-comments
+    // this.emojis.cache.clear();
     // this.channels.cache.clear();
   }
 
