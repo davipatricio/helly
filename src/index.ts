@@ -1,23 +1,8 @@
-import Client from './client/Client';
-import Guild from './structures/Guild';
-import GuildChannel from './structures/GuildChannel';
-import TextChannel from './structures/TextChannel';
-import Utils from './utils/index';
+export { default as Client } from './client/Client';
+export { default as Guild } from './structures/Guild';
+export { default as GuildChannel } from './structures/GuildChannel';
+export { default as TextChannel } from './structures/TextChannel';
+export { default as Utils } from './utils/index';
 
-import { ClientOptions } from './client/ClientOptions';
-import { version } from '../package.json';
-
-export {
-  // Misc
-  Client,
-  ClientOptions,
-
-  // Structures
-  Guild,
-  GuildChannel,
-  TextChannel,
-
-  // Misc
-  Utils,
-  version,
-};
+export { ClientOptions } from './client/ClientOptions';
+export { version } from '../package.json';
