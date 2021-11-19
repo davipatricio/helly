@@ -1,6 +1,9 @@
 # Build
-dist
+build
 docs
+
+# IDE files
+.vscode
 
 # Logs
 logs

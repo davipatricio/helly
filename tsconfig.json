@@ -2,15 +2,12 @@
     "$schema": "https://json.schemastore.org/tsconfig",
     "display": "Node 16",
     "compilerOptions": {
-        "lib": [
-            "es2021"
-        ],
         "module": "commonjs",
-        "target": "es2021",
+        "target": "ESNext",
         "strict": true,
         "esModuleInterop": true,
         "declaration": true,
-        "declarationDir": "./dist/types",
+        "declarationDir": "./build/types",
         "noImplicitAny": true,
         "allowUnusedLabels": false,
         "noImplicitOverride": true,
@@ -24,7 +21,7 @@
         "preserveConstEnums": true,
         "sourceMap": false,
         "skipLibCheck": true,
-        "outDir": "dist",
+        "outDir": "dist/esm",
         "allowJs": true,
         "allowUnreachableCode": false,
         "resolveJsonModule": true,
@@ -35,6 +32,6 @@
         "**/*.spec.ts",
         "package.json",
         "package-lock.json",
-        "dist"
+        "build"
     ]
 }
