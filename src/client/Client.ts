@@ -14,7 +14,7 @@ import type ClientUser from '../structures/ClientUser';
 class Client extends EventEmitter {
   ws: WebSocketManager;
   token!: string;
-  options: ClientOptions;
+  options: ClientOptions = defaultValues;
   api!: Record<string, any>;
   ping!: number;
   ready: boolean;
@@ -26,7 +26,7 @@ class Client extends EventEmitter {
   actions: ActionManager;
   user: ClientUser | null;
 
-  constructor(options = defaultValues as ClientOptions) {
+  constructor(options?: ClientOptions) {
     super();
     this.api = {};
     this.ready = false;
@@ -35,7 +35,7 @@ class Client extends EventEmitter {
     this.options = Object.assign(defaultValues, options);
     this.verifyOptions(this.options);
     this.prepareCache();
-    this.options.intents = Intents.parse(this.options.intents ?? ['GUILDS']);
+    this.options.intents = Intents.parse(this.options.intents!);
 
     this.ws = new WebSocketManager(this);
     this.actions = new ActionManager(this);

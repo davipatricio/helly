@@ -2,11 +2,13 @@ import type { AllowedMentionsOptions } from '../structures/TextChannel';
 
 export interface ClientOptions {
     autoReconnect?: boolean;
+    compress?: boolean;
     shardId?: number;
     shardCount?: number;
+    shards?: Array<number>;
     apiVersion?: number;
     large_threshold?: number;
-    intents?: Array<string> | number;
+    intents?: Array<string | undefined> | number;
     disabledEvents?: string[];
     properties?: HTTPOptions;
     failIfNotExists?: boolean;
@@ -21,6 +23,7 @@ export interface HTTPOptions {
 
 export const defaultValues: ClientOptions = {
   autoReconnect: true,
+  compress: false,
   disabledEvents: [],
 
   // Data sent in IDENTIFY payload

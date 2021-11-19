@@ -1,5 +1,5 @@
 class Intents extends null {
-  public static parse(intents: Array<string> | number): number {
+  public static parse(intents: Array<string | undefined> | number): number {
     if (typeof intents === 'number') return intents;
     if (!Array.isArray(intents)) throw new Error('Intents must be an array or number');
 

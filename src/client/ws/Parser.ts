@@ -7,19 +7,20 @@ import type { RawData } from 'ws';
 function message(client: Client, rawData: RawData | string) {
   const data = JSON.parse(rawData as unknown as string);
 
-  const opcode = data.op;
-  const eventData = data.d;
-  const eventName = data.t;
-  const sequence = data.s;
+  const opcode: number = data.op;
+  const eventData: any = data.d;
+  const sequence: number | null = data.s;
 
   // If the client is reconnecting/resuming, we don't want to override the last sequence number
   if (!client.api.should_resume) client.api.sequence = sequence ?? null;
 
   switch (opcode) {
     // General Gateway Events (GUILD_CREATE, GUILD_DELETE etc)
-    case 0:
+    case 0: {
+      const eventName: string = data.t;
       client.actions.loaded[eventName]?.handle(client, eventData);
       break;
+    }
 
     // Invalid session (we should reconnect and resume)
     case 9:

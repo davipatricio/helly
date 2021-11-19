@@ -1,7 +1,7 @@
 import type Client from '../Client';
 
 function sendIdentify(client: Client) {
-  const IdentifyPayload = {
+  const IdentifyPayload: any = {
     op: 2,
     d: {
       large_threshold: client.options.large_threshold,
