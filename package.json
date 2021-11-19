@@ -1,6 +1,6 @@
 {
   "name": "helly",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": false,
   "description": "A powerful library for interacting with the Discord API",
   "exports": {
@@ -29,7 +29,7 @@
     "build:esm": "tsc --module ESNext --outDir build/esm",
     "lint:check": "eslint src",
     "lint:fix": "eslint src --fix",
-    "deprecate": "npm deprecate helly@\"< 1.0.2\" \"You are viewing an old version that is no longer supported\""
+    "deprecate": "npm deprecate helly@\"< 1.0.3\" \"You are viewing an old version that is no longer supported\""
   },
   "repository": {
     "type": "git",
