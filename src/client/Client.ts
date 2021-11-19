@@ -1,6 +1,7 @@
 import EventEmitter from 'events';
 import Heartbeater from './ws/Heartbeater';
 import Intents from '../utils/Intents';
+import APIRequester from '../utils/Requester';
 import { defaultValues, ClientOptions } from './ClientOptions';
 
 import WebSocketManager from './ws/WebsocketManager';
@@ -17,6 +18,7 @@ class Client extends EventEmitter {
   api!: Record<string, any>;
   ping!: number;
   ready: boolean;
+  requester!: APIRequest;
 
   // Managers
   guilds!: GuildManager;
@@ -49,6 +51,7 @@ class Client extends EventEmitter {
     this.token = token;
     this.ping = -1;
 
+    this.requester = new APIRequester(this.token, this);
     this.emit('debug', '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
     this.ws.connect();
   }
@@ -78,11 +81,10 @@ class Client extends EventEmitter {
     this.ping = 1;
     this.ready = false;
 
-    // eslint-disable-next-line capitalized-comments
-    // this.user = null;
-    // this.guilds.cache.clear();
+    this.user = null;
+    this.guilds.cache.clear();
     // this.emojis.cache.clear();
-    // this.users.cache.clear();
+    this.users.cache.clear();
     // this.channels.cache.clear();
   }
 
