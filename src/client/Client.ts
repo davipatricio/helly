@@ -26,7 +26,6 @@ class Client extends EventEmitter {
 
   constructor(options = defaultValues as ClientOptions) {
     super();
-    super();
     this.api = {};
     this.ready = false;
     this.user = null;

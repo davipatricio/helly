@@ -1,18 +1,18 @@
 {
   "name": "helly",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": false,
   "description": "A powerful library for interacting with the Discord API",
+  "main": "./build/cjs/src/index.js",
+  "module": "./build/esm/src/index.js",
+  "types": "./build/types/src/index.d.ts",
   "exports": {
     ".": {
-      "import": "./build/esm/index.js",
-      "require": "./build/cjs/index.js",
-      "types": "./build/esm/index.d.ts"
+      "import": "./build/esm/src/index.js",
+      "require": "./build/cjs/src/index.js",
+      "types": "./build/types/src/index.d.ts"
     }
   },
-  "main": "build/cjs/index.js",
-  "module": "build/esm/index.js",
-  "types": "build/esm/index.d.ts",
   "keywords": [
     "discord",
     "api",
@@ -23,13 +23,19 @@
     "discordapp",
     "helly"
   ],
+  "files": [
+    "build",
+    "LICENSE",
+    "package-lock.json",
+    "package.json"
+  ],
   "scripts": {
     "build": "npm run build:esm && npm run build:cjs",
-    "build:cjs": "tsc --module CommonJs --outDir build/cjs",
-    "build:esm": "tsc --module ESNext --outDir build/esm",
+    "build:cjs": "tsc --outDir build/cjs",
+    "build:esm": "tsc --module ESNext --target ESNext --outDir build/esm",
     "lint:check": "eslint src",
     "lint:fix": "eslint src --fix",
-    "deprecate": "npm deprecate helly@\"< 1.0.3\" \"You are viewing an old version that is no longer supported\""
+    "deprecate": "npm deprecate helly@\"< 1.0.4\" \"You are viewing an old version that is no longer supported\""
   },
   "repository": {
     "type": "git",
