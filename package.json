@@ -1,17 +1,21 @@
 {
   "name": "helly",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": false,
   "description": "A powerful library for interacting with the Discord API",
-  "main": "./build/cjs/src/index.js",
-  "module": "./build/esm/src/index.js",
-  "types": "./build/types/src/index.d.ts",
+  "main": "./build/index.js",
+  "types": "./build/typings/index.d.ts",
   "exports": {
-    ".": {
-      "import": "./build/esm/src/index.js",
-      "require": "./build/cjs/src/index.js",
-      "types": "./build/types/src/index.d.ts"
-    }
+    ".": [
+      {
+        "import": "./build/esm.mjs",
+        "require": "./build/index.js",
+        "types": "./build/typings/index.d.ts"
+      },
+      "./build/index.js"
+    ],
+    "./": "./",
+    "./esm": "./esm.mjs"
   },
   "keywords": [
     "discord",
@@ -30,9 +34,7 @@
     "package.json"
   ],
   "scripts": {
-    "build": "npm run build:esm && npm run build:cjs",
-    "build:cjs": "tsc --outDir build/cjs",
-    "build:esm": "tsc --module ESNext --target ESNext --outDir build/esm",
+    "build": "tsc",
     "lint:check": "eslint src",
     "lint:fix": "eslint src --fix",
     "deprecate": "npm deprecate helly@\"< 1.0.4\" \"You are viewing an old version that is no longer supported\""

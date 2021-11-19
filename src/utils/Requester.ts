@@ -1,6 +1,6 @@
-import fetch from 'node-fetch';
+// eslint-disable-next-line no-shadow
+const fetch = (...args: any) => import('node-fetch').then(({ default: fetch }) => fetch(args));
 import Endpoints from '../constants/DiscordEndpoints';
-import { version } from '../../package.json';
 import { verifyForStatusCode, verifyForJSONStatusCode } from './CheckAPIError';
 
 import type Client from '../client/Client';
@@ -21,7 +21,7 @@ class APIRequest {
             parsedHeaders = {
                 Authorization: `Bot ${this.token}`,
                 'Content-Type': 'application/json',
-                'User-Agent': `DiscordBot (https://github.com/davipatricio/helly/, ${version})`,
+                'User-Agent': `DiscordBot (https://github.com/davipatricio/helly/, 1.0.5)`,
                 ...headers,
             };
         }
