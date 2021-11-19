@@ -30,16 +30,18 @@
   },
   "homepage": "https://github.com/davipatricio/helly#readme",
   "devDependencies": {
-    "@types/node": "^16.11.7",
+    "@types/node": "^16.11.8",
     "@types/ws": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^8.2.0",
     "eslint-plugin-import": "^2.25.3",
-    "tslib": "^2.3.1",
+    "typedoc": "^0.22.9",
     "typescript": "^4.4.4"
   },
   "dependencies": {
+    "node-fetch": "^3.1.0",
+    "tslib": "^2.3.1",
     "ws": "^8.2.3"
   }
 }

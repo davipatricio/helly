@@ -24,7 +24,7 @@ class Client extends EventEmitter {
   actions: ActionManager;
   user: ClientUser | null;
 
-  constructor(options: ClientOptions = defaultValues) {
+  constructor(options = defaultValues as ClientOptions) {
     super();
     super();
     this.api = {};

@@ -21,6 +21,8 @@
       "error",
       "global"
     ],
+    "no-duplicate-imports": "off",
+    "@typescript-eslint/no-duplicate-imports": ["error"],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "no-await-in-loop": "warn",
@@ -226,7 +228,6 @@
       "as-needed"
     ],
     "arrow-spacing": "error",
-    "no-duplicate-imports": "error",
     "no-useless-computed-key": "error",
     "no-useless-constructor": "error",
     "prefer-arrow-callback": "error",
