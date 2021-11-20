@@ -1,18 +1,19 @@
+import DataManager from './DataManager';
+
 import type Client from '../client/Client';
 
-class GuildChannel {
-    client: Client;
+class GuildChannel extends DataManager {
     // Channel properties
     name: string | null;
     type: ChannelType;
     id!: string | null;
     constructor(client: Client) {
-        this.client = client;
+        super(client);
         this.name = null;
         this.type = 'UNKNOWN';
     }
 
-    toString(): string {
+    override toString(): string {
         return `<#${this.id}>`;
     }
 }

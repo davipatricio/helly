@@ -2,14 +2,9 @@ import User from './User';
 import type Client from '../client/Client';
 
 class ClientUser extends User {
-    constructor(client: Client, data: object) {
+    constructor(client: Client, data: Record<string, any>) {
         super(client, data);
         this.parseData(data);
-    }
-
-    override parseData(data: Record<string, any>): any {
-        if (!data) return null;
-        return data;
     }
 }
 
