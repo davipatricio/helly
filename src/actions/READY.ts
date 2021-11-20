@@ -10,5 +10,5 @@ module.exports.handle = (client: Client, { session_id, user }: { session_id: str
     setTimeout(() => {
         client.emit('ready', client.user);
         client.ready = true;
-    }, 5000).unref();
+    }, client.options.intents === 0 ? 1 : 5000).unref();
 };
