@@ -1,4 +1,2 @@
-import LimitedMap from './LimitedMap';
-import Intents from './Intents';
-
-export default { LimitedMap, Intents };
+export { default as Intents } from './Intents';
+export { default as LimitedMap } from './LimitedMap';
