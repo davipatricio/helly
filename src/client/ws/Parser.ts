@@ -37,7 +37,7 @@ function message(client: Client, rawData: RawData | string) {
         Payloads.sendResume(client);
         client.api.should_resume = false;
         client.api.heartbeat_interval = eventData.heartbeat_interval;
-        client.emit('debug', `[DEBUG] Defined Heartbeater to ${eventData.heartbeat_interval}ms. Starting to Heartbeater.`);
+        client.emit('debug', `[DEBUG] Defined Heartbeater to ${eventData.heartbeat_interval}ms. Starting to Heartbeat.`);
 
         // Because we're starting to Heartbeater, we need to say that the last Heartbeater was acked.
         client.api.heartbeat_acked = true;
@@ -49,7 +49,7 @@ function message(client: Client, rawData: RawData | string) {
       }
 
       client.api.heartbeat_interval = eventData.heartbeat_interval;
-      client.emit('debug', `[DEBUG] Defined Heartbeater to ${eventData.heartbeat_interval}ms. Starting to Heartbeater.`);
+      client.emit('debug', `[DEBUG] Defined Heartbeater to ${eventData.heartbeat_interval}ms. Starting to Heartbeat.`);
 
       // Because we're starting to Heartbeater, we need to say that the last Heartbeater was acked.
       client.api.heartbeat_acked = true;
@@ -60,7 +60,7 @@ function message(client: Client, rawData: RawData | string) {
 
     // Gateway Heartbeater ACK
     case 11:
-      client.emit('debug', '[DEBUG] Received Heartbeater ACK.');
+      client.emit('debug', '[DEBUG] Received Heartbeat ACK.');
       client.api.last_heartbeat_ack = Date.now();
 
       // Mark that we've received the Heartbeater ACK so we can send more heartbeats.
