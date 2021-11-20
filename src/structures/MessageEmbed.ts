@@ -122,4 +122,4 @@ class MessageEmbed {
     }
 }
 
-module.exports = MessageEmbed;
+export default MessageEmbed;
