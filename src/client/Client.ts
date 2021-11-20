@@ -7,6 +7,7 @@ import { defaultValues, ClientOptions } from './ClientOptions';
 import WebSocketManager from './ws/WebsocketManager';
 import ActionManager from '../actions/ActionManager';
 import GuildManager from '../managers/GuildManager';
+import ChannelManager from '../managers/ChannelManager';
 import UserManager from '../managers/UserManager';
 
 import type ClientUser from '../structures/ClientUser';
@@ -23,6 +24,7 @@ class Client extends EventEmitter {
   // Managers
   guilds!: GuildManager;
   users!: UserManager;
+  channels!: ChannelManager;
   actions: ActionManager;
   user: ClientUser | null;
 
@@ -42,8 +44,9 @@ class Client extends EventEmitter {
   }
 
   prepareCache() {
-    this.guilds = new GuildManager(this, Infinity);
-    this.users = new UserManager(this, Infinity);
+    this.guilds = new GuildManager(this, this.options.cache!.guilds!);
+    this.users = new UserManager(this, this.options.cache!.users!);
+    this.channels = new ChannelManager(this, this.options.cache!.channels!);
   }
 
   login(token: string) {
