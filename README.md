@@ -1,4 +1,4 @@
-![rkswrites](https://socialify.git.ci/davipatricio/helly/image?description=1&descriptionEditable=A+minimalist+and+perfomance-focused+library+in+development+designed+to+interact+with+Discord+API.&font=Inter&forks=1&issues=1&language=1&owner=1&pattern=Floating%20Cogs&pulls=1&stargazers=1&theme=Dark)
+![helly](https://socialify.git.ci/davipatricio/helly/image?description=1&descriptionEditable=A+minimalist+and+perfomance-focused+library+in+development+designed+to+interact+with+Discord+API.&font=Inter&forks=1&issues=1&language=1&owner=1&pattern=Floating%20Cogs&pulls=1&stargazers=1&theme=Dark)
 
 ---
 
@@ -19,4 +19,4 @@ pnpm add helly
 ---
 
 ## Examples
-You can see examples in the [examples](https://github.com/davipatricio/helly/tree/main/src) folder.
+You can see examples in the [examples](https://github.com/davipatricio/helly/tree/main/src/examples) folder.

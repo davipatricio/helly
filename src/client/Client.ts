@@ -1,122 +1,126 @@
-import EventEmitter from 'events';
-import Heartbeater from './ws/Heartbeater';
-import Intents from '../utils/Intents';
-import APIRequester from '../utils/Requester';
-import { defaultValues, ClientOptions } from './ClientOptions';
+import EventEmitter from 'node:events';
+import ActionManager from '../actions/ActionManager.js';
+import Intents from '../utils/Intents.js';
+import { defaultValues, ClientOptions } from './ClientOptions.js';
+import WebsocketManager from './websocket/WebsocketManager.js';
+import Heartbeater from './websocket/Heartbeater.js';
+import GuildManager from '../managers/GuildManager.js';
+import UserManager from '../managers/UserManager.js';
+import Requester from '../utils/Requester.js';
+import ChannelManager from '../managers/ChannelManager.js';
 
-import WebSocketManager from './ws/WebsocketManager';
-import ActionManager from '../actions/ActionManager';
-import GuildManager from '../managers/GuildManager';
-import ChannelManager from '../managers/ChannelManager';
-import UserManager from '../managers/UserManager';
-
-import type ClientUser from '../structures/ClientUser';
+/**
+ * The main hub for interacting with the Discord API, and the starting point for any bot.
+ * @extends {EventEmitter}
+ * @param {ClientOptions} options Options to pass to the client
+ */
 
 class Client extends EventEmitter {
-  ws: WebSocketManager;
-  token!: string;
-  options: ClientOptions = defaultValues;
-  api!: Record<string, any>;
-  ping!: number;
-  ready: boolean;
-  requester!: APIRequester;
+	api: any;
+	user: null;
+	ping: number;
+	token: string;
+	ready: boolean;
 
-  // Managers
-  guilds!: GuildManager;
-  users!: UserManager;
-  channels!: ChannelManager;
-  actions: ActionManager;
-  user: ClientUser | null;
+	ws: WebsocketManager;
+	actions: ActionManager;
+	guilds: GuildManager;
+	users: UserManager;
+	channels: ChannelManager;
 
-  constructor(options?: ClientOptions) {
-    super();
-    this.api = {};
-    this.ready = false;
-    this.user = null;
+	options: ClientOptions;
+	requester!: Requester;
+	constructor(options?: ClientOptions) {
+		super();
 
-    this.options = Object.assign(defaultValues, options);
-    this.verifyOptions(this.options);
-    this.prepareCache();
-    this.options.intents = Intents.parse(this.options.intents!);
+		this.options = Object.assign(defaultValues, options);
+		this.options.intents = Intents.parse(this.options.intents);
+		this.api = {};
+		this.ready = false;
 
-    this.ws = new WebSocketManager(this);
-    this.actions = new ActionManager(this);
-  }
+		/**
+		 * User that the client is logged in as
+		 * @type {?ClientUser}
+		 **/
+		this.user = null;
 
-  prepareCache() {
-    this.guilds = new GuildManager(this, this.options.cache!.guilds!);
-    this.users = new UserManager(this, this.options.cache!.users!);
-    this.channels = new ChannelManager(this, this.options.cache!.channels!);
-  }
+		/**
+		 * The average ping of the {@link Client}
+		 * @type {number}
+		 * @readonly
+		 **/
+		this.ping = -1;
 
-  login(token: string) {
-    if (!token) throw new Error('No token provided');
-    this.token = token;
-    this.ping = -1;
+		/**
+		 * Authorization token for the logged in bot.
+		 * @type {string}
+		 */
+		this.token = '';
 
-    this.requester = new APIRequester(this.token, this);
-    this.emit('debug', '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
-    this.ws.connect();
-  }
+		this.parseOptions(this.options);
+		this.ws = new WebsocketManager(this);
+		this.actions = new ActionManager();
 
-  reconnect() {
-    // Stop heartbeating (this automatically verifies if there's a timer)
-    Heartbeater.stop(this);
+		/**
+		 * All of the guilds the client is currently handling, mapped by their ids
+		 * @type {GuildManager}
+		 */
+		this.guilds = new GuildManager(this.options.cache?.guilds as number);
 
-    this.cleanUp();
-    this.emit('reconnecting');
+		/**
+		 * All of the {@link User} objects that have been cached at any point, mapped by their ids
+		 * @type {UserManager}
+		 */
+		this.users = new UserManager(this.options.cache?.users as number);
 
-    // If we don't have a session id, we cannot reconnect
-    this.api.should_resume = Boolean(this.api.sessionId);
-    this.login(this.token);
-  }
+		/**
+		 * All of the {@link Channel} objects that have been cached at any point, mapped by their ids
+		 * @type {ChannelManager}
+		 */
+		this.channels = new ChannelManager(this.options.cache?.channels as number);
+	}
 
-  disconnect() {
-    this.ws.connection?.close(1000);
-    // Stop heartbeating (this automatically verifies if there's a timer)
-    Heartbeater.stop(this);
+	/**
+	 * Returns whether the client has logged in, indicative of being able to access properties such as user and application.
+	 * @returns {boolean}
+	 */
+	isReady(): boolean {
+		return this.ready;
+	}
 
-    this.api = {};
-    this.cleanUp();
-  }
+	/**
+	 * Logs the client in, establishing a WebSocket connection to Discord.
+	 * @param {string} token Token for logging in
+	 */
+	login(token: string): void {
+		if (!token) throw new Error('No token was provided');
 
-  cleanUp() {
-    this.ping = 1;
-    this.ready = false;
+		this.token = token;
+		this.requester = new Requester(this.token, this);
+		this.ws.connect();
+		this.emit('debug', '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
+	}
 
-    this.user = null;
-    this.guilds.cache.clear();
-    this.users.cache.clear();
-    // eslint-disable-next-line capitalized-comments
-    // this.emojis.cache.clear();
-    // this.channels.cache.clear();
-  }
+	parseOptions(options: any): void {
+		if (typeof options !== 'object') throw new TypeError('Client options must be an object');
+	}
 
-  verifyOptions(options: ClientOptions) {
-    if (typeof options !== 'object') throw new Error('Options must be an object');
+	reconnect() {
+		// Stop heartbeating (this automatically verifies if there's a timer)
+		Heartbeater.stop(this);
 
-    if (!Array.isArray(options.disabledEvents)) throw new Error('The disabledEvents option must be an array.');
+		this.cleanUp();
+		this.emit('reconnecting');
 
-    if (typeof options.properties !== 'object') throw new Error('The properties option must be an object.');
+		// If we don't have a session id, we cannot reconnect
+		this.api.should_resume = Boolean(this.api.session_id);
+		this.login(this.token);
+	}
 
-    if (typeof options.shardId !== 'number') throw new Error('The shardId option must be a number.');
-    if (typeof options.apiVersion !== 'number') throw new Error('The apiVersion option must be a number.');
-    if (typeof options.shardCount !== 'number') throw new Error('The shardCount option must be a number.');
-    if (typeof options.large_threshold !== 'number') {
-      throw new Error('The large_threshold option must be a number.');
-    }
-
-    // Value checking
-    if (options.shardId < 0) throw new Error('The shardId option must be a positive number.');
-    if (options.shardCount < 1) throw new Error('The shardCount option must be a positive number.');
-
-    if (options.large_threshold < 50) {
-      throw new Error('The large_threshold option must be a number between 50 and 250.');
-    }
-    if (options.large_threshold > 250) {
-      throw new Error('The large_threshold option must be a number between 50 and 250.');
-    }
-  }
+	cleanUp() {
+		this.ping = 1;
+		this.ready = false;
+	}
 }
 
 export default Client;

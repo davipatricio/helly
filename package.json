@@ -1,21 +1,19 @@
 {
   "name": "helly",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": false,
   "description": "A powerful library for interacting with the Discord API",
   "main": "./build/index.js",
+  "type": "module",
   "types": "./build/typings/index.d.ts",
   "exports": {
     ".": [
       {
-        "import": "./build/esm.mjs",
-        "require": "./build/index.js",
+        "import": "./build/index.js",
         "types": "./build/typings/index.d.ts"
       },
       "./build/index.js"
-    ],
-    "./": "./",
-    "./esm": "./esm.mjs"
+    ]
   },
   "keywords": [
     "discord",
@@ -33,30 +31,34 @@
     "package-lock.json",
     "package.json"
   ],
-  "scripts": {
-    "build": "tsc",
-    "lint:check": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "deprecate": "npm deprecate helly@\"< 1.0.4\" \"You are viewing an old version that is no longer supported\""
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/davipatricio/helly.git"
   },
-  "author": "Davi Patricio <davipatricio@pm.me>",
-  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/davipatricio/helly/issues"
   },
-  "homepage": "https://github.com/davipatricio/helly#readme",
+  "scripts": {
+    "docs": "jsdoc src -c jsdoc.json",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "build": "tsc",
+    "build:check": "tsc --noEmit --incremental false"
+  },
+  "author": "Davi Patricio <davipatricio@pm.me>",
   "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-typescript": "^7.15.0",
     "@types/node": "^16.11.8",
     "@types/ws": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
+    "clean-jsdoc-theme": "^3.2.8",
     "eslint": "^8.2.0",
     "eslint-plugin-import": "^2.25.3",
-    "typedoc": "^0.22.9",
+    "jsdoc-babel": "^0.5.0",
     "typescript": "^4.4.4"
   },
   "dependencies": {

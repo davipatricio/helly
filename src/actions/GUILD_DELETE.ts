@@ -1,9 +1,10 @@
-import Guild from '../structures/Guild';
-
 import type Client from '../client/Client';
+import Guild from '../structures/Guild.js';
 
-module.exports.handle = (client: Client, data: any) => {
-  const guild: Guild = client.guilds.cache.get(data.id)?._clone() ?? new Guild(client, data);
-  client.guilds.cache.delete(guild.id!);
-  client.emit('guildDelete', guild);
-};
+function handle(client: Client, guildData: any) {
+	const guild = client.guilds.cache.get(guildData.id) ?? new Guild(client, guildData);
+	if (client.ready) client.emit('guildDelete', guild);
+	client.guilds.cache.delete(guild.id);
+}
+
+export { handle };

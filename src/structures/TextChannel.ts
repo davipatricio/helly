@@ -1,46 +1,45 @@
-import GuildChannel from './GuildChannel';
+import Channel from './Channel.js';
+import type Guild from './Guild.js';
+import { ChannelTypes } from '../constants/channelTypes.js';
+import type Client from '../client/Client.js';
 
-import type Client from '../client/Client';
-import type Guild from './Guild';
+class TextChannel extends Channel {
+	declare type: 'GUILD_TEXT';
+	declare guild: Guild;
+	declare name: string;
+	constructor(client: Client, data: any, guild: Guild) {
+		super(client);
+		this.guild = guild;
+		this.parseData(data);
+	}
 
-type AllowedMentionsType = 'users' | 'roles' | 'everyone';
+	override parseData(data: any) {
+		if (!data) return null;
 
-export interface AllowedMentionsOptions {
-    parse?: Array<AllowedMentionsType>,
-    users?: Array<string>,
-    roles?: Array<string>,
-    replied_user?: boolean,
-}
+		if ('id' in data) {
+			/**
+			 * The channel's id
+			 * @type {string}
+			 */
+			this.id = data.id;
+		}
 
-class TextChannel extends GuildChannel {
-    // Channel properties
-    guildId!: string;
-    nsfw!: boolean;
-    topic!: string | null;
-    rateLimitPerUser!: number;
+		if ('id' in data) {
+			/**
+			 * The channel's name
+			 * @type {string}
+			 */
+			this.name = data.name;
+		}
 
-    constructor(client: Client, data: object) {
-        super(client);
-        this.parseData(data);
-    }
-
-    get guild(): Guild | null {
-        return this.client.guilds.cache.get(this.guildId) ?? null;
-    }
-
-    override parseData(data: Record<string, any>): any {
-        if (!data) return null;
-
-        this.name = data.name;
-        this.type = 'GUILD_TEXT';
-        this.nsfw = data.nsfw ?? false;
-        this.topic = data.topic ?? null;
-        this.rateLimitPerUser = data.rate_limit_per_user ?? 0;
-
-        this.id = data.id;
-        this.guildId = data.guild_id;
-        return data;
-    }
+		if ('type' in data) {
+			/**
+			 * The type of the channel
+			 * @type {string}
+			 */
+			this.type = ChannelTypes[data.type];
+		}
+	}
 }
 
 export default TextChannel;

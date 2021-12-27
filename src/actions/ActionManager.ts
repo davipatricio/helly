@@ -1,23 +1,15 @@
-import { readdirSync } from 'node:fs';
-import type Client from '../client/Client';
-
 class ActionManager {
-    loaded: Record<string, any>;
-    constructor(client: Client) {
-        this.loaded = {};
-        const actions = readdirSync(__dirname);
+	loaded: { [key: string]: any } = {};
+	constructor() {
+		this.loaded = {};
+		this.loadActions();
+	}
 
-        for (let action of actions) {
-            action = action.replace('.js', '');
-
-            // Do not load the file itself
-            if (action === 'ActionManager') continue;
-
-            // Do not load disabled events
-            if (client.options.disabledEvents!.includes(action)) continue;
-            this.loaded[action] = require(`./${action}`);
-        }
-    }
+	async loadActions() {
+		this.loaded['READY'] = await import('./READY.js');
+		this.loaded['GUILD_CREATE'] = await import('./GUILD_CREATE.js');
+		this.loaded['GUILD_DELETE'] = await import('./GUILD_DELETE.js');
+	}
 }
 
 export default ActionManager;
