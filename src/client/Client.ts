@@ -65,7 +65,7 @@ class Client extends EventEmitter {
 		 * All of the guilds the client is currently handling, mapped by their ids
 		 * @type {GuildManager}
 		 */
-		this.guilds = new GuildManager(this.options.cache?.guilds as number);
+		this.guilds = new GuildManager(this.options.cache?.guilds as number, this);
 
 		/**
 		 * All of the {@link User} objects that have been cached at any point, mapped by their ids
