@@ -1,4 +1,4 @@
-import type Client from '../client/Client';
+import type { Client } from '../client/Client';
 
 function handle(client: Client, { session_id }: { session_id: string; }) {
 	client.api.session_id = session_id;

@@ -12,4 +12,4 @@ class ActionManager {
 	}
 }
 
-export default ActionManager;
+export {ActionManager};

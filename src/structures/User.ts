@@ -1,8 +1,9 @@
-import DataManager from './DataManager.js';
 import * as Images from '../constants/images.js';
-import makeAPIMessage from '../utils/MakeAPIMessage.js';
 
-import type Client from '../client/Client';
+import { DataManager } from './DataManager.js';
+import { makeAPIMessage } from '../utils/MakeAPIMessage.js';
+
+import type { Client } from '../client/Client';
 import type { MessageOptions } from './Channel.js';
 import Message from './Message.js';
 
@@ -138,4 +139,4 @@ class User extends DataManager {
 	}
 }
 
-export default User;
+export { User };

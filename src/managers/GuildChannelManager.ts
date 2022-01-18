@@ -1,5 +1,5 @@
-import LimitedMap from '../utils/LimitedMap.js';
-import type Channel from '../structures/Channel.js';
+import {LimitedMap} from '../utils/LimitedMap.js';
+import type {Channel} from '../structures/Channel.js';
 
 class GuildChannelManager {
 	cache: LimitedMap<string, Channel>;
@@ -8,4 +8,4 @@ class GuildChannelManager {
 	}
 }
 
-export default GuildChannelManager;
+export {GuildChannelManager};

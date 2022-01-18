@@ -1,7 +1,8 @@
 import WebSocket from 'ws';
-import type Client from '../Client.js';
 import Parser from './Parser.js';
 import { apiVersion, apiGatewayUrl } from '../../constants/gateway.js';
+
+import type { Client } from '../Client.js';
 
 class WebsocketManager {
 	client: Client;
@@ -19,4 +20,4 @@ class WebsocketManager {
 	}
 }
 
-export default WebsocketManager;
+export { WebsocketManager };

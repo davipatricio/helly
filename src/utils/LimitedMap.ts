@@ -61,4 +61,4 @@ class LimitedMap<K, V> extends Map<K, V> {
 	}
 }
 
-export default LimitedMap;
+export { LimitedMap };

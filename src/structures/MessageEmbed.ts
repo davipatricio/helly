@@ -1,34 +1,34 @@
 export interface MessageEmbedFooter {
-    text: string;
-    icon_url?: string;
-    proxy_url?: string;
+	text: string;
+	icon_url?: string;
+	proxy_url?: string;
 }
 
 export interface MessageEmbedImage {
-    url: string;
-    height?: number;
-    width?: number;
-    proxy_url?: string;
+	url: string;
+	height?: number;
+	width?: number;
+	proxy_url?: string;
 }
 
 export interface MessageEmbedThumbnail {
-    url: string;
-    height?: number;
-    width?: number;
-    proxy_url?: string;
+	url: string;
+	height?: number;
+	width?: number;
+	proxy_url?: string;
 }
 
 export interface MessageEmbedAuthor {
-    name: string;
-    url?: string;
-    icon_url?: string;
-    proxy_icon_url?: string;
+	name: string;
+	url?: string;
+	icon_url?: string;
+	proxy_icon_url?: string;
 }
 
 export interface MessageEmbedField {
-    name: string;
-    value: string;
-    inline?: boolean;
+	name: string;
+	value: string;
+	inline?: boolean;
 }
 
 export interface RawMessageEmbed {
@@ -134,4 +134,4 @@ class MessageEmbed {
 	}
 }
 
-export default MessageEmbed;
+export { MessageEmbed };

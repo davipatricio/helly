@@ -1,4 +1,4 @@
-import type Client from '../Client';
+import type { Client } from '../Client';
 
 function sendIdentify(client: Client) {
 	const IdentifyPayload: any = {
@@ -33,7 +33,7 @@ function sendResume(client: Client) {
 	client.ws.connection?.send(JSON.stringify(ResumePayload));
 }
 
-export default {
+export {
 	sendIdentify,
 	sendResume,
 };

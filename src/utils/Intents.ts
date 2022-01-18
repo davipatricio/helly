@@ -57,4 +57,4 @@ class Intents extends null {
 	}
 }
 
-export default Intents;
+export { Intents };

@@ -1,10 +1,11 @@
-import DataManager from './DataManager.js';
-import GuildMemberManager from '../managers/GuildMemberManager.js';
-import GuildMember from './GuildMember.js';
-import User from './User.js';
-import GuildChannelManager from '../managers/GuildChannelManager.js';
-import type Client from '../client/Client.js';
-import TextChannel from './TextChannel.js';
+import { DataManager } from './DataManager.js';
+import { GuildMemberManager } from '../managers/GuildMemberManager.js';
+import { GuildMember } from './GuildMember.js';
+import { User } from './User.js';
+import { GuildChannelManager } from '../managers/GuildChannelManager.js';
+import { TextChannel } from './TextChannel.js';
+
+import type { Client } from '../client/Client.js';
 
 export type Features = 'ANIMATED_ICON' | 'BANNER' | 'COMMERCE' | 'COMMUNITY' | 'DISCOVERABLE' | 'FEATURABLE' |
 	'INVITE_SPLASH' | 'MEMBER_VERIFICATION_GATE_ENABLED' | 'NEWS' | 'PARTNERED' | 'PREVIEW_ENABLED' | 'VANITY_URL' |
@@ -123,4 +124,4 @@ class Guild extends DataManager {
 	}
 }
 
-export default Guild;
+export { Guild };

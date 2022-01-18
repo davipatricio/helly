@@ -1,4 +1,4 @@
-import type Client from '../client/Client';
+import type {Client} from '../client/Client';
 
 class DataManager {
 	client: Client;
@@ -20,4 +20,4 @@ class DataManager {
 	}
 }
 
-export default DataManager;
+export {DataManager};

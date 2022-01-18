@@ -2,7 +2,8 @@ import fetch, { Response } from 'node-fetch';
 import { baseApiUrl, apiVersion } from '../constants/gateway.js';
 import Checker from './CheckAPIError.js';
 import { setTimeout as sleep } from 'node:timers/promises';
-import type Client from '../client/Client.js';
+
+import type { Client } from '../client/Client.js';
 
 class Requester {
 	token: string;
@@ -70,7 +71,7 @@ class Requester {
 	}
 
 	checkRatelimit(response: Response, client: Client) {
-		if(response.headers.get('x-ratelimit-remaining') === null) return;
+		if (response.headers.get('x-ratelimit-remaining') === null) return;
 		this['x-ratelimit-remaining'] = Number(response.headers.get('x-ratelimit-remaining'));
 
 		// If no requests are left, the client is ratelimited
@@ -90,4 +91,4 @@ class Requester {
 	}
 }
 
-export default Requester;
+export { Requester };

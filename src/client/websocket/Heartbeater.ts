@@ -1,4 +1,4 @@
-import type Client from '../Client';
+import type {Client} from '../Client';
 
 function sendImmediately(client: Client) {
 	const heartbeatData = {
@@ -48,7 +48,7 @@ function stop(client: Client) {
 	client.api.heartbeat_timer ??= null;
 }
 
-export default {
+export {
 	start,
 	stop,
 	sendImmediately,

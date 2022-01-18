@@ -1,50 +1,50 @@
 {
     "compilerOptions": {
-        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
+        "alwaysStrict": true,
         "declaration": true,
-        "declarationDir": "./build/typings",
+        "declarationMap": true,
+        "esModuleInterop": true,
         "exactOptionalPropertyTypes": false,
+        "forceConsistentCasingInFileNames": true,
+        "importHelpers": true,
+        "importsNotUsedAsValues": "error",
+        "inlineSources": false,
+        "isolatedModules": false,
+        "lib": [
+            "esnext"
+        ],
+        "module": "CommonJS",
+        "moduleResolution": "Node",
+        "newLine": "lf",
+        "noEmitHelpers": true,
         "noFallthroughCasesInSwitch": true,
-        "strictPropertyInitialization": true,
         "noImplicitOverride": true,
         "noImplicitReturns": false,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "strict": true,
-        "useUnknownInCatchVariables": true,
-        "module": "esnext",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "importHelpers": true,
-        "importsNotUsedAsValues": "error",
-        "inlineSources": false,
-        "newLine": "lf",
-        "noEmitHelpers": true,
         "outDir": "build",
         "preserveConstEnums": true,
-        "isolatedModules": false,
-        "removeComments": true,
-        "sourceMap": false,
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "lib": [
-            "esnext"
-        ],
-        "target": "esnext",
-        "useDefineForClassFields": true,
         "pretty": false,
+        "removeComments": true,
+        "resolveJsonModule": true,
+        "skipDefaultLibCheck": true,
         "skipLibCheck": true,
-        "skipDefaultLibCheck": true
+        "sourceMap": true,
+        "strict": true,
+        "target": "ES2020",
+        "useDefineForClassFields": true,
+        "useUnknownInCatchVariables": true
     },
-    "include": [
-        "src/**/*",
-    ],
     "exclude": [
+        "build",
         "node_modules",
-        "package.json",
         "package-lock.json",
-        "build"
+        "package.json"
+    ],
+    "include": [
+        "src/**/*"
     ]
 }

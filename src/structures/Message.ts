@@ -1,12 +1,11 @@
-import DataManager from './DataManager.js';
-import User from './User.js';
-import makeAPIMessage from '../utils/MakeAPIMessage.js';
-import TextChannel from './TextChannel.js';
-import type Guild from './Guild.js';
-import type Client from '../client/Client';
-import type { MessageOptions } from './Channel.js';
-// eslint-disable-next-line no-duplicate-imports
-import type Channel from './Channel.js';
+import { DataManager } from './DataManager.js';
+import { User } from './User.js';
+import { makeAPIMessage } from '../utils/MakeAPIMessage.js';
+import { TextChannel } from './TextChannel.js';
+
+import type { Guild } from './Guild.js';
+import type { Client } from '../client/Client';
+import type { MessageOptions, Channel } from './Channel.js';
 
 class Message extends DataManager {
 	id!: string;

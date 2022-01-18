@@ -1,6 +1,6 @@
-import MessageEmbed, { RawMessageEmbed } from '../structures/MessageEmbed.js';
+import { MessageEmbed, RawMessageEmbed } from '../structures/MessageEmbed.js';
 
-function MakeAPIMessage(data: any) {
+function makeAPIMessage(data: any) {
 	const finalData = data;
 	if (data.embeds) {
 		finalData.embeds = data.embeds.map((embed: (MessageEmbed | RawMessageEmbed)[]) => {
@@ -10,4 +10,4 @@ function MakeAPIMessage(data: any) {
 	return finalData;
 }
 
-export default MakeAPIMessage;
+export {makeAPIMessage};

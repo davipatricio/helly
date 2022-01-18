@@ -1,7 +1,8 @@
+import * as Payloads from './Payloads.js';
+import * as Heartbeater from './Heartbeater.js';
+
 import type WebSocket from 'ws';
-import Heartbeater from './Heartbeater.js';
-import Payloads from './Payloads.js';
-import type Client from '../Client';
+import type { Client } from '../Client';
 
 function message(client: Client, data: WebSocket.RawData) {
 	const parsedData = JSON.parse(data as unknown as string);

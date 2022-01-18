@@ -1,9 +1,8 @@
-import type Client from '../client/Client.js';
-import DataManager from './DataManager.js';
-import type Guild from './Guild.js';
-import type MessageEmbed from './MessageEmbed.js';
-// eslint-disable-next-line no-duplicate-imports
-import type { RawMessageEmbed } from './MessageEmbed.js';
+import { DataManager } from './DataManager.js';
+
+import type { Client } from '../client/Client.js';
+import type { Guild } from './Guild.js';
+import type { MessageEmbed, RawMessageEmbed } from './MessageEmbed.js';
 
 /**
  * Represents a message to be sent to the API.
@@ -33,4 +32,4 @@ class Channel extends DataManager {
 	}
 }
 
-export default Channel;
+export { Channel };
