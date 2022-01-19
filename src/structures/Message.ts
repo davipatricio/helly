@@ -1,8 +1,8 @@
 import { DataManager } from './DataManager';
 import { User } from './User';
 import { makeAPIMessage } from '../utils/MakeAPIMessage';
-import { TextChannel } from './TextChannel';
 
+import type { TextChannel } from './TextChannel';
 import type { Guild } from './Guild';
 import type { Client } from '../client/Client';
 import type { MessageOptions, Channel } from './Channel';
@@ -11,7 +11,8 @@ class Message extends DataManager {
 	id!: string;
 	content!: string | null;
 	guild!: Guild | null;
-	channel!: TextChannel | Channel;
+	channel!: TextChannel | Channel | null;
+	channel_id!: string | null;
 	author!: User;
 	constructor(client: Client, userData: any) {
 		super(client);
@@ -25,14 +26,28 @@ class Message extends DataManager {
 	 */
 	async reply(content: MessageOptions) {
 		if (typeof content === 'string') {
-			const object = { content };
-			const data = await this.client.requester.make(`channels/${this.channel.id}/messages`, 'POST', object);
+			const object = {
+				content,
+				message_reference: {
+					message_id: this.id,
+					channel_id: this.channel_id,
+					guild_id: this.guild?.id ?? null,
+					fail_if_not_exists: this.client.options.failIfNotExists,
+				},
+			};
+			const data = await this.client.requester.make(`channels/${this.channel_id}/messages`, 'POST', object);
 			const message = new Message(this.client, data);
 			return message;
 		}
 
 		const transformedObject = makeAPIMessage(content);
-		const data = await this.client.requester.make(`channels/${this.channel.id}/messages`, 'POST', transformedObject);
+		transformedObject.message_reference = {
+			message_id: this.id,
+			channel_id: this.channel_id,
+			guild_id: this.guild?.id ?? null,
+			fail_if_not_exists: this.client.options.failIfNotExists,
+		};
+		const data = await this.client.requester.make(`channels/${this.channel_id}/messages`, 'POST', transformedObject);
 		const message = new Message(this.client, data);
 		return message;
 	}
@@ -68,19 +83,12 @@ class Message extends DataManager {
 			 * The author of the message
 			 * @type {?User}
 			 */
-			this.author = this.client.users.cache.get(data.author.id) ?? new User(this.client, data.author);
+			this.author = this.client.users.cache.get(data.author.id) ?? this.client.users.cache.set(data.author.id, new User(this.client, data.author));
 		}
 
-		if (data.channel) {
-			/**
-			 * The channel of the message
-			 * @type {?TextChannel}
-			 */
-			switch (data.channel.id) {
-			case 0:
-				this.channel = this.client.channels.cache.get(data.channel.id) ?? this.guild?.channels.cache.get(data.channel.id) ?? new TextChannel(this.client, data.channel, this.guild as Guild);
-				break;
-			}
+		if (data.channel_id) {
+			this.channel = this.client.channels.cache.get(data.channel_id) ?? this.guild?.channels.cache.get(data.channel_id) ?? null;
+			this.channel_id = data.channel_id;
 		}
 	}
 }
