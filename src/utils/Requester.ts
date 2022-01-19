@@ -1,93 +1,92 @@
 import fetch, { Response } from 'node-fetch';
-import { baseApiUrl, apiVersion } from '../constants/gateway.js';
 import Checker from './CheckAPIError.js';
+
+import { baseApiUrl, apiVersion } from '../constants/gateway.js';
 import { setTimeout as sleep } from 'node:timers/promises';
 
 import type { Client } from '../client/Client.js';
 
+const Ratelimits: any = {};
+
 class Requester {
 	token: string;
 	client: Client;
-
-	'x-ratelimit-limit': number;
-	'x-ratelimit-remaining': number;
-	isRatelimited: boolean;
-	resetAfter: number;
 	constructor(token: string, client: Client) {
 		this.client = client;
 		this.token = token;
-
-		this.isRatelimited = false;
-		this.resetAfter = 1;
 	}
 
-	async make(endpoint: string, method = 'GET' as string, data = '' as string | { [key: string]: string }, additionalHeaders = {} as any): Promise<any | Response> {
-		const body: string = typeof data === 'object' ? JSON.stringify(data) : data;
-		if (this.isRatelimited) {
-			this.client.emit('debug', `Client is Ratelimited when making request. Retrying in ${this.resetAfter}.`);
-			await sleep(this.resetAfter);
-			return this.make(endpoint, method, data, additionalHeaders);
-		}
+	isRatelimited(majorId: string): boolean {
+		if (!Ratelimits[majorId]) return false;
+		return Ratelimits[majorId].remainingRequests === 0;
+	}
 
-		const headers: any = {
-			Authorization: `Bot ${this.token}`,
-			'Content-Type': 'application/json',
-			'User-Agent': 'DiscordBot (https://github.com/davipatricio/helly/, 1.0.5)',
-			...additionalHeaders,
-		};
+	checkRatelimit(majorId: string, headers: any): void {
+		const remainingRequests = Number(headers.get('x-ratelimit-remaining') || 5);
+		const reset = Math.round(Number(headers.get('x-ratelimit-reset-after') || 0) * 1000);
+		Ratelimits[majorId] = { removing: false, remainingRequests, reset };
+		if (remainingRequests === 0) this.applyRatelimit(majorId);
+	}
 
-		const request = await fetch(`${baseApiUrl}/v${apiVersion}/${endpoint}`, {
-			method,
-			headers,
-			body,
-		});
+	applyRatelimit(majorId: string) {
+		if (Ratelimits[majorId].removing) return;
 
-		this.checkRatelimit(request, this.client);
+		Ratelimits[majorId].removing = true;
+		setTimeout(() => Ratelimits[majorId] = {}, Ratelimits[majorId].reset).unref();
+	}
 
-		if (request.status === 429) {
-			this.client.emit('rateLimit', {
-				endpoint,
-				method,
-				data,
-			});
-			return this.make(endpoint, method, data, additionalHeaders);
-		}
+	_majorId(endpoint: string) {
+		// From: https://github.com/discordjs/discord.js/blob/307389a335d0fef25c6e8a3c7e401b1328629bc4/packages/rest/src/lib/RequestManager.ts#L427
+		const majorIdMatch = /^\/(?:channels|guilds|webhooks)\/(\d{16,19})/.exec(endpoint.startsWith('/') ? endpoint : `/${endpoint}`);
+		return majorIdMatch?.[1] ?? 'global';
+	}
 
-		let json: any = null;
-		try {
-			json = await request.json();
-		} catch {
+	async _retry(endpoint: string, method: string, data: string | { [key: string]: string }, additionalHeaders: any, majorId: string, _retries: number) {
+		this.client.emit('rateLimit', { endpoint, reset: Ratelimits[majorId].reset });
+		await sleep(Ratelimits[majorId].reset);
+		return this.make(endpoint, method, data, additionalHeaders, _retries + 1);
+	}
+
+	make(endpoint: string, method = 'GET' as string, data = '' as string | { [key: string]: string }, additionalHeaders = {} as any, _retries = 1 as number): Promise<any | Response> {
+		// eslint-disable-next-line no-async-promise-executor
+		return new Promise(async (resolve, reject) => {
+			if(_retries === 5) return reject(new Error('Maximum retries reached'));
+
+			const body: string = typeof data === 'object' ? JSON.stringify(data) : data;
+			const majorId = this._majorId(endpoint);
+
+			const headers: any = {
+				Authorization: `Bot ${this.token}`,
+				'Content-Type': 'application/json',
+				'User-Agent': 'DiscordBot (https://github.com/davipatricio/helly/, 1.0.5)',
+				...additionalHeaders,
+			};
+
+			const isRatelimited = this.isRatelimited(majorId);
+			if (isRatelimited) return this._retry(endpoint, method, data, additionalHeaders, majorId, _retries);
+
+			const request = await fetch(`${baseApiUrl}/v${apiVersion}/${endpoint}`, { method, headers, body });
+
+			if (!this.isRatelimited(majorId)) this.checkRatelimit(majorId, request.headers);
+			if (request.status === 429 || this.isRatelimited(majorId)) return this._retry(endpoint, method, data, additionalHeaders, majorId, _retries);
+
+			let json: any = {};
+			try {
+				json = await request.json();
+			} catch {
+				Checker.verifyForStatusCode(`${baseApiUrl}/v${apiVersion}/${endpoint}`, data, request.status, method);
+				resolve(request);
+				return request;
+			}
+
+			// Verify if an error code was returned from Discord API
+			// If there was an error, one of the following methods will throw an error
+			if (json.code) Checker.verifyForJSONStatusCode(json, `${baseApiUrl}/v${apiVersion}/${endpoint}`, data, method);
 			Checker.verifyForStatusCode(`${baseApiUrl}/v${apiVersion}/${endpoint}`, data, request.status, method);
-			return request;
-		}
-		json ??= {};
 
-		// Verify if an error code was returned from Discord API
-		// If there was an error, one of the following methods will throw an error
-		if (json.code) Checker.verifyForJSONStatusCode(json, `${baseApiUrl}/v${apiVersion}/${endpoint}`, data, method);
-		Checker.verifyForStatusCode(`${baseApiUrl}/v${apiVersion}/${endpoint}`, data, request.status, method);
-
-		return json;
-	}
-
-	checkRatelimit(response: Response, client: Client) {
-		if (response.headers.get('x-ratelimit-remaining') === null) return;
-		this['x-ratelimit-remaining'] = Number(response.headers.get('x-ratelimit-remaining'));
-
-		// If no requests are left, the client is ratelimited
-		if (this['x-ratelimit-remaining'] === 0) {
-			const resetAfter = Number(response.headers.get('x-ratelimit-reset-after'));
-
-			this.isRatelimited = true;
-			this.resetAfter = Number((resetAfter * 1000).toFixed(0)) + 100;
-
-			client.emit('debug', `Rate Limited! Resetting in ${this.resetAfter / 1000} seconds.`);
-
-			setTimeout(() => {
-				this.isRatelimited = false;
-				this.resetAfter = 1;
-			}, this.resetAfter).unref();
-		}
+			resolve(json);
+			return json;
+		});
 	}
 }
 

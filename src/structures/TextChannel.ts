@@ -1,5 +1,6 @@
 import { Channel } from './Channel.js';
 import { ChannelTypes } from '../constants/channelTypes.js';
+
 import type { Guild } from './Guild.js';
 import type { Client } from '../client/Client.js';
 

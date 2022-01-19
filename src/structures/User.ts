@@ -1,11 +1,11 @@
 import * as Images from '../constants/images.js';
 
 import { DataManager } from './DataManager.js';
+import { Message } from './Message.js';
 import { makeAPIMessage } from '../utils/MakeAPIMessage.js';
 
 import type { Client } from '../client/Client';
 import type { MessageOptions } from './Channel.js';
-import Message from './Message.js';
 
 export interface ImageURLOptions {
 	format: 'png' | 'jpg' | 'gif' | 'webp';

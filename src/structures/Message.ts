@@ -68,7 +68,7 @@ class Message extends DataManager {
 			 * The author of the message
 			 * @type {?User}
 			 */
-			this.author = this.client.users.cache.get(data.user.id) ?? new User(this.client, data.user);
+			this.author = this.client.users.cache.get(data.author.id) ?? new User(this.client, data.author);
 		}
 
 		if (data.channel) {
@@ -85,4 +85,4 @@ class Message extends DataManager {
 	}
 }
 
-export default Message;
+export { Message };
