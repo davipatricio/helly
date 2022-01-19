@@ -41,13 +41,13 @@ class Requester {
 		return majorIdMatch?.[1] ?? 'global';
 	}
 
-	async _retry(endpoint: string, method: string, data: string | { [key: string]: string }, additionalHeaders: any, majorId: string, _retries: number) {
+	async _retry(endpoint: string, method: string, data: any, additionalHeaders: any, majorId: string, _retries: number) {
 		this.client.emit('rateLimit', { endpoint, reset: Ratelimits[majorId].reset });
 		await sleep(Ratelimits[majorId].reset);
 		return this.make(endpoint, method, data, additionalHeaders, _retries + 1);
 	}
 
-	make(endpoint: string, method = 'GET' as string, data = '' as string | { [key: string]: string }, additionalHeaders = {} as any, _retries = 0 as number): Promise<any | Response> {
+	make(endpoint: string, method = 'GET' as string, data = '' as any, additionalHeaders = {} as any, _retries = 0 as number): Promise<any | Response> {
 		// eslint-disable-next-line no-async-promise-executor
 		return new Promise(async (resolve, reject) => {
 			if(_retries === 5) return reject(new Error('Maximum retries reached'));
