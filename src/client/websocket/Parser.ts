@@ -37,8 +37,8 @@ function message(client: Client, data: WebSocket.RawData) {
 		if (client.api.shouldResume) {
 			Payloads.sendResume(client);
 			client.api.shouldResume = false;
-			client.api.heartbeatInterval = eventData.heartbeatInterval;
-			client.emit('debug', `[DEBUG] Defined Heartbeater to ${eventData.heartbeatInterval}ms. Starting to Heartbeat.`);
+			client.api.heartbeatInterval = eventData.heartbeat_interval;
+			client.emit('debug', `[DEBUG] Defined Heartbeater to ${eventData.heartbeat_interval}ms. Starting to Heartbeat.`);
 
 			// Because we're starting to Heartbeater, we need to say that the last Heartbeater was acked.
 			client.api.heartbeatAcked = true;
@@ -48,8 +48,8 @@ function message(client: Client, data: WebSocket.RawData) {
 			break;
 		}
 
-		client.api.heartbeatInterval = eventData.heartbeatInterval;
-		client.emit('debug', `[DEBUG] Defined Heartbeater to ${eventData.heartbeatInterval}ms. Starting to Heartbeat.`);
+		client.api.heartbeatInterval = eventData.heartbeat_interval;
+		client.emit('debug', `[DEBUG] Defined Heartbeater to ${eventData.heartbeat_interval}ms. Starting to Heartbeat.`);
 
 		// Because we're starting to Heartbeater, we need to say that the last Heartbeater was acked.
 		client.api.heartbeatAcked = true;
@@ -61,11 +61,11 @@ function message(client: Client, data: WebSocket.RawData) {
 		// Gateway Heartbeater ACK
 	case 11:
 		client.emit('debug', '[DEBUG] Received Heartbeat ACK.');
-		client.api.last_heartbeat_ack = Date.now();
+		client.api.lastHeartbeatAck = Date.now();
 
 		// Mark that we've received the Heartbeater ACK so we can send more heartbeats.
 		client.api.heartbeatAcked = true;
-		client.ping = client.api.last_heartbeat_ack - client.api.last_heartbeat;
+		client.ping = client.api.lastHeartbeatAck - client.api.lastHeartbeat;
 		break;
 	}
 }

@@ -37,6 +37,17 @@ class Client extends EventEmitter {
 		super();
 
 		this.options = Object.assign(defaultValues, options);
+		this.options.cache = Object.assign({
+			guilds: Infinity,
+			channels: Infinity,
+			guildChannels: Infinity,
+			users: Infinity,
+			members: Infinity,
+			presences: Infinity,
+			messages: 100,
+			emojis: 300,
+			roles: Infinity,
+		}, options?.cache);
 		this.options.intents = Intents.parse(this.options.intents);
 		this.api = {};
 		this.ready = false;
@@ -87,7 +98,7 @@ class Client extends EventEmitter {
 	 * Returns whether the client has logged in, indicative of being able to access properties such as user and application.
 	 * @returns {boolean}
 	 */
-	isReady(): boolean {
+	isReady() {
 		return this.ready;
 	}
 
@@ -95,7 +106,7 @@ class Client extends EventEmitter {
 	 * Logs the client in, establishing a WebSocket connection to Discord.
 	 * @param {string} token Token for logging in
 	 */
-	login(token: string): void {
+	login(token: string) {
 		if (!token) throw new Error('No token was provided');
 
 		this.token = token;
@@ -104,7 +115,7 @@ class Client extends EventEmitter {
 		this.emit('debug', '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
 	}
 
-	parseOptions(options: any): void {
+	parseOptions(options: any) {
 		if (typeof options !== 'object') throw new TypeError('Client options must be an object');
 	}
 

@@ -24,7 +24,7 @@ function start(client: Client) {
 			d: client.api.sequence,
 		};
 
-		client.api.last_heartbeat = Date.now();
+		client.api.lastHeartbeat = Date.now();
 		client.api.heartbeatAcked = false;
 
 		client.ws.connection?.send(JSON.stringify(heartbeatData));

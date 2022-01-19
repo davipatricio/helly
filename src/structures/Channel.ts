@@ -1,8 +1,9 @@
 import { DataManager } from './DataManager';
 
+import type { ChannelTypes, ChannelType } from '../constants/channelTypes';
+import type { MessageEmbed, RawMessageEmbed } from './MessageEmbed';
 import type { Client } from '../client/Client';
 import type { Guild } from './Guild';
-import type { MessageEmbed, RawMessageEmbed } from './MessageEmbed';
 
 /**
  * Represents a message to be sent to the API.
@@ -15,20 +16,45 @@ export interface MessagePayload {
 }
 
 export type MessageOptions = string | MessagePayload;
-
 export type ChannelType = 'GUILD_TEXT';
 
 class Channel extends DataManager {
-	type!: ChannelType;
 	id!: string;
+	name!: string;
 	guild?: Guild;
-	// eslint-disable-next-line no-useless-constructor
-	constructor(client: Client) {
+
+	type!: ChannelTypes;
+	constructor(client: Client, data: any, guild?: Guild) {
 		super(client);
+		this.guild = guild;
+		this.parseData(data);
+	}
+
+	isText() {
+		return this.type === 'GUILD_TEXT';
+	}
+
+	isUnknown() {
+		return this.type === 'UNKNOWN';
 	}
 
 	override parseData(data: any) {
-		if (!data) return null;
+		if (typeof data === 'undefined') return null;
+		if ('name' in data) {
+			/**
+			 * The channel's name
+			 * @type {string}
+			 */
+			this.name = data.name;
+		}
+		if ('id' in data) {
+			/**
+			 * The channel's id
+			 * @type {string}
+			 */
+			this.id = data.id;
+		}
+		this.type = 'UNKNOWN';
 	}
 }
 

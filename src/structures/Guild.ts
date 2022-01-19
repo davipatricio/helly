@@ -4,6 +4,7 @@ import { GuildMember } from './GuildMember';
 import { User } from './User';
 import { GuildChannelManager } from '../managers/GuildChannelManager';
 import { TextChannel } from './TextChannel';
+import { Channel } from './Channel';
 
 import type { Client } from '../client/Client';
 
@@ -24,22 +25,22 @@ class Guild extends DataManager {
 	channels!: GuildChannelManager;
 	constructor(client: Client, data: any) {
 		super(client);
-		this.parseData(data);
-	}
-
-	override parseData(data: any) {
-		if (!data) return null;
 		/**
 		 * The guild's members
 		 * @type {GuildMemberManager}
 		 */
 		this.members = new GuildMemberManager(this.client.options.cache?.members as number);
-
 		/**
 		 * A manager of the channels belonging to this guild
 		 * @type {GuildChannelManager}
 		 */
 		this.channels = new GuildChannelManager(this.client.options.cache?.guildChannels as number);
+
+		this.parseData(data);
+	}
+
+	override parseData(data: any) {
+		if (typeof data === 'undefined') return null;
 
 		if ('id' in data) {
 			/**
@@ -78,8 +79,18 @@ class Guild extends DataManager {
 		if ('channels' in data) {
 			for (const channel of data.channels) {
 				switch (channel.type) {
+
+				// Text channels
 				case 0: {
 					const parsedChannel = new TextChannel(this.client, channel, this);
+					this.channels.cache.set(channel.id, parsedChannel);
+					this.client.channels.cache.set(channel.id, parsedChannel);
+					break;
+				}
+
+				// Unknown channels
+				default: {
+					const parsedChannel = new Channel(this.client, channel, this);
 					this.channels.cache.set(channel.id, parsedChannel);
 					this.client.channels.cache.set(channel.id, parsedChannel);
 					break;
@@ -88,39 +99,38 @@ class Guild extends DataManager {
 			}
 		}
 
-		if ('features' in data) {
-			/**
-			 * An array of enabled guild features, here are the possible values:
-			 * * ANIMATED_ICON
-			 * * BANNER
-			 * * COMMERCE
-			 * * COMMUNITY
-			 * * DISCOVERABLE
-			 * * FEATURABLE
-			 * * INVITE_SPLASH
-			 * * MEMBER_VERIFICATION_GATE_ENABLED
-			 * * NEWS
-			 * * PARTNERED
-			 * * PREVIEW_ENABLED
-			 * * VANITY_URL
-			 * * VERIFIED
-			 * * VIP_REGIONS
-			 * * WELCOME_SCREEN_ENABLED
-			 * * TICKETED_EVENTS_ENABLED
-			 * * MONETIZATION_ENABLED
-			 * * MORE_STICKERS
-			 * * THREE_DAY_THREAD_ARCHIVE
-			 * * SEVEN_DAY_THREAD_ARCHIVE
-			 * * PRIVATE_THREADS
-			 * * ROLE_ICONS
-			 * @typedef {string} Features
+		/**
+		 * An array of enabled guild features, here are the possible values:
+		 * * ANIMATED_ICON
+		 * * BANNER
+		 * * COMMERCE
+		 * * COMMUNITY
+		 * * DISCOVERABLE
+		 * * FEATURABLE
+		 * * INVITE_SPLASH
+		 * * MEMBER_VERIFICATION_GATE_ENABLED
+		 * * NEWS
+		 * * PARTNERED
+		 * * PREVIEW_ENABLED
+		 * * VANITY_URL
+		 * * VERIFIED
+		 * * VIP_REGIONS
+		 * * WELCOME_SCREEN_ENABLED
+		 * * TICKETED_EVENTS_ENABLED
+		 * * MONETIZATION_ENABLED
+		 * * MORE_STICKERS
+		 * * THREE_DAY_THREAD_ARCHIVE
+		 * * SEVEN_DAY_THREAD_ARCHIVE
+		 * * PRIVATE_THREADS
+		 * * ROLE_ICONS
+		 * @typedef {string} Features
 			*/
-			/**
-			 * List of Guild Features
-			 * @type {Features[]}
-			*/
-			this.features = data.features;
-		}
+		/**
+		 * List of Guild Features
+		 * @type {Features[]}
+		*/
+		this.features = data.features ?? [];
+
 	}
 }
 

@@ -46,18 +46,6 @@ export interface ClientOptions {
 export const defaultValues: ClientOptions = {
 	autoReconnect: true,
 	disabledEvents: [],
-	// Caching Options
-	cache: {
-		guilds: Infinity,
-		channels: Infinity,
-		guildChannels: Infinity,
-		users: Infinity,
-		members: Infinity,
-		presences: Infinity,
-		messages: 100,
-		emojis: 300,
-		roles: Infinity,
-	},
 
 	// Data sent in IDENTIFY payload
 	shardId: 0,

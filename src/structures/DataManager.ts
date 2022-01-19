@@ -11,7 +11,7 @@ class DataManager {
 	}
 
 	// eslint-disable-next-line no-empty-function, @typescript-eslint/no-unused-vars
-	parseData(..._param: any) { }
+	parseData(..._param: any) {}
 
 	_update(data: any, ...params: any) {
 		const clone = this._clone();

@@ -9,5 +9,9 @@ export { DataManager } from './structures/DataManager';
 export { GuildMember } from './structures/GuildMember';
 export { MessageEmbed } from './structures/MessageEmbed';
 
+// Misc
 export * as Constants from './constants/index';
 export * as Utils from './utils/index';
+
+// Types
+export { ChannelType } from './constants/channelTypes';

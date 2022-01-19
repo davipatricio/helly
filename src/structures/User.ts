@@ -81,7 +81,7 @@ class User extends DataManager {
 	}
 
 	override parseData(data: any) {
-		if (!data) return null;
+		if (typeof data === 'undefined') return null;
 
 		if ('id' in data) {
 			/**

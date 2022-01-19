@@ -30,8 +30,8 @@ class GuildMember extends DataManager {
 	}
 
 	override parseData(data: any) {
-		if (!data) return null;
-		this.user = this.client.users.cache.get(data.user.id) ?? new User(this.client, data.user);
+		if (typeof data === 'undefined') return null;
+		this.user = this.client.users.cache.get(data.user.id) ?? this.client.users.cache.set(data.user.id, new User(this.client, data.user));
 
 		if ('avatar' in data) {
 			/**

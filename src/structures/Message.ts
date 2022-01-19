@@ -5,7 +5,7 @@ import { makeAPIMessage } from '../utils/MakeAPIMessage';
 import type { TextChannel } from './TextChannel';
 import type { Guild } from './Guild';
 import type { Client } from '../client/Client';
-import type { MessageOptions, Channel } from './Channel';
+import type { Channel, MessageOptions } from './Channel';
 
 class Message extends DataManager {
 	author!: User;
@@ -37,8 +37,7 @@ class Message extends DataManager {
 			fail_if_not_exists: this.client.options.failIfNotExists,
 		};
 		const data = await this.client.requester.make(`channels/${this.channelId}/messages`, 'POST', transformedObject);
-		const message = new Message(this.client, data);
-		return message;
+		return new Message(this.client, data);
 	}
 
 
@@ -47,6 +46,10 @@ class Message extends DataManager {
 
 		if ('guild_id' in data) {
 			this.guildId = data.guild_id;
+			/**
+			 * The guild the message was sent in
+			 * @type {?Guild}
+			 */
 			this.guild = this.client.guilds.cache.get(this.guildId) ?? null;
 		}
 
@@ -77,11 +80,11 @@ class Message extends DataManager {
 		}
 
 		if (data.channel_id) {
+			this.channelId = data.channel_id;
 			/**
 			 * The channel the message was sent in
 			 * @type {?TextChannel}
 			 */
-			this.channelId = data.channel_id;
 			this.channel = this.client.channels.cache.get(this.channelId) ?? this.guild?.channels.cache.get(this.channelId) ?? null;
 		}
 	}
