@@ -116,7 +116,7 @@ class Client extends EventEmitter {
 		this.emit('reconnecting');
 
 		// If we don't have a session id, we cannot reconnect
-		this.api.should_resume = Boolean(this.api.session_id);
+		this.api.shouldResume = Boolean(this.api.sessionId);
 		this.login(this.token);
 	}
 

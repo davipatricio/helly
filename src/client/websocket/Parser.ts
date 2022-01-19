@@ -12,7 +12,7 @@ function message(client: Client, data: WebSocket.RawData) {
 	const sequence: number | null = parsedData.s;
 
 	// If the client is reconnecting/resuming, we don't want to override the last sequence number
-	if (!client.api.should_resume) client.api.sequence = sequence ?? null;
+	if (!client.api.shouldResume) client.api.sequence = sequence ?? null;
 
 	switch (opcode) {
 	// General Gateway Events (GUILD_CREATE, GUILD_DELETE etc)
@@ -24,7 +24,7 @@ function message(client: Client, data: WebSocket.RawData) {
 
 	// Invalid session (we should reconnect and resume)
 	case 9:
-		if (client.api.should_resume) break;
+		if (client.api.shouldResume) break;
 		client.ws.connection?.close(4000);
 		Heartbeater.stop(client);
 		client.reconnect();
@@ -34,25 +34,25 @@ function message(client: Client, data: WebSocket.RawData) {
 		// Gateway HELLO event
 	case 10:
 		// Here we should resume the session if we have a pending resume request
-		if (client.api.should_resume) {
+		if (client.api.shouldResume) {
 			Payloads.sendResume(client);
-			client.api.should_resume = false;
-			client.api.heartbeat_interval = eventData.heartbeat_interval;
-			client.emit('debug', `[DEBUG] Defined Heartbeater to ${eventData.heartbeat_interval}ms. Starting to Heartbeat.`);
+			client.api.shouldResume = false;
+			client.api.heartbeatInterval = eventData.heartbeatInterval;
+			client.emit('debug', `[DEBUG] Defined Heartbeater to ${eventData.heartbeatInterval}ms. Starting to Heartbeat.`);
 
 			// Because we're starting to Heartbeater, we need to say that the last Heartbeater was acked.
-			client.api.heartbeat_acked = true;
+			client.api.heartbeatAcked = true;
 			client.ready = true;
 			Heartbeater.start(client);
 			Heartbeater.sendImmediately(client);
 			break;
 		}
 
-		client.api.heartbeat_interval = eventData.heartbeat_interval;
-		client.emit('debug', `[DEBUG] Defined Heartbeater to ${eventData.heartbeat_interval}ms. Starting to Heartbeat.`);
+		client.api.heartbeatInterval = eventData.heartbeatInterval;
+		client.emit('debug', `[DEBUG] Defined Heartbeater to ${eventData.heartbeatInterval}ms. Starting to Heartbeat.`);
 
 		// Because we're starting to Heartbeater, we need to say that the last Heartbeater was acked.
-		client.api.heartbeat_acked = true;
+		client.api.heartbeatAcked = true;
 
 		Heartbeater.start(client);
 		Payloads.sendIdentify(client);
@@ -64,7 +64,7 @@ function message(client: Client, data: WebSocket.RawData) {
 		client.api.last_heartbeat_ack = Date.now();
 
 		// Mark that we've received the Heartbeater ACK so we can send more heartbeats.
-		client.api.heartbeat_acked = true;
+		client.api.heartbeatAcked = true;
 		client.ping = client.api.last_heartbeat_ack - client.api.last_heartbeat;
 		break;
 	}

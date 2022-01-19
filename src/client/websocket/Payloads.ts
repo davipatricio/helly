@@ -25,7 +25,7 @@ function sendResume(client: Client) {
 		op: 6,
 		d: {
 			token: client.token,
-			session_id: client.api.session_id,
+			session_id: client.api.sessionId,
 			seq: client.api.sequence,
 		},
 	};
