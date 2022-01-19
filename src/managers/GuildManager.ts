@@ -1,6 +1,6 @@
-import {LimitedMap} from '../utils/LimitedMap.js';
-import {Guild} from '../structures/Guild.js';
-import type {Client} from '../client/Client.js';
+import { LimitedMap } from '../utils/LimitedMap.js';
+import { Guild } from '../structures/Guild.js';
+import type { Client } from '../client/Client.js';
 
 class GuildManager {
 	cache: LimitedMap<string, Guild>;
@@ -11,13 +11,13 @@ class GuildManager {
 	}
 
 	async fetch(id: string): Promise<Guild | Map<string, Guild>> {
-		if(!id) {
+		if (!id) {
 			const guilds = await this.client.requester.make('/users/@me/guilds', 'GET');
 			const _fetchedGuilds = new Map();
 
-			for(const guild of guilds) {
+			for (const guild of guilds) {
 				const cachedGuild = this.client.guilds.cache.get(guild.id);
-				if(cachedGuild) {
+				if (cachedGuild) {
 					cachedGuild.parseData(guild);
 					_fetchedGuilds.set(guild.id, this.client.guilds.cache.get(guild.id));
 					continue;
@@ -31,7 +31,7 @@ class GuildManager {
 
 		const fetchedGuild = await this.client.requester.make(`/guilds/${id}`, 'GET');
 		const cachedGuild = this.client.guilds.cache.get(id);
-		if(cachedGuild) {
+		if (cachedGuild) {
 			cachedGuild.parseData(fetchedGuild);
 			return this.client.guilds.cache.get(id) ?? new Guild(this.client, fetchedGuild);
 		}
@@ -41,4 +41,4 @@ class GuildManager {
 	}
 }
 
-export {GuildManager};
+export { GuildManager };

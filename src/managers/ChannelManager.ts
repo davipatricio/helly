@@ -1,5 +1,5 @@
-import {LimitedMap} from '../utils/LimitedMap.js';
-import type {Channel} from '../structures/Channel.js';
+import { LimitedMap } from '../utils/LimitedMap.js';
+import type { Channel } from '../structures/Channel.js';
 
 class ChannelManager {
 	cache: LimitedMap<string, Channel>;
@@ -8,4 +8,4 @@ class ChannelManager {
 	}
 }
 
-export {ChannelManager};
+export { ChannelManager };

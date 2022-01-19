@@ -1,4 +1,4 @@
-import type {Client} from '../Client';
+import type { Client } from '../Client';
 
 function sendImmediately(client: Client) {
 	const heartbeatData = {
