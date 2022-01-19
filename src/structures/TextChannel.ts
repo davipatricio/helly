@@ -1,8 +1,8 @@
-import { Channel } from './Channel.js';
-import { ChannelTypes } from '../constants/channelTypes.js';
+import { Channel } from './Channel';
+import { ChannelTypes } from '../constants/channelTypes';
 
-import type { Guild } from './Guild.js';
-import type { Client } from '../client/Client.js';
+import type { Guild } from './Guild';
+import type { Client } from '../client/Client';
 
 class TextChannel extends Channel {
 	declare type: 'GUILD_TEXT';

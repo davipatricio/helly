@@ -1,2 +1,2 @@
-export { Intents } from './Intents.js';
-export { LimitedMap } from './LimitedMap.js';
+export { Intents } from './Intents';
+export { LimitedMap } from './LimitedMap';

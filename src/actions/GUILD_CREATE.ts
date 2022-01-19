@@ -1,6 +1,6 @@
-import type { Client } from '../client/Client';
+import { Guild } from '../structures/Guild';
 
-import { Guild } from '../structures/Guild.js';
+import type { Client } from '../client/Client';
 
 function handle(client: Client, guildData: any) {
 	const guild = new Guild(client, guildData);

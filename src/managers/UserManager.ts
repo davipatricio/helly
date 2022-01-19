@@ -1,6 +1,6 @@
-import { LimitedMap } from '../utils/LimitedMap.js';
-import type { User } from '../structures/User.js';
-import type { Client } from '../client/Client.js';
+import { LimitedMap } from '../utils/LimitedMap';
+import type { User } from '../structures/User';
+import type { Client } from '../client/Client';
 
 class UserManager {
 	cache: LimitedMap<string, User>;

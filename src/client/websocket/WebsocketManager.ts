@@ -1,8 +1,8 @@
 import WebSocket from 'ws';
-import Parser from './Parser.js';
-import { apiVersion, apiGatewayUrl } from '../../constants/gateway.js';
+import Parser from './Parser';
+import { apiVersion, apiGatewayUrl } from '../../constants/gateway';
 
-import type { Client } from '../Client.js';
+import type { Client } from '../Client';
 
 class WebsocketManager {
 	client: Client;

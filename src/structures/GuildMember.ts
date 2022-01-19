@@ -1,6 +1,6 @@
-import * as Images from '../constants/images.js';
-import { DataManager } from './DataManager.js';
-import { User, ImageURLOptions } from './User.js';
+import * as Images from '../constants/images';
+import { DataManager } from './DataManager';
+import { User, ImageURLOptions } from './User';
 
 import type { Client } from '../client/Client';
 import type { Guild } from './Guild';

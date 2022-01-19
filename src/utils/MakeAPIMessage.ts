@@ -1,4 +1,4 @@
-import { MessageEmbed, RawMessageEmbed } from '../structures/MessageEmbed.js';
+import { MessageEmbed, RawMessageEmbed } from '../structures/MessageEmbed';
 
 function makeAPIMessage(data: any) {
 	const finalData = data;

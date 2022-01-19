@@ -1,16 +1,16 @@
-import * as Heartbeater from './websocket/Heartbeater.js';
+import * as Heartbeater from './websocket/Heartbeater';
 
 import EventEmitter from 'node:events';
 
-import { defaultValues, ClientOptions } from './ClientOptions.js';
-import { ActionManager } from '../actions/ActionManager.js';
-import { ChannelManager } from '../managers/ChannelManager.js';
-import { GuildManager } from '../managers/GuildManager.js';
-import { UserManager } from '../managers/UserManager.js';
-import { WebsocketManager } from './websocket/WebsocketManager.js';
+import { defaultValues, ClientOptions } from './ClientOptions';
+import { ActionManager } from '../actions/ActionManager';
+import { ChannelManager } from '../managers/ChannelManager';
+import { GuildManager } from '../managers/GuildManager';
+import { UserManager } from '../managers/UserManager';
+import { WebsocketManager } from './websocket/WebsocketManager';
 
-import { Requester } from '../utils/Requester.js';
-import { Intents } from '../utils/Intents.js';
+import { Requester } from '../utils/Requester';
+import { Intents } from '../utils/Intents';
 
 /**
  * The main hub for interacting with the Discord API, and the starting point for any bot.

@@ -1,4 +1,4 @@
-import { apiCdnUrl } from './gateway.js';
+import { apiCdnUrl } from './gateway';
 
 export const userAvatarUrl = (userId: string, hash: string, format: string, size: number) => `${apiCdnUrl}/avatars/${userId}/${hash}.${format}?size=${size}`;
 export const userBannerUrl = (userId: string, hash: string, format: string, size: number) => `${apiCdnUrl}/banners/${userId}/${hash}.${format}?size=${size}`;

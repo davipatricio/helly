@@ -1,6 +1,6 @@
-import { LimitedMap } from '../utils/LimitedMap.js';
-import { Guild } from '../structures/Guild.js';
-import type { Client } from '../client/Client.js';
+import { LimitedMap } from '../utils/LimitedMap';
+import { Guild } from '../structures/Guild';
+import type { Client } from '../client/Client';
 
 class GuildManager {
 	cache: LimitedMap<string, Guild>;

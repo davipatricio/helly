@@ -1,5 +1,5 @@
-import {LimitedMap} from '../utils/LimitedMap.js';
-import type { GuildMember } from '../structures/GuildMember.js';
+import {LimitedMap} from '../utils/LimitedMap';
+import type { GuildMember } from '../structures/GuildMember';
 
 /**
  * Manages API methods for GuildMembers and stores their cache.

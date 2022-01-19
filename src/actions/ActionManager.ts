@@ -5,10 +5,10 @@ class ActionManager {
 		this.loadActions();
 	}
 
-	async loadActions() {
-		this.loaded['READY'] = await import('./READY.js');
-		this.loaded['GUILD_CREATE'] = await import('./GUILD_CREATE.js');
-		this.loaded['GUILD_DELETE'] = await import('./GUILD_DELETE.js');
+	loadActions() {
+		this.loaded['READY'] = require('./READY');
+		this.loaded['GUILD_CREATE'] = require('./GUILD_CREATE');
+		this.loaded['GUILD_DELETE'] = require('./GUILD_DELETE');
 	}
 }
 

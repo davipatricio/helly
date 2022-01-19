@@ -1,5 +1,5 @@
-import * as Payloads from './Payloads.js';
-import * as Heartbeater from './Heartbeater.js';
+import * as Payloads from './Payloads';
+import * as Heartbeater from './Heartbeater';
 
 import type WebSocket from 'ws';
 import type { Client } from '../Client';

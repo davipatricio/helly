@@ -1,3 +1,3 @@
-export * as Gateway from './gateway.js';
-export * as Images from './images.js';
-export * as ChannelTypes from './channelTypes.js';
+export * as Gateway from './gateway';
+export * as Images from './images';
+export * as ChannelTypes from './channelTypes';

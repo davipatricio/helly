@@ -1,8 +1,8 @@
-import { DataManager } from './DataManager.js';
+import { DataManager } from './DataManager';
 
-import type { Client } from '../client/Client.js';
-import type { Guild } from './Guild.js';
-import type { MessageEmbed, RawMessageEmbed } from './MessageEmbed.js';
+import type { Client } from '../client/Client';
+import type { Guild } from './Guild';
+import type { MessageEmbed, RawMessageEmbed } from './MessageEmbed';
 
 /**
  * Represents a message to be sent to the API.
