@@ -1,4 +1,5 @@
-import {LimitedMap} from '../utils/LimitedMap';
+import { LimitedMap } from '../utils/LimitedMap';
+import type { Client } from '../client/Client';
 import type { GuildMember } from '../structures/GuildMember';
 
 /**
@@ -6,8 +7,10 @@ import type { GuildMember } from '../structures/GuildMember';
  */
 class GuildMemberManager {
 	cache: LimitedMap<string, GuildMember>;
-	constructor(limit: number) {
+	client: Client;
+	constructor(client: Client, limit: number) {
 		this.cache = new LimitedMap(limit);
+		this.client = client;
 	}
 
 	fetch() {

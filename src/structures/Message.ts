@@ -29,6 +29,7 @@ class Message extends DataManager {
 	 */
 	async reply(content: MessageOptions) {
 		if (typeof content === 'string') content = { content };
+
 		const transformedObject = makeAPIMessage(content);
 		transformedObject.message_reference = {
 			message_id: this.id,

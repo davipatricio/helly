@@ -29,12 +29,12 @@ class Guild extends DataManager {
 		 * The guild's members
 		 * @type {GuildMemberManager}
 		 */
-		this.members = new GuildMemberManager(this.client.options.cache?.members as number);
+		this.members = new GuildMemberManager(client, this.client.options.cache?.members as number);
 		/**
 		 * A manager of the channels belonging to this guild
 		 * @type {GuildChannelManager}
 		 */
-		this.channels = new GuildChannelManager(this.client.options.cache?.guildChannels as number);
+		this.channels = new GuildChannelManager(client, this.client.options.cache?.guildChannels as number);
 
 		this.parseData(data);
 	}

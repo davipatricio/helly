@@ -6,6 +6,9 @@ import { makeAPIMessage } from '../utils/MakeAPIMessage';
 import type { Guild } from './Guild';
 import type { Client } from '../client/Client';
 
+/**
+ * Represents a text channel on Discord.
+ */
 class TextChannel extends Channel {
 	declare type: 'GUILD_TEXT';
 	constructor(client: Client, data: any, guild?: Guild) {

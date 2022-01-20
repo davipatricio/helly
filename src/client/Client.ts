@@ -79,19 +79,19 @@ class Client extends EventEmitter {
 		 * All of the guilds the client is currently handling, mapped by their ids
 		 * @type {GuildManager}
 		 */
-		this.guilds = new GuildManager(this.options.cache?.guilds as number, this);
+		this.guilds = new GuildManager(this, this.options.cache?.guilds as number);
 
 		/**
 		 * All of the {@link User} objects that have been cached at any point, mapped by their ids
 		 * @type {UserManager}
 		 */
-		this.users = new UserManager(this.options.cache?.users as number);
+		this.users = new UserManager(this, this.options.cache?.users as number);
 
 		/**
 		 * All of the {@link Channel} objects that have been cached at any point, mapped by their ids
 		 * @type {ChannelManager}
 		 */
-		this.channels = new ChannelManager(this.options.cache?.channels as number);
+		this.channels = new ChannelManager(this, this.options.cache?.channels as number);
 	}
 
 	/**
@@ -109,7 +109,7 @@ class Client extends EventEmitter {
 	login(token: string) {
 		if (!token) throw new Error('No token was provided');
 
-		this.token = token;
+		this.token = token.replace('Bot ', '').replace('Bearer ', '');
 		this.requester = new Requester(this.token, this);
 		this.ws.connect();
 		this.emit('debug', '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');

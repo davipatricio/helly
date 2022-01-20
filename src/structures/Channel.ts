@@ -18,6 +18,9 @@ export interface MessagePayload {
 export type MessageOptions = string | MessagePayload;
 export type ChannelType = 'GUILD_TEXT';
 
+/**
+ * Represents an unknown channel on Discord.
+ */
 class Channel extends DataManager {
 	id!: string;
 	name!: string;

@@ -35,19 +35,12 @@ class User extends DataManager {
 	 * @returns {Promise<Message>}
 	 */
 	async send(content: MessageOptions) {
-		const dmId = await this.client.users.createDM(this.client, this.id);
-
-		if (typeof content === 'string') {
-			const object = { content };
-			const data = await this.client.requester.make(`channels/${dmId}/messages`, 'POST', object);
-			const message = new Message(this.client, data);
-			return message;
-		}
+		const dmId = await this.client.users.createDM(this.id);
+		if (typeof content === 'string') content = { content };
 
 		const transformedObject = makeAPIMessage(content);
 		const data = await this.client.requester.make(`channels/${dmId}/messages`, 'POST', transformedObject);
-		const message = new Message(this.client, data);
-		return message;
+		return new Message(this.client, data);
 	}
 
 	/**

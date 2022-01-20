@@ -5,9 +5,9 @@ import type { Client } from '../client/Client';
 class GuildManager {
 	cache: LimitedMap<string, Guild>;
 	client: Client;
-	constructor(limit: number, client: Client) {
-		this.client = client;
+	constructor(client: Client, limit: number) {
 		this.cache = new LimitedMap(limit);
+		this.client = client;
 	}
 
 	async fetch(id: string): Promise<Guild | Map<string, Guild>> {
