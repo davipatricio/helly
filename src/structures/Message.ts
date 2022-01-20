@@ -41,6 +41,13 @@ class Message extends DataManager {
 		return new Message(this.client, data);
 	}
 
+	/**
+	 * Deletes this message.
+	 * @returns Promise<void>
+	 */
+	delete() {
+		return this.client.requester.make(`channels/${this.channelId}/messages/${this.id}`, 'DELETE');
+	}
 
 	override parseData(data: any) {
 		if (!data) return null;
