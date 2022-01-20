@@ -33,6 +33,16 @@ class Channel extends DataManager {
 		this.parseData(data);
 	}
 
+	/**
+	 * Deletes the channel.
+	 * @param {string} reason - The reason for deleting this channel
+	 * @returns {Promise<Channel>}
+	 */
+	async delete(reason?: string) {
+		const data = await this.client.requester.make(`channels/${this.id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason});
+		return new Channel(this.client, data, this.guild);
+	}
+
 	isText() {
 		return this.type === 'GUILD_TEXT';
 	}
