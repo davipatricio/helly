@@ -1,5 +1,5 @@
 import { LimitedMap } from '../utils/LimitedMap';
-import type { Channel } from '../structures/Channel';
+import { Channel } from '../structures/Channel';
 import type { Client } from '../client/Client';
 
 class GuildChannelManager {
@@ -18,7 +18,7 @@ class GuildChannelManager {
 	async delete(id: string, reason?: string) {
 		if (typeof id === 'undefined') throw new Error('The provided channel id is undefined.');
 		const data = await this.client.requester.make(`channels/${id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason });
-		return data;
+		return new Channel(this.client, data);
 	}
 }
 
