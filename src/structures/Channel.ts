@@ -1,6 +1,6 @@
 import { DataManager } from './DataManager';
 
-import type { ChannelTypes, ChannelType } from '../constants/channelTypes';
+import type { ChannelType, ChannelTypes } from '../constants/channelTypes';
 import type { MessageEmbed, RawMessageEmbed } from './MessageEmbed';
 import type { Client } from '../client/Client';
 import type { Guild } from './Guild';

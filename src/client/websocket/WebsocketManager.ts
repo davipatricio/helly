@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import Parser from './Parser';
-import { apiVersion, apiGatewayUrl } from '../../constants/gateway';
+import { apiGatewayUrl, apiVersion } from '../../constants/gateway';
 
 import type { Client } from '../Client';
 

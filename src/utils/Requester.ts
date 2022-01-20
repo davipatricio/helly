@@ -1,7 +1,7 @@
 import fetch, { Response } from 'node-fetch';
 import Checker from './CheckAPIError';
 
-import { baseApiUrl, apiVersion } from '../constants/gateway';
+import { apiVersion, baseApiUrl } from '../constants/gateway';
 import { setTimeout as sleep } from 'node:timers/promises';
 
 import type { Client } from '../client/Client';

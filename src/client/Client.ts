@@ -2,7 +2,7 @@ import * as Heartbeater from './websocket/Heartbeater';
 
 import EventEmitter from 'node:events';
 
-import { defaultValues, ClientOptions } from './ClientOptions';
+import { ClientOptions, defaultValues } from './ClientOptions';
 import { ActionManager } from '../actions/ActionManager';
 import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
