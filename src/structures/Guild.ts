@@ -124,7 +124,7 @@ class Guild extends DataManager {
 		 * * PRIVATE_THREADS
 		 * * ROLE_ICONS
 		 * @typedef {string} Features
-			*/
+		*/
 		/**
 		 * List of Guild Features
 		 * @type {Features[]}
