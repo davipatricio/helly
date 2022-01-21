@@ -1,3 +1,25 @@
+/**
+ * An image format, here are the possible values:
+ * * png
+ * * jpg
+ * * webp
+ * * gif
+ * @typedef {string} ImageFormat
+*/
+
+/**
+ * An image size, here are the possible values:
+ * 16, 32, 56, 96, 128, 256, 512, 600, 1024, 2048, 4096
+ * @typedef {number} ImageSize
+*/
+
+/**
+ * Options for Image URLs.
+ * @typedef {Object} ImageURLOptions
+ * @property {ImageFormat} [format='webp'] - An image format.
+ * @property {ImageSize} [size=2048] - An image format.
+ * @property {boolean} [forceStatic=false] - If true, the format will be as specified. If false, format may be a gif if animated.
+ */
 import * as Images from '../constants/images';
 
 import { DataManager } from './DataManager';
@@ -7,44 +29,13 @@ import { makeAPIMessage } from '../utils/MakeAPIMessage';
 import type { Client } from '../client/Client';
 import type { MessageOptions } from './Channel';
 
-/**
- * An image format, here are the possible values:
- * * png
- * * jpg
- * * webp
- * * gif
- * @typedef {number} ImageSize
-*/
-export type ImageFormat = 'png' | 'jpg' | 'gif' | 'webp';
 
-/**
- * An image size, here are the possible values:
- * * 16
- * * 32
- * * 56
- * * 96
- * * 128
- * * 256
- * * 512
- * * 600
- * * 1024
- * * 2048
- * * 4096
- * @typedef {number} ImageSize
-*/
-export type ImageSize = 16 | 32 | 56 | 64 | 96 | 128 | 256 | 300 | 512 | 600 | 1024 | 2048 | 4096;
-
-/**
- * Options for Image URLs
- * @typedef {Object} ImageURLOptions
- * @property {ImageFormat} [format='webp'] - An image format.
- * @property {boolean} [forceStatic=false] - If true, the format will be as specified. If false, format may be a gif if animated.
- * @property {ImageSize} [size=2048] - An image format.
- */
+type ImageFormat = 'png' | 'jpg' | 'gif' | 'webp';
+type ImageSize = 16 | 32 | 56 | 64 | 96 | 128 | 256 | 300 | 512 | 600 | 1024 | 2048 | 4096;
 export interface ImageURLOptions {
-	format: ImageFormat;
-	size: ImageSize;
-	forceStatic: true | false;
+	format?: ImageFormat;
+	size?: ImageSize;
+	forceStatic?: true | false;
 }
 
 /**
@@ -78,19 +69,11 @@ class User extends DataManager {
 	}
 
 	/**
-	 * Options for images
-	 * @typedef {Object} ImageURLOptions
-	 * @property {string} [format="png"] - The image format.
-	 * @property {number} [size=1024] - The image size.
-	 * @property {boolean} [dynamic=false] - If true, the format will dynamically change to 'gif' for animated images.
-	 */
-
-	/**
 	 * Display the user's avatar URL.
 	 * @param {ImageURLOptions} options - Options for the Image URL
 	 * @returns {string}
 	 */
-	displayAvatarURL({ format, size, forceStatic }: ImageURLOptions = { format: 'png', size: 1024, forceStatic: false }) {
+	displayAvatarURL({ format = 'webp', size = 1024, forceStatic = false }: ImageURLOptions) {
 		if (!this.avatar) return Images.defaultUserAvatarUrl(this.discriminator);
 		if (!forceStatic && this.avatar.startsWith('a_')) format = 'gif';
 		return Images.userAvatarUrl(this.id, this.avatar, format, size);
@@ -101,7 +84,7 @@ class User extends DataManager {
 	 * @param {ImageURLOptions} options - Options for the Image URL
 	 * @returns {?string}
 	 */
-	displayBannerURL({ format, size, forceStatic }: ImageURLOptions = { format: 'png', size: 1024, forceStatic: true }) {
+	displayBannerURL({ format = 'webp', size = 1024, forceStatic = false }: ImageURLOptions) {
 		if (!this.banner) return null;
 		if (!forceStatic && this.banner.startsWith('a_')) format = 'gif';
 		return Images.userBannerUrl(this.id, this.banner, format, size);

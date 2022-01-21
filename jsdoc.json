@@ -1,7 +1,7 @@
 {
     "source": {
 		"includePattern": ".ts$",
-		"excludePattern": "(.github/|node_modules/|docs/|build/)"
+		"excludePattern": "(.github/|node_modules/|docs/|build/|examples/)"
     },
 	"plugins": [
 		"plugins/markdown",
@@ -57,7 +57,7 @@
 		"babelrc": false,
 		"presets": [
 			["@babel/preset-env", { "targets": { "node": true } }],
-			"@babel/preset-typescript"
+			["@babel/preset-typescript", { "allowDeclareFields": true }]
 		]
 	}
 }

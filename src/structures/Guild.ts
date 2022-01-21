@@ -1,3 +1,29 @@
+/**
+ * An array of enabled guild features, here are the possible values:
+ * * ANIMATED_ICON
+ * * BANNER
+ * * COMMERCE
+ * * COMMUNITY
+ * * DISCOVERABLE
+ * * FEATURABLE
+ * * INVITE_SPLASH
+ * * MEMBER_VERIFICATION_GATE_ENABLED
+ * * NEWS
+ * * PARTNERED
+ * * PREVIEW_ENABLED
+ * * VANITY_URL
+ * * VERIFIED
+ * * VIP_REGIONS
+ * * WELCOME_SCREEN_ENABLED
+ * * TICKETED_EVENTS_ENABLED
+ * * MONETIZATION_ENABLED
+ * * MORE_STICKERS
+ * * THREE_DAY_THREAD_ARCHIVE
+ * * SEVEN_DAY_THREAD_ARCHIVE
+ * * PRIVATE_THREADS
+ * * ROLE_ICONS
+ * @typedef {string} Features
+*/
 import { DataManager } from './DataManager';
 import { GuildMemberManager } from '../managers/GuildMemberManager';
 import { GuildMember } from './GuildMember';
@@ -99,32 +125,6 @@ class Guild extends DataManager {
 			}
 		}
 
-		/**
-		 * An array of enabled guild features, here are the possible values:
-		 * * ANIMATED_ICON
-		 * * BANNER
-		 * * COMMERCE
-		 * * COMMUNITY
-		 * * DISCOVERABLE
-		 * * FEATURABLE
-		 * * INVITE_SPLASH
-		 * * MEMBER_VERIFICATION_GATE_ENABLED
-		 * * NEWS
-		 * * PARTNERED
-		 * * PREVIEW_ENABLED
-		 * * VANITY_URL
-		 * * VERIFIED
-		 * * VIP_REGIONS
-		 * * WELCOME_SCREEN_ENABLED
-		 * * TICKETED_EVENTS_ENABLED
-		 * * MONETIZATION_ENABLED
-		 * * MORE_STICKERS
-		 * * THREE_DAY_THREAD_ARCHIVE
-		 * * SEVEN_DAY_THREAD_ARCHIVE
-		 * * PRIVATE_THREADS
-		 * * ROLE_ICONS
-		 * @typedef {string} Features
-		*/
 		/**
 		 * List of Guild Features
 		 * @type {Features[]}

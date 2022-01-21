@@ -1,3 +1,9 @@
+/**
+ * Represents a message to be sent to the API.
+ * @typedef {Object} MessagePayload
+ * @property {string} [content] - The message content
+ */
+
 import { DataManager } from './DataManager';
 
 import type { ChannelType, ChannelTypes } from '../constants/channelTypes';
@@ -5,16 +11,10 @@ import type { MessageEmbed, RawMessageEmbed } from './MessageEmbed';
 import type { Client } from '../client/Client';
 import type { Guild } from './Guild';
 
-/**
- * Represents a message to be sent to the API.
- * @typedef {Object} MessagePayload
- * @property {string} [content] - The message content
- */
 export interface MessagePayload {
 	content?: string;
 	embeds?: (MessageEmbed | RawMessageEmbed)[];
 }
-
 export type MessageOptions = string | MessagePayload;
 export type ChannelType = 'GUILD_TEXT';
 
@@ -39,7 +39,7 @@ class Channel extends DataManager {
 	 * @returns {Promise<Channel>}
 	 */
 	async delete(reason?: string) {
-		const data = await this.client.requester.make(`channels/${this.id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason});
+		const data = await this.client.requester.make(`channels/${this.id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason });
 		return new Channel(this.client, data, this.guild);
 	}
 

@@ -23,7 +23,7 @@ class GuildMember extends DataManager {
 	 * @param {ImageURLOptions} options - {@link ImageURLOptions} Options for the Image URL
 	 * @returns {string}
 	 */
-	displayAvatarURL({ format, size, forceStatic }: ImageURLOptions = { format: 'webp', size: 1024, forceStatic: true }) {
+	displayAvatarURL({ format = 'webp', size = 1024, forceStatic = false }: ImageURLOptions) {
 		if (!this.avatar) return this.user.displayAvatarURL({ format, size, forceStatic });
 		if (!forceStatic && this.avatar.startsWith('a_')) format = 'gif';
 		return Images.userGuildAvatarUrl(this.guild.id, this.user.id, this.avatar, format, size);
