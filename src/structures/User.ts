@@ -30,8 +30,8 @@ import type { Client } from '../client/Client';
 import type { MessageOptions } from './Channel';
 
 
-type ImageFormat = 'png' | 'jpg' | 'gif' | 'webp';
-type ImageSize = 16 | 32 | 56 | 64 | 96 | 128 | 256 | 300 | 512 | 600 | 1024 | 2048 | 4096;
+export type ImageFormat = 'png' | 'jpg' | 'gif' | 'webp';
+export type ImageSize = 16 | 32 | 56 | 64 | 96 | 128 | 256 | 300 | 512 | 600 | 1024 | 2048 | 4096;
 export interface ImageURLOptions {
 	format?: ImageFormat;
 	size?: ImageSize;
