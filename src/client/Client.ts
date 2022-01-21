@@ -134,6 +134,10 @@ class Client extends EventEmitter {
 	cleanUp() {
 		this.ping = 1;
 		this.ready = false;
+		this.user = null;
+		this.guilds.cache.clear();
+		this.users.cache.clear();
+		this.channels.cache.clear();
 	}
 }
 
