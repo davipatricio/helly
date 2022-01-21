@@ -15,3 +15,4 @@ export * as Utils from './utils/index';
 
 // Types
 export { ChannelType } from './constants/channelTypes';
+export { ImageURLOptions, ImageFormat, ImageSize } from './structures/User';
