@@ -56,7 +56,7 @@ class User extends DataManager {
 	 * @param {ImageURLOptions} options - Options for the Image URL
 	 * @returns {string}
 	 */
-	displayAvatarURL({ format, size, dynamic }: ImageURLOptions = { format: 'png', size: 1024, dynamic: false }) {
+	displayAvatarURL({ format, size, dynamic }: ImageURLOptions = { format: 'png', size: 1024, dynamic: true }) {
 		if (!this.avatar) return Images.defaultUserAvatarUrl(this.discriminator);
 		if (dynamic && this.avatar.startsWith('a_')) format = 'gif';
 		return Images.userAvatarUrl(this.id, this.avatar, format, size);
@@ -67,7 +67,7 @@ class User extends DataManager {
 	 * @param {ImageURLOptions} options - Options for the Image URL
 	 * @returns {?string}
 	 */
-	displayBannerURL({ format, size, dynamic }: ImageURLOptions = { format: 'png', size: 1024, dynamic: false }) {
+	displayBannerURL({ format, size, dynamic }: ImageURLOptions = { format: 'png', size: 1024, dynamic: true }) {
 		if (!this.banner) return null;
 		if (dynamic && this.banner.startsWith('a_')) format = 'gif';
 		return Images.userBannerUrl(this.id, this.banner, format, size);
