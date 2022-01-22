@@ -29,6 +29,14 @@ class GuildMember extends DataManager {
 		return Images.userGuildAvatarUrl(this.guild.id, this.user.id, this.avatar, format, size);
 	}
 
+	/**
+	 * When concatenated with a string, this automatically returns the members's mention instead of the GuildMember object.
+	 * @returns {string}
+	 */
+	override toString() {
+		return `<@!${this.user.id}>`;
+	}
+
 	override parseData(data: any) {
 		if (typeof data === 'undefined') return null;
 		this.user = this.client.users.cache.get(data.user.id) ?? this.client.users.cache.set(data.user.id, new User(this.client, data.user));

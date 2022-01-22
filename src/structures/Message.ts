@@ -49,6 +49,14 @@ class Message extends DataManager {
 		return this.client.requester.make(`channels/${this.channelId}/messages/${this.id}`, 'DELETE');
 	}
 
+	/**
+	 * When concatenated with a string, this automatically returns the message content instead of the Message object.
+	 * @returns {string}
+	 */
+	override toString() {
+		return this.content ?? '';
+	}
+
 	override parseData(data: any) {
 		if (!data) return null;
 

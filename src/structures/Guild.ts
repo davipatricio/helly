@@ -65,6 +65,14 @@ class Guild extends DataManager {
 		this.parseData(data);
 	}
 
+	/**
+	 * When concatenated with a string, this automatically returns the Guild's name instead of the Guild object.
+	 * @returns {string}
+	 */
+	override toString() {
+		return this.name;
+	}
+
 	override parseData(data: any) {
 		if (typeof data === 'undefined') return null;
 

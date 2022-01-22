@@ -41,12 +41,28 @@ class Channel extends DataManager {
 		return new Channel(this.client, data, this.guild);
 	}
 
+	/**
+	 * Indicates whether this channel is a {@link TextChannel}
+	 * @returns {boolean}
+	 */
 	isText() {
 		return this.type === 'GUILD_TEXT';
 	}
 
+	/**
+	 * Indicates whether this channel is an unknown type channel
+	 * @returns {boolean}
+	 */
 	isUnknown() {
 		return this.type === 'UNKNOWN';
+	}
+
+	/**
+	 * When concatenated with a string, this automatically returns the channel's mention instead of the Channel object.
+	 * @returns {string}
+	 */
+	override toString() {
+		return `<#${this.id}>`;
 	}
 
 	override parseData(data: any) {

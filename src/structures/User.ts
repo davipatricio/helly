@@ -90,6 +90,14 @@ class User extends DataManager {
 		return Images.userBannerUrl(this.id, this.banner, format, size);
 	}
 
+	/**
+	 * When concatenated with a string, this automatically returns the user's mention instead of the User object.
+	 * @returns {string}
+	 */
+	override toString() {
+		return `<@!${this.id}>`;
+	}
+
 	override parseData(data: any) {
 		if (typeof data === 'undefined') return null;
 
