@@ -1,10 +1,10 @@
-import { ChannelType } from '../constants/channelTypes';
-import { Channel, MessageOptions } from './Channel';
-import { Message } from './Message';
-import { makeAPIMessage } from '../utils/MakeAPIMessage';
-
-import type { Guild } from './Guild';
 import type { Client } from '../client/Client';
+import { ChannelType } from '../constants/channelTypes';
+import { makeAPIMessage } from '../utils/MakeAPIMessage';
+import { Channel, MessageOptions } from './Channel';
+import type { Guild } from './Guild';
+import { Message } from './Message';
+
 
 /**
  * Represents a text channel on Discord.

@@ -24,13 +24,13 @@
  * * ROLE_ICONS
  * @typedef {string} Features
 */
-import { DataManager } from './DataManager';
-import { GuildMemberManager } from '../managers/GuildMemberManager';
-import { GuildMember } from './GuildMember';
-import { User } from './User';
 import { GuildChannelManager } from '../managers/GuildChannelManager';
-import { TextChannel } from './TextChannel';
+import { GuildMemberManager } from '../managers/GuildMemberManager';
 import { Channel } from './Channel';
+import { DataManager } from './DataManager';
+import { GuildMember } from './GuildMember';
+import { TextChannel } from './TextChannel';
+import { User } from './User';
 
 import type { Client } from '../client/Client';
 

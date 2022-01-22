@@ -3,13 +3,11 @@
  * @typedef {Object} MessagePayload
  * @property {string} [content] - The message content
  */
-
-import { DataManager } from './DataManager';
-
-import type { ChannelType, ChannelTypes } from '../constants/channelTypes';
-import type { MessageEmbed, RawMessageEmbed } from './MessageEmbed';
 import type { Client } from '../client/Client';
+import type { ChannelTypes } from '../constants/channelTypes';
+import { DataManager } from './DataManager';
 import type { Guild } from './Guild';
+import type { MessageEmbed, RawMessageEmbed } from './MessageEmbed';
 
 export interface MessagePayload {
 	content?: string;
