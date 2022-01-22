@@ -3,7 +3,6 @@ import { apiGatewayUrl, apiVersion } from '../../constants/gateway';
 import type { Client } from '../Client';
 import Parser from './Parser';
 
-
 class WebsocketManager {
 	client: Client;
 	connection!: WebSocket;
