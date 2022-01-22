@@ -9,4 +9,4 @@ function makeAPIMessage(data: any) {
 	return data;
 }
 
-export {makeAPIMessage};
+export { makeAPIMessage };
