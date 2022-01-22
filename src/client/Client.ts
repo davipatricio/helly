@@ -9,7 +9,6 @@ import { ClientOptions, defaultValues } from './ClientOptions';
 import * as Heartbeater from './websocket/Heartbeater';
 import { WebsocketManager } from './websocket/WebsocketManager';
 
-
 /**
  * The main hub for interacting with the Discord API, and the starting point for any bot.
  * @extends {EventEmitter}
