@@ -9,7 +9,7 @@ function handle(client: Client, messageData: any) {
 		/**
 		 * Emitted when a message is sent.
 		 * @event Client#messageCreate
-      	 * @param {Message} message The created message
+		 * @param {Message} message The created message
 		 */
 		client.emit('message', message);
 	}
