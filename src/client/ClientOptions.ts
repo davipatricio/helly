@@ -1,10 +1,10 @@
 /**
- * Options for {@link ClientOptions}#cache.
+ * Options for {@link ClientOptions}#cache
  * @typedef {Object} ClientCacheOptions
- * @property {number} [guilds=Infinity] - Maximum number of guilds to cache.
- * @property {number} [channels=Infinity] - Maximum number of {@link Channel}s to cache.
- * @property {number} [channels=Infinity] - Maximum number of Guild {@link Channel}s to cache.
- * @property {number} [users=Infinity] - Maximum number of users to cache.
+ * @property {number} [guilds=Infinity] - Maximum number of {@link Guild}s to cache
+ * @property {number} [channels=Infinity] - Maximum number of {@link Channel}s to cache
+ * @property {number} [channels=Infinity] - Maximum number of Guild{@link Channel}s to cache
+ * @property {number} [users=Infinity] - Maximum number of {@link User}s to cache
  */
 export interface ClientCacheOptions {
 	guilds?: number;
@@ -19,16 +19,16 @@ export interface ClientCacheOptions {
 }
 
 /**
- * Options for a {@link Client}.
+ * Options for a {@link Client}
  * @typedef {Object} ClientOptions
- * @property {boolean} [autoReconnect=true] - If the client should automatically reconnect to the gateway.
+ * @property {boolean} [autoReconnect=true] - If the client should automatically reconnect to the gateway
  * @property {number} [shardCount=1] - The total amount of shards used by this bot
- * @property {number[]} [shards=[0, 1]] - The shard's id to run, or an array of shard ids.
+ * @property {number[]} [shards=[0, 1]] - The shard's id to run, or an array of shard ids
  * @property {number} [apiVersion=9] - API version to use
  * @property {number} [largeThreshold=9] - Number of members in a guild after which offline users will no longer be sent in the initial guild member list, must be between 50 and 250
  * @property {string[]|number} [intents=0] - {@link Intents} to enable for this connection
  * @property {string[]} [disabledEvents] - Events to disable
- * @property {ClientCacheOptions} [cache] - Limit chaching of specific structures to reduce CPU/memory usage.
+ * @property {ClientCacheOptions} [cache] - Limit chaching of specific structures to reduce CPU/memory usage
  */
 export interface ClientOptions {
 	autoReconnect?: boolean;

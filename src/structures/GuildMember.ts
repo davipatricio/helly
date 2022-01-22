@@ -19,7 +19,7 @@ class GuildMember extends DataManager {
 	}
 
 	/**
-	 * A link to the member's guild avatar if they have one. Otherwise, a link to their {@link User}#displayAvatarURL will be returned.
+	 * A link to the member's guild avatar if they have one. Otherwise, a link to their {@link User#displayAvatarURL} will be returned.
 	 * @param {ImageURLOptions} options - {@link ImageURLOptions} Options for the Image URL
 	 * @returns {string}
 	 */
