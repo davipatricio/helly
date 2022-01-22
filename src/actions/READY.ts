@@ -4,6 +4,10 @@ function handle(client: Client, { session_id }: { session_id: string; }) {
 	client.api.sessionId = session_id;
 	setTimeout(() => {
 		// TODO: client.user
+		/**
+		 * Emitted when the client becomes ready to start working
+		 * @event Client#ready
+		 */
 		client.emit('ready');
 		client.ready = true;
 	}, client.options.intents === 0 ? 1 : 5000).unref();
