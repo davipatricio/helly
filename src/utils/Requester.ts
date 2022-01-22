@@ -1,10 +1,8 @@
 import fetch, { Response } from 'node-fetch';
-import Checker from './CheckAPIError';
-
-import { apiVersion, baseApiUrl } from '../constants/gateway';
 import { setTimeout as sleep } from 'node:timers/promises';
-
 import type { Client } from '../client/Client';
+import { apiVersion, baseApiUrl } from '../constants/gateway';
+import Checker from './CheckAPIError';
 
 const Ratelimits: any = {};
 
