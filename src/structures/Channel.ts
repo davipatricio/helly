@@ -2,7 +2,24 @@
  * Represents a message to be sent to the API.
  * @typedef {Object} MessagePayload
  * @property {string} [content] - The message content
+ * @property {MessageEmbed[]|object[]} [embeds] - The embeds for the message (see [here]{@link https://discord.com/developers/docs/resources/channel#embed-object} for more details)
+ * @property {MessageReference} [message_reference] - A message reference object
  */
+/**
+ * Represents a message to be sent to the API.
+ * @typedef {Object} MessageReference
+ * @property {string} [message_id] - Id of the originating message
+ * @property {string} [channel_id] - Id  of the originating message's channel
+ * @property {string} [guild_id] - Id of the originating message's guild
+ * @property {string} [fail_if_not_exists] - When sending, whether to error if the referenced message doesn't exist instead of sending as a normal (non-reply) message, default false
+ */
+export interface MessageReference {
+	message_id?: string;
+	channel_id?: string;
+	guild_id?: string;
+	fail_if_not_exists?: boolean;
+}
+
 import type { Client } from '../client/Client';
 import { ChannelType, RawChannelTypes } from '../constants/channelTypes';
 import { Snowflake } from '../utils/Snowflake';
@@ -13,6 +30,7 @@ import type { MessageEmbed, RawMessageEmbed } from './MessageEmbed';
 export interface MessagePayload {
 	content?: string;
 	embeds?: (MessageEmbed | RawMessageEmbed)[];
+	reference?: MessageReference;
 }
 export type MessageOptions = string | MessagePayload;
 
