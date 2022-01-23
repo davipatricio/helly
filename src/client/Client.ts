@@ -68,7 +68,7 @@ class Client extends EventEmitter {
 		 */
 		this.token = '';
 
-		this.parseOptions(this.options);
+		this.checkOptions(this.options);
 		this.ws = new WebsocketManager(this);
 		this.actions = new ActionManager();
 
@@ -112,8 +112,24 @@ class Client extends EventEmitter {
 		this.emit('debug', '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
 	}
 
-	parseOptions(options: any) {
-		if (typeof options !== 'object') throw new TypeError('Client options must be an object');
+	checkOptions(options: ClientOptions) {
+		if (typeof options !== 'object') throw new TypeError('Client#options must be an object');
+		if (typeof options.apiVersion !== 'number') throw new TypeError('Client#options.apiVersion must be a number');
+		if (typeof options.autoReconnect !== 'boolean') throw new TypeError('Client#options.autoReconnect must be a boolean');
+		if (!Array.isArray(options.disabledEvents)) throw new TypeError('Client#options.disabledEvents must be an array');
+		if (!Array.isArray(options.intents) && typeof options.intents !== 'number') throw new TypeError('Client#options.intents must be an array or a number');
+		if (typeof options.failIfNotExists !== 'boolean') throw new TypeError('Client#options.failIfNotExists must be a boolean');
+
+		// Cache
+		if (typeof options.cache !== 'object') throw new TypeError('Client#options.cache must be an object');
+		if (typeof options.cache.guilds !== 'number') throw new TypeError('Client#options.cache.guilds must be a number');
+		if (typeof options.cache.guildChannels !== 'number') throw new TypeError('Client#options.cache.guildChannels must be a number');
+		if (typeof options.cache.users !== 'number') throw new TypeError('Client#options.cache.users must be a number');
+		if (typeof options.cache.members !== 'number') throw new TypeError('Client#options.cache.members must be a number');
+		if (typeof options.cache.presences !== 'number') throw new TypeError('Client#options.cache.presences must be a number');
+		if (typeof options.cache.messages !== 'number') throw new TypeError('Client#options.cache.messages must be a number');
+		if (typeof options.cache.emojis !== 'number') throw new TypeError('Client#options.cache.emojis must be a number');
+		if (typeof options.cache.roles !== 'number') throw new TypeError('Client#options.cache.roles must be a number');
 	}
 
 	reconnect() {
