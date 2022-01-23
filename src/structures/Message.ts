@@ -1,13 +1,18 @@
-import { DataManager } from './DataManager';
-import { User } from './User';
-import { makeAPIMessage } from '../utils/MakeAPIMessage';
-
-import type { TextChannel } from './TextChannel';
-import type { Guild } from './Guild';
 import type { Client } from '../client/Client';
+import { makeAPIMessage } from '../utils/MakeAPIMessage';
+import { Snowflake } from '../utils/Snowflake';
 import type { Channel, MessageOptions } from './Channel';
+import { DataManager } from './DataManager';
+import type { Guild } from './Guild';
+import type { TextChannel } from './TextChannel';
+import { User } from './User';
 
+/**
+ * Represents a message on Discord.
+ */
 class Message extends DataManager {
+	createdTimestamp!: number;
+	createdAt!: Date;
 	author!: User;
 	channel!: TextChannel | Channel | null;
 	content!: string | null;
@@ -60,6 +65,25 @@ class Message extends DataManager {
 	override parseData(data: any) {
 		if (!data) return null;
 
+		if ('id' in data) {
+			/**
+			 * The message's id
+			 * @type {string}
+			 */
+			this.id = data.id;
+		}
+
+		/**
+		 * The timestamp the message was sent at
+		 * @type {bigint}
+		 */
+		this.createdTimestamp = Snowflake.deconstruct(this.id);
+		/**
+		  * The time the message was sent at
+		  * @type {Date}
+		  */
+		this.createdAt = new Date(this.createdTimestamp);
+
 		if ('guild_id' in data) {
 			this.guildId = data.guild_id;
 			/**
@@ -77,14 +101,6 @@ class Message extends DataManager {
 			this.content = data.content;
 		} else {
 			this.content ??= null;
-		}
-
-		if ('id' in data) {
-			/**
-			 * The message's id
-			 * @type {string}
-			 */
-			this.id = data.id;
 		}
 
 		if (data.author) {

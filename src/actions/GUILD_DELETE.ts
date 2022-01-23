@@ -1,5 +1,4 @@
 import { Guild } from '../structures/Guild';
-
 import type { Client } from '../client/Client';
 
 function handle(client: Client, guildData: any) {

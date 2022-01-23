@@ -1,5 +1,4 @@
 import { Message } from '../structures/Message';
-
 import type { Client } from '../client/Client';
 
 function handle(client: Client, messageData: any) {

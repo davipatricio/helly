@@ -24,15 +24,16 @@
  * * ROLE_ICONS
  * @typedef {string} Features
 */
+import type { Client } from '../client/Client';
 import { GuildChannelManager } from '../managers/GuildChannelManager';
 import { GuildMemberManager } from '../managers/GuildMemberManager';
+import { Snowflake } from '../utils/Snowflake';
 import { Channel } from './Channel';
 import { DataManager } from './DataManager';
 import { GuildMember } from './GuildMember';
 import { TextChannel } from './TextChannel';
 import { User } from './User';
 
-import type { Client } from '../client/Client';
 
 export type Features = 'ANIMATED_ICON' | 'BANNER' | 'COMMERCE' | 'COMMUNITY' | 'DISCOVERABLE' | 'FEATURABLE' |
 	'INVITE_SPLASH' | 'MEMBER_VERIFICATION_GATE_ENABLED' | 'NEWS' | 'PARTNERED' | 'PREVIEW_ENABLED' | 'VANITY_URL' |
@@ -43,6 +44,8 @@ export type Features = 'ANIMATED_ICON' | 'BANNER' | 'COMMERCE' | 'COMMUNITY' | '
  * Represents a guild on Discord.
 */
 class Guild extends DataManager {
+	createdTimestamp!: number;
+	createdAt!: Date;
 	name!: string;
 	id!: string;
 	features!: Features[];
@@ -83,6 +86,17 @@ class Guild extends DataManager {
 			 */
 			this.id = data.id;
 		}
+
+		/**
+		 * The timestamp this guild was created at
+		 * @type {bigint}
+		 */
+		this.createdTimestamp = Snowflake.deconstruct(this.id);
+		/**
+		 * The time this guild was created at
+		 * @type {Date}
+		 */
+		this.createdAt = new Date(this.createdTimestamp);
 
 		if ('unavailable' in data) {
 			/**

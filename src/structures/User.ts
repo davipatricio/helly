@@ -20,15 +20,13 @@
  * @property {ImageSize} [size=2048] - An image format.
  * @property {boolean} [forceStatic=false] - If true, the format will be as specified. If false, format may be a gif if animated.
  */
+import type { Client } from '../client/Client';
 import * as Images from '../constants/images';
-
+import { makeAPIMessage } from '../utils/MakeAPIMessage';
+import { Snowflake } from '../utils/Snowflake';
+import type { MessageOptions } from './Channel';
 import { DataManager } from './DataManager';
 import { Message } from './Message';
-import { makeAPIMessage } from '../utils/MakeAPIMessage';
-
-import type { Client } from '../client/Client';
-import type { MessageOptions } from './Channel';
-
 
 export type ImageFormat = 'png' | 'jpg' | 'gif' | 'webp';
 export type ImageSize = 16 | 32 | 56 | 64 | 96 | 128 | 256 | 300 | 512 | 600 | 1024 | 2048 | 4096;
@@ -42,6 +40,8 @@ export interface ImageURLOptions {
  * Represents a User on Discord.
  */
 class User extends DataManager {
+	createdTimestamp!: number;
+	createdAt!: Date;
 	id!: string;
 	username!: string;
 	discriminator!: number;
@@ -108,6 +108,17 @@ class User extends DataManager {
 			 */
 			this.id = data.id;
 		}
+
+		/**
+		 * The timestamp the user was created at
+		 * @type {number}
+		 */
+		this.createdTimestamp = Snowflake.deconstruct(this.id);
+		/**
+		 * The time the user was created at
+		 * @type {Date}
+		 */
+		this.createdAt = new Date(this.createdTimestamp);
 
 		if ('username' in data) {
 			/**

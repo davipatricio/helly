@@ -46,6 +46,7 @@ class Client extends EventEmitter {
 			roles: Infinity,
 		}, options?.cache);
 		this.options.intents = Intents.parse(this.options.intents);
+
 		this.api = {};
 		this.ready = false;
 

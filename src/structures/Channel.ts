@@ -5,9 +5,11 @@
  */
 import type { Client } from '../client/Client';
 import type { ChannelTypes } from '../constants/channelTypes';
+import { Snowflake } from '../utils/Snowflake';
 import { DataManager } from './DataManager';
 import type { Guild } from './Guild';
 import type { MessageEmbed, RawMessageEmbed } from './MessageEmbed';
+
 
 export interface MessagePayload {
 	content?: string;
@@ -20,6 +22,8 @@ export type ChannelType = 'GUILD_TEXT';
  * Represents an unknown channel on Discord.
  */
 class Channel extends DataManager {
+	createdTimestamp!: number;
+	createdAt!: Date;
 	id!: string;
 	name!: string;
 	guild?: Guild;
@@ -67,13 +71,7 @@ class Channel extends DataManager {
 
 	override parseData(data: any) {
 		if (typeof data === 'undefined') return null;
-		if ('name' in data) {
-			/**
-			 * The channel's name
-			 * @type {string}
-			 */
-			this.name = data.name;
-		}
+
 		if ('id' in data) {
 			/**
 			 * The channel's id
@@ -81,6 +79,26 @@ class Channel extends DataManager {
 			 */
 			this.id = data.id;
 		}
+
+		/**
+		 * The timestamp the user was created at
+		 * @type {number}
+		 */
+		this.createdTimestamp = Snowflake.deconstruct(this.id);
+		/**
+		 * The time the user was created at
+		 * @type {Date}
+		 */
+		this.createdAt = new Date(this.createdTimestamp);
+
+		if ('name' in data) {
+			/**
+			 * The channel's name
+			 * @type {string}
+			 */
+			this.name = data.name;
+		}
+
 		this.type = 'UNKNOWN';
 	}
 }
