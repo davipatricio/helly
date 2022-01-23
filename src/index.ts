@@ -11,7 +11,9 @@ export { MessageEmbed } from './structures/MessageEmbed';
 
 // Misc
 export * as Constants from './constants/index';
-export * as Utils from './utils/index';
+export { Intents } from './utils/Intents';
+export { Snowflake } from './utils/Snowflake';
+export { LimitedMap } from './utils/LimitedMap';
 
 // Types
 export { ChannelType } from './constants/channelTypes';

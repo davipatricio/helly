@@ -7,6 +7,8 @@ class Snowflake extends null {
 	/**
 	 * Deconstructs a Discord snowflake.
 	 * @param {string | bigint} id - The snowflake to deconstruct
+	 * @example
+	 * const timestamp = Snowflake.deconstruct('934675087108481044');
 	 * @returns {number}
 	 */
 	static deconstruct(id: string | bigint) {

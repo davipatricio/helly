@@ -5,6 +5,12 @@ class Intents extends null {
 	/**
 	 * Parse strings into intents.
 	 * @param {Array<string | number | undefined> | number | undefined} intents - Intents to calculate
+	 * @example
+	 * const intents = Intents.parse(['GUILDS', 'GUILD_MESSAGES']);
+	 * @example
+	 * const intents = Intents.parse(513);
+	 * @example
+	 * const intents = Intents.parse([1, 512]);
 	 * @returns {number}
 	 */
 	public static parse(intents: Array<string | number | undefined> | number | undefined): number {
