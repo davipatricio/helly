@@ -8,6 +8,7 @@ import { Message } from './Message';
 /**
  * Represents a text channel on Discord.
  * @extends {Channel}
+ * @hideconstructor
  */
 class TextChannel extends Channel {
 	declare type: 'GUILD_TEXT';

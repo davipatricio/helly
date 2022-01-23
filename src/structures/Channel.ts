@@ -18,6 +18,7 @@ export type MessageOptions = string | MessagePayload;
 
 /**
  * Represents an unknown channel on Discord.
+ * @hideconstructor
  */
 class Channel extends DataManager {
 	createdTimestamp!: number;

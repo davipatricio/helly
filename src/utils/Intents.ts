@@ -1,4 +1,13 @@
+/**
+ * Utility class for working with intents
+ * @hideconstructor
+ */
 class Intents extends null {
+	/**
+	 * Parse strings into intents.
+	 * @param {Array<string | number | undefined> | number | undefined} intents - Intents to calculate
+	 * @returns {number}
+	 */
 	public static parse(intents: Array<string | number | undefined> | number | undefined): number {
 		if (typeof intents === 'number') return intents;
 		if (!Array.isArray(intents)) throw new Error('Intents must be an array or number');
