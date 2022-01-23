@@ -1,5 +1,13 @@
-// eslint-disable-next-line no-shadow
-export type ChannelTypes = 'GUILD_TEXT' | 'UNKNOWN';
-export const ChannelType: any = {
+/**
+ * All the different types of channels
+ * * `GUILD_TEXT` - A text channel on Discord
+ * * `UNKNOWN` - An unknown channel type
+ * @typedef {string} ChannelType
+ */
+type ChannelType = 'GUILD_TEXT' | 'UNKNOWN';
+
+const RawChannelTypes: Record<number, ChannelType> = {
 	0: 'GUILD_TEXT',
 };
+
+export { ChannelType, RawChannelTypes };

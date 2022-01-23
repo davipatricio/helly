@@ -9,9 +9,11 @@ import type { Guild } from './Guild';
  * Represents a Guild Member on Discord.
  */
 class GuildMember extends DataManager {
-	guild: Guild;
-	user!: User;
-	avatar!: string;
+	public guild: Guild;
+	public user!: User;
+	public avatar!: string;
+	public joinedAt!: Date | null;
+	public joinedTimestamp!: number | null;
 	constructor(client: Client, memberData: any, guild: Guild) {
 		super(client);
 		this.guild = guild;
@@ -47,6 +49,22 @@ class GuildMember extends DataManager {
 			 * @type {?string}
 			 */
 			this.avatar = data.avatar;
+		}
+
+		if ('joined_at' in data) {
+			/**
+			 * The time this member joined the guild
+			 * @type {?Date}
+			 */
+			this.joinedAt = new Date(data.joined_at);
+			/**
+			 * The timestamp the member joined the guild at
+			 * @type {?number}
+			 */
+			this.joinedTimestamp = this.joinedAt.getTime();
+		} else {
+			this.joinedAt = null;
+			this.joinedTimestamp = null;
 		}
 	}
 }

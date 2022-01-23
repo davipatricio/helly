@@ -1,5 +1,4 @@
 import type { Client } from '../client/Client';
-import { ChannelType } from '../constants/channelTypes';
 import { makeAPIMessage } from '../utils/MakeAPIMessage';
 import { Channel, MessageOptions } from './Channel';
 import type { Guild } from './Guild';
@@ -20,6 +19,10 @@ class TextChannel extends Channel {
 	/**
 	 * Sends a message to this channel.
 	 * @param {string|MessagePayload} content
+	 * @example
+	 * message.reply(`Hello, ${message.author}!`);
+	 * @example
+	 * message.reply({ content: `Hello, ${message.author}!` });
 	 * @returns {Promise<Message>}
 	 */
 	async send(content: MessageOptions) {
@@ -40,11 +43,6 @@ class TextChannel extends Channel {
 	override parseData(data: any) {
 		if (typeof data === 'undefined') return null;
 		super.parseData(data);
-		/**
-		 * The type of the channel
-		 * @type {string}
-		 */
-		this.type = ChannelType[data.type];
 	}
 }
 

@@ -4,19 +4,17 @@
  * @property {string} [content] - The message content
  */
 import type { Client } from '../client/Client';
-import type { ChannelTypes } from '../constants/channelTypes';
+import { ChannelType, RawChannelTypes } from '../constants/channelTypes';
 import { Snowflake } from '../utils/Snowflake';
 import { DataManager } from './DataManager';
 import type { Guild } from './Guild';
 import type { MessageEmbed, RawMessageEmbed } from './MessageEmbed';
-
 
 export interface MessagePayload {
 	content?: string;
 	embeds?: (MessageEmbed | RawMessageEmbed)[];
 }
 export type MessageOptions = string | MessagePayload;
-export type ChannelType = 'GUILD_TEXT';
 
 /**
  * Represents an unknown channel on Discord.
@@ -28,7 +26,7 @@ class Channel extends DataManager {
 	name!: string;
 	guild?: Guild;
 
-	type!: ChannelTypes;
+	type!: ChannelType;
 	constructor(client: Client, data: any, guild?: Guild) {
 		super(client);
 		this.guild = guild;
@@ -38,6 +36,8 @@ class Channel extends DataManager {
 	/**
 	 * Deletes the channel.
 	 * @param {string} reason - The reason for deleting this channel
+	 * @example
+	 * channel.delete('I want to delete this channel');
 	 * @returns {Promise<Channel>}
 	 */
 	async delete(reason?: string) {
@@ -99,7 +99,11 @@ class Channel extends DataManager {
 			this.name = data.name;
 		}
 
-		this.type = 'UNKNOWN';
+		/**
+		 * The type of the channel
+		 * @type {ChannelType}
+		 */
+		this.type = RawChannelTypes[data.type] ?? 'UNKNOWN';
 	}
 }
 

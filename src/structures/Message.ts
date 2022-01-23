@@ -30,6 +30,10 @@ class Message extends DataManager {
 	/**
 	 * Replies to this message.
 	 * @param {string|MessagePayload} content
+	 * @example
+	 * message.reply(`Hello, ${message.author}!`);
+	 * @example
+	 * message.reply({ content: `Hello, ${message.author}!` });
 	 * @returns {Promise<Message>}
 	 */
 	async reply(content: MessageOptions) {

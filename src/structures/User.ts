@@ -57,6 +57,10 @@ class User extends DataManager {
 	/**
 	 * Sends a message to this user.
 	 * @param {string|MessagePayload} content
+	 * @example
+	 * message.reply(`Hello, ${message.author}!`);
+	 * @example
+	 * message.reply({ content: `Hello, ${message.author}!` });
 	 * @returns {Promise<Message>}
 	 */
 	async send(content: MessageOptions) {
