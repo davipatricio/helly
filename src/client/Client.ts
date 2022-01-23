@@ -14,7 +14,6 @@ import { WebsocketManager } from './websocket/WebsocketManager';
  * @extends {EventEmitter}
  * @param {ClientOptions} options Options to pass to the client
  */
-
 class Client extends EventEmitter {
 	api: any;
 	user: null;
