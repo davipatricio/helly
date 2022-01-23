@@ -42,7 +42,6 @@ export type Features = 'ANIMATED_ICON' | 'BANNER' | 'COMMERCE' | 'COMMUNITY' | '
 
 /**
  * Represents a guild on Discord.
- * @hideconstructor
 */
 class Guild extends DataManager {
 	createdTimestamp!: number;

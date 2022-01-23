@@ -9,7 +9,6 @@ import { User } from './User';
 
 /**
  * Represents a message on Discord.
- * @hideconstructor
  */
 class Message extends DataManager {
 	createdTimestamp!: number;

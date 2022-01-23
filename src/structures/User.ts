@@ -38,7 +38,6 @@ export interface ImageURLOptions {
 
 /**
  * Represents a User on Discord.
- * @hideconstructor
  */
 class User extends DataManager {
 	createdTimestamp!: number;

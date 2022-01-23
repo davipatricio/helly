@@ -7,7 +7,6 @@ import type { Guild } from './Guild';
 
 /**
  * Represents a Guild Member on Discord.
- * @hideconstructor
  */
 class GuildMember extends DataManager {
 	public guild: Guild;

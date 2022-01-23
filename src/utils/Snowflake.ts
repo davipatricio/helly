@@ -2,7 +2,6 @@ const epoch = new Date('2015-01-01T00:00:00.000Z').getTime();
 
 /**
  * Utility class for working with Snowflakes
- * @hideconstructor
  */
 class Snowflake extends null {
 	/**

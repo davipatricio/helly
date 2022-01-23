@@ -1,6 +1,5 @@
 /**
  * Utility class for working with intents
- * @hideconstructor
  */
 class Intents extends null {
 	/**
