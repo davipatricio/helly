@@ -25,7 +25,7 @@ class LimitedMap<K, V> extends Map<K, V> {
 	 * Returns an array with all keys
 	 * @returns {Array}
 	 */
-	keyArray(): Array<any> {
+	keyArray(): any[] {
 		return [...this.keys()];
 	}
 
@@ -33,11 +33,16 @@ class LimitedMap<K, V> extends Map<K, V> {
 	 * Returns an array with all values
 	 * @returns {Array}
 	 */
-	valueArray(): Array<any> {
+	valueArray(): any[] {
 		return [...this.values()];
 	}
 
-	map(fn: (value: any, index: number, array: any[]) => any) {
+	/**
+	 * Maps each item to another value into an array
+	 * @param {(value: any, index: number, array: any[])} fn - Function that produces an element of the new array, taking three arguments
+	 * @returns {any[]}
+	 */
+	map(fn: (value: any, index: number, array: any[]) => any): any[] {
 		return this.valueArray().map(fn);
 	}
 
@@ -53,7 +58,7 @@ class LimitedMap<K, V> extends Map<K, V> {
 		if (items >= this.size) return this.valueArray();
 
 		// Select N random items
-		const keys: Array<any> = [];
+		const keys: any[] = [];
 		for (let i = 0; i < items; i++) {
 			keys.push(this.keyArray()[Math.floor(Math.random() * this.size)]);
 		}
