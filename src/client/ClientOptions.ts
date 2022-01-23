@@ -27,7 +27,8 @@ export interface ClientCacheOptions {
  * @property {number} [apiVersion=9] - API version to use
  * @property {number} [largeThreshold=9] - Number of members in a guild after which offline users will no longer be sent in the initial guild member list, must be between 50 and 250
  * @property {string[]|number} [intents=0] - {@link Intents} to enable for this connection
- * @property {string[]} [disabledEvents] - Events to disable
+ * @property {string[]} [disabledEvents=[]] - Events to disable
+ * @property {boolean} [failIfNotExists=false] - Default value for {@link MessageReference#fail_if_not_exists}
  * @property {ClientCacheOptions} [cache] - Limit chaching of specific structures to reduce CPU/memory usage
  */
 export interface ClientOptions {
