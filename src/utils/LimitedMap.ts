@@ -39,7 +39,7 @@ class LimitedMap<K, V> extends Map<K, V> {
 
 	/**
 	 * Maps each item to another value into an array
-	 * @param {(value: any, index: number, array: any[])} fn - Function that produces an element of the new array, taking three arguments
+	 * @param fn - Function that produces an element of the new array, taking three arguments
 	 * @returns {any[]}
 	 */
 	map(fn: (value: any, index: number, array: any[]) => any): any[] {

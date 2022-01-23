@@ -4,7 +4,7 @@
 class Intents extends null {
 	/**
 	 * Parse strings into intents.
-	 * @param {(string | number | undefined)[] | number | undefined} intents - Intents to calculate
+	 * @param {Array<string | number | undefined> | number | undefined} intents - Intents to calculate
 	 * @example
 	 * const intents = Intents.parse(['GUILDS', 'GUILD_MESSAGES']);
 	 * @example
