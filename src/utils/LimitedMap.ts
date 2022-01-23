@@ -49,9 +49,9 @@ class LimitedMap<K, V> extends Map<K, V> {
 	/**
 	 * Returns an array with a random value or N random values
 	 * @param {number} [items=1] - The number of values to return
-	 * @returns {*|Array<*>}
+	 * @returns {any|any[]}
 	 */
-	random(items = 1 as number) {
+	random(items = 1 as number): any | any[] {
 		if (items < 1 || this.size === 0) return [];
 		if (items === 1) return this.valueArray()[Math.floor(Math.random() * this.size)];
 

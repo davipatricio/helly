@@ -38,7 +38,7 @@ export interface ClientOptions {
 	shards?: number[];
 	apiVersion?: number;
 	largeThreshold?: number;
-	intents?: Array<string | undefined> | number;
+	intents?: (string | undefined)[] | number;
 	disabledEvents?: string[];
 	failIfNotExists?: boolean;
 	cache?: ClientCacheOptions;

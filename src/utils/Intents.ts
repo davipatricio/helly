@@ -4,7 +4,7 @@
 class Intents extends null {
 	/**
 	 * Parse strings into intents.
-	 * @param {Array<string | number | undefined> | number | undefined} intents - Intents to calculate
+	 * @param {(string | number | undefined)[] | number | undefined} intents - Intents to calculate
 	 * @example
 	 * const intents = Intents.parse(['GUILDS', 'GUILD_MESSAGES']);
 	 * @example
@@ -13,7 +13,7 @@ class Intents extends null {
 	 * const intents = Intents.parse([1, 512]);
 	 * @returns {number}
 	 */
-	public static parse(intents: Array<string | number | undefined> | number | undefined): number {
+	public static parse(intents: (string | number | undefined)[] | number | undefined): number {
 		if (typeof intents === 'number') return intents;
 		if (!Array.isArray(intents)) throw new Error('Intents must be an array or number');
 
