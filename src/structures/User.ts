@@ -37,7 +37,7 @@ export interface ImageURLOptions {
 }
 
 /**
- * Represents a User on Discord.
+ * Represents a User on Discord
  */
 class User extends DataManager {
 	createdTimestamp!: number;
@@ -55,7 +55,7 @@ class User extends DataManager {
 	}
 
 	/**
-	 * Sends a message to this user.
+	 * Sends a message to this user
 	 * @param {string|MessagePayload} content
 	 * @example
 	 * message.reply(`Hello, ${message.author}!`);
@@ -73,7 +73,7 @@ class User extends DataManager {
 	}
 
 	/**
-	 * Display the user's avatar URL.
+	 * Display the user's avatar URL
 	 * @param {ImageURLOptions} options - Options for the Image URL
 	 * @returns {string}
 	 */
@@ -84,7 +84,7 @@ class User extends DataManager {
 	}
 
 	/**
-	 * Display the user's banner URL.
+	 * Display the user's banner URL
 	 * @param {ImageURLOptions} options - Options for the Image URL
 	 * @returns {?string}
 	 */
@@ -95,7 +95,7 @@ class User extends DataManager {
 	}
 
 	/**
-	 * When concatenated with a string, this automatically returns the user's mention instead of the User object.
+	 * When concatenated with a string, this automatically returns the user's mention instead of the User object
 	 * @returns {string}
 	 */
 	override toString() {

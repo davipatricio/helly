@@ -1,12 +1,12 @@
 /**
- * Represents a message to be sent to the API.
+ * Represents a message to be sent to the API
  * @typedef {Object} MessagePayload
  * @property {string} [content] - The message content
  * @property {MessageEmbed[]|object[]} [embeds] - The embeds for the message (see [here]{@link https://discord.com/developers/docs/resources/channel#embed-object} for more details)
  * @property {MessageReference} [message_reference] - A message reference object
  */
 /**
- * Represents a message to be sent to the API.
+ * Represents a message to be sent to the API
  * @typedef {Object} MessageReference
  * @property {string} [message_id] - Id of the originating message
  * @property {string} [channel_id] - Id  of the originating message's channel
@@ -35,7 +35,7 @@ export interface MessagePayload {
 export type MessageOptions = string | MessagePayload;
 
 /**
- * Represents an unknown channel on Discord.
+ * Represents an unknown channel on Discord
  */
 class Channel extends DataManager {
 	createdTimestamp!: number;
@@ -52,7 +52,7 @@ class Channel extends DataManager {
 	}
 
 	/**
-	 * Deletes the channel.
+	 * Deletes the channel
 	 * @param {string} reason - The reason for deleting this channel
 	 * @example
 	 * channel.delete('I want to delete this channel');
@@ -80,7 +80,7 @@ class Channel extends DataManager {
 	}
 
 	/**
-	 * When concatenated with a string, this automatically returns the channel's mention instead of the Channel object.
+	 * When concatenated with a string, this automatically returns the channel's mention instead of the Channel object
 	 * @returns {string}
 	 */
 	override toString() {

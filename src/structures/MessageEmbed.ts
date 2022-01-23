@@ -98,7 +98,7 @@ export interface RawMessageEmbed {
 }
 
 /**
- * Represents an embed in a message (image/video preview, rich embed, etc.)
+ * Represents an embed in a message (image/video preview, rich embed, etc)
  * @param {RawMessageEmbed|MessageEmbed} [embed] - MessageEmbed to clone or raw embed data
  */
 class MessageEmbed {
@@ -224,8 +224,8 @@ class MessageEmbed {
 	}
 
 	/**
-	 * Adds a field to the embed (max 25).
-	 * @param {MessageEmbedField} [options] - The options to provide for the field.
+	 * Adds a field to the embed (max 25)
+	 * @param {MessageEmbedField} [options] - The options to provide for the field
 	 * @returns {MessageEmbed}
 	 */
 	addField(options: MessageEmbedField): this {
@@ -235,7 +235,7 @@ class MessageEmbed {
 	}
 
 	/**
-	 * Sets the embed's fields (max 25).
+	 * Sets the embed's fields (max 25)
 	 * @param {MessageEmbedField[]} [options] - The fields to set
 	 * @returns {MessageEmbed}
 	 */

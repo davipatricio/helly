@@ -8,7 +8,7 @@ import type { TextChannel } from './TextChannel';
 import { User } from './User';
 
 /**
- * Represents a message on Discord.
+ * Represents a message on Discord
  */
 class Message extends DataManager {
 	createdTimestamp!: number;
@@ -28,7 +28,7 @@ class Message extends DataManager {
 	}
 
 	/**
-	 * Replies to this message.
+	 * Replies to this message
 	 * @param {string|MessagePayload} content
 	 * @example
 	 * message.reply(`Hello, ${message.author}!`);
@@ -51,7 +51,7 @@ class Message extends DataManager {
 	}
 
 	/**
-	 * Deletes this message.
+	 * Deletes this message
 	 * @returns Promise<void>
 	 */
 	delete() {
@@ -59,7 +59,7 @@ class Message extends DataManager {
 	}
 
 	/**
-	 * When concatenated with a string, this automatically returns the message content instead of the Message object.
+	 * When concatenated with a string, this automatically returns the message content instead of the Message object
 	 * @returns {string}
 	 */
 	override toString() {

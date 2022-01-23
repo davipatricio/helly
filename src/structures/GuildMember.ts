@@ -6,7 +6,7 @@ import type { Client } from '../client/Client';
 import type { Guild } from './Guild';
 
 /**
- * Represents a Guild Member on Discord.
+ * Represents a Guild Member on Discord
  */
 class GuildMember extends DataManager {
 	public guild: Guild;
@@ -21,7 +21,7 @@ class GuildMember extends DataManager {
 	}
 
 	/**
-	 * A link to the member's guild avatar if they have one. Otherwise, a link to their {@link User#displayAvatarURL} will be returned.
+	 * A link to the member's guild avatar if they have one. Otherwise, a link to their {@link User#displayAvatarURL} will be returned
 	 * @param {ImageURLOptions} options - {@link ImageURLOptions} Options for the Image URL
 	 * @returns {string}
 	 */
@@ -32,7 +32,7 @@ class GuildMember extends DataManager {
 	}
 
 	/**
-	 * When concatenated with a string, this automatically returns the members's mention instead of the GuildMember object.
+	 * When concatenated with a string, this automatically returns the members's mention instead of the GuildMember object
 	 * @returns {string}
 	 */
 	override toString() {

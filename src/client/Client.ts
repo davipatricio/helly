@@ -10,7 +10,7 @@ import * as Heartbeater from './websocket/Heartbeater';
 import { WebsocketManager } from './websocket/WebsocketManager';
 
 /**
- * The main hub for interacting with the Discord API, and the starting point for any bot.
+ * The main hub for interacting with the Discord API, and the starting point for any bot
  * @extends {EventEmitter}
  * @param {ClientOptions} options Options to pass to the client
  */
@@ -63,7 +63,7 @@ class Client extends EventEmitter {
 		this.ping = -1;
 
 		/**
-		 * Authorization token for the logged in bot.
+		 * Authorization token for the logged in bot
 		 * @type {string}
 		 */
 		this.token = '';
@@ -92,7 +92,7 @@ class Client extends EventEmitter {
 	}
 
 	/**
-	 * Returns whether the client has logged in, indicative of being able to access properties such as user and application.
+	 * Returns whether the client has logged in, indicative of being able to access properties such as user and application
 	 * @returns {boolean}
 	 */
 	isReady() {
@@ -100,7 +100,7 @@ class Client extends EventEmitter {
 	}
 
 	/**
-	 * Logs the client in, establishing a WebSocket connection to Discord.
+	 * Logs the client in, establishing a WebSocket connection to Discord
 	 * @param {string} token Token for logging in
 	 */
 	login(token: string) {

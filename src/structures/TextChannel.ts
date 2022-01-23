@@ -6,7 +6,7 @@ import { Message } from './Message';
 
 
 /**
- * Represents a text channel on Discord.
+ * Represents a text channel on Discord
  * @extends {Channel}
  */
 class TextChannel extends Channel {
@@ -17,7 +17,7 @@ class TextChannel extends Channel {
 	}
 
 	/**
-	 * Sends a message to this channel.
+	 * Sends a message to this channel
 	 * @param {string|MessagePayload} content
 	 * @example
 	 * message.reply(`Hello, ${message.author}!`);
@@ -33,7 +33,7 @@ class TextChannel extends Channel {
 	}
 
 	/**
-	 * When concatenated with a string, this automatically returns the channel's mention instead of the Channel object.
+	 * When concatenated with a string, this automatically returns the channel's mention instead of the Channel object
 	 * @returns {string}
 	 */
 	override toString() {

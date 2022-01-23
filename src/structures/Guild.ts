@@ -69,7 +69,7 @@ class Guild extends DataManager {
 	}
 
 	/**
-	 * When concatenated with a string, this automatically returns the Guild's name instead of the Guild object.
+	 * When concatenated with a string, this automatically returns the Guild's name instead of the Guild object
 	 * @returns {string}
 	 */
 	override toString() {
@@ -115,8 +115,6 @@ class Guild extends DataManager {
 		}
 
 		// See: https://discord.com/developers/docs/topics/gateway#guild-create
-		/* If your bot does not have the GUILD_PRESENCES Gateway Intent, or if the guild has over 75k members, members and presences
-		returned in this event will only contain your bot and users in voice channels. */
 		if ('members' in data) {
 			for (const member of data.members) {
 				this.client.users.cache.set(member.user.id, new User(this.client, member.user));
