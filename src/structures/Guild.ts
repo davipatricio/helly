@@ -70,7 +70,7 @@ class Guild extends DataManager {
 	}
 
 	/**
-	 * Fetches the guild owner
+	 * Fetches the owner of the guild. If the member object isn't needed, use {@link Guild#ownerId} instead.
 	 * @returns {Promise<GuildMember>}
 	 */
 	fetchOwner() {

@@ -32,6 +32,14 @@ class GuildMember extends DataManager {
 	}
 
 	/**
+	 * Fetches this GuildMember.
+	 * @returns {Promise<GuildMember>}
+	 */
+	fetch() {
+		return this.guild.members.fetch(this.user.id);
+	}
+
+	/**
 	 * When concatenated with a string, this automatically returns the members's mention instead of the GuildMember object
 	 * @returns {string}
 	 */
