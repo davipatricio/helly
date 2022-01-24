@@ -146,6 +146,8 @@ class User extends DataManager {
 			 * @type {boolean}
 			 */
 			this.bot = data.bot;
+		} else {
+			this.bot = false;
 		}
 
 		if ('avatar' in data) {
