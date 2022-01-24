@@ -36,7 +36,7 @@ class TextChannel extends Channel {
 	 * When concatenated with a string, this automatically returns the channel's mention instead of the Channel object
 	 * @returns {string}
 	 */
-	override toString() {
+	override toString(): string {
 		return `<#${this.id}>`;
 	}
 

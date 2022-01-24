@@ -20,7 +20,7 @@ function sendIdentify(client: Client) {
 	client.ws.connection?.send(JSON.stringify(IdentifyPayload));
 }
 
-function sendResume(client: Client) {
+function sendResume(client: Client): void {
 	const ResumePayload = {
 		op: 6,
 		d: {
@@ -33,7 +33,4 @@ function sendResume(client: Client) {
 	client.ws.connection?.send(JSON.stringify(ResumePayload));
 }
 
-export {
-	sendIdentify,
-	sendResume,
-};
+export { sendIdentify, sendResume };

@@ -22,7 +22,7 @@ class GuildChannelManager {
 	 * @param {string} reason - The reason for deleting this channel
 	 * @returns {Promise<Channel>}
 	 */
-	async delete(id: string, reason?: string) {
+	async delete(id: string, reason?: string): Promise<Channel> {
 		if (typeof id === 'undefined') throw new Error('The provided channel id is undefined.');
 		const data = await this.client.requester.make(`channels/${id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason });
 		return new Channel(this.client, data);

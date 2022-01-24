@@ -1,7 +1,7 @@
 import type { Client } from '../client/Client';
 import { GuildMember } from '../structures/GuildMember';
 
-function handle(client: Client, chunkData: any) {
+function handle(client: Client, chunkData: any): void {
 	const guildId: string = chunkData.guild_id;
 	const guild = client.guilds.cache.get(guildId);
 	if (!guild) return;

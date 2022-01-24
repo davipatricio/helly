@@ -5,7 +5,7 @@ class ActionManager {
 		this.loadActions();
 	}
 
-	loadActions() {
+	loadActions(): void {
 		this.loaded['READY'] = require('./READY');
 		this.loaded['GUILD_CREATE'] = require('./GUILD_CREATE');
 		this.loaded['GUILD_DELETE'] = require('./GUILD_DELETE');

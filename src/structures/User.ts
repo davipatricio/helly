@@ -77,7 +77,7 @@ class User extends DataManager {
 	 * @param {ImageURLOptions} options - Options for the Image URL
 	 * @returns {string}
 	 */
-	displayAvatarURL({ format = 'webp', size = 1024, forceStatic = false }: ImageURLOptions) {
+	displayAvatarURL({ format = 'webp', size = 1024, forceStatic = false }: ImageURLOptions): string {
 		if (!this.avatar) return Images.defaultUserAvatarUrl(this.discriminator);
 		if (!forceStatic && this.avatar.startsWith('a_')) format = 'gif';
 		return Images.userAvatarUrl(this.id, this.avatar, format, size);
@@ -88,7 +88,7 @@ class User extends DataManager {
 	 * @param {ImageURLOptions} options - Options for the Image URL
 	 * @returns {?string}
 	 */
-	displayBannerURL({ format = 'webp', size = 1024, forceStatic = false }: ImageURLOptions) {
+	displayBannerURL({ format = 'webp', size = 1024, forceStatic = false }: ImageURLOptions): string | null {
 		if (!this.banner) return null;
 		if (!forceStatic && this.banner.startsWith('a_')) format = 'gif';
 		return Images.userBannerUrl(this.id, this.banner, format, size);
@@ -98,7 +98,7 @@ class User extends DataManager {
 	 * When concatenated with a string, this automatically returns the user's mention instead of the User object
 	 * @returns {string}
 	 */
-	override toString() {
+	override toString(): string {
 		return `<@!${this.id}>`;
 	}
 

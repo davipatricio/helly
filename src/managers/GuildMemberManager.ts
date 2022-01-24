@@ -28,9 +28,9 @@ class GuildMemberManager {
 	/**
 	 * Fetches member(s) from Discord, even if they're offline.
 	 * @param {string|undefined} [id] - If a ID, the user to fetch. If undefined, fetches all members.
-	 * @returns {Promise<GuildMember|Map<string, GuildMember>>}
+	 * @returns {Promise<GuildMember | Map<string, GuildMember>>}
 	 */
-	async fetch(id: string | undefined): Promise<GuildMember|Map<string, GuildMember>> {
+	async fetch(id: string | undefined): Promise<GuildMember | Map<string, GuildMember>> {
 		if (!id) return this._fetchAll({ limit: 0, guild_id: this.guild.id, query: '', nonce: Snowflake.generate() });
 
 		const data = await this.client.requester.make(`/guilds/${this.guild.id}/members/${id}`, 'GET');

@@ -95,7 +95,7 @@ class Client extends EventEmitter {
 	 * Returns whether the client has logged in, indicative of being able to access properties such as user and application
 	 * @returns {boolean}
 	 */
-	isReady() {
+	isReady(): boolean {
 		return this.ready;
 	}
 
@@ -103,7 +103,7 @@ class Client extends EventEmitter {
 	 * Logs the client in, establishing a WebSocket connection to Discord
 	 * @param {string} token Token for logging in
 	 */
-	login(token: string) {
+	login(token: string): void {
 		if (!token) throw new Error('No token was provided');
 
 		this.token = token.replace('Bot ', '').replace('Bearer ', '');
@@ -112,7 +112,7 @@ class Client extends EventEmitter {
 		this.emit('debug', '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
 	}
 
-	checkOptions(options: ClientOptions) {
+	checkOptions(options: ClientOptions): void {
 		if (typeof options !== 'object') throw new TypeError('Client#options must be an object');
 		if (typeof options.apiVersion !== 'number') throw new TypeError('Client#options.apiVersion must be a number');
 		if (typeof options.autoReconnect !== 'boolean') throw new TypeError('Client#options.autoReconnect must be a boolean');
@@ -132,7 +132,7 @@ class Client extends EventEmitter {
 		if (typeof options.cache.roles !== 'number') throw new TypeError('Client#options.cache.roles must be a number');
 	}
 
-	reconnect() {
+	reconnect(): void {
 		// Stop heartbeating (this automatically verifies if there's a timer)
 		Heartbeater.stop(this);
 
@@ -144,7 +144,7 @@ class Client extends EventEmitter {
 		this.login(this.token);
 	}
 
-	cleanUp() {
+	cleanUp(): void {
 		this.ping = 1;
 		this.ready = false;
 		this.user = null;
@@ -153,14 +153,14 @@ class Client extends EventEmitter {
 		this.channels.cache.clear();
 	}
 
-	incrementMaxListeners() {
+	incrementMaxListeners(): void {
 		const maxListeners = this.getMaxListeners();
 		if (maxListeners !== 0) {
 			this.setMaxListeners(maxListeners + 1);
 		}
 	}
 
-	decrementMaxListeners() {
+	decrementMaxListeners(): void {
 		const maxListeners = this.getMaxListeners();
 		if (maxListeners !== 0) {
 			this.setMaxListeners(maxListeners - 1);

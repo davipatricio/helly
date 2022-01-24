@@ -43,7 +43,7 @@ class GuildMember extends DataManager {
 	 * When concatenated with a string, this automatically returns the members's mention instead of the GuildMember object
 	 * @returns {string}
 	 */
-	override toString() {
+	override toString(): string {
 		return `<@!${this.user.id}>`;
 	}
 

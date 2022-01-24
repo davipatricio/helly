@@ -1,7 +1,7 @@
 import { Guild } from '../structures/Guild';
 import type { Client } from '../client/Client';
 
-function handle(client: Client, guildData: any) {
+function handle(client: Client, guildData: any): void {
 	const guild = new Guild(client, guildData);
 	client.guilds.cache.set(guild.id, guild);
 	/**

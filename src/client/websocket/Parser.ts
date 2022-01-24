@@ -4,7 +4,7 @@ import * as Heartbeater from './Heartbeater';
 import type WebSocket from 'ws';
 import type { Client } from '../Client';
 
-function message(client: Client, data: WebSocket.RawData) {
+function message(client: Client, data: WebSocket.RawData): void {
 	const parsedData = JSON.parse(data as unknown as string);
 
 	const opcode: number = parsedData.op;

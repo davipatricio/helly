@@ -62,7 +62,7 @@ class Message extends DataManager {
 	 * When concatenated with a string, this automatically returns the message content instead of the Message object
 	 * @returns {string}
 	 */
-	override toString() {
+	override toString(): string {
 		return this.content ?? '';
 	}
 

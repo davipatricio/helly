@@ -1,6 +1,6 @@
 import type { Client } from '../Client';
 
-function sendImmediately(client: Client) {
+function sendImmediately(client: Client): void {
 	const heartbeatData = {
 		op: 1,
 		d: client.api.sequence,
@@ -9,7 +9,7 @@ function sendImmediately(client: Client) {
 	client.emit('debug', '[DEBUG] Sent heartbeat to Discord.');
 }
 
-function start(client: Client) {
+function start(client: Client): void {
 	// We don't want a lot of intervals send heartbeats
 	// So we use a single interval to do this task
 	if (client.api.heartbeatTimer) return;
@@ -43,13 +43,9 @@ function start(client: Client) {
 	}, client.api.heartbeatInterval).unref();
 }
 
-function stop(client: Client) {
+function stop(client: Client): void {
 	if (client.api.heartbeatTimer) clearInterval(client.api.heartbeatTimer);
 	client.api.heartbeatTimer ??= null;
 }
 
-export {
-	start,
-	stop,
-	sendImmediately,
-};
+export { start, stop, sendImmediately };

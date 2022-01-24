@@ -18,7 +18,7 @@ class UserManager {
 	 * @param {string} id The user to fetch
 	 * @returns {Promise<User>}
 	 */
-	async fetch(id: string) {
+	async fetch(id: string): Promise<User> {
 		const data = await this.client.requester.make(`users/${id}`, 'GET');
 		return new User(this.client, data);
 	}

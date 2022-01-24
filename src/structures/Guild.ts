@@ -81,7 +81,7 @@ class Guild extends DataManager {
 	 * When concatenated with a string, this automatically returns the Guild's name instead of the Guild object
 	 * @returns {string}
 	 */
-	override toString() {
+	override toString(): string {
 		return this.name;
 	}
 

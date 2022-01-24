@@ -1,6 +1,6 @@
 import type { Client } from '../client/Client';
 
-function handle(client: Client, { session_id }: { session_id: string; }) {
+function handle(client: Client, { session_id }: { session_id: string; }): void {
 	client.api.sessionId = session_id;
 	setTimeout(() => {
 		// TODO: client.user
