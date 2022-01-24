@@ -2,6 +2,7 @@
  * A Map that have a limited size and will remove the oldest items once the max size is reached
  * @param {number} [limit=Infinity] - The maximum size of the map
  * @extends Map
+ * @see [MDN Docs]{@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map}
  */
 
 class LimitedMap<K, V> extends Map<K, V> {
@@ -23,7 +24,7 @@ class LimitedMap<K, V> extends Map<K, V> {
 
 	/**
 	 * Returns an array with all keys
-	 * @returns {Array}
+	 * @returns {any[]}
 	 */
 	keyArray(): any[] {
 		return [...this.keys()];
@@ -31,7 +32,7 @@ class LimitedMap<K, V> extends Map<K, V> {
 
 	/**
 	 * Returns an array with all values
-	 * @returns {Array}
+	 * @returns {any[]}
 	 */
 	valueArray(): any[] {
 		return [...this.values()];
