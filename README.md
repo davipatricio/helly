@@ -4,7 +4,7 @@
 
 ## Installation
 
-##### Node.js 16.0.0 or newer is required.
+### Node.js 16.0.0 or newer is required
 
 ```sh-session
 npm install helly
@@ -13,8 +13,9 @@ pnpm add helly
 ```
 
 ### Optional packages
-- [bufferutil](https://www.npmjs.com/package/bufferutil) for a much faster WebSocket connection (`npm install bufferutil`)
-- [utf-8-validate](https://www.npmjs.com/package/utf-8-validate) in combination with `bufferutil` for much faster WebSocket processing (`npm install utf-8-validate`)
+  - [bufferutil](https://www.npmjs.com/package/bufferutil) for a much faster WebSocket connection (`npm install bufferutil`)
+
+  - [utf-8-validate](https://www.npmjs.com/package/utf-8-validate) in combination with `bufferutil` for much faster WebSocket processing (`npm install utf-8-validate`)
 
 ---
 
