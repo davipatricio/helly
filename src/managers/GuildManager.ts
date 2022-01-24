@@ -2,6 +2,9 @@ import type { Client } from '../client/Client';
 import { Guild } from '../structures/Guild';
 import { LimitedMap } from '../utils/LimitedMap';
 
+/**
+ * Manages API methods for Guilds and stores their cache.
+ */
 class GuildManager {
 	cache: LimitedMap<string, Guild>;
 	client: Client;

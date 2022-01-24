@@ -2,6 +2,9 @@ import { LimitedMap } from '../utils/LimitedMap';
 import { User } from '../structures/User';
 import type { Client } from '../client/Client';
 
+/**
+ * Manages API methods for Users and stores their cache.
+ */
 class UserManager {
 	cache: LimitedMap<string, User>;
 	client: Client;

@@ -4,6 +4,9 @@ import type { Guild } from '../structures/Guild';
 import { TextChannel } from '../structures/TextChannel';
 import { LimitedMap } from '../utils/LimitedMap';
 
+/**
+ * Manages API methods for GuildChannels and stores their cache.
+ */
 class GuildChannelManager {
 	cache: LimitedMap<string, Channel>;
 	client: Client;
