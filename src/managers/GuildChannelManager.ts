@@ -1,6 +1,6 @@
-import { LimitedMap } from '../utils/LimitedMap';
-import { Channel } from '../structures/Channel';
 import type { Client } from '../client/Client';
+import { Channel } from '../structures/Channel';
+import { LimitedMap } from '../utils/LimitedMap';
 
 class GuildChannelManager {
 	cache: LimitedMap<string, Channel>;

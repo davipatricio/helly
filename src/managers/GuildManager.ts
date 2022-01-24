@@ -1,6 +1,6 @@
-import { LimitedMap } from '../utils/LimitedMap';
-import { Guild } from '../structures/Guild';
 import type { Client } from '../client/Client';
+import { Guild } from '../structures/Guild';
+import { LimitedMap } from '../utils/LimitedMap';
 
 class GuildManager {
 	cache: LimitedMap<string, Guild>;
