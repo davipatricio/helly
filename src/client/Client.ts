@@ -152,6 +152,21 @@ class Client extends EventEmitter {
 		this.users.cache.clear();
 		this.channels.cache.clear();
 	}
+
+	incrementMaxListeners() {
+		const maxListeners = this.getMaxListeners();
+		if (maxListeners !== 0) {
+			this.setMaxListeners(maxListeners + 1);
+		}
+	}
+
+	decrementMaxListeners() {
+		const maxListeners = this.getMaxListeners();
+		if (maxListeners !== 0) {
+			this.setMaxListeners(maxListeners - 1);
+		}
+	}
+
 }
 
 export { Client };
