@@ -64,7 +64,7 @@ class Guild extends DataManager {
 		 * A manager of the channels belonging to this guild
 		 * @type {GuildChannelManager}
 		 */
-		this.channels = new GuildChannelManager(client, this.client.options.cache?.guildChannels as number);
+		this.channels = new GuildChannelManager(client, this.client.options.cache?.guildChannels as number, this);
 
 		this.parseData(data);
 	}
@@ -121,6 +121,7 @@ class Guild extends DataManager {
 		}
 
 		if ('channels' in data) {
+			// Parse channels
 			for (const channel of data.channels) {
 				switch (channel.type) {
 

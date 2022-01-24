@@ -1,7 +1,10 @@
-import { LimitedMap } from '../utils/LimitedMap';
-import { Guild } from '../structures/Guild';
 import type { Client } from '../client/Client';
+import { Guild } from '../structures/Guild';
+import { LimitedMap } from '../utils/LimitedMap';
 
+/**
+ * Manages API methods for Guilds and stores their cache.
+ */
 class GuildManager {
 	cache: LimitedMap<string, Guild>;
 	client: Client;
@@ -10,7 +13,12 @@ class GuildManager {
 		this.client = client;
 	}
 
-	async fetch(id: string): Promise<Guild | Map<string, Guild>> {
+	/**
+	 * Obtains one or multiple guilds from Discord, or the guild cache if it's already available.
+	 * @param {string | undefined} [id] The guild's id to fetch. If undefined, fetches all guilds.
+	 * @returns {Promise<Guild | Map<string, Guild>>}
+	 */
+	async fetch(id: string | undefined): Promise<Guild | Map<string, Guild>> {
 		if (!id) {
 			const guilds = await this.client.requester.make('/users/@me/guilds', 'GET');
 			const _fetchedGuilds = new Map();
