@@ -20,7 +20,7 @@ class GuildChannelManager {
 	/**
 	 * Deletes the channel.
 	 * @param {string} reason - The reason for deleting this channel
-	 * @returns {Promise<void>}
+	 * @returns {Promise<Channel>}
 	 */
 	async delete(id: string, reason?: string) {
 		if (typeof id === 'undefined') throw new Error('The provided channel id is undefined.');
@@ -31,6 +31,7 @@ class GuildChannelManager {
 	/**
 	 * Obtains one or more {@link GuildChannel}s from Discord, or the channel cache if they're already available.
 	 * @param {string|undefined} [id] - The channel's id. If undefined, fetches all channels.
+	 * @returns {Promise<Channel | TextChannel | Map<string, TextChannel | Channel>>}
 	 */
 	async fetch(id: string | undefined): Promise<Channel | TextChannel | Map<string, TextChannel | Channel>> {
 		if (!id) return this._fetchAll();
