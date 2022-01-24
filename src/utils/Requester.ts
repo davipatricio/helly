@@ -1,4 +1,4 @@
-import fetch, { Response } from 'node-fetch';
+import fetch, { BodyInit, Response } from 'node-fetch';
 import { setTimeout as sleep } from 'node:timers/promises';
 import type { Client } from '../client/Client';
 import { apiVersion, baseApiUrl } from '../constants/gateway';
@@ -45,12 +45,14 @@ class Requester {
 		return this.make(endpoint, method, data, additionalHeaders, _retries + 1);
 	}
 
-	make(endpoint: string, method = 'GET' as string, data = '' as any, additionalHeaders = {} as any, _retries = 0 as number): Promise<any | Response> {
+	make(endpoint: string, method = 'GET' as string, data = undefined as any, additionalHeaders = {} as any, _retries = 0 as number): Promise<any | Response> {
 		// eslint-disable-next-line no-async-promise-executor
 		return new Promise(async (resolve, reject) => {
 			if(_retries === 5) return reject(new Error('Maximum retries reached'));
 
-			const body: string = typeof data === 'object' ? JSON.stringify(data) : data;
+			let body: BodyInit | undefined = undefined;
+			if(method !== 'GET') body = typeof data === 'object' ? JSON.stringify(data) : data;
+
 			const majorId = this._majorId(endpoint);
 
 			const headers: any = {
