@@ -40,7 +40,7 @@
     "@babel/core": "7.16.12",
     "@babel/preset-env": "7.16.11",
     "@babel/preset-typescript": "7.16.7",
-    "@types/node": "16.11.15",
+    "@types/node": "16.11.21",
     "@types/node-fetch": "2.5.12",
     "@types/ws": "8.2.2",
     "@typescript-eslint/eslint-plugin": "5.8.0",
