@@ -48,6 +48,7 @@ class Guild extends DataManager {
 	createdAt!: Date;
 	name!: string;
 	id!: string;
+	ownerId!: string;
 	features!: Features[];
 	unavailable!: boolean;
 	members!: GuildMemberManager;
@@ -58,7 +59,7 @@ class Guild extends DataManager {
 		 * The guild's members
 		 * @type {GuildMemberManager}
 		 */
-		this.members = new GuildMemberManager(client, this.client.options.cache?.members as number);
+		this.members = new GuildMemberManager(client, this.client.options.cache?.members as number, this);
 		/**
 		 * A manager of the channels belonging to this guild
 		 * @type {GuildChannelManager}
@@ -66,6 +67,14 @@ class Guild extends DataManager {
 		this.channels = new GuildChannelManager(client, this.client.options.cache?.guildChannels as number);
 
 		this.parseData(data);
+	}
+
+	/**
+	 * Fetches the guild owner
+	 * @returns {Promise<GuildMember>}
+	 */
+	fetchOwner() {
+		return this.members.fetch(this.ownerId);
 	}
 
 	/**
@@ -86,17 +95,6 @@ class Guild extends DataManager {
 			 */
 			this.id = data.id;
 		}
-
-		/**
-		 * The timestamp this guild was created at
-		 * @type {bigint}
-		 */
-		this.createdTimestamp = Snowflake.deconstruct(this.id);
-		/**
-		 * The time this guild was created at
-		 * @type {Date}
-		 */
-		this.createdAt = new Date(this.createdTimestamp);
 
 		if ('unavailable' in data) {
 			/**
@@ -145,12 +143,30 @@ class Guild extends DataManager {
 			}
 		}
 
+		if ('owner_id' in data) {
+			/**
+			 * ID of the guild owner
+			 * @type {string}
+			 */
+			this.ownerId = data.owner_id;
+		}
+
 		/**
 		 * List of Guild Features
 		 * @type {Features[]}
 		*/
 		this.features = data.features ?? [];
 
+		/**
+		 * The timestamp this guild was created at
+		 * @type {bigint}
+		 */
+		this.createdTimestamp = Snowflake.deconstruct(this.id);
+		/**
+		 * The time this guild was created at
+		 * @type {Date}
+		 */
+		this.createdAt = new Date(this.createdTimestamp);
 	}
 }
 
