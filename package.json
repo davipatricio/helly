@@ -29,7 +29,7 @@
     "url": "https://github.com/davipatricio/helly/issues"
   },
   "scripts": {
-    "docs": "jsdoc src -R README.md -c jsdoc.json",
+    "docs": "rm -rf docs && jsdoc src -R README.md -c jsdoc.json",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "build": "tsc",
