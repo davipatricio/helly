@@ -1,4 +1,5 @@
 import type { Client } from '../client/Client';
+import { MessageManager } from '../managers/MessageManager';
 import { makeAPIMessage } from '../utils/MakeAPIMessage';
 import { Channel, MessageOptions } from './Channel';
 import type { Guild } from './Guild';
@@ -11,10 +12,18 @@ import { Message } from './Message';
  */
 class TextChannel extends Channel {
 	declare type: 'GUILD_TEXT';
+	messages: MessageManager;
 	topic!: string | null;
 	rateLimitPerUser!: number;
 	constructor(client: Client, data: any, guild?: Guild) {
 		super(client, data, guild);
+
+		/**
+		 * A manager of the messages sent to this channel
+		 * @type {MessageManager}
+		 */
+		this.messages = new MessageManager(client, client.options.cache?.messages as number);
+
 		this.parseData(data);
 	}
 

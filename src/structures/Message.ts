@@ -66,7 +66,7 @@ class Message extends DataManager {
 		transformedObject.message_reference = {
 			message_id: this.id,
 			channel_id: this.channelId,
-			guild_id: this.guild?.id ?? this.guildId ?? null,
+			guild_id: this.guildId,
 			fail_if_not_exists: this.client.options.failIfNotExists,
 		};
 		const data = await this.client.requester.make(`channels/${this.channelId}/messages`, 'POST', transformedObject);
