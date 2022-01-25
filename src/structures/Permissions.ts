@@ -1,3 +1,6 @@
+/**
+ * Represents a calculated permissions number
+ */
 class Permissions {
 	_: string[];
 	static FLAGS: Record<string, number>;
@@ -5,22 +8,43 @@ class Permissions {
 		this._ = permissions ?? [];
 	}
 
+	/**
+	 * Check if this permission allows a specific permission
+	 * @param {string} permission - The name of the permission. [A full list of permission nodes can be found here]{@link Permissions#FLAGS}
+	 * @returns {boolean}
+	 */
 	has(permission: string): boolean {
 		return this._.includes(permission);
 	}
 
-	add(permission: string): void {
+	/**
+	 * Add a permission to the list
+	 * @param {string} - The name of the permission. [A full list of permission nodes can be found here]{@link Permissions#FLAGS}
+	 */
+	add(permission: string) {
 		if (!this.has(permission)) this._.push(permission);
 	}
 
+	/**
+	 * Remove a permission from the list
+	 * @param {string} - The name of the permission. [A full list of permission nodes can be found here]{@link Permissions#FLAGS}
+	 */
 	remove(permission: string): void {
 		this._ = this._.filter(p => p !== permission);
 	}
 
+	/**
+	 * Returns all permissions this instance has
+	 * @returns {string[]}
+	 */
 	toArray(): string[] {
 		return this._;
 	}
 
+	/**
+	 * Returns all permissions this instance has
+	 * @returns {string}
+	 */
 	toString(): string {
 		return this._.join(', ');
 	}
