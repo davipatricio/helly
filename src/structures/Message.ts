@@ -28,6 +28,29 @@ class Message extends DataManager {
 	}
 
 	/**
+	 * Adds a reaction to the message
+	 * @param {string} emoji - The emoji to react with. Custom emojis should be used with `name:id`.
+	 * @example
+	 * // React with a unicode emoji
+	 * message.react('🤔');
+	 * @example
+	 * // React with a custom emoji
+	 * message.react('clyde_dark:785673063828160542');
+	 */
+	async react(emoji: string): Promise<null> {
+		if(typeof emoji !== 'string') throw new TypeError('Emoji must be a string.');
+
+		// Custom emojis should be sent to the api as "name:id"
+		// Unicode emojis should be URL encoded
+		// https://discord.com/developers/docs/resources/channel#create-reaction
+		emoji = emoji.includes(':') ? emoji.replaceAll('<:', '').replaceAll('<a:', '').replaceAll('>', '') : encodeURIComponent(emoji);
+		await this.client.requester.make(`channels/${this.channelId}/messages/${this.id}/reactions/${emoji}/@me`, 'PUT');
+
+		// TODO: MessageReaction
+		return null;
+	}
+
+	/**
 	 * Replies to this message
 	 * @param {string|MessagePayload} content
 	 * @example
