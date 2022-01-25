@@ -52,6 +52,18 @@ class Channel extends DataManager {
 	}
 
 	/**
+	 * Changes the name of the channel
+	 * @param {string} name - The new channel name
+	 * @param {string} [reason] - The reason for changing the name
+	 * @returns {Promise<Channel>}
+	 */
+	async setName(name: string, reason?: string): Promise<this> {
+		const data = await this.client.requester.make(`channels/${this.id}`, 'PATCH', { name }, { 'X-Audit-Log-Reason': reason });
+		this.parseData(data);
+		return this;
+	}
+
+	/**
 	 * Deletes the channel
 	 * @param {string} reason - The reason for deleting this channel
 	 * @example
