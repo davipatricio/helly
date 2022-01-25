@@ -92,4 +92,6 @@ const FLAGS = {
 	MODERATE_MEMBERS: 1 << 40,
 };
 
-export { FLAGS };
+type PermissionNames = keyof typeof FLAGS;
+
+export { FLAGS, PermissionNames };
