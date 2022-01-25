@@ -14,6 +14,7 @@ export * as Constants from './constants/index';
 export { Intents } from './utils/Intents';
 export { Snowflake } from './utils/Snowflake';
 export { LimitedMap } from './utils/LimitedMap';
+export { Permission } from './utils/Permission';
 
 // Types
 export { ChannelType } from './constants/channelTypes';
