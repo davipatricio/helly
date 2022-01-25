@@ -3,8 +3,9 @@
  * @typedef {Object} ClientCacheOptions
  * @property {number} [guilds=Infinity] - Maximum number of {@link Guild}s to cache
  * @property {number} [channels=Infinity] - Maximum number of {@link Channel}s to cache
- * @property {number} [channels=Infinity] - Maximum number of Guild{@link Channel}s to cache
+ * @property {number} [guildChannels=Infinity] - Maximum number of Guild{@link Channel}s to cache
  * @property {number} [users=Infinity] - Maximum number of {@link User}s to cache
+ * @property {number} [messages=Infinity] - Maximum number of {@link TextChannel#messages} to cache
  */
 export interface ClientCacheOptions {
 	guilds?: number;
@@ -25,7 +26,7 @@ export interface ClientCacheOptions {
  * @property {number} [shardCount=1] - The total amount of shards used by this bot
  * @property {number[]} [shards=[0, 1]] - The shard's id to run, or an array of shard ids
  * @property {number} [apiVersion=9] - API version to use
- * @property {number} [largeThreshold=9] - Number of members in a guild after which offline users will no longer be sent in the initial guild member list, must be between 50 and 250
+ * @property {number} [largeThreshold=50] - Number of members in a guild after which offline users will no longer be sent in the initial guild member list, must be between 50 and 250
  * @property {Array<string | number | undefined> | number | undefined} [intents=0] - {@link Intents} to enable for this connection
  * @property {string[]} [disabledEvents=[]] - Events to disable
  * @property {boolean} [failIfNotExists=false] - Default value for {@link MessageReference#fail_if_not_exists}
