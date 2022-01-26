@@ -35,8 +35,6 @@ class GuildMemberManager {
 
 		const data = await this.client.requester.make(`/guilds/${this.guild.id}/members/${id}`, 'GET');
 		const _member = new GuildMember(this.client, data, this.guild);
-		this.cache.set(id, _member);
-		this.client.users.cache.set(id, _member.user);
 		return _member;
 	}
 

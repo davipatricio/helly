@@ -5,6 +5,7 @@
  * @property {number} [channels=Infinity] - Maximum number of {@link Channel}s to cache
  * @property {number} [channels=Infinity] - Maximum number of Guild{@link Channel}s to cache
  * @property {number} [users=Infinity] - Maximum number of {@link User}s to cache
+ * @property {number} [messages=Infinity] - Maximum number of {@link TextChannel#messages} to cache
  */
 export interface ClientCacheOptions {
 	guilds?: number;

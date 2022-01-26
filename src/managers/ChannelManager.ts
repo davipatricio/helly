@@ -1,6 +1,6 @@
-import { LimitedMap } from '../utils/LimitedMap';
 import type { Client } from '../client/Client';
 import type { Channel } from '../structures/Channel';
+import { LimitedMap } from '../utils/LimitedMap';
 
 class ChannelManager {
 	cache: LimitedMap<string, Channel>;

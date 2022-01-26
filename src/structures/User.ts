@@ -171,6 +171,8 @@ class User extends DataManager {
 		 * @type {?string}
 		 */
 		this.tag = this.username && this.discriminator ? `${this.username}#${this.discriminator}` : null;
+
+		this.client.users.cache.set(this.id, this);
 	}
 }
 
