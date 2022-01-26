@@ -32,8 +32,6 @@ import { Channel } from './Channel';
 import { DataManager } from './DataManager';
 import { GuildMember } from './GuildMember';
 import { TextChannel } from './TextChannel';
-import { User } from './User';
-
 
 export type Features = 'ANIMATED_ICON' | 'BANNER' | 'COMMERCE' | 'COMMUNITY' | 'DISCOVERABLE' | 'FEATURABLE' |
 	'INVITE_SPLASH' | 'MEMBER_VERIFICATION_GATE_ENABLED' | 'NEWS' | 'PARTNERED' | 'PREVIEW_ENABLED' | 'VANITY_URL' |
@@ -114,10 +112,7 @@ class Guild extends DataManager {
 
 		// See: https://discord.com/developers/docs/topics/gateway#guild-create
 		if ('members' in data) {
-			for (const member of data.members) {
-				this.client.users.cache.set(member.user.id, new User(this.client, member.user));
-				this.members.cache.set(member.user.id, new GuildMember(this.client, member, this));
-			}
+			for (const member of data.members) new GuildMember(this.client, member, this);
 		}
 
 		if ('channels' in data) {
@@ -127,17 +122,13 @@ class Guild extends DataManager {
 
 				// Text channels
 				case 0: {
-					const parsedChannel = new TextChannel(this.client, channel, this);
-					this.channels.cache.set(channel.id, parsedChannel);
-					this.client.channels.cache.set(channel.id, parsedChannel);
+					new TextChannel(this.client, channel, this);
 					break;
 				}
 
 				// Unknown channels
 				default: {
-					const parsedChannel = new Channel(this.client, channel, this);
-					this.channels.cache.set(channel.id, parsedChannel);
-					this.client.channels.cache.set(channel.id, parsedChannel);
+					new Channel(this.client, channel, this);
 					break;
 				}
 				}
@@ -168,6 +159,8 @@ class Guild extends DataManager {
 		 * @type {Date}
 		 */
 		this.createdAt = new Date(this.createdTimestamp);
+
+		this.client.guilds.cache.set(this.id, this);
 	}
 }
 
