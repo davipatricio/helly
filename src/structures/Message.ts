@@ -1,10 +1,8 @@
 import type { Client } from '../client/Client';
 import { makeAPIMessage } from '../utils/MakeAPIMessage';
 import { Snowflake } from '../utils/Snowflake';
-import type { Channel, MessageOptions } from './Channel';
+import type { MessageOptions } from './Channel';
 import { DataManager } from './DataManager';
-import type { Guild } from './Guild';
-import type { TextChannel } from './TextChannel';
 import { User } from './User';
 
 /**
@@ -12,16 +10,13 @@ import { User } from './User';
  */
 class Message extends DataManager {
 	createdTimestamp!: number;
-	createdAt!: Date;
-	author!: User;
-	channel!: TextChannel | Channel | null;
+	author!: User | null;
 	content!: string | null;
-	guild!: Guild | null;
-	id!: string;
 
 	// Raw IDs
 	channelId!: string;
 	guildId!: string;
+	id!: string;
 	constructor(client: Client, userData: any) {
 		super(client);
 		this.parseData(userData);
@@ -38,7 +33,7 @@ class Message extends DataManager {
 	 * message.react('clyde_dark:785673063828160542');
 	 */
 	async react(emoji: string): Promise<null> {
-		if(typeof emoji !== 'string') throw new TypeError('Emoji must be a string.');
+		if (typeof emoji !== 'string') throw new TypeError('Emoji must be a string.');
 
 		// Custom emojis should be sent to the api as "name:id"
 		// Unicode emojis should be URL encoded
@@ -82,6 +77,42 @@ class Message extends DataManager {
 	}
 
 	/**
+	 * The time the message was sent at
+	 * @type {Date}
+	 * @readonly
+	 */
+	get createdAt() {
+		return new Date(this.createdTimestamp);
+	}
+
+	/**
+	 * The channel the message was sent in
+	 * @type {?(TextChannel|Channel)}
+	 * @readonly
+	 */
+	get channel() {
+		return this.client._getChannel(this.channelId, this.guildId) ?? null;
+	}
+
+	/**
+	 * The guild the message was sent in
+	 * @type {?Guild}
+	 * @readonly
+	 */
+	get guild() {
+		return this.client.guilds.cache.get(this.guildId) ?? null;
+	}
+
+	/**
+	 * Represents the author of the message as a guild member.
+	 * Only available if the message comes from a guild where the author is still a member
+	 * @type {?GuildMember}
+	 */
+	get member() {
+		return this.author ? this.guild?.members.cache.get(this.author.id) : undefined;
+	}
+
+	/**
 	 * When concatenated with a string, this automatically returns the message content instead of the Message object
 	 * @returns {string}
 	 */
@@ -91,34 +122,17 @@ class Message extends DataManager {
 
 	override parseData(data: any) {
 		if (!data) return null;
-
-		if ('id' in data) {
-			/**
-			 * The message's id
-			 * @type {string}
-			 */
-			this.id = data.id;
-		}
+		/**
+		 * The message's id
+		 * @type {string}
+		 */
+		this.id = data.id;
 
 		/**
 		 * The timestamp the message was sent at
-		 * @type {bigint}
+		 * @type {number}
 		 */
 		this.createdTimestamp = Snowflake.deconstruct(this.id);
-		/**
-		  * The time the message was sent at
-		  * @type {Date}
-		  */
-		this.createdAt = new Date(this.createdTimestamp);
-
-		if ('guild_id' in data) {
-			this.guildId = data.guild_id;
-			/**
-			 * The guild the message was sent in
-			 * @type {?Guild}
-			 */
-			this.guild = this.client.guilds.cache.get(this.guildId) ?? null;
-		}
 
 		if ('content' in data) {
 			/**
@@ -136,16 +150,13 @@ class Message extends DataManager {
 			 * @type {?User}
 			 */
 			this.author = this.client.users.cache.get(data.author.id) ?? new User(this.client, data.author);
+		} else {
+			this.author ??= null;
 		}
 
-		if (data.channel_id) {
-			this.channelId = data.channel_id;
-			/**
-			 * The channel the message was sent in
-			 * @type {?TextChannel}
-			 */
-			this.channel = this.client.channels.cache.get(this.channelId) ?? this.guild?.channels.cache.get(this.channelId) ?? null;
-		}
+		if ('guild_id' in data) this.guildId = data.guild_id;
+		if ('channel_id' in data) this.channelId = data.channel_id;
+		if (this.member && data.member) this.member.parseData(data.member);
 	}
 }
 

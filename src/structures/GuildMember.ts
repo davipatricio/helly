@@ -1,19 +1,19 @@
+import type { Client } from '../client/Client';
 import * as Images from '../constants/images';
 import { DataManager } from './DataManager';
+import type { Guild } from './Guild';
 import { ImageURLOptions, User } from './User';
 
-import type { Client } from '../client/Client';
-import type { Guild } from './Guild';
 
 /**
  * Represents a Guild Member on Discord
  */
 class GuildMember extends DataManager {
-	public guild: Guild;
-	public user!: User;
-	public avatar!: string;
-	public joinedAt!: Date | null;
-	public joinedTimestamp!: number | null;
+	guild: Guild;
+	user!: User;
+	avatar!: string | null;
+	joinedTimestamp!: number | null;
+	nickname!: string | null;
 	constructor(client: Client, memberData: any, guild: Guild) {
 		super(client);
 		this.guild = guild;
@@ -40,6 +40,33 @@ class GuildMember extends DataManager {
 	}
 
 	/**
+	 * The member's id
+	 * @type {string}
+	 * @readonly
+	 */
+	get id() {
+		return this.user.id;
+	}
+
+	/**
+	 * The time this member joined the guild
+	 * @type {?Date}
+	 * @readonly
+	 */
+	get createdAt() {
+		return this.joinedTimestamp && new Date(this.joinedTimestamp);
+	}
+
+	/**
+	 * The nickname of this member, or their username if they don't have one
+	 * @type {?string}
+	 * @readonly
+	 */
+	get displayName() {
+		return this.nickname ?? this.user.username;
+	}
+
+	/**
 	 * When concatenated with a string, this automatically returns the members's mention instead of the GuildMember object
 	 * @returns {string}
 	 */
@@ -49,7 +76,14 @@ class GuildMember extends DataManager {
 
 	override parseData(data: any) {
 		if (typeof data === 'undefined') return null;
-		this.user = this.client.users.cache.get(data.user.id) ?? new User(this.client, data.user);
+
+		if ('user' in data) {
+			/**
+			 * The user that this guild member instance represents
+			 * @type {?User}
+			 */
+			this.user = this.client.users.cache.get(data.user.id) ?? new User(this.client, data.user);
+		}
 
 		if ('avatar' in data) {
 			/**
@@ -61,18 +95,18 @@ class GuildMember extends DataManager {
 
 		if ('joined_at' in data) {
 			/**
-			 * The time this member joined the guild
-			 * @type {?Date}
-			 */
-			this.joinedAt = new Date(data.joined_at);
-			/**
 			 * The timestamp the member joined the guild at
 			 * @type {?number}
 			 */
-			this.joinedTimestamp = this.joinedAt.getTime();
-		} else {
-			this.joinedAt = null;
-			this.joinedTimestamp = null;
+			this.joinedTimestamp = Date.parse(data.joined_at);
+		}
+
+		if ('nick' in data) {
+			/**
+			 * The nickname of this member, if they have one
+			 * @type {?string}
+			 */
+			this.nickname = data.nick;
 		}
 
 		this.guild.members.cache.set(this.user.id, this);
