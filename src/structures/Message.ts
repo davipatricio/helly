@@ -135,7 +135,7 @@ class Message extends DataManager {
 			 * The author of the message
 			 * @type {?User}
 			 */
-			this.author = this.client.users.cache.get(data.author.id) ?? this.client.users.cache.set(data.author.id, new User(this.client, data.author));
+			this.author = this.client.users.cache.get(data.author.id) ?? new User(this.client, data.author);
 		}
 
 		if (data.channel_id) {

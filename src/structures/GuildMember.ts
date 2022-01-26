@@ -49,7 +49,7 @@ class GuildMember extends DataManager {
 
 	override parseData(data: any) {
 		if (typeof data === 'undefined') return null;
-		this.user = this.client.users.cache.get(data.user.id) ?? this.client.users.cache.set(data.user.id, new User(this.client, data.user));
+		this.user = this.client.users.cache.get(data.user.id) ?? new User(this.client, data.user);
 
 		if ('avatar' in data) {
 			/**
@@ -74,6 +74,8 @@ class GuildMember extends DataManager {
 			this.joinedAt = null;
 			this.joinedTimestamp = null;
 		}
+
+		this.guild.members.cache.set(this.user.id, this);
 	}
 }
 

@@ -142,6 +142,9 @@ class Channel extends DataManager {
 		 * @type {ChannelType}
 		 */
 		this.type = RawChannelTypes[data.type] ?? 'UNKNOWN';
+
+		this.guild?.channels.cache.set(this.id, this);
+		this.client.channels.cache.set(this.id, this);
 	}
 }
 

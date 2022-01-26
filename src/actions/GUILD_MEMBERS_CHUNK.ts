@@ -1,5 +1,6 @@
 import type { Client } from '../client/Client';
 import { GuildMember } from '../structures/GuildMember';
+import { User } from '../structures/User';
 
 function handle(client: Client, chunkData: any): void {
 	const guildId: string = chunkData.guild_id;
@@ -13,10 +14,6 @@ function handle(client: Client, chunkData: any): void {
 	const _parsedMembers: Map<string, GuildMember> = new Map();
 	for (const member of members) {
 		const _member = new GuildMember(client, member, guild);
-
-		client.users.cache.set(_member.user.id, _member.user);
-		guild.members.cache.set(_member.user.id, _member);
-
 		_parsedMembers.set(_member.user.id, _member);
 	}
 

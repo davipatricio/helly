@@ -8,7 +8,7 @@ function handle(client: Client, guildData: any): void {
 	 * @event Client#guildDelete
 	 * @param {Guild} guild The guild that was deleted
 	 */
-	if (client.ready) client.emit('guildDelete', guild);
+	if (client.ready) client.emit('guildDelete', guild._clone());
 	client.guilds.cache.delete(guild.id);
 }
 

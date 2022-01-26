@@ -31,7 +31,6 @@ class GuildManager {
 					continue;
 				}
 				const _guild = new Guild(this.client, guild);
-				this.client.guilds.cache.set(guild.id, _guild);
 				_fetchedGuilds.set(guild.id, _guild);
 			}
 			return _fetchedGuilds;
@@ -44,7 +43,6 @@ class GuildManager {
 			return this.client.guilds.cache.get(id) ?? new Guild(this.client, fetchedGuild);
 		}
 		const _guild = new Guild(this.client, fetchedGuild);
-		this.client.guilds.cache.set(id, _guild);
 		return _guild;
 	}
 }

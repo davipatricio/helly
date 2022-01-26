@@ -42,16 +42,12 @@ class GuildChannelManager {
 		// Text channels
 		case 0: {
 			const parsedChannel = new TextChannel(this.client, channel, this.guild);
-			this.guild.channels.cache.set(channel.id, parsedChannel);
-			this.client.channels.cache.set(channel.id, parsedChannel);
 			return parsedChannel;
 		}
 
 		// Unknown channels
 		default: {
 			const parsedChannel = new Channel(this.client, channel, this.guild);
-			this.guild.channels.cache.set(channel.id, parsedChannel);
-			this.client.channels.cache.set(channel.id, parsedChannel);
 			return parsedChannel;
 		}
 		}
@@ -68,8 +64,6 @@ class GuildChannelManager {
 			// Text channels
 			case 0: {
 				const parsedChannel = new TextChannel(this.client, channel, this.guild);
-				this.guild.channels.cache.set(channel.id, parsedChannel);
-				this.client.channels.cache.set(channel.id, parsedChannel);
 				channels.set(channel.id, parsedChannel);
 				break;
 			}
@@ -77,8 +71,6 @@ class GuildChannelManager {
 			// Unknown channels
 			default: {
 				const parsedChannel = new Channel(this.client, channel, this.guild);
-				this.guild.channels.cache.set(channel.id, parsedChannel);
-				this.client.channels.cache.set(channel.id, parsedChannel);
 				channels.set(channel.id, parsedChannel);
 				break;
 			}
