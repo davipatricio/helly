@@ -32,8 +32,6 @@ import { Channel } from './Channel';
 import { DataManager } from './DataManager';
 import { GuildMember } from './GuildMember';
 import { TextChannel } from './TextChannel';
-import { User } from './User';
-
 
 export type Features = 'ANIMATED_ICON' | 'BANNER' | 'COMMERCE' | 'COMMUNITY' | 'DISCOVERABLE' | 'FEATURABLE' |
 	'INVITE_SPLASH' | 'MEMBER_VERIFICATION_GATE_ENABLED' | 'NEWS' | 'PARTNERED' | 'PREVIEW_ENABLED' | 'VANITY_URL' |
