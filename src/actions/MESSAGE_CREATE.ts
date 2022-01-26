@@ -7,17 +7,16 @@ function handle(client: Client, messageData: any): void {
 		const message = new Message(client, messageData);
 		const channel = client.channels.cache.get(message.channelId);
 
-		if (channel) {
-			if (!channel.isTextBased()) return;
-			(channel as TextChannel).messages.cache.set(message.id, message);
-		}
+		if (!channel) return;
+		if (!channel.isTextBased()) return;
+		(channel as TextChannel).messages.cache.set(message.id, message);
 
 		/**
 		 * Emitted when a message is sent.
 		 * @event Client#messageCreate
 		 * @param {Message} message The created message
 		 */
-		client.emit('message', message);
+		client.emit('messageCreate', message);
 	}
 }
 
