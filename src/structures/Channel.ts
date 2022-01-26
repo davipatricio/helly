@@ -76,6 +76,14 @@ class Channel extends DataManager {
 	}
 
 	/**
+	 * Indicates whether this channel can have messages
+	 * @returns {boolean}
+	 */
+	isTextBased(): boolean {
+		return 'messages' in this;
+	}
+
+	/**
 	 * Indicates whether this channel is a {@link TextChannel}
 	 * @returns {boolean}
 	 */
