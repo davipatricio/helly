@@ -1,6 +1,6 @@
 import EventEmitter from 'node:events';
 import { ActionManager } from '../actions/ActionManager';
-import { ChannelManager } from '../managers/ChannelManager';
+import { AnyChannel, ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
 import { UserManager } from '../managers/UserManager';
 import { Intents } from '../utils/Intents';
@@ -151,6 +151,10 @@ class Client extends EventEmitter {
 		this.guilds.cache.clear();
 		this.users.cache.clear();
 		this.channels.cache.clear();
+	}
+
+	_getChannel(id: string, guildId: string): AnyChannel | undefined {
+		return this.channels.cache.get(id) ?? this.guilds.cache.get(guildId)?.channels.cache.get(id);
 	}
 
 	incrementMaxListeners(): void {
