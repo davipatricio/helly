@@ -12,14 +12,19 @@ class LimitedMap<K, V> extends Map<K, V> {
 		this.limit = limit;
 	}
 
+	/**
+	 * Adds or updates an element with a specified key and a value
+	 * @param {K} key - The key of the element to add or update
+	 * @param {V} value - The value of the element to add or update
+	 * @returns {any}
+	 */
 	override set(key: K, value: V): any {
 		if (this.limit <= 0) return value;
 		if (this.size >= this.limit) {
 			this.delete(this.keys().next().value);
 		}
 
-		super.set(key, value);
-		return value;
+		return super.set(key, value);
 	}
 
 	/**
