@@ -29,17 +29,14 @@ class WebsocketManager {
 	}
 
 	_parseClodeCode(code: CloseCode) {
-		let _foundCode = false;
 		if(closeCodesAbleToResume.includes(code)) {
-			_foundCode = true;
 			this.forceReconnect(true);
 		}
 		if(closeCodesAbleToReconnect.includes(code)) {
-			_foundCode = true;
 			this.client.api.sessionId = null;
 			this.forceReconnect(false);
 		}
-		if(closeCodesToThrow.includes(code) && !_foundCode) throw new Error(`DiscordError: ${closeCodeMessages[code]} ${code}`);
+		if(closeCodesToThrow.includes(code)) throw new Error(`DiscordError: ${closeCodeMessages[code]} ${code}`);
 		this.client.emit('debug', `[DEBUG] ${closeCodeMessages[code] ?? 'Websocket connection closed with unknown close code. Reconnecting instead of resuming...'}`);
 	}
 
