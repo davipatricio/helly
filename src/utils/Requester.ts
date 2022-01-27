@@ -7,7 +7,9 @@ import Checker from './CheckAPIError';
 const Ratelimits: any = {};
 
 class Requester {
+	// String types
 	token: string;
+	// Classes types
 	client: Client;
 	constructor(token: string, client: Client) {
 		this.client = client;

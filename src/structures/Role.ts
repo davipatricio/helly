@@ -7,11 +7,15 @@ import type { Guild } from './Guild';
  * Represents a Role on Discord
  */
 class Role extends DataManager {
+	// String types
 	name!: string;
 	id!: string;
+	// Boolean types
 	mentionable!: boolean;
 	managed!: boolean;
+	// Number types
 	position!: number;
+	// Classes types
 	permissions!: Permission;
 	guild!: Guild;
 	constructor(client: Client, data: any, guild: Guild) {

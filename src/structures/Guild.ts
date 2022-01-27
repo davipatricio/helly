@@ -44,14 +44,16 @@ export type Features = 'ANIMATED_ICON' | 'BANNER' | 'COMMERCE' | 'COMMUNITY' | '
  * Represents a guild on Discord.
 */
 class Guild extends DataManager {
-	createdTimestamp!: number;
+	// String types
 	name!: string;
 	id!: string;
 	ownerId!: string;
 	features!: Features[];
+	// Boolean types
 	unavailable!: boolean;
-
-	// Managers
+	// Number types
+	createdTimestamp!: number;
+	// Classes types
 	members!: GuildMemberManager;
 	channels!: GuildChannelManager;
 	roles!: RoleManager;

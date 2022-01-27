@@ -9,14 +9,15 @@ import { User } from './User';
  * Represents a message on Discord
  */
 class Message extends DataManager {
-	createdTimestamp!: number;
-	author!: User | null;
-	content!: string | null;
-
-	// Raw IDs
+	// String types
 	channelId!: string;
 	guildId!: string;
 	id!: string;
+	// Number types
+	createdTimestamp!: number;
+	// Classes types
+	author!: User | null;
+	content!: string | null;
 	constructor(client: Client, userData: any) {
 		super(client);
 		this.parseData(userData);

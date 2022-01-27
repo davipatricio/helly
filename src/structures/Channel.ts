@@ -38,12 +38,14 @@ export type MessageOptions = string | MessagePayload;
  * Represents an unknown channel on Discord
  */
 class Channel extends DataManager {
-	createdTimestamp!: number;
+	// String types
 	id!: string;
 	name!: string;
-	guild?: Guild;
-
 	type!: ChannelType;
+	// Number types
+	createdTimestamp!: number;
+	// Classes types
+	guild?: Guild;
 	constructor(client: Client, data: any, guild?: Guild) {
 		super(client);
 		this.guild = guild;

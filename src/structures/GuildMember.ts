@@ -9,11 +9,14 @@ import { ImageURLOptions, User } from './User';
  * Represents a Guild Member on Discord
  */
 class GuildMember extends DataManager {
+	// String types
+	avatar!: string | null;
+	nickname!: string | null;
+	// Number types
+	joinedTimestamp!: number | null;
+	// Classes types
 	guild: Guild;
 	user!: User;
-	avatar!: string | null;
-	joinedTimestamp!: number | null;
-	nickname!: string | null;
 	constructor(client: Client, memberData: any, guild: Guild) {
 		super(client);
 		this.guild = guild;
