@@ -25,6 +25,39 @@ class Role extends DataManager {
 	}
 
 	/**
+	 * Changes the name of the role
+	 * @param {string} name - The new name of the role
+	 * @returns {Promise<Role>}
+	 */
+	async setName(name: string) {
+		const data = await this.client.requester.make(`guilds/${this.guild.id}/roles/${this.id}`, 'PATCH', { name });
+		this.parseData(data);
+		return this;
+	}
+
+	/**
+	 * Sets whether the role should be displayed separately in the sidebar
+	 * @param {boolean} [hoist=true]
+	 * @returns {Promise<Role>}
+	 */
+	async setHoist(hoist = true as boolean) {
+		const data = await this.client.requester.make(`guilds/${this.guild.id}/roles/${this.id}`, 'PATCH', { hoist });
+		this.parseData(data);
+		return this;
+	}
+
+	/**
+	 * Sets whether the role should be mentionable
+	 * @param {boolean} [mentionable=true]
+	 * @returns {Promise<Role>}
+	 */
+	async setMentionable(mentionable = true as boolean) {
+		const data = await this.client.requester.make(`guilds/${this.guild.id}/roles/${this.id}`, 'PATCH', { mentionable });
+		this.parseData(data);
+		return this;
+	}
+
+	/**
 	 * When concatenated with a string, this automatically returns the role's mention instead of the Role object
 	 * @returns {string}
 	 */
