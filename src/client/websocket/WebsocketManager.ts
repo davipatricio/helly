@@ -80,7 +80,7 @@ class WebsocketManager {
 		this.client.api.sessionId = resume ? this.client.api.sessionId : null;
 
 		this.client.reconnect();
-		this.client.api.should_resume = resume;
+		this.client.api.shouldResume = resume;
 	}
 }
 
