@@ -25,6 +25,15 @@ class Role extends DataManager {
 	}
 
 	/**
+	 * Deletes this role
+	 * @returns {Promise<void>}
+	 */
+	async delete() {
+		await this.client.requester.make(`guilds/${this.guild.id}/roles/${this.id}`, 'DELETE');
+		return void 0;
+	}
+
+	/**
 	 * Changes the name of the role
 	 * @param {string} name - The new name of the role
 	 * @returns {Promise<Role>}
