@@ -127,6 +127,11 @@ class Role extends DataManager {
 
 		this.guild.roles.cache.set(this.id, this);
 	}
+
+	_update(data: any): Role {
+		this.parseData(data);
+		return this;
+	}
 }
 
 export { Role };

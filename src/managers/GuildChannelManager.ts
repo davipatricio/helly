@@ -25,7 +25,7 @@ class GuildChannelManager {
 	async delete(id: string, reason?: string): Promise<Channel> {
 		if (typeof id === 'undefined') throw new Error('The provided channel id is undefined.');
 		const data = await this.client.requester.make(`channels/${id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason });
-		return new Channel(this.client, data);
+		return this.client._getChannel(id, this.guild.id)?._update(data) ?? new Channel(this.client, data);
 	}
 
 	/**
@@ -41,13 +41,13 @@ class GuildChannelManager {
 
 		// Text channels
 		case 0: {
-			const parsedChannel = new TextChannel(this.client, channel, this.guild);
+			const parsedChannel = this.client._getChannel(channel.id, this.guild.id)?._update(channel) ?? new TextChannel(this.client, channel, this.guild);
 			return parsedChannel;
 		}
 
 		// Unknown channels
 		default: {
-			const parsedChannel = new Channel(this.client, channel, this.guild);
+			const parsedChannel = this.client._getChannel(channel.id, this.guild.id)?._update(channel) ?? new Channel(this.client, channel, this.guild);
 			return parsedChannel;
 		}
 		}

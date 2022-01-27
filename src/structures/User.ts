@@ -180,6 +180,11 @@ class User extends DataManager {
 
 		this.client.users.cache.set(this.id, this);
 	}
+
+	_update(data: any): User {
+		this.parseData(data);
+		return this;
+	}
 }
 
 export { User };

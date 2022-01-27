@@ -159,6 +159,11 @@ class Message extends DataManager {
 		if ('channel_id' in data) this.channelId = data.channel_id;
 		if (this.member && data.member) this.member.parseData(data.member);
 	}
+
+	_update(data: any): Message {
+		this.parseData(data);
+		return this;
+	}
 }
 
 export { Message };

@@ -71,9 +71,9 @@ class Channel extends DataManager {
 	 * channel.delete('I want to delete this channel');
 	 * @returns {Promise<Channel>}
 	 */
-	async delete(reason?: string) {
+	async delete(reason?: string): Promise<Channel> {
 		const data = await this.client.requester.make(`channels/${this.id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason });
-		return new Channel(this.client, data, this.guild);
+		return this.client._getChannel(this.id, this.guild?.id)?._update(data) ?? new Channel(this.client, data, this.guild);
 	}
 
 	/**
@@ -149,6 +149,11 @@ class Channel extends DataManager {
 
 		this.guild?.channels.cache.set(this.id, this);
 		this.client.channels.cache.set(this.id, this);
+	}
+
+	_update(data: any): Channel {
+		this.parseData(data);
+		return this;
 	}
 }
 

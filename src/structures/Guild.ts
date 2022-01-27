@@ -181,6 +181,11 @@ class Guild extends DataManager {
 
 		this.client.guilds.cache.set(this.id, this);
 	}
+
+	_update(data: any): Guild {
+		this.parseData(data);
+		return this;
+	}
 }
 
 export { Guild };
