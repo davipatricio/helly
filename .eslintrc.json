@@ -22,6 +22,7 @@
         "@typescript-eslint/ban-types": "off",
         "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
         "accessor-pairs": "warn",
         "array-callback-return": "warn",
         "arrow-parens": [
