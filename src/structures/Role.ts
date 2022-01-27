@@ -3,6 +3,9 @@ import { Permission } from '../utils/Permission';
 import { DataManager } from './DataManager';
 import type { Guild } from './Guild';
 
+/**
+ * Represents a Role on Discord
+ */
 class Role extends DataManager {
 	name!: string;
 	id!: string;
