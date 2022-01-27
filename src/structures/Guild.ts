@@ -27,10 +27,12 @@
 import type { Client } from '../client/Client';
 import { GuildChannelManager } from '../managers/GuildChannelManager';
 import { GuildMemberManager } from '../managers/GuildMemberManager';
+import { RoleManager } from '../managers/RoleManager';
 import { Snowflake } from '../utils/Snowflake';
 import { Channel } from './Channel';
 import { DataManager } from './DataManager';
 import { GuildMember } from './GuildMember';
+import { Role } from './Role';
 import { TextChannel } from './TextChannel';
 
 export type Features = 'ANIMATED_ICON' | 'BANNER' | 'COMMERCE' | 'COMMUNITY' | 'DISCOVERABLE' | 'FEATURABLE' |
@@ -48,8 +50,11 @@ class Guild extends DataManager {
 	ownerId!: string;
 	features!: Features[];
 	unavailable!: boolean;
+
+	// Managers
 	members!: GuildMemberManager;
 	channels!: GuildChannelManager;
+	roles!: RoleManager;
 	constructor(client: Client, data: any) {
 		super(client);
 		/**
@@ -62,6 +67,11 @@ class Guild extends DataManager {
 		 * @type {GuildChannelManager}
 		 */
 		this.channels = new GuildChannelManager(client, this.client.options.cache?.guildChannels as number, this);
+		/**
+		 * A manager of the roles belonging to this guild
+		 * @type {RoleManager}
+		 */
+		this.roles = new RoleManager(client, this.client.options.cache?.roles as number);
 
 		this.parseData(data);
 	}
@@ -142,6 +152,11 @@ class Guild extends DataManager {
 			}
 		}
 
+		if ('roles' in data) {
+			// Parse roles
+			for (const role of data.roles) new Role(this.client, role, this);
+		}
+
 		if ('owner_id' in data) {
 			/**
 			 * ID of the guild owner
@@ -167,3 +182,4 @@ class Guild extends DataManager {
 }
 
 export { Guild };
+
