@@ -6,10 +6,10 @@ import { Snowflake } from '../utils/Snowflake';
 
 type MemberMap = Map<string, GuildMember>
 interface FetchAllType {
-	limit: number;
 	query: string;
 	guild_id: string;
 	nonce: string;
+	limit: number;
 }
 
 /**

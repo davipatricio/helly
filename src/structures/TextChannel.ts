@@ -10,10 +10,13 @@ import { Message } from './Message';
  * @extends {Channel}
  */
 class TextChannel extends Channel {
+	// String types
 	declare type: 'GUILD_TEXT';
-	messages: MessageManager;
 	topic!: string | null;
+	// Number types
 	rateLimitPerUser!: number;
+	// Classes types
+	messages: MessageManager;
 	constructor(client: Client, data: any, guild?: Guild) {
 		super(client, data, guild);
 

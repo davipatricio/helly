@@ -20,13 +20,13 @@ class Client extends EventEmitter {
 	ping: number;
 	token: string;
 	ready: boolean;
-
+	// Managers
 	ws: WebsocketManager;
 	actions: ActionManager;
 	guilds: GuildManager;
 	users: UserManager;
 	channels: ChannelManager;
-
+	// Other
 	options: ClientOptions;
 	requester!: Requester;
 	constructor(options?: ClientOptions) {

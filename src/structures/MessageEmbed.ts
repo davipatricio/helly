@@ -85,11 +85,14 @@ export interface MessageEmbedField {
  * @property {MessageEmbedField[]} [fields] - The fields of this embed
  */
 export interface RawMessageEmbed {
+	// String types
 	title?: string | null;
 	description?: string | null;
 	url?: string | null;
+	// Number types
 	timestamp?: number | null;
 	color?: number | null;
+	// Classes types
 	footer?: MessageEmbedFooter | null;
 	image?: MessageEmbedImage | null;
 	thumbnail?: MessageEmbedThumbnail | null;

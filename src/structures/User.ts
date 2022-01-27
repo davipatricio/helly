@@ -40,13 +40,16 @@ export interface ImageURLOptions {
  * Represents a User on Discord
  */
 class User extends DataManager {
-	createdTimestamp!: number;
+	// String types
 	id!: string;
-	username!: string;
-	discriminator!: number;
-	bot!: boolean;
 	avatar!: string | null;
 	banner!: string | null;
+	username!: string;
+	// Boolean types
+	bot!: boolean;
+	// Number types
+	discriminator!: number;
+	createdTimestamp!: number;
 	constructor(client: Client, userData: any) {
 		super(client);
 		this.parseData(userData);
