@@ -30,20 +30,15 @@ class GuildManager {
 					_fetchedGuilds.set(guild.id, this.client.guilds.cache.get(guild.id));
 					continue;
 				}
-				const _guild = new Guild(this.client, guild);
+				const _guild = this.client.guilds.cache.get(guild.id)?._update(guild) ??new Guild(this.client, guild);
 				_fetchedGuilds.set(guild.id, _guild);
 			}
 			return _fetchedGuilds;
 		}
 
 		const fetchedGuild = await this.client.requester.make(`/guilds/${id}`, 'GET');
-		const cachedGuild = this.client.guilds.cache.get(id);
-		if (cachedGuild) {
-			cachedGuild.parseData(fetchedGuild);
-			return this.client.guilds.cache.get(id) ?? new Guild(this.client, fetchedGuild);
-		}
-		const _guild = new Guild(this.client, fetchedGuild);
-		return _guild;
+		const cachedGuild = this.client.guilds.cache.get(id)?._update(fetchedGuild) ?? new Guild(this.client, fetchedGuild);
+		return cachedGuild;
 	}
 }
 

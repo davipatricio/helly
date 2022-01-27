@@ -97,6 +97,11 @@ class TextChannel extends Channel {
 			this.rateLimitPerUser = data.rate_limit_per_user;
 		}
 	}
+
+	override _update(data: any): TextChannel {
+		this.parseData(data);
+		return this;
+	}
 }
 
 export { TextChannel };

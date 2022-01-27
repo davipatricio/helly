@@ -34,7 +34,7 @@ class GuildMemberManager {
 		if (!id) return this._fetchAll({ limit: 0, guild_id: this.guild.id, query: '', nonce: Snowflake.generate() });
 
 		const data = await this.client.requester.make(`/guilds/${this.guild.id}/members/${id}`, 'GET');
-		const _member = new GuildMember(this.client, data, this.guild);
+		const _member = this.guild.members.cache.get(data.id)?._update(data) ?? new GuildMember(this.client, data, this.guild);
 		return _member;
 	}
 

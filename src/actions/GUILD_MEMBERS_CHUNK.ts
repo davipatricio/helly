@@ -12,7 +12,7 @@ function handle(client: Client, chunkData: any): void {
 
 	const _parsedMembers: Map<string, GuildMember> = new Map();
 	for (const member of members) {
-		const _member = new GuildMember(client, member, guild);
+		const _member = guild.members.cache.get(member.user.id)?._update(member) ?? new GuildMember(client, member, guild);
 		_parsedMembers.set(_member.user.id, _member);
 	}
 

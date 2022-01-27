@@ -20,7 +20,7 @@ class UserManager {
 	 */
 	async fetch(id: string): Promise<User> {
 		const data = await this.client.requester.make(`users/${id}`, 'GET');
-		return new User(this.client, data);
+		return this.client.users.cache.get(data.id)?._update(data) ?? new User(this.client, data);
 	}
 
 	async createDM(recipient_id: string): Promise<string> {
