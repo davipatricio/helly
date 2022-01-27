@@ -28,6 +28,15 @@ class LimitedMap<K, V> extends Map<K, V> {
 	}
 
 	/**
+	 * Sorts the map with the provided function
+	 * @param fn
+	 * @returns {any[]}
+	 */
+	sort(fn: (a: any, b: any) => number): any[] {
+		return this.valueArray().sort(fn);
+	}
+
+	/**
 	 * Returns an array with all keys
 	 * @returns {any[]}
 	 */
