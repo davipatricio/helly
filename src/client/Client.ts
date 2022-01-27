@@ -44,7 +44,7 @@ class Client extends EventEmitter {
 			emojis: 300,
 			roles: Infinity,
 		}, options?.cache);
-		this.options.intents = Intents.parse(this.options.intents);
+		this.options.intents = Intents.parse(this.options.intents ?? 0);
 
 		this.api = {};
 		this.ready = false;
