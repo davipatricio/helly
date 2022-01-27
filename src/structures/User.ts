@@ -41,12 +41,10 @@ export interface ImageURLOptions {
  */
 class User extends DataManager {
 	createdTimestamp!: number;
-	createdAt!: Date;
 	id!: string;
 	username!: string;
 	discriminator!: number;
 	bot!: boolean;
-	tag!: string | null;
 	avatar!: string | null;
 	banner!: string | null;
 	constructor(client: Client, userData: any) {
@@ -95,6 +93,22 @@ class User extends DataManager {
 	}
 
 	/**
+	 * The time the user was created at
+	 * @type {Date}
+	 */
+	get createdAt() {
+		return new Date(this.createdTimestamp);
+	}
+
+	/**
+	 * The Discord "tag" (e.g. Veric#2799) for this user
+	 * @type {?string}
+	 */
+	get tag() {
+		return this.username && this.discriminator ? `${this.username}#${this.discriminator}` : null;
+	}
+
+	/**
 	 * When concatenated with a string, this automatically returns the user's mention instead of the User object
 	 * @returns {string}
 	 */
@@ -112,17 +126,6 @@ class User extends DataManager {
 			 */
 			this.id = data.id;
 		}
-
-		/**
-		 * The timestamp the user was created at
-		 * @type {number}
-		 */
-		this.createdTimestamp = Snowflake.deconstruct(this.id);
-		/**
-		 * The time the user was created at
-		 * @type {Date}
-		 */
-		this.createdAt = new Date(this.createdTimestamp);
 
 		if ('username' in data) {
 			/**
@@ -167,10 +170,10 @@ class User extends DataManager {
 		}
 
 		/**
-		 * The Discord "tag" (e.g. Veric#2799) for this user
-		 * @type {?string}
+		 * The timestamp the user was created at
+		 * @type {number}
 		 */
-		this.tag = this.username && this.discriminator ? `${this.username}#${this.discriminator}` : null;
+		this.createdTimestamp = Snowflake.deconstruct(this.id);
 
 		this.client.users.cache.set(this.id, this);
 	}

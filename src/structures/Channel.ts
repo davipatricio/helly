@@ -39,7 +39,6 @@ export type MessageOptions = string | MessagePayload;
  */
 class Channel extends DataManager {
 	createdTimestamp!: number;
-	createdAt!: Date;
 	id!: string;
 	name!: string;
 	guild?: Guild;
@@ -100,6 +99,14 @@ class Channel extends DataManager {
 	}
 
 	/**
+	 * The time the user was created at
+	 * @type {Date}
+	 */
+	get createdAt() {
+		return new Date(this.createdTimestamp);
+	}
+
+	/**
 	 * When concatenated with a string, this automatically returns the channel's mention instead of the Channel object
 	 * @returns {string}
 	 */
@@ -123,11 +130,6 @@ class Channel extends DataManager {
 		 * @type {number}
 		 */
 		this.createdTimestamp = Snowflake.deconstruct(this.id);
-		/**
-		 * The time the user was created at
-		 * @type {Date}
-		 */
-		this.createdAt = new Date(this.createdTimestamp);
 
 		if ('name' in data) {
 			/**

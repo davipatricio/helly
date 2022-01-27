@@ -43,7 +43,6 @@ export type Features = 'ANIMATED_ICON' | 'BANNER' | 'COMMERCE' | 'COMMUNITY' | '
 */
 class Guild extends DataManager {
 	createdTimestamp!: number;
-	createdAt!: Date;
 	name!: string;
 	id!: string;
 	ownerId!: string;
@@ -73,6 +72,14 @@ class Guild extends DataManager {
 	 */
 	fetchOwner() {
 		return this.members.fetch(this.ownerId);
+	}
+
+	/**
+	 * The time this guild was created at
+	 * @type {Date}
+	 */
+	get createdAt() {
+		return new Date(this.createdTimestamp);
 	}
 
 	/**
@@ -151,14 +158,9 @@ class Guild extends DataManager {
 
 		/**
 		 * The timestamp this guild was created at
-		 * @type {bigint}
+		 * @type {number}
 		 */
 		this.createdTimestamp = Snowflake.deconstruct(this.id);
-		/**
-		 * The time this guild was created at
-		 * @type {Date}
-		 */
-		this.createdAt = new Date(this.createdTimestamp);
 
 		this.client.guilds.cache.set(this.id, this);
 	}
