@@ -8,7 +8,7 @@ import { PermissionNames, FLAGS } from '../constants/permissions';
 class Permission {
 	_: PermissionNames[];
 	static FLAGS: Record<PermissionNames, number>;
-	constructor(permissions: PermissionNames[]) {
+	constructor(permissions?: PermissionNames[]) {
 		this._ = permissions ?? [];
 	}
 
@@ -51,6 +51,10 @@ class Permission {
 	 */
 	toString(): string {
 		return this._.join(', ');
+	}
+
+	get bitfield(): number {
+		return this._.reduce((a, b) => a | Permission.FLAGS[b], 0);
 	}
 
 	parseBitfield(bitfield: number): this {
