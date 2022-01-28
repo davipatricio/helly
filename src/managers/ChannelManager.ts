@@ -1,12 +1,12 @@
 import type { Client } from '../client/Client';
 import type { Channel } from '../structures/Channel';
+import { DMChannel } from '../structures/DMChannel';
 import type { Guild } from '../structures/Guild';
 import { GuildChannel } from '../structures/GuildChannel';
-import { DMChannel } from '../structures/DMChannel';
 import { TextChannel } from '../structures/TextChannel';
 import { LimitedMap } from '../utils/LimitedMap';
 
-export type AnyChannel = TextChannel | GuildChannel | Channel;
+export type AnyChannel = TextChannel | GuildChannel | DMChannel | Channel;
 
 class ChannelManager {
 	cache: LimitedMap<string, AnyChannel>;

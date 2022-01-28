@@ -88,7 +88,7 @@ class Message extends DataManager {
 
 	/**
 	 * The channel the message was sent in
-	 * @type {?(TextChannel|GuildChannel)}
+	 * @type {?(TextChannel|GuildChannel|DMChannel|Channel)}
 	 * @readonly
 	 */
 	get channel() {
