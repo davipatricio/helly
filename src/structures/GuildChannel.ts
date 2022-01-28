@@ -20,11 +20,12 @@ export interface MessageReference {
 	fail_if_not_exists?: boolean;
 }
 
+import { Channel } from './Channel';
 import type { Client } from '../client/Client';
-import { ChannelType, RawChannelTypes } from '../constants/channelTypes';
-import { DataManager } from './DataManager';
+import { Snowflake } from '../utils/Snowflake';
 import type { Guild } from './Guild';
 import type { MessageEmbed, RawMessageEmbed } from './MessageEmbed';
+import type { AnyChannel } from '../managers/ChannelManager';
 
 export interface MessagePayload {
 	content?: string;
@@ -34,54 +35,44 @@ export interface MessagePayload {
 export type MessageOptions = string | MessagePayload;
 
 /**
- * Represents an unknown channel on Discord
+ * Represents an unknown Guild channel on Discord
  */
-class Channel extends DataManager {
-	// String types
-	id!: string;
-	name!: string;
-	type!: ChannelType;
-	// Number types
-	createdTimestamp!: number;
-	// Classes types
-	guild?: Guild;
+class GuildChannel extends Channel {
 	constructor(client: Client, data: any, guild?: Guild) {
-		super(client);
-		this.guild = guild;
+		super(client, data, guild);
 		this.parseData(data);
 	}
 
 	/**
-	 * Indicates whether this channel can have messages
-	 * @returns {boolean}
+	 * Changes the name of the channel
+	 * @param {string} name - The new channel name
+	 * @param {string} [reason] - The reason for changing the name
+	 * @returns {Promise<Channel>}
 	 */
-	isTextBased(): boolean {
-		return 'messages' in this;
+	async setName(name: string, reason?: string): Promise<this> {
+		const data = await this.client.requester.make(`channels/${this.id}`, 'PATCH', { name }, { 'X-Audit-Log-Reason': reason });
+		this.parseData(data);
+		return this;
 	}
 
 	/**
-	 * Indicates whether this channel is a {@link TextChannel}
-	 * @returns {boolean}
+	 * Deletes the channel
+	 * @param {string} reason - The reason for deleting this channel
+	 * @example
+	 * channel.delete('I want to delete this channel');
+	 * @returns {Promise<Channel>}
 	 */
-	isText() {
-		return this.type === 'GUILD_TEXT';
+	async delete(reason?: string): Promise<AnyChannel> {
+		const data = await this.client.requester.make(`channels/${this.id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason });
+		return this.client._getChannel(this.id, this.guild?.id)?._update(data) ?? new GuildChannel(this.client, data, this.guild);
 	}
 
 	/**
-	 * Indicates whether this channel is a {@link DMChannel}
-	 * @returns {boolean}
+	 * The time the user was created at
+	 * @type {Date}
 	 */
-	isDM() {
-		console.log(this.type)
-		return this.type === 'DM';
-	}
-
-	/**
-	 * Indicates whether this channel is an unknown type channel
-	 * @returns {boolean}
-	 */
-	isUnknown() {
-		return this.type === 'UNKNOWN';
+	get createdAt() {
+		return new Date(this.createdTimestamp);
 	}
 
 	/**
@@ -95,28 +86,27 @@ class Channel extends DataManager {
 	override parseData(data: any) {
 		if (typeof data === 'undefined') return null;
 
-		if ('id' in data) {
-			/**
-			 * The channel's id
-			 * @type {string}
-			 */
-			this.id = data.id;
-		}
+		if ('id' in data) this.id = data.id;
 
 		/**
-		 * The type of the channel
-		 * @type {ChannelType}
+		 * The timestamp the user was created at
+		 * @type {number}
 		 */
-		this.type = RawChannelTypes[data.type] ?? 'UNKNOWN';
+		this.createdTimestamp = Snowflake.deconstruct(this.id);
 
-		this.guild?.channels.cache.set(this.id, this);
-		this.client.channels.cache.set(this.id, this);
+		if ('name' in data) {
+			/**
+			 * The channel's name
+			 * @type {string}
+			 */
+			this.name = data.name;
+		}
 	}
 
-	_update(data: any): Channel {
+	override _update(data: any): GuildChannel {
 		this.parseData(data);
 		return this;
 	}
 }
 
-export { Channel };
+export { GuildChannel };

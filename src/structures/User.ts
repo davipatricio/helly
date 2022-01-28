@@ -24,7 +24,7 @@ import type { Client } from '../client/Client';
 import * as Images from '../constants/images';
 import { makeAPIMessage } from '../utils/MakeAPIMessage';
 import { Snowflake } from '../utils/Snowflake';
-import type { MessageOptions } from './Channel';
+import type { MessageOptions } from './GuildChannel';
 import { DataManager } from './DataManager';
 import { Message } from './Message';
 

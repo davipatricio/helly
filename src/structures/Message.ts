@@ -1,7 +1,7 @@
 import type { Client } from '../client/Client';
 import { makeAPIMessage } from '../utils/MakeAPIMessage';
 import { Snowflake } from '../utils/Snowflake';
-import type { MessageOptions } from './Channel';
+import type { MessageOptions } from './GuildChannel';
 import { DataManager } from './DataManager';
 import { User } from './User';
 
@@ -11,7 +11,7 @@ import { User } from './User';
 class Message extends DataManager {
 	// String types
 	channelId!: string;
-	guildId!: string;
+	guildId?: string;
 	id!: string;
 	// Number types
 	createdTimestamp!: number;
@@ -88,7 +88,7 @@ class Message extends DataManager {
 
 	/**
 	 * The channel the message was sent in
-	 * @type {?(TextChannel|Channel)}
+	 * @type {?(TextChannel|GuildChannel)}
 	 * @readonly
 	 */
 	get channel() {
@@ -101,7 +101,7 @@ class Message extends DataManager {
 	 * @readonly
 	 */
 	get guild() {
-		return this.client.guilds.cache.get(this.guildId) ?? null;
+		return this.guildId ? this.client.guilds.cache.get(this.guildId) ?? null : null;
 	}
 
 	/**

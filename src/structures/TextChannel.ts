@@ -1,15 +1,15 @@
 import type { Client } from '../client/Client';
 import { MessageManager } from '../managers/MessageManager';
 import { makeAPIMessage } from '../utils/MakeAPIMessage';
-import { Channel, MessageOptions } from './Channel';
+import { GuildChannel, MessageOptions } from './GuildChannel';
 import type { Guild } from './Guild';
 import { Message } from './Message';
 
 /**
  * Represents a text channel on Discord
- * @extends {Channel}
+ * @extends {GuildChannel}
  */
-class TextChannel extends Channel {
+class TextChannel extends GuildChannel {
 	// String types
 	declare type: 'GUILD_TEXT';
 	topic!: string | null;

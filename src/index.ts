@@ -1,21 +1,25 @@
-// Client
 export { Client } from './client/Client';
-
-// Structures
-export { Channel } from './structures/Channel';
-export { Guild } from './structures/Guild';
-export { User } from './structures/User';
-export { DataManager } from './structures/DataManager';
-export { GuildMember } from './structures/GuildMember';
-export { MessageEmbed } from './structures/MessageEmbed';
-
-// Misc
+export { ClientOptions, ClientCacheOptions } from './client/ClientOptions';
+export { ChannelType } from './constants/channelTypes';
 export * as Constants from './constants/index';
+export { ChannelManager } from './managers/ChannelManager';
+export { GuildChannelManager } from './managers/GuildChannelManager';
+export { GuildManager } from './managers/GuildManager';
+export { GuildMemberManager } from './managers/GuildMemberManager';
+export { MessageManager } from './managers/MessageManager';
+export { RoleManager } from './managers/RoleManager';
+export { UserManager } from './managers/UserManager';
+export { Channel } from './structures/Channel';
+export { DataManager } from './structures/DataManager';
+export { DMChannel } from './structures/DMChannel';
+export { Guild } from './structures/Guild';
+export { GuildChannel } from './structures/GuildChannel';
+export { GuildMember } from './structures/GuildMember';
+export { Message } from './structures/Message';
+export { MessageEmbed } from './structures/MessageEmbed';
+export { Role } from './structures/Role';
+export { ImageFormat, ImageSize, ImageURLOptions, User } from './structures/User';
 export { Intents } from './utils/Intents';
-export { Snowflake } from './utils/Snowflake';
 export { LimitedMap } from './utils/LimitedMap';
 export { Permission } from './utils/Permission';
-
-// Types
-export { ChannelType } from './constants/channelTypes';
-export { ImageURLOptions, ImageFormat, ImageSize } from './structures/User';
+export { Snowflake } from './utils/Snowflake';

@@ -29,7 +29,7 @@ import { GuildChannelManager } from '../managers/GuildChannelManager';
 import { GuildMemberManager } from '../managers/GuildMemberManager';
 import { RoleManager } from '../managers/RoleManager';
 import { Snowflake } from '../utils/Snowflake';
-import { Channel } from './Channel';
+import { GuildChannel } from './GuildChannel';
 import { DataManager } from './DataManager';
 import { GuildMember } from './GuildMember';
 import { Role } from './Role';
@@ -147,7 +147,7 @@ class Guild extends DataManager {
 
 				// Unknown channels
 				default: {
-					new Channel(this.client, channel, this);
+					new GuildChannel(this.client, channel, this);
 					break;
 				}
 				}
