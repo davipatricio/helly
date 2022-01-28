@@ -31,33 +31,33 @@
         "accessor-pairs": "warn",
         "array-callback-return": "warn",
         "arrow-parens": [
-            "as-needed",
-            "error"
+            "error",
+            "as-needed"
         ],
         "arrow-spacing": "error",
         "brace-style": [
-            "1tbs",
             "error",
+            "1tbs",
             {
                 "allowSingleLine": true
             }
         ],
         "capitalized-comments": [
-            "always",
             "error",
+            "always",
             {
                 "ignoreConsecutiveComments": true
             }
         ],
         "comma-dangle": [
-            "always-multiline",
-            "error"
+            "error",
+            "always-multiline"
         ],
         "constructor-super": "error",
         "curly": [
-            "consistent",
             "error",
-            "multi-line"
+            "multi-line",
+            "consistent"
         ],
         "default-case-last": "error",
         "dot-location": [
