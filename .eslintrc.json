@@ -1,5 +1,6 @@
 {
     "root": true,
+    "ignorePatterns": ["build", "docs", "examples"],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
