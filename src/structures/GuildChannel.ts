@@ -45,14 +45,6 @@ class GuildChannel extends Channel {
 		return new Date(this.createdTimestamp);
 	}
 
-	/**
-	 * When concatenated with a string, this automatically returns the channel's mention instead of the Channel object
-	 * @returns {string}
-	 */
-	override toString(): string {
-		return `<#${this.id}>`;
-	}
-
 	override parseData(data: any) {
 		if (typeof data === 'undefined') return null;
 

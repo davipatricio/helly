@@ -70,14 +70,6 @@ class TextChannel extends GuildChannel {
 		return new Message(this.client, data);
 	}
 
-	/**
-	 * When concatenated with a string, this automatically returns the channel's mention instead of the Channel object
-	 * @returns {string}
-	 */
-	override toString(): string {
-		return `<#${this.id}>`;
-	}
-
 	override parseData(data: any) {
 		if (typeof data === 'undefined') return null;
 		super.parseData(data);
