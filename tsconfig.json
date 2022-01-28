@@ -5,6 +5,7 @@
         "allowUnusedLabels": false,
         "alwaysStrict": true,
         "declaration": true,
+        "declarationDir": "build",
         "declarationMap": true,
         "esModuleInterop": true,
         "exactOptionalPropertyTypes": false,
@@ -13,9 +14,6 @@
         "importsNotUsedAsValues": "error",
         "inlineSources": false,
         "isolatedModules": false,
-        "lib": [
-            "esnext"
-        ],
         "module": "CommonJS",
         "moduleResolution": "Node",
         "newLine": "lf",
@@ -26,16 +24,14 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "outDir": "build",
-        "preserveConstEnums": true,
-        "pretty": false,
+        "pretty": true,
         "removeComments": false,
         "resolveJsonModule": true,
         "skipDefaultLibCheck": true,
         "skipLibCheck": true,
         "sourceMap": true,
-        "strict": true,
-        "target": "ES2020",
-        "useDefineForClassFields": true,
+        "target": "ES2021",
+        "useDefineForClassFields": false,
         "useUnknownInCatchVariables": true
     },
     "exclude": [
@@ -45,6 +41,6 @@
         "package.json"
     ],
     "include": [
-        "src/**/*"
+        "src/**/*.ts"
     ]
 }
