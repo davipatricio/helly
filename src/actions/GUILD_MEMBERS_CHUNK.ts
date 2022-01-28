@@ -16,6 +16,21 @@ function handle(client: Client, chunkData: any): void {
 		_parsedMembers.set(_member.user.id, _member);
 	}
 
+	/**
+	 * Represents the properties of a guild members chunk
+	 * @typedef {Object} GuildMembersChunk
+	 * @property {number} chunkIndex - Index of the received chunk
+	 * @property {number} chunkCount - Number of chunks the client should receive
+	 * @property {?string} nonce - Nonce for this chunk
+	 */
+
+	/**
+	 * Emitted whenever a chunk of guild members is received (all members come from the same guild).
+	 * @event Client#guildMembersChunk
+	 * @param {Map<string, GuildMember>} members - The members in the chunk
+	 * @param {Guild} guild - The guild related to the member chunk
+	 * @param {GuildMembersChunk} chunk - Properties of the received chunk
+	 */
 	client.emit('guildMembersChunk', _parsedMembers, guild, { chunkIndex, chunkCount, nonce });
 }
 
