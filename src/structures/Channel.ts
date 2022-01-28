@@ -72,7 +72,7 @@ class Channel extends DataManager {
 	 * @returns {boolean}
 	 */
 	isDM() {
-		console.log(this.type)
+		console.log(this.type);
 		return this.type === 'DM';
 	}
 
