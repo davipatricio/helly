@@ -7,7 +7,6 @@ import { PermissionNames, FLAGS } from '../constants/permissions';
  */
 class Permission {
 	_: PermissionNames[];
-	static FLAGS: Record<PermissionNames, number>;
 	constructor(permissions?: PermissionNames[]) {
 		this._ = permissions ?? [];
 	}
@@ -53,6 +52,18 @@ class Permission {
 		return this._.join(', ');
 	}
 
+	/**
+	 * Numeric permission flags
+	 * @type {PermissionFlags}
+	 */
+	static get FLAGS(): Record<PermissionNames, number> {
+		return FLAGS;
+	}
+
+	/**
+	 * Parse the current permissions into permissions bitfield.
+	 * @returns {number}
+	 */
 	get bitfield(): number {
 		return this._.reduce((a, b) => a | Permission.FLAGS[b], 0);
 	}
@@ -64,7 +75,5 @@ class Permission {
 		return this;
 	}
 }
-
-Permission.FLAGS = FLAGS;
 
 export { Permission };
