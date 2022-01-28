@@ -1,10 +1,10 @@
-import Helly from 'helly';
+const { Client } = require('helly')
 
-const client = new Helly.Client({
+const client = new Client({
 	intents: ['GUILDS', 'GUILD_MESSAGES'],
 });
 
-client.on('message', message => {
+client.on('messageCreate', message => {
 	if (message.content === '!ping') {
 		message.reply(`Pong! ${client.ping}ms.`)
 			.then(msg => console.log(`Sent message ${msg.content} with ID: ${msg.id}`))
