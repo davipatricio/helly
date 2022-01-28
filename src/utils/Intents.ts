@@ -15,7 +15,7 @@ class Intents extends null {
 	 * const intents = Intents.parse([1, 512]);
 	 * @returns {number}
 	 */
-	public static parse(intents: (string | number | undefined)[] | number): number {
+	static parse(intents: (string | number | undefined)[] | number): number {
 		if (typeof intents === 'number') return intents;
 		if (!Array.isArray(intents)) throw new Error('Intents must be an array or number');
 
@@ -31,6 +31,14 @@ class Intents extends null {
 		}
 
 		return finalIntents;
+	}
+
+	/**
+	 * Numeric intents flags
+	 * @type {IntentFlags}
+	 */
+	static get FLAGS(): Record<IntentNames, number> {
+		return FLAGS;
 	}
 }
 
