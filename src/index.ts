@@ -1,5 +1,5 @@
 export { Client } from './client/Client';
-export { ClientOptions, ClientCacheOptions } from './client/ClientOptions';
+export { ClientCacheOptions, ClientOptions } from './client/ClientOptions';
 export { ChannelType } from './constants/channelTypes';
 export * as Constants from './constants/index';
 export { ChannelManager } from './managers/ChannelManager';
@@ -9,7 +9,7 @@ export { GuildMemberManager } from './managers/GuildMemberManager';
 export { MessageManager } from './managers/MessageManager';
 export { RoleManager } from './managers/RoleManager';
 export { UserManager } from './managers/UserManager';
-export { Channel } from './structures/Channel';
+export { Channel, MessageOptions, MessagePayload, MessageReference } from './structures/Channel';
 export { DataManager } from './structures/DataManager';
 export { DMChannel } from './structures/DMChannel';
 export { Guild } from './structures/Guild';
