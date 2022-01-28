@@ -1,8 +1,9 @@
 import type { Client } from '../client/Client';
 import { MessageManager } from '../managers/MessageManager';
 import { makeAPIMessage } from '../utils/MakeAPIMessage';
-import { GuildChannel, MessageOptions } from './GuildChannel';
+import type { MessageOptions } from './Channel';
 import type { Guild } from './Guild';
+import { GuildChannel } from './GuildChannel';
 import { Message } from './Message';
 
 /**
@@ -105,3 +106,4 @@ class TextChannel extends GuildChannel {
 }
 
 export { TextChannel };
+

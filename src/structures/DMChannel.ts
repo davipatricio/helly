@@ -1,9 +1,8 @@
 import type { Client } from '../client/Client';
 import { MessageManager } from '../managers/MessageManager';
 import { makeAPIMessage } from '../utils/MakeAPIMessage';
-import { Channel } from './Channel';
+import { MessageOptions, Channel } from './Channel';
 import type { Guild } from './Guild';
-import type { MessageOptions } from './GuildChannel';
 import { Message } from './Message';
 
 /**

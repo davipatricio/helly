@@ -1,7 +1,7 @@
 import type { Client } from '../client/Client';
 import { makeAPIMessage } from '../utils/MakeAPIMessage';
 import { Snowflake } from '../utils/Snowflake';
-import type { MessageOptions } from './GuildChannel';
+import type { MessageOptions } from './Channel';
 import { DataManager } from './DataManager';
 import { User } from './User';
 
@@ -167,3 +167,4 @@ class Message extends DataManager {
 }
 
 export { Message };
+
