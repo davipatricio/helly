@@ -78,7 +78,7 @@ class Requester {
 				if (!this.isRatelimited(majorId)) this.checkRatelimit(majorId, request.headers);
 				if (request.status === 429) return this._retry(endpoint, method, data, additionalHeaders, majorId, _retries);
 
-				if (request.data.code) Checker.verifyForJSONStatusCode(request.data, `${baseApiUrl}/v${apiVersion}/${endpoint}`, data, method);
+				if (request.data?.code) Checker.verifyForJSONStatusCode(request.data, `${baseApiUrl}/v${apiVersion}/${endpoint}`, data, method);
 				Checker.verifyForStatusCode(`${baseApiUrl}/v${apiVersion}/${endpoint}`, data, request.status, method);
 				resolve(request.data);
 			});
