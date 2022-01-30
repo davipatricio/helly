@@ -73,7 +73,7 @@ class Guild extends DataManager {
 		 * A manager of the roles belonging to this guild
 		 * @type {RoleManager}
 		 */
-		this.roles = new RoleManager(client, this.client.options.cache?.roles as number);
+		this.roles = new RoleManager(client, this.client.options.cache?.roles as number, this);
 
 		this.parseData(data);
 	}
