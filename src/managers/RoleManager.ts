@@ -17,6 +17,13 @@ class RoleManager {
 		this.guild = guild;
 	}
 
+	/**
+	 * Edits a role
+	 * @param {string} id - The ID of the role
+	 * @param {RoleData} options - The new role data
+	 * @param {string} [reason] - Reason for editing the role
+	 * @returns {Promise<Role>}
+	 */
 	async edit(id: string, options: RoleData, reason = '' as string) {
 		if (options.permissions instanceof Permission) options.permissions = options.permissions.bitfield;
 		const data = await this.client.requester.make(`guilds/${this.guild.id}/roles/${id}`, 'PATCH', options, { 'X-Audit-Log-Reason': reason });
