@@ -22,8 +22,8 @@ class Requester {
 	}
 
 	checkRatelimit(majorId: string, headers: any): void {
-		const remainingRequests = Number(headers.get('x-ratelimit-remaining') || 5);
-		const reset = Math.round(Number(headers.get('x-ratelimit-reset-after') || 0) * 1000) + 250;
+		const remainingRequests = Number(headers['x-ratelimit-remaining'] || 5);
+		const reset = Math.round(Number(headers['x-ratelimit-reset-after'] || 0) * 1000) + 250;
 		Ratelimits[majorId] = { removing: false, remainingRequests, reset };
 		if (remainingRequests === 0) this.applyRatelimit(majorId);
 	}
@@ -50,8 +50,7 @@ class Requester {
 	}
 
 	make(endpoint: string, method = 'GET' as Method, data = undefined as any, additionalHeaders = {} as any, _retries = 0 as number): Promise<any | Response> {
-		// eslint-disable-next-line no-async-promise-executor
-		return new Promise(async (resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			if (_retries === 5) return reject('Maximum retries reached');
 
 			let body: any = undefined;
@@ -69,21 +68,21 @@ class Requester {
 			const isRatelimited = this.isRatelimited(majorId);
 			if (isRatelimited) return this._retry(endpoint, method, data, additionalHeaders, majorId, _retries);
 
-			const request = await axios({
+			axios({
 				method,
 				url: `${baseApiUrl}/v${apiVersion}/${endpoint}`,
 				data: body,
 				headers,
 				timeout: 5000,
+			}).then(request => {
+				if (!this.isRatelimited(majorId)) this.checkRatelimit(majorId, request.headers);
+				if (request.status === 429) return this._retry(endpoint, method, data, additionalHeaders, majorId, _retries);
+
+				if (request.data.code) Checker.verifyForJSONStatusCode(request.data, `${baseApiUrl}/v${apiVersion}/${endpoint}`, data, method);
+				Checker.verifyForStatusCode(`${baseApiUrl}/v${apiVersion}/${endpoint}`, data, request.status, method);
+				resolve(request.data);
 			});
 
-			if (!this.isRatelimited(majorId)) this.checkRatelimit(majorId, request.headers);
-			if (request.status === 429) return this._retry(endpoint, method, data, additionalHeaders, majorId, _retries);
-
-			console.log(request.data);
-			if (request.data.code) Checker.verifyForJSONStatusCode(request.data, `${baseApiUrl}/v${apiVersion}/${endpoint}`, data, method);
-			Checker.verifyForStatusCode(`${baseApiUrl}/v${apiVersion}/${endpoint}`, data, request.status, method);
-			resolve(request);
 		});
 	}
 }
