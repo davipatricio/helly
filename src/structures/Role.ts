@@ -18,7 +18,7 @@ export interface RoleData {
 	color?: number;
 	hoist?: boolean;
 	position?: number;
-	permissions?: Permission | number;
+	permissions?: Permission | bigint;
 	mentionable?: boolean;
 }
 
