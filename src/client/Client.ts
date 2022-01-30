@@ -117,7 +117,7 @@ class Client extends EventEmitter {
 		if (typeof options.apiVersion !== 'number') throw new TypeError('Client#options.apiVersion must be a number');
 		if (typeof options.autoReconnect !== 'boolean') throw new TypeError('Client#options.autoReconnect must be a boolean');
 		if (!Array.isArray(options.disabledEvents)) throw new TypeError('Client#options.disabledEvents must be an array');
-		if (!Array.isArray(options.intents) && typeof options.intents !== 'bigint') throw new TypeError('Client#options.intents must be an array or a bigint');
+		if (!Array.isArray(options.intents) && typeof options.intents !== 'number') throw new TypeError('Client#options.intents must be an array or a number');
 		if (typeof options.failIfNotExists !== 'boolean') throw new TypeError('Client#options.failIfNotExists must be a boolean');
 
 		// Cache
