@@ -6,9 +6,9 @@ import { PermissionNames, FLAGS } from '../constants/permissions';
  * @see {@link PermissionFlags}
  */
 class Permission {
-	_: PermissionNames[];
+	#_: PermissionNames[];
 	constructor(permissions?: PermissionNames[]) {
-		this._ = permissions ?? [];
+		this.#_ = permissions ?? [];
 	}
 
 	/**
@@ -17,7 +17,7 @@ class Permission {
 	 * @returns {boolean}
 	 */
 	has(permission: PermissionNames): boolean {
-		return this._.includes(permission);
+		return this.#_.includes(permission);
 	}
 
 	/**
@@ -25,7 +25,7 @@ class Permission {
 	 * @param {string} - The name of the permission. [A full list of permission nodes can be found here]{@link Permissions#FLAGS}
 	 */
 	add(permission: PermissionNames) {
-		if (!this.has(permission)) this._.push(permission);
+		if (!this.has(permission)) this.#_.push(permission);
 	}
 
 	/**
@@ -33,7 +33,7 @@ class Permission {
 	 * @param {string} - The name of the permission. [A full list of permission nodes can be found here]{@link Permissions#FLAGS}
 	 */
 	remove(permission: PermissionNames): void {
-		this._ = this._.filter(p => p !== permission);
+		this.#_ = this.#_.filter(p => p !== permission);
 	}
 
 	/**
@@ -41,7 +41,7 @@ class Permission {
 	 * @returns {string[]}
 	 */
 	toArray(): PermissionNames[] {
-		return this._;
+		return this.#_;
 	}
 
 	/**
@@ -49,28 +49,28 @@ class Permission {
 	 * @returns {string}
 	 */
 	toString(): string {
-		return this._.join(', ');
+		return this.#_.join(', ');
 	}
 
 	/**
 	 * Numeric permission flags
 	 * @type {PermissionFlags}
 	 */
-	static get FLAGS(): Record<PermissionNames, number> {
+	static get FLAGS(): Record<PermissionNames, bigint> {
 		return FLAGS;
 	}
 
 	/**
 	 * Parse the current permissions into permissions bitfield.
-	 * @returns {number}
+	 * @returns {bigint}
 	 */
-	get bitfield(): number {
-		return this._.reduce((bitfield, permission) => bitfield | FLAGS[permission], 0);
+	get bitfield(): bigint {
+		return this.#_.reduce((bitfield, permission) => bitfield | FLAGS[permission], 0n);
 	}
 
-	parseBitfield(bitfield: number): this {
+	parseBitfield(bitfield: bigint | number): this {
 		for(const flag in FLAGS) {
-			if(FLAGS[flag as PermissionNames] & bitfield) this.add(flag as PermissionNames);
+			if(FLAGS[flag as PermissionNames] & BigInt(bitfield)) this.add(flag as PermissionNames);
 		}
 		return this;
 	}
