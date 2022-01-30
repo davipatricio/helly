@@ -65,7 +65,7 @@ class Permission {
 	 * @returns {number}
 	 */
 	get bitfield(): number {
-		return this._.reduce((a, b) => a | Permission.FLAGS[b], 0);
+		return this._.reduce((bitfield, permission) => bitfield | FLAGS[permission], 0);
 	}
 
 	parseBitfield(bitfield: number): this {

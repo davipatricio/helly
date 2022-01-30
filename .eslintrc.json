@@ -29,6 +29,10 @@
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "accessor-pairs": "warn",
+        "no-array-constructor": "error",
+        "no-delete-var": "error",
+        "no-eval": "error",
+        "no-invalid-this": "error",
         "array-callback-return": "warn",
         "arrow-parens": [
             "error",
@@ -99,8 +103,7 @@
         "no-empty-function": "error",
         "no-eq-null": "error",
         "no-fallthrough": "error",
-        "no-inline-comments": "error",
-        "no-invalid-this": "error",
+        "no-new-wrappers": "error",
         "no-multi-spaces": "error",
         "no-multiple-empty-lines": [
             "error",
@@ -112,6 +115,7 @@
         ],
         "no-nested-ternary": "error",
         "no-return-await": "error",
+        "no-return-assign": "error",
         "no-self-compare": "error",
         "no-shadow": "error",
         "no-trailing-spaces": "error",

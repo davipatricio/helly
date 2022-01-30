@@ -1,7 +1,26 @@
+/**
+ * The data for a role.
+ * @typedef {Object} RoleData
+ * @property {string} [name] The name of the role
+ * @property {boolean} [hoist] Whether or not the role should be hoisted
+ * @property {number} [position] The position of the role
+ * @property {Permission|number} [permissions] The permissions of the role
+ * @property {boolean} [mentionable] Whether or not the role should be mentionable
+ */
+
 import type { Client } from '../client/Client';
 import { Permission } from '../utils/Permission';
 import { DataManager } from './DataManager';
 import type { Guild } from './Guild';
+
+export interface RoleData {
+	name?: string;
+	color?: number;
+	hoist?: boolean;
+	position?: number;
+	permissions?: Permission | number;
+	mentionable?: boolean;
+}
 
 /**
  * Represents a Role on Discord
@@ -22,6 +41,16 @@ class Role extends DataManager {
 		super(client);
 		this.guild = guild;
 		this.parseData(data);
+	}
+
+	/**
+	  * Edits the role.
+	  * @param {RoleData} data The new data for the role
+	  * @param {string} [reason] Reason for editing this role
+	  * @returns {Promise<Role>}
+	  */
+	edit(options: RoleData, reason?: string) {
+		return this.guild.roles.edit(this.id, options, reason);
 	}
 
 	/**
