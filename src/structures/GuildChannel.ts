@@ -47,6 +47,7 @@ class GuildChannel extends Channel {
 
 	override parseData(data: any) {
 		if (typeof data === 'undefined') return null;
+		super.parseData(data);
 
 		if ('id' in data) this.id = data.id;
 
