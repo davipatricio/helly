@@ -1,4 +1,4 @@
-import fetch, { BodyInit, Response } from 'node-fetch';
+import { default as axios, Method, AxiosRequestHeaders } from 'axios';
 import { setTimeout as sleep } from 'node:timers/promises';
 import type { Client } from '../client/Client';
 import { apiVersion, baseApiUrl } from '../constants/gateway';
@@ -43,23 +43,23 @@ class Requester {
 		return majorIdMatch?.[1] ?? 'global';
 	}
 
-	async _retry(endpoint: string, method: string, data: any, additionalHeaders: any, majorId: string, _retries: number) {
+	async _retry(endpoint: string, method: Method, data: any, additionalHeaders: any, majorId: string, _retries: number) {
 		this.client.emit('rateLimit', { endpoint, reset: Ratelimits[majorId].reset });
 		await sleep(Ratelimits[majorId].reset);
 		return this.make(endpoint, method, data, additionalHeaders, _retries + 1);
 	}
 
-	make(endpoint: string, method = 'GET' as string, data = undefined as any, additionalHeaders = {} as any, _retries = 0 as number): Promise<any | Response> {
+	make(endpoint: string, method = 'GET' as Method, data = undefined as any, additionalHeaders = {} as any, _retries = 0 as number): Promise<any | Response> {
 		// eslint-disable-next-line no-async-promise-executor
 		return new Promise(async (resolve, reject) => {
-			if(_retries === 5) return reject(new Error('Maximum retries reached'));
+			if (_retries === 5) return reject('Maximum retries reached');
 
-			let body: BodyInit | undefined = undefined;
-			if(method !== 'GET') body = typeof data === 'object' ? JSON.stringify(data) : data;
+			let body: any = undefined;
+			if (method !== 'GET') body = typeof data === 'object' ? JSON.stringify(data) : data;
 
 			const majorId = this._majorId(endpoint);
 
-			const headers: any = {
+			const headers: AxiosRequestHeaders = {
 				Authorization: `Bot ${this.token}`,
 				'Content-Type': 'application/json',
 				'User-Agent': 'DiscordBot (https://github.com/davipatricio/helly/, 1.0.5)',
@@ -69,27 +69,21 @@ class Requester {
 			const isRatelimited = this.isRatelimited(majorId);
 			if (isRatelimited) return this._retry(endpoint, method, data, additionalHeaders, majorId, _retries);
 
-			const request = await fetch(`${baseApiUrl}/v${apiVersion}/${endpoint}`, { method, headers, body });
+			const request = await axios({
+				method,
+				url: `${baseApiUrl}/v${apiVersion}/${endpoint}`,
+				data: body,
+				headers,
+				timeout: 5000,
+			});
 
 			if (!this.isRatelimited(majorId)) this.checkRatelimit(majorId, request.headers);
 			if (request.status === 429) return this._retry(endpoint, method, data, additionalHeaders, majorId, _retries);
 
-			let json: any = {};
-			try {
-				json = await request.json();
-			} catch {
-				Checker.verifyForStatusCode(`${baseApiUrl}/v${apiVersion}/${endpoint}`, data, request.status, method);
-				resolve(request);
-				return request;
-			}
-
-			// Verify if an error code was returned from Discord API
-			// If there was an error, one of the following methods will throw an error
-			if (json.code) Checker.verifyForJSONStatusCode(json, `${baseApiUrl}/v${apiVersion}/${endpoint}`, data, method);
+			console.log(request.data);
+			if (request.data.code) Checker.verifyForJSONStatusCode(request.data, `${baseApiUrl}/v${apiVersion}/${endpoint}`, data, method);
 			Checker.verifyForStatusCode(`${baseApiUrl}/v${apiVersion}/${endpoint}`, data, request.status, method);
-
-			resolve(json);
-			return json;
+			resolve(request);
 		});
 	}
 }
