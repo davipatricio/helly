@@ -35,7 +35,7 @@ const FLAGS = {
 	DIRECT_MESSAGE_REACTIONS: 1n << 13n,
 	DIRECT_MESSAGE_TYPING: 1n << 14n,
 	GUILD_SCHEDULED_EVENTS: 1n << 16n,
-	ALL: 0n,
+	ALL: BigInt(0),
 };
 
 FLAGS.ALL = Object.values(FLAGS).reduce((a, b) => a | b);
