@@ -35,8 +35,10 @@ const FLAGS = {
 	DIRECT_MESSAGE_REACTIONS: 1 << 13,
 	DIRECT_MESSAGE_TYPING: 1 << 14,
 	GUILD_SCHEDULED_EVENTS: 1 << 16,
-	ALL: 32767,
+	ALL: 0,
 };
+
+FLAGS.ALL = Object.values(FLAGS).reduce((a, b) => a | b);
 
 type IntentNames = keyof typeof FLAGS;
 
