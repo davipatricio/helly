@@ -27,7 +27,7 @@ export interface ClientCacheOptions {
  * @property {number[]} [shards=[0, 1]] - The shard's id to run, or an array of shard ids
  * @property {number} [apiVersion=9] - API version to use
  * @property {number} [largeThreshold=50] - Number of members in a guild after which offline users will no longer be sent in the initial guild member list, must be between 50 and 250
- * @property {Array<string | number | undefined> | number | undefined} [intents=0] - {@link Intents} to enable for this connection
+ * @property {Array<string | number | bitint | undefined> | bigint | undefined} [intents=0] - {@link Intents} to enable for this connection
  * @property {string[]} [disabledEvents=[]] - Events to disable
  * @property {boolean} [failIfNotExists=false] - Default value for {@link MessageReference#fail_if_not_exists}
  * @property {ClientCacheOptions} [cache] - Limit chaching of specific structures to reduce CPU/memory usage
@@ -39,7 +39,7 @@ export interface ClientOptions {
 	shards?: number[];
 	apiVersion?: number;
 	largeThreshold?: number;
-	intents?: (string | number | undefined)[] | number;
+	intents?: (string | number | bigint | undefined)[] | bigint;
 	disabledEvents?: string[];
 	failIfNotExists?: boolean;
 	cache?: ClientCacheOptions;

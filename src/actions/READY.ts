@@ -10,7 +10,7 @@ function handle(client: Client, { session_id }: { session_id: string; }): void {
 		 */
 		client.emit('ready');
 		client.ready = true;
-	}, client.options.intents === 0 ? 1 : 5000).unref();
+	}, client.options.intents === 0n ? 1 : 5000).unref();
 }
 
 export { handle };
