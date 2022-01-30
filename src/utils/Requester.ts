@@ -32,7 +32,9 @@ class Requester {
 		if (Ratelimits[majorId].removing) return;
 
 		Ratelimits[majorId].removing = true;
-		setTimeout(() => Ratelimits[majorId] = {}, Ratelimits[majorId].reset).unref();
+		setTimeout(() => {
+			Ratelimits[majorId] = {};
+		}, Ratelimits[majorId].reset).unref();
 	}
 
 	_majorId(endpoint: string) {
