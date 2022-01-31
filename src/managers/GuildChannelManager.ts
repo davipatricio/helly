@@ -1,7 +1,6 @@
 import type { Client } from '../client/Client';
 import type { Guild } from '../structures/Guild';
-import { GuildChannel } from '../structures/GuildChannel';
-import { TextChannel } from '../structures/TextChannel';
+import { ChannelData, GuildChannel } from '../structures/GuildChannel';
 import { LimitedMap } from '../utils/LimitedMap';
 import type { AnyChannel } from './ChannelManager';
 
@@ -26,7 +25,13 @@ class GuildChannelManager {
 	async delete(id: string, reason?: string): Promise<AnyChannel> {
 		if (typeof id === 'undefined') throw new Error('The provided channel id is undefined.');
 		const data = await this.client.requester.make(`channels/${id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason });
-		return this.client._getChannel(id, this.guild.id)?._update(data) ?? new GuildChannel(this.client, data);
+		return this.client.channels._getChannel(id, this.guild.id)?._update(data) ?? new GuildChannel(this.client, data);
+	}
+
+	async edit(id: string, options: ChannelData, reason = '' as string): Promise<AnyChannel> {
+		if (typeof id === 'undefined') throw new Error('The provided channel id is undefined.');
+		const data = await this.client.requester.make(`channels/${id}`, 'PATCH', options, { 'X-Audit-Log-Reason': reason });
+		return this.cache.get(id)?._update(data) ?? new GuildChannel(this.client, data, this.guild);
 	}
 
 	/**
@@ -37,21 +42,8 @@ class GuildChannelManager {
 	async fetch(id: string | undefined): Promise<AnyChannel | Map<string, AnyChannel>> {
 		if (!id) return this._fetchAll();
 		const channel = await this.client.requester.make(`channels/${id}`, 'GET');
-
-		switch (channel.type) {
-
-		// Text channels
-		case 0: {
-			const parsedChannel = this.client._getChannel(channel.id, this.guild.id)?._update(channel) ?? new TextChannel(this.client, channel, this.guild);
-			return parsedChannel;
-		}
-
-		// Unknown channels
-		default: {
-			const parsedChannel = this.client._getChannel(channel.id, this.guild.id)?._update(channel) ?? new GuildChannel(this.client, channel, this.guild);
-			return parsedChannel;
-		}
-		}
+		const parsedChannel = this.client.channels._getChannel(channel.id, this.guild.id)?._update(channel) ?? this.client.channels._createChannel(channel, this.guild);
+		return parsedChannel;
 	}
 
 	async _fetchAll() {
@@ -60,22 +52,8 @@ class GuildChannelManager {
 
 		// Parse channels
 		for (const channel of data) {
-			switch (channel.type) {
-
-			// Text channels
-			case 0: {
-				const parsedChannel = new TextChannel(this.client, channel, this.guild);
-				channels.set(channel.id, parsedChannel);
-				break;
-			}
-
-			// Unknown channels
-			default: {
-				const parsedChannel = new GuildChannel(this.client, channel, this.guild);
-				channels.set(channel.id, parsedChannel);
-				break;
-			}
-			}
+			const parsedChannel = this.client.channels._createChannel(channel, this.guild);
+			channels.set(parsedChannel.id, parsedChannel as GuildChannel);
 		}
 		return channels;
 	}

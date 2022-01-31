@@ -44,7 +44,7 @@ class Role extends DataManager {
 	}
 
 	/**
-	  * Edits the role.
+	  * Edits the role
 	  * @param {RoleData} data The new data for the role
 	  * @param {string} [reason] Reason for editing this role
 	  * @returns {Promise<Role>}

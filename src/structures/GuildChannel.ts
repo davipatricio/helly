@@ -3,6 +3,21 @@ import type { Client } from '../client/Client';
 import { Snowflake } from '../utils/Snowflake';
 import type { Guild } from './Guild';
 import type { AnyChannel } from '../managers/ChannelManager';
+import type { ChannelType } from '../constants/channelTypes';
+
+export interface ChannelData {
+	name?: string;
+	type?: ChannelType | number;
+	position?: number;
+	topic: string | null;
+	nsfw?: boolean;
+	rate_limit_per_user?: number;
+	bitrate?: number;
+	user_limit?: number;
+	parent_id?: string | null;
+	rtc_region: string | null;
+	video_quality_mode: number | null;
+}
 
 /**
  * Represents an unknown Guild channel on Discord
@@ -17,7 +32,7 @@ class GuildChannel extends Channel {
 	 * Changes the name of the channel
 	 * @param {string} name - The new channel name
 	 * @param {string} [reason] - The reason for changing the name
-	 * @returns {Promise<Channel>}
+	 * @returns {Promise<GuildChannel>}
 	 */
 	async setName(name: string, reason?: string): Promise<this> {
 		const data = await this.client.requester.make(`channels/${this.id}`, 'PATCH', { name }, { 'X-Audit-Log-Reason': reason });
@@ -30,7 +45,7 @@ class GuildChannel extends Channel {
 	 * @param {string} reason - The reason for deleting this channel
 	 * @example
 	 * channel.delete('I want to delete this channel');
-	 * @returns {Promise<Channel>}
+	 * @returns {Promise<GuildChannel>}
 	 */
 	async delete(reason?: string): Promise<AnyChannel> {
 		const data = await this.client.requester.make(`channels/${this.id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason });
@@ -43,6 +58,16 @@ class GuildChannel extends Channel {
 	 */
 	get createdAt() {
 		return new Date(this.createdTimestamp);
+	}
+
+	/**
+	  * Edits the channel.
+	  * @param {RoleData} data The new data for the channel
+	  * @param {string} [reason] Reason for editing this channel
+	  * @returns {Promise<GuildChannel>}
+	  */
+	edit(options: ChannelData, reason?: string) {
+		return this.guild.channels.edit(this.id, options, reason);
 	}
 
 	override parseData(data: any) {

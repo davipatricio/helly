@@ -136,22 +136,8 @@ class Guild extends DataManager {
 
 		if ('channels' in data) {
 			// Parse channels
-			for (const channel of data.channels) {
-				switch (channel.type) {
-
-				// Text channels
-				case 0: {
-					new TextChannel(this.client, channel, this);
-					break;
-				}
-
-				// Unknown channels
-				default: {
-					new GuildChannel(this.client, channel, this);
-					break;
-				}
-				}
-			}
+			// eslint-disable-next-line no-unused-expressions
+			for (const channel of data.channels) this.client.channels._getChannel(channel)?._update(channel) ?? this.client.channels._createChannel(channel, this);
 		}
 
 		if ('roles' in data) {

@@ -42,7 +42,6 @@ class TextChannel extends GuildChannel {
 		return this;
 	}
 
-
 	/**
 	 * Changes the channel slowmode
 	 * @param {number} [seconds=0] - New slowmode duration

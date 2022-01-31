@@ -153,10 +153,6 @@ class Client extends EventEmitter {
 		this.channels.cache.clear();
 	}
 
-	_getChannel(id: string, guildId = '' as string): AnyChannel | undefined {
-		return this.channels.cache.get(id) ?? this.guilds.cache.get(guildId)?.channels.cache.get(id);
-	}
-
 	incrementMaxListeners(): void {
 		const maxListeners = this.getMaxListeners();
 		if (maxListeners !== 0) {

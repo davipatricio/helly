@@ -2,7 +2,7 @@ import type { Client } from '../client/Client';
 import type { Channel } from '../structures/Channel';
 import { DMChannel } from '../structures/DMChannel';
 import type { Guild } from '../structures/Guild';
-import { GuildChannel } from '../structures/GuildChannel';
+import { GuildChannel, ChannelData } from '../structures/GuildChannel';
 import { TextChannel } from '../structures/TextChannel';
 import { LimitedMap } from '../utils/LimitedMap';
 
@@ -25,29 +25,33 @@ class ChannelManager {
 		const channel = await this.client.requester.make(`channels/${id}`, 'GET');
 		let guild = null;
 		if(channel.guild_id) guild = this.client.guilds.cache.get(channel.guild_id) ?? await this.client.guilds.fetch(channel.guild_id);
+		const parsedChannel = this._getChannel(channel.id)?._update(channel) ?? this._createChannel(channel, guild);
+		return parsedChannel;
+	}
 
+	_createChannel(channel: ChannelData, guild: Guild): AnyChannel {
 		switch (channel.type) {
-
 		// Text channels
 		case 0: {
-			const parsedChannel = this.client._getChannel(channel.id)?._update(channel) ?? new TextChannel(this.client, channel, guild as Guild);
-			return parsedChannel;
+			return new TextChannel(this.client, channel, guild);
 		}
 
 		// DM channels
 		case 1: {
-			const parsedChannel = this.client._getChannel(channel.id)?._update(channel) ?? new DMChannel(this.client, channel);
+			const parsedChannel = new DMChannel(this.client, channel);
 			return parsedChannel;
 		}
 
 		// Unknown channels
 		default: {
-			const parsedChannel = this.client._getChannel(channel.id, (guild as Guild).id)?._update(channel) ?? new GuildChannel(this.client, channel, guild as Guild);
-			return parsedChannel;
+			return new GuildChannel(this.client, channel, guild);
 		}
 		}
 	}
 
+	_getChannel(id: string, guildId = '' as string): AnyChannel | undefined {
+		return this.cache.get(id) ?? this.client.guilds.cache.get(guildId)?.channels.cache.get(id);
+	}
 }
 
 export { ChannelManager };
