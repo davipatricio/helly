@@ -29,11 +29,9 @@ import { GuildChannelManager } from '../managers/GuildChannelManager';
 import { GuildMemberManager } from '../managers/GuildMemberManager';
 import { RoleManager } from '../managers/RoleManager';
 import { Snowflake } from '../utils/Snowflake';
-import { GuildChannel } from './GuildChannel';
 import { DataManager } from './DataManager';
 import { GuildMember } from './GuildMember';
 import { Role } from './Role';
-import { TextChannel } from './TextChannel';
 
 export type Features = 'ANIMATED_ICON' | 'BANNER' | 'COMMERCE' | 'COMMUNITY' | 'DISCOVERABLE' | 'FEATURABLE' |
 	'INVITE_SPLASH' | 'MEMBER_VERIFICATION_GATE_ENABLED' | 'NEWS' | 'PARTNERED' | 'PREVIEW_ENABLED' | 'VANITY_URL' |
