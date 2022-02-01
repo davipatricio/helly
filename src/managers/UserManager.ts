@@ -1,6 +1,7 @@
-import { LimitedMap } from '../utils/LimitedMap';
-import { User } from '../structures/User';
 import type { Client } from '../client/Client';
+import { DMChannel } from '../structures/DMChannel';
+import { User } from '../structures/User';
+import { LimitedMap } from '../utils/LimitedMap';
 
 /**
  * Manages API methods for Users and stores their cache.
@@ -23,9 +24,10 @@ class UserManager {
 		return this.client.users.cache.get(data.id)?._update(data) ?? new User(this.client, data);
 	}
 
-	async createDM(recipient_id: string): Promise<string> {
+	async createDM(recipient_id: string) {
 		const data = await this.client.requester.make('users/@me/channels', 'POST', { recipient_id });
-		return data.id;
+		const dm = this.client.channels._getChannel(data.id)?._update(data) ?? new DMChannel(this.client, data);
+		return dm as DMChannel;
 	}
 }
 

@@ -1,8 +1,7 @@
 import type { Client } from '../client/Client';
 import { MessageManager } from '../managers/MessageManager';
 import { makeAPIMessage } from '../utils/MakeAPIMessage';
-import { MessageOptions, Channel } from './Channel';
-import type { Guild } from './Guild';
+import { Channel, MessageOptions } from './Channel';
 import { Message } from './Message';
 
 /**
@@ -14,8 +13,8 @@ class DMChannel extends Channel {
 	declare type: 'DM';
 	// Classes types
 	messages: MessageManager;
-	constructor(client: Client, data: any, guild?: Guild) {
-		super(client, data, guild);
+	constructor(client: Client, data: any) {
+		super(client, data);
 
 		/**
 		 * A manager of the messages sent to this channel
