@@ -46,7 +46,7 @@ class Role extends DataManager {
 	/**
 	  * Edits the role
 	  * @param {RoleData} data The new data for the role
-	  * @param {string} [reason] Reason for editing this role
+	  * @param {string} [reason] - Reason for editing this role
 	  * @returns {Promise<Role>}
 	  */
 	edit(options: RoleData, reason?: string) {
@@ -55,11 +55,11 @@ class Role extends DataManager {
 
 	/**
 	 * Deletes this role
+	 * @param {string} [reason] - Reason for deleting this role
 	 * @returns {Promise<void>}
 	 */
-	async delete() {
-		await this.client.requester.make(`guilds/${this.guild.id}/roles/${this.id}`, 'DELETE');
-		return void 0;
+	delete(reason = '' as string) {
+		return this.guild.roles.delete(this.id, reason);
 	}
 
 	/**
