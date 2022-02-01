@@ -67,10 +67,8 @@ class Role extends DataManager {
 	 * @param {string} name - The new name of the role
 	 * @returns {Promise<Role>}
 	 */
-	async setName(name: string) {
-		const data = await this.client.requester.make(`guilds/${this.guild.id}/roles/${this.id}`, 'PATCH', { name });
-		this.parseData(data);
-		return this;
+	setName(name: string, reason = '' as string) {
+		return this.guild.roles.edit(this.id, { name }, reason);
 	}
 
 	/**
@@ -78,10 +76,8 @@ class Role extends DataManager {
 	 * @param {boolean} [hoist=true]
 	 * @returns {Promise<Role>}
 	 */
-	async setHoist(hoist = true as boolean) {
-		const data = await this.client.requester.make(`guilds/${this.guild.id}/roles/${this.id}`, 'PATCH', { hoist });
-		this.parseData(data);
-		return this;
+	setHoist(hoist = true as boolean, reason = '' as string) {
+		return this.guild.roles.edit(this.id, { hoist }, reason);
 	}
 
 	/**
@@ -89,10 +85,17 @@ class Role extends DataManager {
 	 * @param {boolean} [mentionable=true]
 	 * @returns {Promise<Role>}
 	 */
-	async setMentionable(mentionable = true as boolean) {
-		const data = await this.client.requester.make(`guilds/${this.guild.id}/roles/${this.id}`, 'PATCH', { mentionable });
-		this.parseData(data);
-		return this;
+	setMentionable(mentionable = true as boolean, reason = '' as string) {
+		return this.guild.roles.edit(this.id, { mentionable }, reason);
+	}
+
+	/**
+	 * Sets the position of the role
+	 * @param {number} [position=1]
+	 * @returns {Promise<Role>}
+	 */
+	setPosition(position = 1 as number, reason = '' as string) {
+		return this.guild.roles.edit(this.id, { position }, reason);
 	}
 
 	/**
