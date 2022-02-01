@@ -69,7 +69,7 @@ class User extends DataManager {
 		if (typeof content === 'string') content = { content };
 
 		const transformedObject = makeAPIMessage(content);
-		const data = await this.client.requester.make(`channels/${dmId}/messages`, 'POST', transformedObject);
+		const data = await this.client.requester.make(`channels/${dmId.id}/messages`, 'POST', transformedObject);
 		return new Message(this.client, data);
 	}
 
