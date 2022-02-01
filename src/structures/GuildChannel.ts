@@ -15,8 +15,8 @@ export interface ChannelData {
 	bitrate?: number;
 	user_limit?: number;
 	parent_id?: string | null;
-	rtc_region: string | null;
-	video_quality_mode: number | null;
+	rtc_region?: string | null;
+	video_quality_mode?: number | null;
 }
 
 /**
@@ -29,15 +29,23 @@ class GuildChannel extends Channel {
 	}
 
 	/**
+	  * Edits the channel.
+	  * @param {RoleData} data The new data for the channel
+	  * @param {string} [reason] Reason for editing this channel
+	  * @returns {Promise<GuildChannel>}
+	  */
+	edit(options: ChannelData, reason?: string) {
+		return this.guild.channels.edit(this.id, options, reason);
+	}
+
+	/**
 	 * Changes the name of the channel
 	 * @param {string} name - The new channel name
 	 * @param {string} [reason] - The reason for changing the name
 	 * @returns {Promise<GuildChannel>}
 	 */
-	async setName(name: string, reason?: string): Promise<this> {
-		const data = await this.client.requester.make(`channels/${this.id}`, 'PATCH', { name }, { 'X-Audit-Log-Reason': reason });
-		this.parseData(data);
-		return this;
+	setName(name: string, reason?: string): Promise<AnyChannel> {
+		return this.guild.channels.edit(this.id, { name }, reason);
 	}
 
 	/**
@@ -47,9 +55,8 @@ class GuildChannel extends Channel {
 	 * channel.delete('I want to delete this channel');
 	 * @returns {Promise<GuildChannel>}
 	 */
-	async delete(reason?: string): Promise<AnyChannel> {
-		const data = await this.client.requester.make(`channels/${this.id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason });
-		return this.client.channels._getChannel(this.id, this.guild?.id)?._update(data) ?? new GuildChannel(this.client, data, this.guild);
+	delete(reason?: string): Promise<AnyChannel> {
+		return this.guild.channels.delete(this.id, reason);
 	}
 
 	/**
@@ -58,16 +65,6 @@ class GuildChannel extends Channel {
 	 */
 	get createdAt() {
 		return new Date(this.createdTimestamp);
-	}
-
-	/**
-	  * Edits the channel.
-	  * @param {RoleData} data The new data for the channel
-	  * @param {string} [reason] Reason for editing this channel
-	  * @returns {Promise<GuildChannel>}
-	  */
-	edit(options: ChannelData, reason?: string) {
-		return this.guild.channels.edit(this.id, options, reason);
 	}
 
 	override parseData(data: any) {
