@@ -29,6 +29,17 @@ class RoleManager {
 		const data = await this.client.requester.make(`guilds/${this.guild.id}/roles/${id}`, 'PATCH', options, { 'X-Audit-Log-Reason': reason });
 		return this.cache.get(id)?._update(data) ?? new Role(this.client, data, this.guild);
 	}
+
+	/**
+	 * Deletes a role
+	 * @param {string} id - The ID of the role to delete
+	 * @param {string} [reason] - Reason for deleting the role
+	 * @returns {Promise<void>}
+	 */
+	async delete(id: string, reason = '' as string) {
+		await this.client.requester.make(`guilds/${this.guild.id}/roles/${id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason });
+		return void 0;
+	}
 }
 
 export { RoleManager };
