@@ -19,7 +19,10 @@ class WebsocketManager {
 
 	connect(): void {
 		this.connection = new WebSocket(`${apiGatewayUrl}${apiVersion}&encoding=json`);
-		this.connection.on('message', (data: WebSocket.RawData) => Parser.message(this.client, data));
+		this.connection.on('message', (data: WebSocket.RawData) => {
+			if (this.connection.readyState !== WebSocket.OPEN) return;
+			Parser.message(this.client, data);
+		});
 
 		this.connection.on('close', (code: number) => {
 			if (!this.client.options.autoReconnect) return;
