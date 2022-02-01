@@ -1,4 +1,5 @@
 import type { Client } from '../client/Client';
+import type { AnyChannel } from '../managers/ChannelManager';
 import { MessageManager } from '../managers/MessageManager';
 import { makeAPIMessage } from '../utils/MakeAPIMessage';
 import type { MessageOptions } from './Channel';
@@ -36,21 +37,18 @@ class TextChannel extends GuildChannel {
 	 * @param {string} [reason] - The reason for changing the channel topic
 	 * @returns {Promise<TextChannel>}
 	 */
-	async setTopic(topic = null as string | null, reason?: string): Promise<this> {
-		const data = await this.client.requester.make(`channels/${this.id}`, 'PATCH', { topic }, { 'X-Audit-Log-Reason': reason });
-		this.parseData(data);
-		return this;
+	setTopic(topic = null as string | null, reason?: string): Promise<AnyChannel> {
+		return this.guild.channels.edit(this.id, { topic }, reason);
 	}
 
 	/**
 	 * Changes the channel slowmode
-	 * @param {number} [seconds=0] - New slowmode duration
+	 * @param {number} [seconds=0] - New slowmode duration (0-21600); bots, as well as users with the permission manage_messages or manage_channel, are unaffected
 	 * @param {string} [reason] - Reason for changing the channel slowmode
+	 * @returns {Promise<TextChannel>}
 	 */
-	async setRateLimitPerUser(seconds = 0 as number, reason?: string) {
-		const data = await this.client.requester.make(`channels/${this.id}`, 'PATCH', { seconds }, { 'X-Audit-Log-Reason': reason });
-		this.parseData(data);
-		return this;
+	setRateLimitPerUser(seconds = 0 as number, reason?: string): Promise<AnyChannel> {
+		return this.guild.channels.edit(this.id, { rate_limit_per_user: seconds }, reason);
 	}
 
 	/**

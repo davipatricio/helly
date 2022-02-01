@@ -28,7 +28,7 @@ class GuildChannelManager {
 		return this.client.channels._getChannel(id, this.guild.id)?._update(data) ?? new GuildChannel(this.client, data);
 	}
 
-	async edit(id: string, options: ChannelData, reason = '' as string): Promise<AnyChannel> {
+	async edit(id: string, options: Partial<ChannelData>, reason = '' as string): Promise<AnyChannel> {
 		if (typeof id === 'undefined') throw new Error('The provided channel id is undefined.');
 		const data = await this.client.requester.make(`channels/${id}`, 'PATCH', options, { 'X-Audit-Log-Reason': reason });
 		return this.cache.get(id)?._update(data) ?? new GuildChannel(this.client, data, this.guild);

@@ -24,7 +24,7 @@ class RoleManager {
 	 * @param {string} [reason] - Reason for editing the role
 	 * @returns {Promise<Role>}
 	 */
-	async edit(id: string, options: RoleData, reason = '' as string) {
+	async edit(id: string, options: Partial<RoleData>, reason = '' as string) {
 		if (options.permissions instanceof Permission) options.permissions = options.permissions.bitfield;
 		const data = await this.client.requester.make(`guilds/${this.guild.id}/roles/${id}`, 'PATCH', options, { 'X-Audit-Log-Reason': reason });
 		return this.cache.get(id)?._update(data) ?? new Role(this.client, data, this.guild);
