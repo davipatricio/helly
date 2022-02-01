@@ -92,7 +92,7 @@ class Message extends DataManager {
 	 * @readonly
 	 */
 	get channel() {
-		return this.client._getChannel(this.channelId, this.guildId) ?? null;
+		return this.client.channels._getChannel(this.channelId, this.guildId) ?? null;
 	}
 
 	/**

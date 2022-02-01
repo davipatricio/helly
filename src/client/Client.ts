@@ -1,6 +1,6 @@
 import EventEmitter from 'node:events';
 import { ActionManager } from '../actions/ActionManager';
-import { AnyChannel, ChannelManager } from '../managers/ChannelManager';
+import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
 import { UserManager } from '../managers/UserManager';
 import { Intents } from '../utils/Intents';

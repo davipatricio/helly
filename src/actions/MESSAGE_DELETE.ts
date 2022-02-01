@@ -4,7 +4,7 @@ import type { TextChannel } from '../structures/TextChannel';
 
 function handle(client: Client, messageData: any): void {
 	if (client.ready) {
-		const channel = client._getChannel(messageData.channel_id, messageData.guild_id);
+		const channel = client.channels._getChannel(messageData.channel_id, messageData.guild_id);
 
 		if (!channel) return;
 		if (!channel.isTextBased()) return;

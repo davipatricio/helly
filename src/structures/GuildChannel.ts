@@ -49,7 +49,7 @@ class GuildChannel extends Channel {
 	 */
 	async delete(reason?: string): Promise<AnyChannel> {
 		const data = await this.client.requester.make(`channels/${this.id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason });
-		return this.client._getChannel(this.id, this.guild?.id)?._update(data) ?? new GuildChannel(this.client, data, this.guild);
+		return this.client.channels._getChannel(this.id, this.guild?.id)?._update(data) ?? new GuildChannel(this.client, data, this.guild);
 	}
 
 	/**

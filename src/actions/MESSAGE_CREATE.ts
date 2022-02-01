@@ -6,7 +6,7 @@ async function handle(client: Client, messageData: any): Promise<void> {
 	if (!client.ready) return;
 	// Outside of guilds (DMs)
 	if (!messageData.guild_id) {
-		const channel = client._getChannel(messageData.channel_id) ?? await client.channels.fetch(messageData.channel_id);
+		const channel = client.channels._getChannel(messageData.channel_id) ?? await client.channels.fetch(messageData.channel_id);
 		if (!channel.isDM()) return;
 		const message = new Message(client, messageData);
 		client.emit('messageCreate', message);
@@ -15,7 +15,7 @@ async function handle(client: Client, messageData: any): Promise<void> {
 
 	// Inside of guilds
 	const message = new Message(client, messageData);
-	const channel = client._getChannel(messageData.channel_id, messageData.guild_id);
+	const channel = client.channels._getChannel(messageData.channel_id, messageData.guild_id);
 
 	if (!channel) return;
 	if (!channel.isTextBased()) return;
