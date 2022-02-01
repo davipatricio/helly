@@ -1,0 +1,24 @@
+examples:
+- 'examples/**/*'
+
+dependecies:
+- 'package.json'
+- 'package-lock.json'
+
+managers:
+- 'src/managers/**/*'
+
+structures:
+- 'src/structures/**/*'
+
+actions:
+- 'src/actions/**/*'
+
+client:
+- 'src/client/Client.ts'
+
+websocket:
+- 'src/client/websocket/**/*'
+
+utility:
+- 'src/utils/**/*'
