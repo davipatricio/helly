@@ -38,9 +38,9 @@ class GuildMemberManager {
 		return _member;
 	}
 
-	async _fetchAll(options: FetchAllType): Promise<MemberMap> {
+	_fetchAll(options: FetchAllType): Promise<MemberMap> {
 		const requestData = JSON.stringify({ op: 8, d: options });
-		await this.client.ws.connection.send(requestData);
+		this.client.ws.connection.send(requestData);
 		return new Promise(resolve => {
 			const _finalMembers: MemberMap = new Map();
 			let chunkIndex = 0;
