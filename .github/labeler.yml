@@ -1,7 +1,7 @@
 actions:
   - src/actions/**/*
 channels:
-  - '**/?(*Channel*).js'
+  - '**/?(*Channel*).ts'
 client:
   - src/client/Client.ts
 dependecies:
@@ -22,7 +22,7 @@ permissions:
   - src/utils/Permission.ts
   - src/constants/permissions.ts
 roles:
-  - '**/?(*Role*).js'
+  - '**/?(*Role*).ts'
 structures:
   - src/structures/**/*
 utility:
