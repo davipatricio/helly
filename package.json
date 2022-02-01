@@ -1,8 +1,8 @@
 {
   "name": "helly",
-  "version": "1.0.6",
+  "version": "1.0.0",
   "private": false,
-  "description": "A powerful library for interacting with the Discord API",
+  "description": "A simple, typed, performance-focused Discord API Wrapper.",
   "main": "./build/index.js",
   "type": "commonjs",
   "keywords": [
