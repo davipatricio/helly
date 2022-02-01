@@ -11,6 +11,14 @@ managers:
 structures:
 - 'src/structures/**/*'
 
+permissions:
+- 'src/utils/Permission.ts'
+- 'src/constants/permissions.ts'
+
+intents:
+- 'src/utils/Intents.ts'
+- 'src/constants/intents.ts'
+
 actions:
 - 'src/actions/**/*'
 
@@ -22,3 +30,12 @@ websocket:
 
 utility:
 - 'src/utils/**/*'
+
+channels:
+- '**/?(*Channel*).js'
+
+roles:
+- '**/?(*Role*).js'
+
+exports:
+- 'src/index.ts'
