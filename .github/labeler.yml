@@ -11,6 +11,8 @@ examples:
   - examples/**/*
 exports:
   - src/index.ts
+github:
+  - .github/**/*
 intents:
   - src/utils/Intents.ts
   - src/constants/intents.ts
