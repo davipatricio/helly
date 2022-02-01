@@ -1,24 +1,31 @@
-examples:
-- 'examples/**/*'
-
-dependecies:
-- 'package.json'
-- 'package-lock.json'
-
-managers:
-- 'src/managers/**/*'
-
-structures:
-- 'src/structures/**/*'
-
 actions:
-- 'src/actions/**/*'
-
+  - src/actions/**/*
+channels:
+  - '**/?(*Channel*).js'
 client:
-- 'src/client/Client.ts'
-
-websocket:
-- 'src/client/websocket/**/*'
-
+  - src/client/Client.ts
+dependecies:
+  - package.json
+  - package-lock.json
+examples:
+  - examples/**/*
+exports:
+  - src/index.ts
+github:
+  - .github/**/*
+intents:
+  - src/utils/Intents.ts
+  - src/constants/intents.ts
+managers:
+  - src/managers/**/*
+permissions:
+  - src/utils/Permission.ts
+  - src/constants/permissions.ts
+roles:
+  - '**/?(*Role*).js'
+structures:
+  - src/structures/**/*
 utility:
-- 'src/utils/**/*'
+  - src/utils/**/*
+websocket:
+  - src/client/websocket/**/*
