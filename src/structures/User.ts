@@ -22,11 +22,9 @@
  */
 import type { Client } from '../client/Client';
 import * as Images from '../constants/images';
-import { makeAPIMessage } from '../utils/MakeAPIMessage';
 import { Snowflake } from '../utils/Snowflake';
 import type { MessageOptions } from './Channel';
 import { DataManager } from './DataManager';
-import { Message } from './Message';
 
 export type ImageFormat = 'png' | 'jpg' | 'gif' | 'webp';
 export type ImageSize = 16 | 32 | 56 | 64 | 96 | 128 | 256 | 300 | 512 | 600 | 1024 | 2048 | 4096;
