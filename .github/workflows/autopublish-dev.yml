@@ -11,6 +11,10 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+    - name: Install dependencies
+      run: yarn install
+    - name: Run tsc
+      run: tsc
     - name: Publish if version has been updated
       uses: pascalgn/npm-publish-action@1.3.8
       with:
