@@ -1,0 +1,22 @@
+on:
+  push:
+
+jobs:
+  publishdev:
+    name: publishdev
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: install node v16
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
+    - name: yarn install
+      run: yarn install
+    - name: tsc
+      run: tsc
+    - uses: shawnbot/npm-publish-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # NOTE: use the NODE_ prefix instead of NPM_ here!
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
