@@ -12,6 +12,7 @@ class ActionManager {
 		this.loaded['GUILD_MEMBERS_CHUNK'] = require('./GUILD_MEMBERS_CHUNK');
 		this.loaded['MESSAGE_CREATE'] = require('./MESSAGE_CREATE');
 		this.loaded['MESSAGE_DELETE'] = require('./MESSAGE_DELETE');
+		this.loaded['INTERACTION_CREATE'] = require('./INTERACTION_CREATE');
 	}
 }
 

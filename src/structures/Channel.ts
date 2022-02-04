@@ -6,7 +6,7 @@
  * @property {MessageReference} [message_reference] - A message reference object
  */
 /**
- * Represents a message to be sent to the API
+ * Represents a message reference object
  * @typedef {Object} MessageReference
  * @property {string} [message_id] - Id of the originating message
  * @property {string} [channel_id] - Id  of the originating message's channel
