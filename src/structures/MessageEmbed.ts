@@ -234,16 +234,6 @@ class MessageEmbed {
 	}
 
 	/**
-	 * Sets the video of this embed
-	 * @param {string} [url] - The video URL
-	 * @returns {MessageEmbed}
-	 */
-	setVideo(url?: string): this {
-		this.video = url ? { url } : null;
-		return this;
-	}
-
-	/**
 	 * Sets the thumbnail of this embed
 	 * @param {string} [url] - The thumbnail URL
 	 * @returns {MessageEmbed}
