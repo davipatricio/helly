@@ -94,6 +94,7 @@ export interface MessageEmbedField {
  * @property {number} [color] - The color of this embed
  * @property {MessageEmbedFooter} [footer] - The footer of this embed
  * @property {MessageEmbedImage} [image] - The image of this embed
+ * @property {MessageEmbedVideo} [video] - The video of this embed
  * @property {MessageEmbedThumbnail} [thumbnail] - The thumbnail of this embed
  * @property {MessageEmbedAuthor} [author] - The author of this embed
  * @property {MessageEmbedField[]} [fields] - The fields of this embed
