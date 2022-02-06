@@ -26,6 +26,20 @@ export interface MessageEmbedImage {
 	proxy_url?: string;
 }
 
+/**
+ * Represents the video of a {@link MessageEmbed}
+ * @typedef {Object} MessageEmbedVideo
+ * @property {string} [url] - URL for this video
+ * @property {number} [height] - Height of this video
+ * @property {number} [width] - Width of this video
+ * @property {string} [proxy_url] - ProxyURL for this video
+ */
+export interface MessageEmbedVideo {
+	url: string;
+	height?: number;
+	width?: number;
+	proxy_url?: string;
+}
 
 /**
  * Represents the thumbnail of a {@link MessageEmbed}
@@ -80,6 +94,7 @@ export interface MessageEmbedField {
  * @property {number} [color] - The color of this embed
  * @property {MessageEmbedFooter} [footer] - The footer of this embed
  * @property {MessageEmbedImage} [image] - The image of this embed
+ * @property {MessageEmbedVideo} [video] - The video of this embed
  * @property {MessageEmbedThumbnail} [thumbnail] - The thumbnail of this embed
  * @property {MessageEmbedAuthor} [author] - The author of this embed
  * @property {MessageEmbedField[]} [fields] - The fields of this embed
@@ -95,6 +110,7 @@ export interface RawMessageEmbed {
 	// Classes types
 	footer?: MessageEmbedFooter | null;
 	image?: MessageEmbedImage | null;
+	video?: MessageEmbedVideo | null;
 	thumbnail?: MessageEmbedThumbnail | null;
 	author?: MessageEmbedAuthor | null;
 	fields?: MessageEmbedField[];
@@ -112,6 +128,7 @@ class MessageEmbed {
 	color: number | null;
 	footer: MessageEmbedFooter | null;
 	image: MessageEmbedImage | null;
+	video: MessageEmbedVideo | null;
 	thumbnail: MessageEmbedThumbnail | null;
 	author: MessageEmbedAuthor | null;
 	fields: MessageEmbedField[];
@@ -123,6 +140,7 @@ class MessageEmbed {
 		this.color = data.color ?? null;
 		this.footer = data.footer ?? null;
 		this.image = data.image ?? null;
+		this.video = data.video ?? null;
 		this.thumbnail = data.thumbnail ?? null;
 		this.author = data.author ?? null;
 		this.fields = data.fields ?? [];
@@ -257,6 +275,7 @@ class MessageEmbed {
 			color: this.color,
 			footer: this.footer,
 			image: this.image,
+			video: this.video,
 			thumbnail: this.thumbnail,
 			author: this.author,
 			fields: this.fields,
