@@ -242,7 +242,7 @@ class MessageEmbed {
 	 * @param {MessageEmbedField[]} [options] - The fields to set
 	 * @returns {MessageEmbed}
 	 */
-	setFields(options: MessageEmbedField[]): this {
+	setFields(options = [] as MessageEmbedField[]): this {
 		if(!Array.isArray(options)) throw new TypeError('Expected an array of fields.');
 		this.fields = options;
 		return this;
