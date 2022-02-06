@@ -34,7 +34,7 @@ export interface MessageEmbedImage {
  * @property {number} [width] - Width of this video
  * @property {string} [proxy_url] - ProxyURL for this video
  */
- export interface MessageEmbedVideo {
+export interface MessageEmbedVideo {
 	url: string;
 	height?: number;
 	width?: number;
@@ -238,7 +238,7 @@ class MessageEmbed {
 	 * @param {string} [url] - The video URL
 	 * @returns {MessageEmbed}
 	 */
-	 setVideo(url?: string): this {
+	setVideo(url?: string): this {
 		this.video = url ? { url } : null;
 		return this;
 	}
