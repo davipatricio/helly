@@ -30,10 +30,13 @@
   },
   "scripts": {
     "docs": "jsdoc src -R README.md -c jsdoc.json",
+    "build": "npx sucrase ./src -d ./build --esModuleInterop --transforms typescript,imports",
+    "build:prod": "npm run build && npm run minify && npm run types:declarations",
+    "minify": "npx uglifyjs-folder ./build --compress --mangle -eo build -x .js",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "build": "tsc",
-    "build:check": "tsc --noEmit --incremental false"
+    "types:check": "tsc --noEmit --incremental false",
+    "types:declarations": "tsc --emitDeclarationOnly"
   },
   "author": "Davi Patricio <davipatricio@pm.me>",
   "devDependencies": {
@@ -46,7 +49,6 @@
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "clean-jsdoc-theme": "^3.3.2",
-    "discord-api-types": "^0.27.2",
     "eslint": "^8.9.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.3.0",
@@ -55,10 +57,13 @@
     "jsdoc": "^3.6.10",
     "jsdoc-babel": "^0.5.0",
     "prettier": "^2.5.1",
-    "typescript": "4.5.5"
+    "sucrase": "^3.20.3",
+    "typescript": "4.5.5",
+    "uglifyjs-folder": "^3.0.0"
   },
   "dependencies": {
     "axios": "^0.25.0",
+    "discord-api-types": "^0.27.2",
     "tslib": "^2.3.1",
     "ws": "^8.2.3"
   }
