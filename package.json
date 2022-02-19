@@ -3,8 +3,9 @@
   "version": "1.1.0",
   "private": false,
   "description": "A simple, typed, performance-focused Discord API Wrapper.",
-  "main": "./build/index.js",
-  "types": "./build",
+  "module": "./build/esm/index.js",
+  "main": "./build/cjs/index.js",
+  "types": "./build/types/index.d.ts",
   "type": "commonjs",
   "keywords": [
     "discord",
@@ -17,11 +18,16 @@
     "helly"
   ],
   "files": [
-    "build",
+    "./build",
     "LICENSE",
     "package-lock.json",
     "package.json"
   ],
+  "exports": {
+    "import": "./build/esm/index.js",
+    "require": "./build/cjs/index.js",
+    "default": "./build/esm/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/davipatricio/helly.git"
@@ -31,7 +37,7 @@
   },
   "scripts": {
     "docs": "npx typedoc --options typedoc.json",
-    "build": "npx sucrase ./src -d ./build --esModuleInterop --transforms typescript,imports",
+    "build": "tsc --project tsconfig.esm.json & tsc --project tsconfig.cjs.json",
     "build:prod": "npm run build && npm run types:declarations",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",

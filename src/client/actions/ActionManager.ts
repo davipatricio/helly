@@ -1,6 +1,6 @@
 import type { Client } from '../Client';
 
-type Handler = (client: Client, ...data: unknown[]) => void;
+type Handler = (client: Client, ...data: never[]) => void;
 interface Action {
   handle: Handler;
 }
