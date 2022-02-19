@@ -1,2 +1,2 @@
 export { Client } from './client/Client';
-export { ClientOptions, RestOptions, WebsocketOptions } from './client/ClientOptions';
+export { ClientOptions, RestOptions, WebSocketOptions } from './client/ClientOptions';

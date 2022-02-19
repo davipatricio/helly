@@ -23,11 +23,15 @@ class Client extends EventEmitter {
   actions: ActionManager;
   /** @private */
   ws: WebsocketManager;
+  /** The options the client was instantiated with */
   options: ClientOptions;
   /** @private */
   api: ClientAPI;
+  /** Whether the client has logged in */
   ready: boolean;
+  /** Authorization token for the logged in bot */
   token: string;
+  /** The previous heartbeat ping of the {@link Client} */
   ping: number;
   /** @param options - The options for the client */
   constructor(options = {} as Partial<ClientOptions>) {
@@ -37,7 +41,6 @@ class Client extends EventEmitter {
     this.ws = new WebsocketManager(this);
     this.options = Object.assign(defaultValues, options);
 
-    /** @ignore */
     this.api = {
       shouldResume: false,
       heartbeatInterval: null,
@@ -54,12 +57,28 @@ class Client extends EventEmitter {
     this.ping = 0;
   }
 
-  login(token: string) {
+  /**
+   * Logs the client in, establishing a WebSocket connection to Discord
+   * @param token - Token of the account to log in with
+   */
+  async login(token: string): Promise<string> {
     if (typeof token !== 'string') throw new Error('A token is required and must be a string');
     this.token = token;
-    this.ws.connect();
+    await this.ws.connect();
+    return token;
   }
 
+  /**
+   * Returns whether the client has logged in, indicative of being able to access properties such as user and application
+   */
+  isReady() {
+    return this.ready === true;
+  }
+
+  /**
+   * Emits `Client#reconnecting` and calls `Client.login()` again
+   * @private
+   */
   reconnect() {
     // Stop heartbeating (this automatically verifies if there's a timer)
     Heartbeater.stop(this);
@@ -72,6 +91,7 @@ class Client extends EventEmitter {
     this.login(this.token);
   }
 
+  /** @private */
   cleanUp() {
     this.ping = 0;
   }

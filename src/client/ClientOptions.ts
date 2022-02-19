@@ -1,9 +1,9 @@
 import { RouteBases, GatewayVersion } from 'discord-api-types/v10';
 
 /**
- * Websocket Options for {@link ClientOptions.ws}
+ * Options for the {@link ClientOptions.ws | WebSocket}
  */
-export interface WebsocketOptions {
+export interface WebSocketOptions {
   /** @defaultValue `wss://gateway.discord.gg/` */
   gateway: string;
   /** @defaultValue `10` */
@@ -11,7 +11,7 @@ export interface WebsocketOptions {
 }
 
 /**
- * REST Options for {@link ClientOptions.rest}
+ * Options for the {@link ClientOptions.rest | REST Manager}
  */
 export interface RestOptions {
   /** @defaultValue `https://discord.com/api/v10` */
@@ -37,10 +37,10 @@ export interface ClientOptions {
    * @defaultValue true
    */
   autoReconnect: boolean;
-  /** REST Options */
+  /** Options for the REST Manager */
   rest: RestOptions;
-  /** Websocket Options */
-  ws: WebsocketOptions;
+  /** Options for the WebSocket */
+  ws: WebSocketOptions;
 }
 
 export const defaultValues: ClientOptions = {

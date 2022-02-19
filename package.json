@@ -32,12 +32,10 @@
   "scripts": {
     "docs": "npx typedoc --options typedoc.json",
     "build": "npx sucrase ./src -d ./build --esModuleInterop --transforms typescript,imports",
-    "build:prod": "npm run build && npm run minify && npm run types:declarations",
-    "minify": "npx uglifyjs-folder ./build --compress --mangle -eo build -x .js",
+    "build:prod": "npm run build && npm run types:declarations",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "types:check": "tsc --noEmit --incremental false",
-    "types:declarations": "tsc --emitDeclarationOnly"
+    "types:check": "tsc --noEmit --incremental false"
   },
   "author": "Davi Patricio <davipatricio@pm.me>",
   "devDependencies": {
@@ -54,8 +52,7 @@
     "sucrase": "^3.20.3",
     "typedoc": "^0.22.11",
     "typedoc-plugin-extras": "^2.2.3",
-    "typescript": "4.5.5",
-    "uglifyjs-folder": "^3.0.0"
+    "typescript": "4.5.5"
   },
   "dependencies": {
     "axios": "^0.25.0",
