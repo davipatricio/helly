@@ -15,14 +15,21 @@ interface ClientAPI {
   heartbeatTimer: NodeJS.Timer | null;
 }
 
+/**
+ * The main hub for interacting with the Discord API, and the starting point for any bot
+ */
 class Client extends EventEmitter {
+  /** @private */
   actions: ActionManager;
+  /** @private */
   ws: WebsocketManager;
   options: ClientOptions;
+  /** @private */
   api: ClientAPI;
   ready: boolean;
   token: string;
   ping: number;
+  /** @param options - The options for the client */
   constructor(options = {} as Partial<ClientOptions>) {
     super();
 
@@ -30,6 +37,7 @@ class Client extends EventEmitter {
     this.ws = new WebsocketManager(this);
     this.options = Object.assign(defaultValues, options);
 
+    /** @ignore */
     this.api = {
       shouldResume: false,
       heartbeatInterval: null,

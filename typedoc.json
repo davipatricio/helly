@@ -1,0 +1,12 @@
+{
+    "name": "helly - Discord API Wrapper",
+    "gitRevision": "branch",
+    "entryPoints": ["./src/index.ts"],
+    "out": "docs",
+    "entryPointStrategy": "resolve",
+    "customTitle": "helly",
+    "customTitleLink": "https://helly.vercel.app",
+    "footerDate": true,
+    "footerTime": true,
+    "footerTypedocVersion": true
+}

@@ -2,6 +2,7 @@ import WebSocket from 'ws';
 import type { Client } from '../Client';
 import Parser from './Parser';
 
+/** @internal */
 class WebsocketManager {
   connection: WebSocket;
   client: Client;

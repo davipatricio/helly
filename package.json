@@ -4,6 +4,7 @@
   "private": false,
   "description": "A simple, typed, performance-focused Discord API Wrapper.",
   "main": "./build/index.js",
+  "types": "./build",
   "type": "commonjs",
   "keywords": [
     "discord",
@@ -29,7 +30,7 @@
     "url": "https://github.com/davipatricio/helly/issues"
   },
   "scripts": {
-    "docs": "jsdoc src -R README.md -c jsdoc.json",
+    "docs": "npx typedoc --options typedoc.json",
     "build": "npx sucrase ./src -d ./build --esModuleInterop --transforms typescript,imports",
     "build:prod": "npm run build && npm run minify && npm run types:declarations",
     "minify": "npx uglifyjs-folder ./build --compress --mangle -eo build -x .js",
@@ -40,24 +41,19 @@
   },
   "author": "Davi Patricio <davipatricio@pm.me>",
   "devDependencies": {
-    "@babel/core": "7.17.2",
-    "@babel/eslint-parser": "^7.17.0",
-    "@babel/preset-env": "7.16.11",
-    "@babel/preset-typescript": "7.16.7",
     "@types/node": "16.11.24",
     "@types/ws": "8.2.2",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
-    "clean-jsdoc-theme": "^3.3.2",
     "eslint": "^8.9.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
-    "jsdoc": "^3.6.10",
-    "jsdoc-babel": "^0.5.0",
     "prettier": "^2.5.1",
     "sucrase": "^3.20.3",
+    "typedoc": "^0.22.11",
+    "typedoc-plugin-extras": "^2.2.3",
     "typescript": "4.5.5",
     "uglifyjs-folder": "^3.0.0"
   },

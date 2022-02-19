@@ -5,6 +5,7 @@ interface Action {
   handle: Handler;
 }
 
+/** @internal */
 class ActionManager {
   loaded: { [key: string]: Action } = {};
   constructor() {
