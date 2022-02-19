@@ -64,7 +64,7 @@ class Client extends EventEmitter {
    * Logs the client in, establishing a WebSocket connection to Discord
    * @param token - Token of the account to log in with
    */
-  async login(token: string): Promise<string> {
+  login(token: string) {
     if (typeof token !== 'string') throw new Error('A token is required and must be a string');
     this.token = token;
     this.emit(Events.Debug, '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
