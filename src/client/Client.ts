@@ -68,7 +68,7 @@ class Client extends EventEmitter {
     if (typeof token !== 'string') throw new Error('A token is required and must be a string');
     this.token = token;
     this.emit(Events.Debug, '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
-    await this.ws.connect();
+    this.ws.connect();
     return token;
   }
 
@@ -80,7 +80,7 @@ class Client extends EventEmitter {
   }
 
   /**
-   * Emits `Client#reconnecting` and calls `Client.login()` again
+   * Emits `Client#Reconnecting` and calls `Client.login()` again
    * @private
    */
   reconnect() {
@@ -92,7 +92,7 @@ class Client extends EventEmitter {
 
     // If we don't have a session id, we cannot reconnect
     this.api.shouldResume = Boolean(this.api.sessionId);
-    this.login(this.token);
+    return this.login(this.token);
   }
 
   /** @private */
