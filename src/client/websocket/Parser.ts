@@ -1,5 +1,6 @@
 import { GatewayHelloData, GatewayOpcodes, GatewayReceivePayload } from 'discord-api-types/v10';
 import type { RawData } from 'ws';
+import { Events } from '../../constants/Events';
 import type { Client } from '../Client';
 import * as Heartbeater from './Heartbeater';
 import * as Payloads from './Payloads';
@@ -15,6 +16,12 @@ function message(client: Client, rawData: RawData): void {
   if (!client.api.shouldResume && opcode === GatewayOpcodes.Dispatch) client.api.sequence = sequence ?? null;
 
   switch (opcode) {
+    case GatewayOpcodes.Dispatch: {
+      const eventName = parsedData.t;
+      client.actions.loaded[eventName]?.handle(client, eventData);
+      break;
+    }
+
     case GatewayOpcodes.InvalidSession: {
       if (client.api.shouldResume) return;
       client.ws.connection?.close(4_000);
@@ -33,7 +40,7 @@ function message(client: Client, rawData: RawData): void {
         client.api.shouldResume = false;
         client.api.heartbeatInterval = data.heartbeat_interval;
 
-        client.emit('debug', `[DEBUG] Defined Heartbeater to ${data.heartbeat_interval}ms. Starting to Heartbeat.`);
+        client.emit(Events.Debug, `[DEBUG] Defined Heartbeater to ${data.heartbeat_interval}ms. Starting to Heartbeat.`);
 
         // Because we're starting to Heartbeat, we need to say that the last Heartbeater was acked.
         client.api.heartbeatAcked = true;
@@ -43,7 +50,7 @@ function message(client: Client, rawData: RawData): void {
         Heartbeater.sendImmediately(client);
         return;
       }
-      client.emit('debug', `[DEBUG] Defined Heartbeater to ${data.heartbeat_interval}ms. Starting to Heartbeat.`);
+      client.emit(Events.Debug, `[DEBUG] Defined Heartbeater to ${data.heartbeat_interval}ms. Starting to Heartbeat.`);
 
       client.api.heartbeatInterval = data.heartbeat_interval;
 
@@ -57,7 +64,7 @@ function message(client: Client, rawData: RawData): void {
 
     // Gateway Heartbeater ACK
     case GatewayOpcodes.HeartbeatAck: {
-      client.emit('debug', '[DEBUG] Received Heartbeat ACK.');
+      client.emit(Events.Debug, '[DEBUG] Received Heartbeat ACK.');
       client.api.lastHeartbeatAck = Date.now();
 
       // Mark that we've received the Heartbeater ACK so we can send more heartbeats.

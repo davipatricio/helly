@@ -1,13 +1,14 @@
+import type { GatewayDispatchEvents, GatewayReceivePayload } from 'discord-api-types/v10';
 import type { Client } from '../Client.js';
 
-type Handler = (client: Client, ...data: never[]) => void;
-interface Action {
+export type Handler = (client: Client, ...data: GatewayReceivePayload['d'][]) => void;
+export interface Action {
   handle: Handler;
 }
 
 /** @private */
 class ActionManager {
-  loaded: { [key: string]: Action } = {};
+  loaded: Partial<Record<GatewayDispatchEvents, Action>> = {};
   constructor() {
     this.loaded = {};
     this.loadActions();

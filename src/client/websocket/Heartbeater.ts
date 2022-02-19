@@ -1,4 +1,5 @@
 import { GatewayHeartbeat, GatewayOpcodes } from 'discord-api-types/v10';
+import { Events } from '../../constants/Events';
 import type { Client } from '../Client';
 
 function start(client: Client) {
@@ -19,13 +20,13 @@ function start(client: Client) {
     client.api.heartbeatAcked = false;
 
     client.ws.connection?.send(JSON.stringify(heartbeatData));
-    client.emit('debug', '[DEBUG] Sent heartbeat to Discord.');
+    client.emit(Events.Debug, '[DEBUG] Sent heartbeat to Discord.');
 
     // The client should receive an ACK in less than 15 seconds
     // If not, the client should disconnect and reconnect and send a 'Resume' command
     setTimeout(() => {
       if (!client.api.heartbeatAcked) {
-        client.emit('debug', "[DEBUG] Heartbeat wasn't acked in 15 seconds. Reconnecting...");
+        client.emit(Events.Debug, "[DEBUG] Heartbeat wasn't acked in 15 seconds. Reconnecting...");
 
         // Close the connection with a non-1000 code so we can reconnect with the stored session id
         client.ws.connection?.close(4_000);
@@ -46,7 +47,7 @@ function sendImmediately(client: Client) {
   };
 
   client.ws.connection?.send(JSON.stringify(heartbeatData));
-  client.emit('debug', '[DEBUG] Sent heartbeat to Discord.');
+  client.emit(Events.Debug, '[DEBUG] Sent heartbeat to Discord.');
 }
 
 export { start, stop, sendImmediately };
