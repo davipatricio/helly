@@ -33,4 +33,4 @@ function sendResume(client: Client): void {
   client.ws.connection?.send(JSON.stringify(ResumePayload));
 }
 
-export default { sendIdentify, sendResume };
+export { sendIdentify, sendResume };

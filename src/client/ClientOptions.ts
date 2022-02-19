@@ -34,7 +34,7 @@ export interface RestOptions {
 export interface ClientOptions {
   /**
    * Whether the client should automatically reconnect if it loses its connection
-   * @defaultValue true
+   * @defaultValue `true`
    */
   autoReconnect: boolean;
   /** Options for the REST Manager */
@@ -43,7 +43,7 @@ export interface ClientOptions {
   ws: WebSocketOptions;
 }
 
-export const defaultValues: ClientOptions = {
+export const defaultClientOptions: ClientOptions = {
   autoReconnect: true,
   rest: {
     api: RouteBases.api,

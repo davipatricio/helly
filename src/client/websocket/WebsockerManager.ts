@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import type { Client } from '../Client';
-import Parser from './Parser';
+import * as Parser from './Parser';
 
 /** @internal */
 class WebsocketManager {

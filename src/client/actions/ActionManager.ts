@@ -1,11 +1,11 @@
-import type { Client } from '../Client';
+import type { Client } from '../Client.js';
 
 type Handler = (client: Client, ...data: never[]) => void;
 interface Action {
   handle: Handler;
 }
 
-/** @internal */
+/** @private */
 class ActionManager {
   loaded: { [key: string]: Action } = {};
   constructor() {

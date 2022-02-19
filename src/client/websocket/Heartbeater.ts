@@ -49,4 +49,4 @@ function sendImmediately(client: Client) {
   client.emit('debug', '[DEBUG] Sent heartbeat to Discord.');
 }
 
-export default { start, stop, sendImmediately };
+export { start, stop, sendImmediately };

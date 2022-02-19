@@ -30,7 +30,7 @@
         "resolveJsonModule": true,
         "skipDefaultLibCheck": true,
         "skipLibCheck": true,
-        "sourceMap": false,
+        "sourceMap": true,
         "target": "ES2021",
         "useDefineForClassFields": false,
         "useUnknownInCatchVariables": true

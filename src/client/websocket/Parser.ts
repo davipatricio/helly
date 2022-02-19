@@ -1,8 +1,8 @@
 import { GatewayHelloData, GatewayOpcodes, GatewayReceivePayload } from 'discord-api-types/v10';
 import type { RawData } from 'ws';
 import type { Client } from '../Client';
-import Heartbeater from './Heartbeater';
-import Payloads from './Payloads';
+import * as Heartbeater from './Heartbeater';
+import * as Payloads from './Payloads';
 
 function message(client: Client, rawData: RawData): void {
   const parsedData: GatewayReceivePayload = JSON.parse(rawData as unknown as string);
@@ -68,4 +68,4 @@ function message(client: Client, rawData: RawData): void {
   }
 }
 
-export default { message };
+export { message };

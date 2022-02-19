@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import { ActionManager } from './actions/ActionManager';
-import { ClientOptions, defaultValues } from './ClientOptions';
-import Heartbeater from './websocket/Heartbeater';
+import { ClientOptions, defaultClientOptions } from './ClientOptions';
+import * as Heartbeater from './websocket/Heartbeater';
 import { WebsocketManager } from './websocket/WebsockerManager';
 
 interface ClientAPI {
@@ -39,7 +39,7 @@ class Client extends EventEmitter {
 
     this.actions = new ActionManager();
     this.ws = new WebsocketManager(this);
-    this.options = Object.assign(defaultValues, options);
+    this.options = Object.assign(defaultClientOptions, options);
 
     this.api = {
       shouldResume: false,
