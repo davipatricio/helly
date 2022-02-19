@@ -1,4 +1,5 @@
 import { RouteBases, GatewayVersion } from 'discord-api-types/v10';
+import type { IntentParser } from '../utils/Intents';
 
 /**
  * Options for the {@link ClientOptions.ws | WebSocket}
@@ -41,10 +42,12 @@ export interface ClientOptions {
   rest: RestOptions;
   /** Options for the WebSocket */
   ws: WebSocketOptions;
+  intents: IntentParser;
 }
 
 export const defaultClientOptions: ClientOptions = {
   autoReconnect: true,
+  intents: 0,
   rest: {
     api: RouteBases.api,
     cdn: RouteBases.cdn,

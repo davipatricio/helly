@@ -1,4 +1,6 @@
 import EventEmitter from 'events';
+import type { Events } from '../constants/Events';
+import { Intents } from '../utils/Intents';
 import { ActionManager } from './actions/ActionManager';
 import { ClientOptions, defaultClientOptions } from './ClientOptions';
 import * as Heartbeater from './websocket/Heartbeater';
@@ -40,6 +42,7 @@ class Client extends EventEmitter {
     this.actions = new ActionManager();
     this.ws = new WebsocketManager(this);
     this.options = Object.assign(defaultClientOptions, options);
+    this.options.intents = Intents.parse(this.options.intents);
 
     this.api = {
       shouldResume: false,
@@ -64,6 +67,7 @@ class Client extends EventEmitter {
   async login(token: string): Promise<string> {
     if (typeof token !== 'string') throw new Error('A token is required and must be a string');
     this.token = token;
+    this.emit('debug', '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
     await this.ws.connect();
     return token;
   }
@@ -94,6 +98,24 @@ class Client extends EventEmitter {
   /** @private */
   cleanUp() {
     this.ping = 0;
+  }
+
+  override on(event: string | symbol, listener: (...args: any[]) => void): this;
+  override on(event: Events.READY, listener: (client: Client) => any): this;
+  override on(event: Events.DEBUG, listener: (information: string) => any): this;
+  override on(event: 'ready', listener: (client: Client) => any): this;
+  override on(event: 'debug', listener: (information: string) => any): this;
+  override on(event: string | symbol, listener: (...args: any[]) => void): this {
+    return super.on(event, listener);
+  }
+
+  override once(event: string | symbol, listener: (...args: any[]) => void): this;
+  override once(event: Events.READY, listener: (client: Client) => any): this;
+  override once(event: Events.DEBUG, listener: (information: string) => any): this;
+  override once(event: 'ready', listener: (client: Client) => any): this;
+  override once(event: 'debug', listener: (information: string) => any): this;
+  override once(event: string | symbol, listener: (...args: any[]) => void): this {
+    return super.once(event, listener);
   }
 }
 

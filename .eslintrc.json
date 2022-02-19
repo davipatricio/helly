@@ -22,12 +22,14 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
         "class-methods-use-this": "off",
         "default-case": "off",
         "import/prefer-default-export": "off",
         "import/extensions": "off",
         "import/no-unresolved": "off",
         "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
-        "no-param-reassign": ["error", { "props": false }]
+        "no-param-reassign": ["error", { "props": false }],
+        "no-bitwise": "off"
     }
 }
