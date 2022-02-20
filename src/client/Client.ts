@@ -1,5 +1,7 @@
 import EventEmitter from 'events';
 import { Events } from '../constants/Events';
+import { CacheManager } from '../managers/CacheManager';
+import { GuildManager } from '../managers/GuildManager';
 import { Intents } from '../utils/Intents';
 import { ActionManager } from './actions/ActionManager';
 import { ClientOptions, defaultClientOptions } from './ClientOptions';
@@ -35,14 +37,22 @@ class Client extends EventEmitter {
   token: string;
   /** The previous heartbeat ping of the {@link Client} */
   ping: number;
+  // TODO: Add links to respective structures
+  /** Stores caches of Guilds, Roles, Members, Channels and Messages */
+  caches: CacheManager;
+  /** Manages API methods for Guilds */
+  guilds: GuildManager;
   /** @param options - The options for the client */
   constructor(options = {} as Partial<ClientOptions>) {
     super();
 
     this.actions = new ActionManager();
     this.ws = new WebsocketManager(this);
+
     this.options = Object.assign(defaultClientOptions, options);
     this.options.intents = Intents.parse(this.options.intents);
+
+    this.#prepareCaches();
 
     this.api = {
       shouldResume: false,
@@ -98,6 +108,13 @@ class Client extends EventEmitter {
   /** @private */
   cleanUp() {
     this.ping = 0;
+    this.caches.destroy();
+  }
+
+  /** @private */
+  #prepareCaches() {
+    this.caches = new CacheManager(this, this.options.caches);
+    this.guilds = new GuildManager(this);
   }
 
   override on(event: string | symbol, listener: (...args: any[]) => void): this;

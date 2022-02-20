@@ -2,13 +2,38 @@ import { RouteBases, GatewayVersion } from 'discord-api-types/v10';
 import type { IntentParser } from '../utils/Intents';
 
 /**
- * Options for the {@link ClientOptions.ws | WebSocket}
+ * Options for a {@link Client}
  */
-export interface WebSocketOptions {
-  /** @defaultValue `wss://gateway.discord.gg/` */
-  gateway: string;
-  /** @defaultValue `10` */
-  version: string;
+export interface ClientOptions {
+  /**
+   * Whether the client should automatically reconnect if it loses its connection
+   * @defaultValue `true`
+   */
+  autoReconnect: boolean;
+  /** Limit caching of specific structures */
+  caches: ClientCacheOptions;
+  /** {@link Intents} to enable for this connection */
+  intents: IntentParser;
+  /** Options for the REST Manager */
+  rest: RestOptions;
+  /** Options for the WebSocket */
+  ws: WebSocketOptions;
+}
+
+/**
+ * Caching options for {@link ClientOptions.caches}
+ */
+export interface ClientCacheOptions {
+  /** @defaultValue `Infinity` */
+  guilds: number;
+  /** @defaultValue `Infinity` */
+  roles: number;
+  /** @defaultValue `Infinity` */
+  members: number;
+  /** @defaultValue `Infinity` */
+  channels: number;
+  /** @defaultValue `Infinity` */
+  messages: number;
 }
 
 /**
@@ -30,23 +55,24 @@ export interface RestOptions {
 }
 
 /**
- * Options for a {@link Client}
+ * Options for the {@link ClientOptions.ws | WebSocket}
  */
-export interface ClientOptions {
-  /**
-   * Whether the client should automatically reconnect if it loses its connection
-   * @defaultValue `true`
-   */
-  autoReconnect: boolean;
-  /** Options for the REST Manager */
-  rest: RestOptions;
-  /** Options for the WebSocket */
-  ws: WebSocketOptions;
-  intents: IntentParser;
+export interface WebSocketOptions {
+  /** @defaultValue `wss://gateway.discord.gg/` */
+  gateway: string;
+  /** @defaultValue `10` */
+  version: string;
 }
 
 export const defaultClientOptions: ClientOptions = {
   autoReconnect: true,
+  caches: {
+    guilds: Infinity,
+    roles: Infinity,
+    members: Infinity,
+    channels: Infinity,
+    messages: Infinity,
+  },
   intents: 0,
   rest: {
     api: RouteBases.api,
