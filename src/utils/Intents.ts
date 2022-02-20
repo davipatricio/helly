@@ -5,6 +5,7 @@ export type IntentParser = (keyof typeof GatewayIntentBits | number)[] | number;
 class Intents extends null {
   /** Object containing all available intents */
   static Flags: typeof GatewayIntentBits;
+
   /**
    * Parse an array of strings into intents
    * @param intents - Intents to parse
@@ -16,12 +17,8 @@ class Intents extends null {
     let finalIntents = 0;
 
     intents.forEach(intent => {
-      const bitfield: number = GatewayIntentBits[intent] as number;
-      if (!bitfield && typeof intent === 'number') {
-        finalIntents |= intent;
-        return;
-      }
-      if (bitfield) finalIntents |= bitfield;
+      const bitfield = GatewayIntentBits[intent] as number;
+      finalIntents |= bitfield;
     });
 
     return finalIntents;
