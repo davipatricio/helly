@@ -33,29 +33,22 @@ function message(client: Client, rawData: RawData): void {
     case GatewayOpcodes.Hello: {
       const data = eventData as GatewayHelloData;
 
+      client.emit(Events.Debug, `[DEBUG] Defined Heartbeater to ${data.heartbeat_interval}ms. Starting to Heartbeat.`);
+      client.api.heartbeatInterval = data.heartbeat_interval;
+      // Because we're starting to Heartbeat, we need to say that the last Heartbeater was acked.
+      client.api.heartbeatAcked = true;
+
       // Here we should resume the session if we have a pending resume request
       if (client.api.shouldResume) {
         Payloads.sendResume(client);
 
         client.api.shouldResume = false;
-        client.api.heartbeatInterval = data.heartbeat_interval;
-
-        client.emit(Events.Debug, `[DEBUG] Defined Heartbeater to ${data.heartbeat_interval}ms. Starting to Heartbeat.`);
-
-        // Because we're starting to Heartbeat, we need to say that the last Heartbeater was acked.
-        client.api.heartbeatAcked = true;
         client.ready = true;
 
         Heartbeater.start(client);
         Heartbeater.sendImmediately(client);
         return;
       }
-      client.emit(Events.Debug, `[DEBUG] Defined Heartbeater to ${data.heartbeat_interval}ms. Starting to Heartbeat.`);
-
-      client.api.heartbeatInterval = data.heartbeat_interval;
-
-      // Because we're starting to Heartbeat, we need to say that the last Heartbeater was acked.
-      client.api.heartbeatAcked = true;
 
       Heartbeater.start(client);
       Payloads.sendIdentify(client);
