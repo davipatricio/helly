@@ -1,27 +1,28 @@
 import type { GatewayDispatchEvents, GatewayReceivePayload } from 'discord-api-types/v10';
 import type { Client } from '../Client.js';
 
-export type Handler = (client: Client, data: GatewayReceivePayload['d']) => void;
+/** Represents the type of the {@link Action.handle} function */
+export type ActionHandler = (client: Client, data: GatewayReceivePayload['d']) => void;
+
+/** Represents the structure of an Action */
 export interface Action {
-  handle: Handler;
+  handle: ActionHandler;
 }
 
 /**
- * The ActionManager is responsible for handling all events that are dispatched by the Gateway
+ * ActionManager is responsible for handling all events that are dispatched by the Gateway
  * @private
  */
 class ActionManager {
+  /** An object mapped by the {@link GatewayDispatchEvents | Actions} name */
   loaded: Partial<Record<GatewayDispatchEvents, Action>> = {};
   constructor() {
     this.loaded = {};
-    this.loadActions();
+    this.#loadActions();
   }
 
-  /**
-   * Loads all actions from the actions folder
-   * @private
-   */
-  async loadActions() {
+  /** Loads all actions from the actions folder */
+  async #loadActions() {
     this.loaded.READY = await import('./READY');
   }
 }

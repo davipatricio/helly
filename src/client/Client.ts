@@ -23,7 +23,10 @@ interface ClientAPI {
  * The main hub for interacting with the Discord API, and the starting point for any bot
  */
 class Client extends EventEmitter {
-  /** @private */
+  /**
+   * ActionManager is responsible for handling all events that are dispatched by the Gateway
+   * @private
+   */
   actions: ActionManager;
   /** @private */
   ws: WebsocketManager;
@@ -42,7 +45,7 @@ class Client extends EventEmitter {
   caches: CacheManager;
   /** Manages API methods for Guilds */
   guilds: GuildManager;
-  /** @param options - The options for the client */
+  /** @param [options] - The options for the client */
   constructor(options = {} as Partial<ClientOptions>) {
     super();
 

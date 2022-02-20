@@ -6,10 +6,7 @@ import { LimitedMap } from '../utils/LimitedMap';
 class CacheManager {
   /** The client that instantiated this Manager */
   client: Client;
-  /**
-   * The limits of the caches
-   * @private
-   */
+  /** The limits of the caches */
   #limits: ClientCacheOptions;
   /** Map that stores caches of Guilds */
   guilds: LimitedMap<string, unknown>;
@@ -19,17 +16,12 @@ class CacheManager {
     this.#createCaches();
   }
 
-  /**
-   * Separately create all structure caches with specified limits
-   * @private
-   */
+  /** Separately create all structure caches with specified limits */
   #createCaches() {
     this.guilds = new LimitedMap(this.#limits.guilds);
   }
 
-  /**
-   * Erases all items that are stored in the cache
-   */
+  /** Erases all items that are stored in the cache */
   destroy(): this {
     this.guilds.clear();
     return this;
