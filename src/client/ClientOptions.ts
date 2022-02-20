@@ -1,9 +1,7 @@
 import { RouteBases, GatewayVersion } from 'discord-api-types/v10';
 import type { IntentParser } from '../utils/Intents';
 
-/**
- * Options for a {@link Client}
- */
+/** Options for a {@link Client} */
 export interface ClientOptions {
   /**
    * Whether the client should automatically reconnect if it loses its connection
@@ -20,9 +18,7 @@ export interface ClientOptions {
   ws: WebSocketOptions;
 }
 
-/**
- * Caching options for {@link ClientOptions.caches}
- */
+/** Caching options for {@link ClientOptions.caches} */
 export interface ClientCacheOptions {
   /** @defaultValue `Infinity` */
   guilds: number;
@@ -36,9 +32,7 @@ export interface ClientCacheOptions {
   messages: number;
 }
 
-/**
- * Options for the {@link ClientOptions.rest | REST Manager}
- */
+/** Options for the {@link ClientOptions.rest | REST Manager} */
 export interface RestOptions {
   /** @defaultValue `https://discord.com/api/v10` */
   api: string;
@@ -54,9 +48,7 @@ export interface RestOptions {
   scheduledEvent: string;
 }
 
-/**
- * Options for the {@link ClientOptions.ws | WebSocket}
- */
+/** Options for the {@link ClientOptions.ws | WebSocket} */
 export interface WebSocketOptions {
   /** @defaultValue `wss://gateway.discord.gg/` */
   gateway: string;

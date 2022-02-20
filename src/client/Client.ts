@@ -19,9 +19,7 @@ interface ClientAPI {
   heartbeatTimer: NodeJS.Timer | null;
 }
 
-/**
- * The main hub for interacting with the Discord API, and the starting point for any bot
- */
+/** The main hub for interacting with the Discord API, and the starting point for any bot */
 class Client extends EventEmitter {
   /**
    * ActionManager is responsible for handling all events that are dispatched by the Gateway
@@ -85,9 +83,7 @@ class Client extends EventEmitter {
     return token;
   }
 
-  /**
-   * Returns whether the client has logged in, indicative of being able to access properties such as user and application
-   */
+  /** Returns whether the client has logged in, indicative of being able to access properties such as user and application */
   isReady() {
     return this.ready === true;
   }

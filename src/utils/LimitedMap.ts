@@ -1,10 +1,8 @@
-/**
- * A Map that have a limited size and will remove the oldest items once the max size is reached
- */
+/** A Map that have a limited size and will remove the oldest items once the max size is reached */
 class LimitedMap<K, V> extends Map<K, V> {
   /** The maximum limit of this map */
   limit: number;
-  /** @param - The maximum size of the map */
+  /** @param limit - The maximum size of the map */
   constructor(limit = Infinity) {
     super();
     this.limit = limit;
@@ -24,23 +22,17 @@ class LimitedMap<K, V> extends Map<K, V> {
     return super.set(key, value);
   }
 
-  /**
-   * Sorts the map with the provided function
-   */
+  /** Sorts the map with the provided function */
   sort(fn: (a: any, b: any) => number): any[] {
     return this.valueArray().sort(fn);
   }
 
-  /**
-   * Returns an array with all keys
-   */
+  /** Returns an array with all keys */
   keyArray(): any[] {
     return [...this.keys()];
   }
 
-  /**
-   * Returns an array with all values
-   */
+  /** Returns an array with all values */
   valueArray(): any[] {
     return [...this.values()];
   }

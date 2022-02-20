@@ -2,6 +2,7 @@ import { GatewayIntentBits } from 'discord-api-types/v10';
 
 export type IntentParser = (keyof typeof GatewayIntentBits | number)[] | number;
 
+/** Utility class for working with intents */
 class Intents extends null {
   /** Object containing all available intents */
   static Flags: typeof GatewayIntentBits;
