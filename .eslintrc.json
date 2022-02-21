@@ -28,11 +28,29 @@
         "import/prefer-default-export": "off",
         "import/extensions": "off",
         "import/no-unresolved": "off",
-        "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
-        "no-param-reassign": ["error", { "props": false }],
+        "lines-between-class-members": [
+            "error",
+            "always",
+            {
+                "exceptAfterSingleLine": true
+            }
+        ],
+        "no-param-reassign": [
+            "error",
+            {
+                "props": false
+            }
+        ],
         "no-bitwise": "off",
-        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+        "no-plusplus": [
+            "error",
+            {
+                "allowForLoopAfterthoughts": true
+            }
+        ],
         "no-use-before-define": "off",
-        "@typescript-eslint/no-use-before-define": ["error"]
+        "@typescript-eslint/no-use-before-define": [
+            "error"
+        ]
     }
 }

@@ -11,7 +11,7 @@ class Intents extends null {
    * Parse an array of strings into intents
    * @param intents - Intents to parse
    */
-  static parse(intents: IntentParser): number {
+  static parse(intents: IntentParser) {
     if (typeof intents === 'number') return intents;
     if (!Array.isArray(intents)) throw new Error('Intents must be an array or number');
 
