@@ -1,4 +1,4 @@
-export { GatewayDispatchEvents, GatewayIntentBits, GatewayReceivePayload } from 'discord-api-types/v10';
+export { APIGuild, GuildFeature, GatewayDispatchEvents, GatewayIntentBits, GatewayReceivePayload } from 'discord-api-types/v10';
 export { Action, ActionHandler, ActionManager } from './client/actions/ActionManager';
 export { Client } from './client/Client';
 export { ClientCacheOptions, ClientOptions, defaultClientOptions, RestOptions, WebSocketOptions } from './client/ClientOptions';
