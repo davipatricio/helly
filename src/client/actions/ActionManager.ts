@@ -24,6 +24,7 @@ class ActionManager {
   /** Loads all actions from the actions folder */
   async #loadActions() {
     this.loaded.READY = await import('./READY');
+    this.loaded.GUILD_CREATE = await import('./GUILD_CREATE');
   }
 }
 

@@ -55,12 +55,11 @@ class Guild extends BaseStructure {
     return this.data.id;
   }
 
-  override parseData(data: APIGuild) {
+  /** @private */
+  parseData(data: APIGuild) {
     if (!data) return;
-    this.data = data;
+    this.data = { ...this.data, ...data };
     // TODO: parse channels, members & roles
-
-    this.client.guilds.updateOrSet(this.id, this.data);
   }
 }
 

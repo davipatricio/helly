@@ -23,7 +23,12 @@ class GuildManager {
    */
   updateOrSet(id: string, data: APIGuild) {
     const cachedGuild = this.client.caches.guilds.get(id);
-    return cachedGuild ? cachedGuild.parseData(data) : this.client.caches.guilds.set(id, new Guild(this.client, data));
+    if (cachedGuild) return cachedGuild.parseData(data);
+
+    const guild = new Guild(this.client, data);
+    this.client.caches.guilds.set(id, guild);
+
+    return guild;
   }
 }
 

@@ -10,10 +10,6 @@ class BaseStructure {
   clone() {
     return Object.assign(Object.create(this), this);
   }
-
-  parseData(_param: any) {
-    return _param;
-  }
 }
 
 export { BaseStructure };

@@ -51,7 +51,7 @@ class Client extends EventEmitter {
     this.ws = new WebsocketManager(this);
 
     this.options = Object.assign(defaultClientOptions, options);
-    this.options.intents = Intents.parse(this.options.intents);
+    this.options.intents = this.options.intents instanceof Intents ? this.options.intents.bitfield : new Intents(this.options.intents).parse();
 
     this.#prepareCaches();
 
@@ -119,8 +119,10 @@ class Client extends EventEmitter {
   override on(event: string | symbol, listener: (...args: any[]) => void): this;
   override on(event: Events.Ready, listener: (client: Client) => any): this;
   override on(event: Events.Debug, listener: (information: string) => any): this;
+  override on(event: Events.GuildCreate, listener: (information: string) => any): this;
   override on(event: 'Ready', listener: (client: Client) => any): this;
   override on(event: 'Debug', listener: (information: string) => any): this;
+  override on(event: 'GuildCreate', listener: (information: string) => any): this;
   override on(event: string | symbol, listener: (...args: any[]) => void): this {
     return super.on(event, listener);
   }
@@ -128,8 +130,10 @@ class Client extends EventEmitter {
   override once(event: string | symbol, listener: (...args: any[]) => void): this;
   override once(event: Events.Ready, listener: (client: Client) => any): this;
   override once(event: Events.Debug, listener: (information: string) => any): this;
+  override once(event: Events.GuildCreate, listener: (information: string) => any): this;
   override once(event: 'Ready', listener: (client: Client) => any): this;
   override once(event: 'Debug', listener: (information: string) => any): this;
+  override once(event: 'GuildCreate', listener: (information: string) => any): this;
   override once(event: string | symbol, listener: (...args: any[]) => void): this {
     return super.once(event, listener);
   }
