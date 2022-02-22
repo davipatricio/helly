@@ -7,15 +7,33 @@ import { Role } from '../structures/Role';
 
 /** Manages API methods for {@link Role}s */
 class RoleManager {
-  /** The client that instantiated this Manager */
+  /** The {@link Client} that instantiated this Manager */
   client: Client;
-  constructor(client: Client) {
+  /** The {@link Guild} belonging to this manager */
+  guild: Guild;
+  constructor(client: Client, guild: Guild) {
     this.client = client;
+    this.guild = guild;
   }
 
   /** Shortcut to {@link CacheManager.roles} */
   get cache() {
-    return this.client.caches.roles;
+    return this.client.caches.roles.filter(r => r.guild?.id === this.guild.id);
+  }
+
+  /** The role with the highest position in the cache */
+  get highest() {
+    return this.cache.sort((a, b) => b.position - a.position).first();
+  }
+
+  /** The premium subscriber role of the guild, if any */
+  get premiumSubscriberRole() {
+    return this.cache.find(role => role.tags?.premiumSubscriber !== null) ?? null;
+  }
+
+  /** The `@everyone` role of the guild */
+  get everyone() {
+    return this.cache.get(this.guild.id);
   }
 
   /**

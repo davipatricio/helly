@@ -2,7 +2,6 @@ import EventEmitter from 'events';
 import { Events } from '../constants/Events';
 import { CacheManager } from '../managers/CacheManager';
 import { GuildManager } from '../managers/GuildManager';
-import { RoleManager } from '../managers/RoleManager';
 import { Intents } from '../utils/Intents';
 import { ActionManager } from './actions/ActionManager';
 import { ClientOptions, defaultClientOptions, ParsedClientOptions } from './ClientOptions';
@@ -44,8 +43,6 @@ class Client extends EventEmitter {
   caches: CacheManager;
   /** Manages API methods for {@link Guild}s */
   guilds: GuildManager;
-  /** Manages API methods for {@link Role}s */
-  roles: RoleManager;
   /** @param [options] - The options for the client */
   constructor(options = {} as Partial<ClientOptions>) {
     super();
@@ -117,7 +114,6 @@ class Client extends EventEmitter {
   #prepareCaches() {
     this.caches = new CacheManager(this, this.options.caches);
     this.guilds = new GuildManager(this);
-    this.roles = new RoleManager(this);
   }
 
   override on(event: string | symbol, listener: (...args: any[]) => void): this;

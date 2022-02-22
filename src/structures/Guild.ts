@@ -1,12 +1,16 @@
 import type { APIGuild } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
+import { RoleManager } from '../managers/RoleManager';
 import { BaseStructure } from './BaseStructure';
 
 class Guild extends BaseStructure {
   /** Raw {@link Guild} data */
   data: APIGuild;
+  /** A manager of the roles belonging to this {@link Guild} */
+  roles: RoleManager;
   constructor(client: Client, data: APIGuild) {
     super(client);
+    this.roles = new RoleManager(client, this);
     this.parseData(data);
   }
 
@@ -55,10 +59,6 @@ class Guild extends BaseStructure {
     return this.data.id;
   }
 
-  get roles() {
-    return this.client.caches.roles.filter(role => role.guild?.id === this.id);
-  }
-
   /** @private */
   parseData(data: APIGuild): this {
     if (!data) return this;
@@ -66,7 +66,7 @@ class Guild extends BaseStructure {
     // TODO: parse channels, members etc
     if (this.data.roles) {
       this.data.roles.forEach(apiRole => {
-        this.client.roles.updateOrSet(apiRole.id, apiRole, this);
+        this.roles.updateOrSet(apiRole.id, apiRole, this);
       });
     }
     return this;
