@@ -47,6 +47,10 @@ class Guild extends BaseStructure {
     return this.data.member_count;
   }
 
+  get roles() {
+    return this.client.caches.roles.filter(role => role.guild?.id === this.id);
+  }
+
   get name() {
     return this.data.name;
   }
@@ -56,10 +60,16 @@ class Guild extends BaseStructure {
   }
 
   /** @private */
-  parseData(data: APIGuild) {
-    if (!data) return;
+  parseData(data: APIGuild): this {
+    if (!data) return this;
     this.data = { ...this.data, ...data };
-    // TODO: parse channels, members & roles
+    // TODO: parse channels, members etc
+    if (this.data.roles) {
+      this.data.roles.forEach(apiRole => {
+        this.client.roles.updateOrSet(apiRole.id, apiRole, this);
+      });
+    }
+    return this;
   }
 }
 

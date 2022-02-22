@@ -39,7 +39,7 @@ function message(client: Client, rawData: RawData): void {
       client.api.heartbeatAcked = true;
 
       // Here we should resume the session if we have a pending resume request
-      if (client.api.shouldResume) {
+      if (client.api.shouldResume && client.api.sessionId && client.api.sequence !== null) {
         Payloads.sendResume(client);
 
         client.api.shouldResume = false;
@@ -62,7 +62,7 @@ function message(client: Client, rawData: RawData): void {
 
       // Mark that we've received the Heartbeater ACK so we can send more heartbeats.
       client.api.heartbeatAcked = true;
-      client.ping = client.api.lastHeartbeatAck - client.api.lastHeartbeat;
+      if (client.api.lastHeartbeat) client.ping = client.api.lastHeartbeatAck - client.api.lastHeartbeat;
       break;
     }
   }

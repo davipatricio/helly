@@ -4,7 +4,7 @@ import { Guild } from '../structures/Guild';
 
 // TODO: GuildManager methods (.create, .delete, .fetch etc)
 
-/** Manages API methods for Guilds */
+/** Manages API methods for {@link Guild}s */
 class GuildManager {
   /** The client that instantiated this Manager */
   client: Client;
@@ -18,7 +18,7 @@ class GuildManager {
   }
 
   /**
-   * Updates or caches a guild with the provided {@link APIGuild} data
+   * Updates or caches a {@link Guild} with the provided {@link APIGuild} data
    * @private
    */
   updateOrSet(id: string, data: APIGuild) {

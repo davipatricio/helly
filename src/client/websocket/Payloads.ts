@@ -25,8 +25,8 @@ function sendResume(client: Client): void {
     op: GatewayOpcodes.Resume,
     d: {
       token: client.token,
-      session_id: client.api.sessionId,
-      seq: client.api.sequence,
+      session_id: client.api.sessionId as string,
+      seq: client.api.sequence as number,
     },
   };
 

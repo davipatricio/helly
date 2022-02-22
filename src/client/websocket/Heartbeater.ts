@@ -4,7 +4,7 @@ import type { Client } from '../Client';
 
 function start(client: Client) {
   // We don't want a lot of intervals sending heartbeats, so we use a single interval to do this task
-  if (client.api.heartbeatTimer) return;
+  if (client.api.heartbeatTimer || !client.api.heartbeatInterval) return;
 
   client.api.heartbeatTimer = setInterval(() => {
     // If Discord didn't respond to our last heartbeat, we shouldn't send more heartbeats

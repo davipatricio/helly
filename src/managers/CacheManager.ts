@@ -1,7 +1,8 @@
 import type { Client } from '../client/Client';
 import type { ClientCacheOptions } from '../client/ClientOptions';
 import type { Guild } from '../structures/Guild';
-import { LimitedMap } from '../utils/LimitedMap';
+import type { Role } from '../structures/Role';
+import { LimitedCollection } from '../utils/LimitedCollection';
 
 // TODO: Add type definitions for structures
 class CacheManager {
@@ -9,8 +10,10 @@ class CacheManager {
   client: Client;
   /** The limits of the caches */
   #limits: ClientCacheOptions;
-  /** Map that stores caches of Guilds */
-  guilds: LimitedMap<string, Guild>;
+  /** Map that stores caches of {@link Guild}s */
+  guilds: LimitedCollection<string, Guild>;
+  /** Map that stores caches of {@link Role}s */
+  roles: LimitedCollection<string, Role>;
   constructor(client: Client, limits: ClientCacheOptions) {
     this.client = client;
     this.#limits = limits;
@@ -19,12 +22,14 @@ class CacheManager {
 
   /** Separately create all structure caches with specified limits */
   #createCaches() {
-    this.guilds = new LimitedMap(this.#limits.guilds);
+    this.guilds = new LimitedCollection(this.#limits.guilds);
+    this.roles = new LimitedCollection(this.#limits.roles);
   }
 
   /** Erases all items that are stored in the cache */
   destroy() {
     this.guilds.clear();
+    this.roles.clear();
     return this;
   }
 }
