@@ -43,7 +43,13 @@ class Client extends EventEmitter {
   caches: CacheManager;
   /** Manages API methods for {@link Guild}s */
   guilds: GuildManager;
-  /** @param [options] - The options for the client */
+  /**
+   * @param [options] - The options for the client
+   * @example
+   * ```js
+   *  const client = new Client({ intents: ['Guilds'] })
+   * ```
+   */
   constructor(options = {} as Partial<ClientOptions>) {
     super();
 
@@ -74,6 +80,10 @@ class Client extends EventEmitter {
   /**
    * Logs the client in, establishing a WebSocket connection to Discord
    * @param token - Token of the account to log in with
+   * @example
+   * ```js
+   *  client.login('NzA8MDY1MDZxNjM3MTkzNzU5.XrR6-Q.IvHQd-6_XFNRfX4T7508QsyhaIc')
+   * ```
    */
   login(token: string) {
     if (typeof token !== 'string') throw new Error('A token is required and must be a string');

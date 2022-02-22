@@ -12,3 +12,4 @@ export { Guild } from './structures/Guild';
 export { Role, RoleTags } from './structures/Role';
 export { IntentParser, Intents } from './utils/Intents';
 export { LimitedCollection } from './utils/LimitedCollection';
+export { Snowflake } from './utils/Snowflake';

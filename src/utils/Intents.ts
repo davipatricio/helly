@@ -7,6 +7,20 @@ class Intents {
   /** Object containing all available intents */
   static Flags: typeof GatewayIntentBits;
   bitfield: number;
+  /**
+   * @example
+   * ```js
+   *  const intents = new Intents(['Guilds', 'GuildMembers']);
+   * ```
+   * @example
+   * ```js
+   *  const intents = new Intents('Guild').add('GuildPresences');
+   * ```
+   * @example
+   * ```js
+   *  const intents = new Intents(3);
+   * ```
+   */
   constructor(intents: IntentParser) {
     this.bitfield = this.parse(intents);
   }
