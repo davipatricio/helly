@@ -61,7 +61,7 @@ class Role extends BaseStructure {
 
   /** The guild that the role belongs to */
   get guild() {
-    return this.client.guilds.cache.get(this.#guildId);
+    return this.client.caches.guilds.get(this.#guildId);
   }
 
   /** The time the role was created at */

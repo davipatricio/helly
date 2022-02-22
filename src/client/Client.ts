@@ -1,6 +1,7 @@
 import EventEmitter from 'events';
 import { Events } from '../constants/Events';
 import { CacheManager } from '../managers/CacheManager';
+import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
 import type { Guild } from '../structures/Guild';
 import { Intents } from '../utils/Intents';
@@ -44,6 +45,8 @@ class Client extends EventEmitter {
   caches: CacheManager;
   /** Manages API methods for {@link Guild}s */
   guilds: GuildManager;
+  /** Manages API methods for {@link Channel}s */
+  channels: ChannelManager;
   /**
    * @param [options] - The options for the client
    * @example
@@ -125,6 +128,7 @@ class Client extends EventEmitter {
   #prepareCaches() {
     this.caches = new CacheManager(this, this.options.caches);
     this.guilds = new GuildManager(this);
+    this.channels = new ChannelManager(this);
   }
 
   override on(event: string | symbol, listener: (...args: any[]) => void): this;

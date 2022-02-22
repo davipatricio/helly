@@ -103,6 +103,9 @@ class Guild extends BaseStructure {
     this.data.roles?.forEach(apiRole => {
       this.roles.updateOrSet(apiRole.id, apiRole, this);
     });
+    this.data.channels?.forEach(apiChannel => {
+      this.client.channels.updateOrSet(apiChannel.id, apiChannel, this);
+    });
 
     return this;
   }
