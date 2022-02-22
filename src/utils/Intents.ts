@@ -1,6 +1,6 @@
 import { GatewayIntentBits } from 'discord-api-types/v10';
 
-export type IntentParser = (keyof typeof GatewayIntentBits | number)[] | GatewayIntentBits | number;
+export type IntentParser = (keyof typeof GatewayIntentBits | number)[] | keyof typeof GatewayIntentBits | number;
 
 /** Utility class for working with intents */
 class Intents {
@@ -12,23 +12,63 @@ class Intents {
   }
 
   /** Adds bits to these ones */
-  add(intent: keyof typeof GatewayIntentBits | number) {
-    if (typeof intent === 'number') this.bitfield |= intent;
-    else this.bitfield |= GatewayIntentBits[intent];
+  add(intents: IntentParser): this {
+    if (typeof intents === 'number') {
+      this.bitfield |= intents;
+      return this;
+    }
+
+    if (typeof intents === 'string') {
+      this.bitfield |= GatewayIntentBits[intents] as unknown as number;
+      return this;
+    }
+
+    if (!Array.isArray(intents)) throw new Error('Intents must be an array, number or string');
+
+    intents.forEach(intent => {
+      this.bitfield |= typeof intent === 'number' ? intent : GatewayIntentBits[intent];
+    });
+
     return this;
   }
 
   /** Removes an intent from the bitfield */
-  remove(intent: keyof typeof GatewayIntentBits | number) {
-    if (typeof intent === 'number') this.bitfield &= ~intent;
-    else this.bitfield &= ~GatewayIntentBits[intent];
+  remove(intents: IntentParser) {
+    if (typeof intents === 'number') {
+      this.bitfield &= ~intents;
+      return this;
+    }
+
+    if (typeof intents === 'string') {
+      this.bitfield &= ~(GatewayIntentBits[intents] as unknown as number);
+      return this;
+    }
+
+    if (!Array.isArray(intents)) throw new Error('Intents must be an array, number or string');
+
+    intents.forEach(intent => {
+      this.bitfield &= ~(typeof intent === 'number' ? intent : GatewayIntentBits[intent]);
+    });
+
     return this;
   }
 
   /** Checks whether the bitfield has a intent */
-  has(intent: keyof typeof GatewayIntentBits | number) {
-    if (typeof intent === 'number') return (this.bitfield & intent) === intent;
-    return (this.bitfield & GatewayIntentBits[intent]) === GatewayIntentBits[intent];
+  has(intents: IntentParser) {
+    if (typeof intents === 'number') return (this.bitfield & intents) === intents;
+    if (typeof intents === 'string') {
+      const intentBit = GatewayIntentBits[intents] as unknown as number;
+      return (this.bitfield & intentBit) === intentBit;
+    }
+    if (!Array.isArray(intents)) throw new Error('Intents must be an array, number or string');
+
+    let finalIntents = 0;
+
+    intents.forEach(intent => {
+      finalIntents |= typeof intent === 'number' ? intent : GatewayIntentBits[intent];
+    });
+
+    return (this.bitfield & finalIntents) === finalIntents;
   }
 
   /** Gets an Array of {@link GatewayIntentBits} names based on the bits available */
@@ -48,8 +88,7 @@ class Intents {
     let finalIntents = 0;
 
     intents.forEach(intent => {
-      const bitfield = GatewayIntentBits[intent] as number;
-      finalIntents |= bitfield;
+      finalIntents |= typeof intent === 'number' ? intent : GatewayIntentBits[intent];
     });
 
     return finalIntents;

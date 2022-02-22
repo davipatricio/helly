@@ -6,7 +6,7 @@ function sendIdentify(client: Client) {
     op: GatewayOpcodes.Identify,
     d: {
       token: client.token,
-      intents: 0,
+      intents: client.options.intents.bitfield,
       compress: false,
       large_threshold: 50,
       properties: {

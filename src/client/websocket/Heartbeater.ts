@@ -32,7 +32,7 @@ function start(client: Client) {
         client.ws.connection?.close(4_000);
       }
     }, 15_000).unref();
-  }, client.api.heartbeatInterval);
+  }, client.api.heartbeatInterval).unref();
 }
 
 function stop(client: Client): void {

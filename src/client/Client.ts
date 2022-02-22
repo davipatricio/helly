@@ -4,7 +4,7 @@ import { CacheManager } from '../managers/CacheManager';
 import { GuildManager } from '../managers/GuildManager';
 import { Intents } from '../utils/Intents';
 import { ActionManager } from './actions/ActionManager';
-import { ClientOptions, defaultClientOptions } from './ClientOptions';
+import { ClientOptions, defaultClientOptions, ParsedClientOptions } from './ClientOptions';
 import * as Heartbeater from './websocket/Heartbeater';
 import { WebsocketManager } from './websocket/WebsockerManager';
 
@@ -29,7 +29,8 @@ class Client extends EventEmitter {
   /** @private */
   ws: WebsocketManager;
   /** The options the client was instantiated with */
-  options: ClientOptions;
+  // Replace intents property with the Intents class
+  options: ParsedClientOptions;
   /** @private */
   api: ClientAPI;
   /** Whether the client has logged in */
@@ -50,8 +51,8 @@ class Client extends EventEmitter {
     this.actions = new ActionManager();
     this.ws = new WebsocketManager(this);
 
-    this.options = Object.assign(defaultClientOptions, options);
-    this.options.intents = this.options.intents instanceof Intents ? this.options.intents.bitfield : new Intents(this.options.intents).parse();
+    this.options = Object.assign(defaultClientOptions, options) as ParsedClientOptions;
+    this.options.intents = this.options.intents instanceof Intents ? this.options.intents : new Intents(this.options.intents);
 
     this.#prepareCaches();
 

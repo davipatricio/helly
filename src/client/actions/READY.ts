@@ -1,6 +1,5 @@
 import { APIGuild, GatewayIntentBits, GatewayReadyDispatchData } from 'discord-api-types/v10';
 import { Events } from '../../constants/Events';
-import { Intents } from '../../utils/Intents';
 import type { Client } from '../Client';
 
 function handle(client: Client, data: GatewayReadyDispatchData) {
@@ -11,8 +10,8 @@ function handle(client: Client, data: GatewayReadyDispatchData) {
       client.ready = true;
       client.emit(Events.Ready, client);
     },
-    new Intents(client.options.intents).has(GatewayIntentBits.Guilds) ? 0 : 5500,
-  );
+    client.options.intents.has(GatewayIntentBits.Guilds) ? 0 : 5500,
+  ).unref();
 }
 
 export { handle };
