@@ -59,7 +59,7 @@ class Channel extends BaseStructure {
 
   /** The type of the channel */
   get type() {
-    return ChannelType[this.data.type];
+    return ChannelType[this.data.type] as keyof typeof ChannelType;
   }
 
   /** The topic of the guild channel */
@@ -80,6 +80,50 @@ class Channel extends BaseStructure {
   /** The rate limit per user (slowmode) for this channel in seconds */
   get rateLimitPerUser() {
     return (this.data as APITextChannel).rate_limit_per_user ?? 0;
+  }
+
+  isText() {
+    return this.type === 'GuildText';
+  }
+
+  isCategory() {
+    return this.type === 'GuildCategory';
+  }
+
+  isNews() {
+    return this.type === 'GuildNews';
+  }
+
+  isVoice() {
+    return this.type === 'GuildVoice';
+  }
+
+  isStage() {
+    return this.type === 'GuildStageVoice';
+  }
+
+  isNewsThread() {
+    return this.type === 'GuildNewsThread';
+  }
+
+  isPublicThread() {
+    return this.type === 'GuildPublicThread';
+  }
+
+  isPrivateThread() {
+    return this.type === 'GuildPrivateThread';
+  }
+
+  isTextBased() {
+    return this.isText() || this.isNews() || this.isNewsThread() || this.isPublicThread() || this.isPrivateThread();
+  }
+
+  isVoiceBased() {
+    return this.isVoice() || this.isStage();
+  }
+
+  isThreadBased() {
+    return this.isNewsThread() || this.isPublicThread() || this.isPrivateThread();
   }
 
   /** @private */
