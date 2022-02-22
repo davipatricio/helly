@@ -59,6 +59,8 @@ export interface WebSocketOptions {
   gateway: string;
   /** @defaultValue `10` */
   version: string;
+  /** @defaultValue `50` */
+  largeThreshold: number;
 }
 
 export const defaultClientOptions: ClientOptions = {
@@ -82,5 +84,6 @@ export const defaultClientOptions: ClientOptions = {
   ws: {
     gateway: 'wss://gateway.discord.gg/',
     version: GatewayVersion,
+    largeThreshold: 50,
   },
 };

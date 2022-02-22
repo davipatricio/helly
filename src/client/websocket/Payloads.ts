@@ -8,7 +8,7 @@ function sendIdentify(client: Client) {
       token: client.token,
       intents: client.options.intents.bitfield,
       compress: false,
-      large_threshold: 50,
+      large_threshold: client.options.ws.largeThreshold,
       properties: {
         $browser: 'helly',
         $device: 'helly',

@@ -6,6 +6,7 @@ export { ClientCacheOptions, ClientOptions, defaultClientOptions, ParsedClientOp
 export { Events } from './constants/Events';
 export { CacheManager } from './managers/CacheManager';
 export { GuildManager } from './managers/GuildManager';
+export { RoleManager } from './managers/RoleManager';
 export { BaseStructure } from './structures/BaseStructure';
 export { Guild } from './structures/Guild';
 export { Role, RoleTags } from './structures/Role';
