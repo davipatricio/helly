@@ -2,6 +2,7 @@ import EventEmitter from 'events';
 import { Events } from '../constants/Events';
 import { CacheManager } from '../managers/CacheManager';
 import { GuildManager } from '../managers/GuildManager';
+import type { Guild } from '../structures/Guild';
 import { Intents } from '../utils/Intents';
 import { ActionManager } from './actions/ActionManager';
 import { ClientOptions, defaultClientOptions, ParsedClientOptions } from './ClientOptions';
@@ -129,10 +130,10 @@ class Client extends EventEmitter {
   override on(event: string | symbol, listener: (...args: any[]) => void): this;
   override on(event: Events.Ready, listener: (client: Client) => any): this;
   override on(event: Events.Debug, listener: (information: string) => any): this;
-  override on(event: Events.GuildCreate, listener: (information: string) => any): this;
+  override on(event: Events.GuildCreate, listener: (information: Guild) => any): this;
   override on(event: 'Ready', listener: (client: Client) => any): this;
   override on(event: 'Debug', listener: (information: string) => any): this;
-  override on(event: 'GuildCreate', listener: (information: string) => any): this;
+  override on(event: 'GuildCreate', listener: (information: Guild) => any): this;
   override on(event: string | symbol, listener: (...args: any[]) => void): this {
     return super.on(event, listener);
   }
@@ -140,10 +141,10 @@ class Client extends EventEmitter {
   override once(event: string | symbol, listener: (...args: any[]) => void): this;
   override once(event: Events.Ready, listener: (client: Client) => any): this;
   override once(event: Events.Debug, listener: (information: string) => any): this;
-  override once(event: Events.GuildCreate, listener: (information: string) => any): this;
+  override once(event: Events.GuildCreate, listener: (information: Guild) => any): this;
   override once(event: 'Ready', listener: (client: Client) => any): this;
   override once(event: 'Debug', listener: (information: string) => any): this;
-  override once(event: 'GuildCreate', listener: (information: string) => any): this;
+  override once(event: 'GuildCreate', listener: (information: Guild) => any): this;
   override once(event: string | symbol, listener: (...args: any[]) => void): this {
     return super.once(event, listener);
   }
