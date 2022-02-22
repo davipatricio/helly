@@ -1,5 +1,6 @@
 import type { APIRole } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
+import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
 
@@ -61,6 +62,16 @@ class Role extends BaseStructure {
   /** The guild that the role belongs to */
   get guild() {
     return this.client.guilds.cache.get(this.#guildId);
+  }
+
+  /** The time the role was created at */
+  get createdAt() {
+    return new Date(this.createdTimestamp);
+  }
+
+  /** The timestamp the role was created at */
+  get createdTimestamp() {
+    return Snowflake.deconstruct(this.id);
   }
 
   /** The tags this role has */

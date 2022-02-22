@@ -12,7 +12,7 @@ class GuildManager {
     this.client = client;
   }
 
-  /** Shortcut to {@link CacheManager.guilds} */
+  /** All of the guilds the client is currently handling, mapped by their ids */
   get cache() {
     return this.client.caches.guilds;
   }

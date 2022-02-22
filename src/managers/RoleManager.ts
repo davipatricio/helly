@@ -16,7 +16,7 @@ class RoleManager {
     this.guild = guild;
   }
 
-  /** Shortcut to {@link CacheManager.roles} */
+  /** A manager of the roles belonging to this guild */
   get cache() {
     return this.client.caches.roles.filter(r => r.guild?.id === this.guild.id);
   }

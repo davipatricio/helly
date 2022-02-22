@@ -1,6 +1,7 @@
 import type { APIGuild } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { RoleManager } from '../managers/RoleManager';
+import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
 
 class Guild extends BaseStructure {
@@ -77,6 +78,16 @@ class Guild extends BaseStructure {
   /** The guild's id */
   get id() {
     return this.data.id;
+  }
+
+  /** The time the guild was created at */
+  get createdAt() {
+    return new Date(this.createdTimestamp);
+  }
+
+  /** The timestamp the guild was created at */
+  get createdTimestamp() {
+    return Snowflake.deconstruct(this.id);
   }
 
   fetchOwner() {
