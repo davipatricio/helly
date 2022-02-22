@@ -47,16 +47,16 @@ class Guild extends BaseStructure {
     return this.data.member_count;
   }
 
-  get roles() {
-    return this.client.caches.roles.filter(role => role.guild?.id === this.id);
-  }
-
   get name() {
     return this.data.name;
   }
 
   get id() {
     return this.data.id;
+  }
+
+  get roles() {
+    return this.client.caches.roles.filter(role => role.guild?.id === this.id);
   }
 
   /** @private */

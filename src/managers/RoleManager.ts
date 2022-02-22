@@ -22,10 +22,9 @@ class RoleManager {
    * Updates or caches a {@link Role} with the provided {@link APIRole} data
    * @private
    */
-  updateOrSet(id: string, data: APIRole, guild?: Guild) {
+  updateOrSet(id: string, data: APIRole, guild: Guild) {
     const cachedRole = this.client.caches.roles.get(id);
     if (cachedRole) return cachedRole.parseData(data);
-    if (!guild) return undefined;
 
     const role = new Role(this.client, data, guild);
     this.client.caches.roles.set(id, role);

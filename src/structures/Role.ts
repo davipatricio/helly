@@ -3,6 +3,15 @@ import type { Client } from '../client/Client';
 import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
 
+export interface RoleTags {
+  /** the id of the bot this role belongs to */
+  botId: string | undefined;
+  /** the id of the integration this role belongs to */
+  integrationId: string | undefined;
+  /** whether this is the guild's premium subscriber role */
+  premiumSubscriber?: null;
+}
+
 class Role extends BaseStructure {
   /** Raw {@link Role} data */
   data: APIRole;
@@ -20,6 +29,20 @@ class Role extends BaseStructure {
 
   get id() {
     return this.data.id;
+  }
+
+  get position() {
+    return this.data.position;
+  }
+
+  get tags(): RoleTags {
+    const { tags } = this.data;
+
+    return {
+      botId: tags?.bot_id ?? undefined,
+      integrationId: tags?.integration_id ?? undefined,
+      premiumSubscriber: tags?.premium_subscriber ?? null,
+    };
   }
 
   get guild() {
