@@ -5,6 +5,8 @@ export { Client } from './client/Client';
 export { ClientCacheOptions, ClientOptions, defaultClientOptions, ParsedClientOptions, RestOptions, WebSocketOptions } from './client/ClientOptions';
 export { Events } from './constants/Events';
 export { CacheManager } from './managers/CacheManager';
+export { ChannelManager } from './managers/ChannelManager';
+export { GuildChannelManager } from './managers/GuildChannelManager';
 export { GuildManager } from './managers/GuildManager';
 export { RoleManager } from './managers/RoleManager';
 export { BaseStructure } from './structures/BaseStructure';

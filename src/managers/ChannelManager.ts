@@ -3,7 +3,7 @@ import type { Client } from '../client/Client';
 import { Channel } from '../structures/Channel';
 import type { Guild } from '../structures/Guild';
 
-// TODO: RoleManager methods (.create, .delete, .fetch etc)
+// TODO: ChannelManager methods (.create, .delete, .fetch etc)
 
 /** Manages API methods for {@link Channel}s */
 class ChannelManager {
@@ -13,7 +13,7 @@ class ChannelManager {
     this.client = client;
   }
 
-  /** A manager of the roles belonging to this guild */
+  /** A manager of the channels belonging to this client */
   get cache() {
     return this.client.caches.channels;
   }

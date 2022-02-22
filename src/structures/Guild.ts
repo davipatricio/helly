@@ -1,5 +1,6 @@
 import type { APIGuild } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
+import { GuildChannelManager } from '../managers/GuildChannelManager';
 import { RoleManager } from '../managers/RoleManager';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
@@ -7,11 +8,14 @@ import { BaseStructure } from './BaseStructure';
 class Guild extends BaseStructure {
   /** Raw {@link Guild} data */
   data: APIGuild;
-  /** A manager of the roles belonging to this {@link Guild} */
+  /** A manager of the {@link Role}s belonging to this {@link Guild} */
   roles: RoleManager;
+  /** A manager of the {@link Channel}s belonging to this {@link Guild} */
+  channels: GuildChannelManager;
   constructor(client: Client, data: APIGuild) {
     super(client);
     this.roles = new RoleManager(client, this);
+    this.channels = new GuildChannelManager(client, this);
     this.parseData(data);
   }
 
