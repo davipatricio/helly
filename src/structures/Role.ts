@@ -4,11 +4,11 @@ import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
 
 export interface RoleTags {
-  /** the id of the bot this role belongs to */
+  /** The id of the bot this role belongs to */
   botId: string | undefined;
-  /** the id of the integration this role belongs to */
+  /** The id of the integration this role belongs to */
   integrationId: string | undefined;
-  /** whether this is the guild's premium subscriber role */
+  /** Whether this is the guild's premium subscription role */
   premiumSubscriber?: null;
 }
 
@@ -23,18 +23,47 @@ class Role extends BaseStructure {
     this.parseData(data);
   }
 
+  /** The name of this role */
   get name() {
     return this.data.name;
   }
 
+  /** The role's id */
   get id() {
     return this.data.id;
   }
 
+  /** The position of this role */
   get position() {
     return this.data.position;
   }
 
+  /** Integer representation of hexadecimal color code */
+  get color() {
+    return this.data.color;
+  }
+
+  /** If true, users that are part of this role will appear in a separate category in the users list */
+  get hoist() {
+    return this.data.hoist;
+  }
+
+  /** Whether or not the role can be mentioned by anyone */
+  get mentionable() {
+    return this.data.mentionable;
+  }
+
+  /** Whether or not the role is managed by an external service */
+  get managed() {
+    return this.data.managed;
+  }
+
+  /** The guild that the role belongs to */
+  get guild() {
+    return this.client.guilds.cache.get(this.#guildId);
+  }
+
+  /** The tags this role has */
   get tags(): RoleTags {
     const { tags } = this.data;
 
@@ -43,10 +72,6 @@ class Role extends BaseStructure {
       integrationId: tags?.integration_id ?? undefined,
       premiumSubscriber: tags?.premium_subscriber ?? null,
     };
-  }
-
-  get guild() {
-    return this.client.guilds.cache.get(this.#guildId);
   }
 
   /** @private */

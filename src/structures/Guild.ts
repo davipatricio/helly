@@ -69,7 +69,7 @@ class Guild extends BaseStructure {
     return this.data.member_count;
   }
 
-  /** Name of this guild */
+  /** The name of this guild */
   get name() {
     return this.data.name;
   }
@@ -89,11 +89,10 @@ class Guild extends BaseStructure {
     if (!data) return this;
     this.data = { ...this.data, ...data };
     // TODO: parse channels, members etc
-    if (this.data.roles) {
-      this.data.roles.forEach(apiRole => {
-        this.roles.updateOrSet(apiRole.id, apiRole, this);
-      });
-    }
+    this.data.roles?.forEach(apiRole => {
+      this.roles.updateOrSet(apiRole.id, apiRole, this);
+    });
+
     return this;
   }
 }
