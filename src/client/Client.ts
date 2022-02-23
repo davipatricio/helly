@@ -132,23 +132,35 @@ class Client extends EventEmitter {
   }
 
   override on(event: string | symbol, listener: (...args: any[]) => void): this;
+  /** Emitted when the client becomes ready to start working */
   override on(event: Events.Ready, listener: (client: Client) => any): this;
+  /** Emitted for general debugging information */
   override on(event: Events.Debug, listener: (information: string) => any): this;
-  override on(event: Events.GuildCreate, listener: (information: Guild) => any): this;
+  /** Emitted whenever the client joins a guild */
+  override on(event: Events.GuildCreate, listener: (guild: Guild) => any): this;
+  /** Emitted when the client becomes ready to start working */
   override on(event: 'Ready', listener: (client: Client) => any): this;
+  /** Emitted for general debugging information */
   override on(event: 'Debug', listener: (information: string) => any): this;
-  override on(event: 'GuildCreate', listener: (information: Guild) => any): this;
+  /** Emitted whenever the client joins a guild */
+  override on(event: 'GuildCreate', listener: (guild: Guild) => any): this;
   override on(event: string | symbol, listener: (...args: any[]) => void): this {
     return super.on(event, listener);
   }
 
   override once(event: string | symbol, listener: (...args: any[]) => void): this;
+  /** Emitted when the client becomes ready to start working */
   override once(event: Events.Ready, listener: (client: Client) => any): this;
+  /** Emitted for general debugging information */
   override once(event: Events.Debug, listener: (information: string) => any): this;
-  override once(event: Events.GuildCreate, listener: (information: Guild) => any): this;
+  /** Emitted whenever the client joins a guild */
+  override once(event: Events.GuildCreate, listener: (guild: Guild) => any): this;
+  /** Emitted when the client becomes ready to start working */
   override once(event: 'Ready', listener: (client: Client) => any): this;
+  /** Emitted for general debugging information */
   override once(event: 'Debug', listener: (information: string) => any): this;
-  override once(event: 'GuildCreate', listener: (information: Guild) => any): this;
+  /** Emitted whenever the client joins a guild */
+  override once(event: 'GuildCreate', listener: (guild: Guild) => any): this;
   override once(event: string | symbol, listener: (...args: any[]) => void): this {
     return super.once(event, listener);
   }

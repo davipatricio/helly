@@ -32,7 +32,8 @@
         "skipLibCheck": true,
         "strictNullChecks": true,
         "sourceMap": true,
-        "target": "ES2021",
+        "target": "ESNext",
+        "lib": ["ESNext"],
         "useDefineForClassFields": false,
         "useUnknownInCatchVariables": true
     },
