@@ -34,4 +34,4 @@ pnpm add https://github.com/davipatricio/helly.git
 ---
 
 ## Examples
-You can see examples in the [examples](https://github.com/davipatricio/helly/tree/main/src/examples) folder.
+You can see examples in the [examples](https://github.com/davipatricio/helly/tree/main/examples) folder.
