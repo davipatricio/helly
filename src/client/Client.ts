@@ -1,10 +1,11 @@
-import EventEmitter from 'events';
+import EventEmitter from 'node:events';
 import { Events } from '../constants/Events';
 import { CacheManager } from '../managers/CacheManager';
 import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
 import type { Guild } from '../structures/Guild';
 import { Intents } from '../utils/Intents';
+import { RestManager } from '../utils/RestManager';
 import { ActionManager } from './actions/ActionManager';
 import { ClientOptions, defaultClientOptions, ParsedClientOptions } from './ClientOptions';
 import * as Heartbeater from './websocket/Heartbeater';
@@ -47,6 +48,7 @@ class Client extends EventEmitter {
   guilds: GuildManager;
   /** Manages API methods for {@link Channel}s */
   channels: ChannelManager;
+  rest: RestManager;
   /**
    * @param [options] - The options for the client
    * @example
@@ -92,6 +94,7 @@ class Client extends EventEmitter {
   login(token: string) {
     if (typeof token !== 'string') throw new Error('A token is required and must be a string');
     this.token = token;
+    this.rest = new RestManager(this);
     this.emit(Events.Debug, '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
     this.ws.connect();
     return token;

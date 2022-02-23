@@ -3,7 +3,7 @@ export { APIGuild, APIRole, ChannelType, GatewayDispatchEvents, GatewayIntentBit
 export { Action, ActionHandler, ActionManager } from './client/actions/ActionManager';
 export { Client } from './client/Client';
 export { ClientCacheOptions, ClientOptions, defaultClientOptions, ParsedClientOptions, RestOptions, WebSocketOptions } from './client/ClientOptions';
-export { Events } from './constants/Events';
+export { Events, RestEvents } from './constants/Events';
 export { CacheManager } from './managers/CacheManager';
 export { ChannelManager } from './managers/ChannelManager';
 export { GuildChannelManager } from './managers/GuildChannelManager';
@@ -15,4 +15,5 @@ export { Guild } from './structures/Guild';
 export { Role, RoleTags } from './structures/Role';
 export { IntentParser, Intents } from './utils/Intents';
 export { LimitedCollection } from './utils/LimitedCollection';
+export { APIRequestEvent, APIResponseEvent, RestManager } from './utils/RestManager';
 export { Snowflake } from './utils/Snowflake';
