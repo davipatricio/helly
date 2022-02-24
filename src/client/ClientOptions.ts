@@ -36,7 +36,7 @@ export interface ClientCacheOptions {
   /** @defaultValue `Infinity` */
   channels: number;
   /** @defaultValue `Infinity` */
-  messages: number;
+  users: number;
 }
 
 /** Options for the {@link ClientOptions.rest | REST Manager} */
@@ -73,7 +73,7 @@ export const defaultClientOptions: ClientOptions = {
     roles: Infinity,
     members: Infinity,
     channels: Infinity,
-    messages: Infinity,
+    users: Infinity,
   },
   intents: 0,
   rest: {
