@@ -1,5 +1,6 @@
 export { Collection } from '@discordjs/collection';
 export {
+  APIChannel,
   APIEmbedAuthor,
   APIEmbedField,
   APIEmbedFooter,
@@ -8,12 +9,19 @@ export {
   APIEmbedThumbnail,
   APIEmbedVideo,
   APIGuild,
+  APIMessage,
+  APIMessageReference,
+  APIMessageReferenceSend,
+  APINewsChannel,
   APIRole,
+  APITextChannel,
+  APIVoiceChannel,
   ChannelType,
   GatewayDispatchEvents,
   GatewayIntentBits,
   GatewayReceivePayload,
   GuildFeature,
+  MessageType,
 } from 'discord-api-types/v10';
 export { Action, ActionHandler, ActionManager } from './client/actions/ActionManager';
 export { Client } from './client/Client';
@@ -25,9 +33,10 @@ export { GuildChannelManager } from './managers/GuildChannelManager';
 export { GuildManager } from './managers/GuildManager';
 export { RoleManager } from './managers/RoleManager';
 export { BaseStructure } from './structures/BaseStructure';
-export { Channel } from './structures/Channel';
+export { Channel, MessageOptions, MessagePayload, MessageReference } from './structures/Channel';
 export { Embed } from './structures/Embed';
 export { Guild } from './structures/Guild';
+export { Message } from './structures/Message';
 export { Role, RoleTags } from './structures/Role';
 export { IntentParser, Intents } from './utils/Intents';
 export { LimitedCollection } from './utils/LimitedCollection';

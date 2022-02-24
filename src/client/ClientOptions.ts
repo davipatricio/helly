@@ -8,6 +8,8 @@ export interface ClientOptions {
    * @defaultValue `true`
    */
   autoReconnect: boolean;
+  /** Default value for {@link APIMessageReferenceSend.fail_if_not_exists} */
+  failIfNotExists: boolean;
   /** Limit caching of specific structures */
   caches: ClientCacheOptions;
   /** {@link Intents} to enable for this connection */
@@ -65,6 +67,7 @@ export interface WebSocketOptions {
 
 export const defaultClientOptions: ClientOptions = {
   autoReconnect: true,
+  failIfNotExists: true,
   caches: {
     guilds: Infinity,
     roles: Infinity,

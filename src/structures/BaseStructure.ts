@@ -1,7 +1,7 @@
 import type { Client } from '../client/Client';
 
 class BaseStructure {
-  /** The client that instantiated this Manager */
+  /** The client that instantiated this structure */
   client: Client;
   constructor(client: Client) {
     this.client = client;

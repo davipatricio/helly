@@ -6,11 +6,11 @@ import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
 
 class Guild extends BaseStructure {
-  /** Raw {@link Guild} data */
+  /** Raw guild data */
   data: APIGuild;
-  /** A manager of the {@link Role}s belonging to this {@link Guild} */
+  /** A manager of the {@link Role}s belonging to this guild */
   roles: RoleManager;
-  /** A manager of the {@link Channel}s belonging to this {@link Guild} */
+  /** A manager of the {@link Channel}s belonging to this guild */
   channels: GuildChannelManager;
   constructor(client: Client, data: APIGuild) {
     super(client);
@@ -100,8 +100,9 @@ class Guild extends BaseStructure {
   }
 
   /** @private */
-  parseData(data: APIGuild): this {
+  parseData(data: APIGuild) {
     if (!data) return this;
+
     this.data = { ...this.data, ...data };
     // TODO: parse channels, members etc
     this.data.roles?.forEach(apiRole => {

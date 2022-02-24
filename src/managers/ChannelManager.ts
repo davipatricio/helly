@@ -1,7 +1,9 @@
-import type { APIChannel } from 'discord-api-types/v10';
+import { APIChannel, APIMessage, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import { Channel } from '../structures/Channel';
+import { Channel, MessageOptions } from '../structures/Channel';
 import type { Guild } from '../structures/Guild';
+import { Message } from '../structures/Message';
+import { MakeAPIMessage } from '../utils/MakeAPIMessage';
 
 // TODO: ChannelManager methods (.create, .delete, .fetch etc)
 
@@ -16,6 +18,27 @@ class ChannelManager {
   /** A manager of the channels belonging to this client */
   get cache() {
     return this.client.caches.channels;
+  }
+
+  /**
+   * Sends a message to this channel
+   * @param content - The content of the message
+   * @example
+   * const { Embed } = require('helly');
+   * const embed = new Embed().setTitle('Pong!')
+   * guild.channels.send('12345678901234567', { embeds: [embed] })
+   * @example
+   * const { Embed } = require('helly');
+   * const embed = new Embed().setTitle('Pong!')
+   * guild.channels.send'12345678901234567', ({ content: 'Ping?', embeds: [embed] })
+   * @example
+   * guild.channels.send('12345678901234567', 'Hello world!')
+   */
+  async send(channelId: string, content: MessageOptions) {
+    // TODO: Create Message structure
+    const parsedMessage = MakeAPIMessage.transform(content);
+    const data = await this.client.rest.make(Routes.channelMessages(channelId), 'POST', parsedMessage);
+    return new Message(this.client, data as APIMessage);
   }
 
   /**

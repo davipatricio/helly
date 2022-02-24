@@ -1,18 +1,31 @@
-import { APIChannel, APIEmbed, APITextChannel, APIVoiceChannel, ChannelType, Routes } from 'discord-api-types/v10';
+import { APIChannel, APIEmbed, APITextChannel, APIVoiceChannel, ChannelType } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import { MakeAPIMessage } from '../utils/MakeAPIMessage';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
 import type { Embed } from './Embed';
 import type { Guild } from './Guild';
 
+/** Reference data sent in a message that contains ids identifying the referenced message */
+export interface MessageReference {
+  /** The message's id that was referenced */
+  messageId?: string | undefined;
+  /** The channel's id the message was referenced */
+  channelId: string;
+  /** The guild's id the message was referenced */
+  guildId?: string | undefined;
+}
+
+/** Represents a message to be sent to the Discord API */
 export interface MessagePayload {
   content?: string;
   embeds?: (Embed | APIEmbed)[];
+  messageReference?: MessageReference & { failIfNotExists?: boolean };
 }
 
+/** Base options provided when sending */
 export type MessageOptions = string | MessagePayload;
 
+/** Represents any channel on Discord */
 class Channel extends BaseStructure {
   /** Raw {@link Role} data */
   data: APIChannel;
@@ -51,7 +64,7 @@ class Channel extends BaseStructure {
     return (this.data as APITextChannel).nsfw ?? false;
   }
 
-  /** The guild that the channel belongs to */
+  /** The {@link Guild} that the channel belongs to */
   get guild() {
     return !this.guildId ? undefined : this.client.caches.guilds.get(this.guildId);
   }
@@ -66,7 +79,7 @@ class Channel extends BaseStructure {
     return !this.guildId ? `https://discord.com/channels/@me/${this.id}` : `https://discord.com/channels/${this.guildId}/${this.id}`;
   }
 
-  /** The type of the channel */
+  /** The {@link ChannelType | type} of the channel */
   get type() {
     return ChannelType[this.data.type] as keyof typeof ChannelType;
   }
@@ -105,11 +118,8 @@ class Channel extends BaseStructure {
    * @example
    * if (channel.isText()) channel.send('Hello world!')
    */
-  async send(content: MessageOptions) {
-    // TODO: Create Message structure
-    const parsedMessage = MakeAPIMessage.transform(content);
-    const data = await this.client.rest.make(Routes.channelMessages(this.id), 'POST', parsedMessage);
-    return data;
+  send(content: MessageOptions) {
+    return this.client.channels.send(this.id, content);
   }
 
   /** Indicates whether this channel is a text channel */
@@ -168,8 +178,9 @@ class Channel extends BaseStructure {
   }
 
   /** @private */
-  parseData(data: APIChannel, guild?: Guild): this {
+  parseData(data: APIChannel, guild?: Guild) {
     if (!data) return this;
+
     this.data = { ...this.data, ...data };
     this.guildId = guild?.id ?? null;
     this.parentId = (data as APITextChannel).parent_id ?? null;

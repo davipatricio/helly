@@ -13,6 +13,7 @@ export interface RoleTags {
   premiumSubscriber?: null;
 }
 
+/** Represents a role on Discord */
 class Role extends BaseStructure {
   /** Raw {@link Role} data */
   data: APIRole;
@@ -88,6 +89,7 @@ class Role extends BaseStructure {
   /** @private */
   parseData(data: APIRole): this {
     if (!data) return this;
+
     this.data = { ...this.data, ...data };
     return this;
   }
