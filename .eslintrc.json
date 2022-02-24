@@ -16,7 +16,8 @@
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
-        "sourceType": "module"
+        "sourceType": "module",
+        "project": "./tsconfig.json"
     },
     "plugins": [
         "@typescript-eslint"
@@ -51,6 +52,8 @@
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": [
             "error"
-        ]
+        ],
+        "require-await": "off",
+        "@typescript-eslint/require-await": "error"
     }
 }
