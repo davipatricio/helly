@@ -17,12 +17,22 @@ export interface RoleTags {
 class Role extends BaseStructure {
   /** Raw {@link Role} data */
   data: APIRole;
-  /** @private */
-  #guildId: string;
+  /** The id of the guild the role is in */
+  guildId: string;
   constructor(client: Client, data: APIRole, guild: Guild) {
     super(client);
-    this.#guildId = guild.id;
+    this.guildId = guild.id;
     this.parseData(data);
+  }
+
+  /** The time the role was created at */
+  get createdAt() {
+    return new Date(this.createdTimestamp);
+  }
+
+  /** The timestamp the role was created at */
+  get createdTimestamp() {
+    return Snowflake.deconstruct(this.id);
   }
 
   /** The name of this role */
@@ -62,17 +72,7 @@ class Role extends BaseStructure {
 
   /** The guild that the role belongs to */
   get guild() {
-    return this.client.caches.guilds.get(this.#guildId);
-  }
-
-  /** The time the role was created at */
-  get createdAt() {
-    return new Date(this.createdTimestamp);
-  }
-
-  /** The timestamp the role was created at */
-  get createdTimestamp() {
-    return Snowflake.deconstruct(this.id);
+    return this.client.caches.guilds.get(this.guildId);
   }
 
   /** The tags this role has */

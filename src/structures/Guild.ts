@@ -4,6 +4,7 @@ import { GuildChannelManager } from '../managers/GuildChannelManager';
 import { RoleManager } from '../managers/RoleManager';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
+import type { Channel } from './Channel';
 
 class Guild extends BaseStructure {
   /** Raw guild data */
@@ -19,14 +20,19 @@ class Guild extends BaseStructure {
     this.parseData(data);
   }
 
+  /** Whether the guild is available */
+  get available() {
+    return Boolean(!this.data.unavailable);
+  }
+
   /** The id of the voice channel where AFK members are moved */
   get afkChannelId() {
     return this.data.afk_channel_id;
   }
 
-  get afkChannel() {
-    // TODO: fetch/cache afk channel
-    return null;
+  /** The {@link Channel | object} of the voice channel where AFK members are moved */
+  get afkChannel(): Channel | undefined {
+    return !this.afkChannelId ? undefined : this.client.caches.channels.get(this.afkChannelId);
   }
 
   /** The time in seconds before a user is counted as "away from keyboard" */
@@ -42,6 +48,16 @@ class Guild extends BaseStructure {
   /** The approximate amount of presences the guild has */
   get approximatePresenceCount() {
     return this.data.approximate_presence_count;
+  }
+
+  /** The time the guild was created at */
+  get createdAt() {
+    return new Date(this.createdTimestamp);
+  }
+
+  /** The timestamp the guild was created at */
+  get createdTimestamp() {
+    return Snowflake.deconstruct(this.id);
   }
 
   /** The description of the guild, if any */
@@ -84,16 +100,6 @@ class Guild extends BaseStructure {
     return this.data.id;
   }
 
-  /** The time the guild was created at */
-  get createdAt() {
-    return new Date(this.createdTimestamp);
-  }
-
-  /** The timestamp the guild was created at */
-  get createdTimestamp() {
-    return Snowflake.deconstruct(this.id);
-  }
-
   fetchOwner() {
     // TODO: fetch/cache guild owner
     return null;
@@ -109,7 +115,7 @@ class Guild extends BaseStructure {
       this.roles.updateOrSet(apiRole.id, apiRole, this);
     });
     this.data.channels?.forEach(apiChannel => {
-      this.client.channels.updateOrSet(apiChannel.id, apiChannel, this);
+      this.client.channels.updateOrSet(apiChannel.id, apiChannel);
     });
 
     return this;

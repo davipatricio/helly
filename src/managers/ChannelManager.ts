@@ -1,7 +1,6 @@
 import { APIChannel, APIMessage, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Channel, MessageOptions } from '../structures/Channel';
-import type { Guild } from '../structures/Guild';
 import { Message } from '../structures/Message';
 import { MakeAPIMessage } from '../utils/MakeAPIMessage';
 
@@ -51,11 +50,11 @@ class ChannelManager {
    * Updates or caches a {@link Channel} with the provided {@link APIChannel} data
    * @private
    */
-  updateOrSet(id: string, data: APIChannel, guild?: Guild) {
+  updateOrSet(id: string, data: APIChannel) {
     const cachedChannel = this.client.caches.channels.get(id);
-    if (cachedChannel) return cachedChannel.parseData(data, guild);
+    if (cachedChannel) return cachedChannel.parseData(data);
 
-    const channel = new Channel(this.client, data, guild);
+    const channel = new Channel(this.client, data);
     this.client.caches.channels.set(id, channel);
 
     return channel;

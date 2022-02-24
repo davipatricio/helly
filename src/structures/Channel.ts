@@ -3,7 +3,6 @@ import type { Client } from '../client/Client';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
 import type { Embed } from './Embed';
-import type { Guild } from './Guild';
 
 /** Reference data sent in a message that contains ids identifying the referenced message */
 export interface MessageReference {
@@ -33,10 +32,10 @@ class Channel extends BaseStructure {
   guildId: string | undefined;
   /** The id of the category parent of this channel */
   parentId: string | undefined;
-  constructor(client: Client, data: APIChannel, guild: Guild | undefined) {
+  constructor(client: Client, data: APIChannel) {
     super(client);
     this.client = client;
-    this.parseData(data, guild);
+    this.parseData(data);
   }
 
   /** The time the channel was created at */
@@ -184,11 +183,11 @@ class Channel extends BaseStructure {
   }
 
   /** @private */
-  parseData(data: APIChannel, guild?: Guild) {
+  parseData(data: APIChannel) {
     if (!data) return this;
 
     this.data = { ...this.data, ...data };
-    this.guildId = guild?.id ?? undefined;
+    this.guildId = (data as APITextChannel).guild_id ?? undefined;
     this.parentId = (data as APITextChannel).parent_id ?? undefined;
     return this;
   }
