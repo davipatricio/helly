@@ -41,7 +41,7 @@
     "@babel/preset-env": "7.16.11",
     "@babel/preset-typescript": "7.16.7",
     "@types/node": "16.11.24",
-    "@types/ws": "8.2.2",
+    "@types/ws": "8.5.1",
     "@typescript-eslint/eslint-plugin": "5.11.0",
     "@typescript-eslint/parser": "5.11.0",
     "clean-jsdoc-theme": "3.3.2",
