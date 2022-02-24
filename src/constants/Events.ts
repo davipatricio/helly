@@ -4,6 +4,8 @@ export const enum Events {
   Debug = 'Debug',
   Reconnecting = 'Reconnecting',
   GuildCreate = 'GuildCreate',
+  GuildDelete = 'GuildDelete',
+  GuildUnavailable = 'GuildUnavailable',
 }
 
 export const enum RestEvents {

@@ -25,6 +25,7 @@ class ActionManager {
   async #loadActions() {
     this.loaded.READY = await import('./READY');
     this.loaded.GUILD_CREATE = await import('./GUILD_CREATE');
+    this.loaded.GUILD_DELETE = await import('./GUILD_DELETE');
   }
 }
 

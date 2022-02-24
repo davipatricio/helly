@@ -141,12 +141,21 @@ class Client extends EventEmitter {
   override on(event: Events.Debug, listener: (information: string) => any): this;
   /** Emitted whenever the client joins a guild */
   override on(event: Events.GuildCreate, listener: (guild: Guild) => any): this;
+  /** Emitted whenever a guild kicks the client or the guild is deleted/left */
+  override on(event: Events.GuildDelete, listener: (guild: Guild) => any): this;
+  /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
+  override on(event: Events.GuildUnavailable, listener: (guild: Guild) => any): this;
+
   /** Emitted when the client becomes ready to start working */
   override on(event: 'Ready', listener: (client: Client) => any): this;
   /** Emitted for general debugging information */
   override on(event: 'Debug', listener: (information: string) => any): this;
   /** Emitted whenever the client joins a guild */
   override on(event: 'GuildCreate', listener: (guild: Guild) => any): this;
+  /** Emitted whenever a guild kicks the client or the guild is deleted/left */
+  override on(event: 'GuildDelete', listener: (guild: Guild) => any): this;
+  /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
+  override on(event: 'GuildUnavailable', listener: (guild: Guild) => any): this;
   override on(event: string | symbol, listener: (...args: any[]) => void): this {
     return super.on(event, listener);
   }
@@ -158,12 +167,21 @@ class Client extends EventEmitter {
   override once(event: Events.Debug, listener: (information: string) => any): this;
   /** Emitted whenever the client joins a guild */
   override once(event: Events.GuildCreate, listener: (guild: Guild) => any): this;
+  /** Emitted whenever a guild kicks the client or the guild is deleted/left */
+  override once(event: Events.GuildDelete, listener: (guild: Guild) => any): this;
+  /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
+  override once(event: Events.GuildUnavailable, listener: (guild: Guild) => any): this;
+
   /** Emitted when the client becomes ready to start working */
   override once(event: 'Ready', listener: (client: Client) => any): this;
   /** Emitted for general debugging information */
   override once(event: 'Debug', listener: (information: string) => any): this;
   /** Emitted whenever the client joins a guild */
   override once(event: 'GuildCreate', listener: (guild: Guild) => any): this;
+  /** Emitted whenever a guild kicks the client or the guild is deleted/left */
+  override once(event: 'GuildDelete', listener: (guild: Guild) => any): this;
+  /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
+  override once(event: 'GuildUnavailable', listener: (guild: Guild) => any): this;
   override once(event: string | symbol, listener: (...args: any[]) => void): this {
     return super.once(event, listener);
   }

@@ -43,6 +43,7 @@
             }
         ],
         "no-bitwise": "off",
+        "no-restricted-syntax": "off",
         "no-plusplus": [
             "error",
             {
