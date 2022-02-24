@@ -53,7 +53,10 @@ class RestManager extends EventEmitter {
    */
   make(endpoint: string, method = 'GET' as Method, data = undefined as any, additionalHeaders = {} as Headers, _retries = 0 as number): ResponseType {
     return new Promise((resolve, reject) => {
-      if (_retries === 5) reject(new Error('Maximum retries reached'));
+      if (_retries === 5) {
+        reject(new Error('Maximum retries reached'));
+        return;
+      }
 
       // eslint-disable-next-line no-param-reassign
       endpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;

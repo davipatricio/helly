@@ -1,8 +1,17 @@
-import { APIChannel, APITextChannel, APIVoiceChannel, ChannelType } from 'discord-api-types/v10';
+import { APIChannel, APIEmbed, APITextChannel, APIVoiceChannel, ChannelType, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
+import { MakeAPIMessage } from '../utils/MakeAPIMessage';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
+import type { Embed } from './Embed';
 import type { Guild } from './Guild';
+
+export interface MessagePayload {
+  content?: string;
+  embeds?: (Embed | APIEmbed)[];
+}
+
+export type MessageOptions = string | MessagePayload;
 
 class Channel extends BaseStructure {
   /** Raw {@link Role} data */
@@ -82,48 +91,80 @@ class Channel extends BaseStructure {
     return (this.data as APITextChannel).rate_limit_per_user ?? 0;
   }
 
+  /**
+   * Sends a message to this channel
+   * @param content - The content of the message
+   * @example
+   * const { Embed } = require('helly');
+   * const embed = new Embed().setTitle('Pong!')
+   * if (channel.isText()) channel.send({ embeds: [embed] })
+   * @example
+   * const { Embed } = require('helly');
+   * const embed = new Embed().setTitle('Pong!')
+   * if (channel.isText()) channel.send({ content: 'Ping?', embeds: [embed] })
+   * @example
+   * if (channel.isText()) channel.send('Hello world!')
+   */
+  async send(content: MessageOptions) {
+    // TODO: Create Message structure
+    const parsedMessage = MakeAPIMessage.transform(content);
+    const data = await this.client.rest.make(Routes.channelMessages(this.id), 'POST', parsedMessage);
+    return data;
+  }
+
+  /** Indicates whether this channel is a text channel */
   isText() {
-    return this.type === 'GuildText';
+    return this.data.type === ChannelType.GuildText;
   }
 
+  /** Indicates whether this channel is a category */
   isCategory() {
-    return this.type === 'GuildCategory';
+    return this.data.type === ChannelType.GuildCategory;
   }
 
+  /** Indicates whether this channel is a news channel */
   isNews() {
-    return this.type === 'GuildNews';
+    return this.data.type === ChannelType.GuildNews;
   }
 
+  /** Indicates whether this channel is a voice channel */
   isVoice() {
-    return this.type === 'GuildVoice';
+    return this.data.type === ChannelType.GuildVoice;
   }
 
+  /** Indicates whether this channel is a stage channel */
   isStage() {
-    return this.type === 'GuildStageVoice';
+    return this.data.type === ChannelType.GuildStageVoice;
   }
 
+  /** Indicates whether this channel is a thread in a news channel */
   isNewsThread() {
-    return this.type === 'GuildNewsThread';
+    return this.data.type === ChannelType.GuildNewsThread;
   }
 
+  /** Indicates whether this channel is a public thread in a text channel */
   isPublicThread() {
-    return this.type === 'GuildPublicThread';
+    return this.data.type === ChannelType.GuildPublicThread;
   }
 
+  /** Indicates whether this channel is a private thread in a text channel */
   isPrivateThread() {
-    return this.type === 'GuildPrivateThread';
+    return this.data.type === ChannelType.GuildPrivateThread;
   }
 
+  /** Indicates whether this channel can have messages */
   isTextBased() {
-    return this.isText() || this.isNews() || this.isNewsThread() || this.isPublicThread() || this.isPrivateThread();
+    return [ChannelType.GuildText, ChannelType.GuildNews, ChannelType.GuildNewsThread, ChannelType.GuildPublicThread, ChannelType.GuildPrivateThread].includes(this.data.type);
   }
 
+  /** Indicates whether this channel is voice based */
   isVoiceBased() {
-    return this.isVoice() || this.isStage();
+    return [ChannelType.GuildVoice, ChannelType.GuildStageVoice].includes(this.data.type);
   }
 
+  /** Indicates whether this channel is a thread */
   isThreadBased() {
-    return this.isNewsThread() || this.isPublicThread() || this.isPrivateThread();
+    return [ChannelType.GuildNewsThread, ChannelType.GuildPublicThread, ChannelType.GuildPrivateThread].includes(this.data.type);
   }
 
   /** @private */
