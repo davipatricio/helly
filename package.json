@@ -38,7 +38,6 @@
   "scripts": {
     "docs": "npx typedoc --options typedoc.json",
     "build": "tsc --project tsconfig.json",
-    "build:prod": "npm run build && npm run types:declarations",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "types:check": "tsc --noEmit --incremental false"
