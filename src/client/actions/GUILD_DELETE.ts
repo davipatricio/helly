@@ -11,7 +11,6 @@ function handle(client: Client, data: GatewayGuildDeleteDispatchData) {
       client.emit(Events.GuildUnavailable, guild);
       return;
     }
-
     if (client.ready) client.emit(Events.GuildDelete, guild as Guild);
 
     for (const channel of guild.channels.cache.values()) client.caches.channels.delete(channel.id);
