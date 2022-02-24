@@ -4,6 +4,7 @@ import { CacheManager } from '../managers/CacheManager';
 import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
 import type { Guild } from '../structures/Guild';
+import type { Message } from '../structures/Message';
 import { Intents } from '../utils/Intents';
 import { RestManager } from '../utils/RestManager';
 import { ActionManager } from './actions/ActionManager';
@@ -145,6 +146,11 @@ class Client extends EventEmitter {
   override on(event: Events.GuildDelete, listener: (guild: Guild) => any): this;
   /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
   override on(event: Events.GuildUnavailable, listener: (guild: Guild) => any): this;
+  /**
+   * Emitted whenever a message is created
+   * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
+   */
+  override on(event: Events.MessageCreate, listener: (message: Message) => any): this;
 
   /** Emitted when the client becomes ready to start working */
   override on(event: 'Ready', listener: (client: Client) => any): this;
@@ -156,6 +162,11 @@ class Client extends EventEmitter {
   override on(event: 'GuildDelete', listener: (guild: Guild) => any): this;
   /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
   override on(event: 'GuildUnavailable', listener: (guild: Guild) => any): this;
+  /**
+   * Emitted whenever a message is created
+   * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
+   */
+  override on(event: 'MessageCreate', listener: (message: Message) => any): this;
   override on(event: string | symbol, listener: (...args: any[]) => void): this {
     return super.on(event, listener);
   }
@@ -171,6 +182,11 @@ class Client extends EventEmitter {
   override once(event: Events.GuildDelete, listener: (guild: Guild) => any): this;
   /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
   override once(event: Events.GuildUnavailable, listener: (guild: Guild) => any): this;
+  /**
+   * Emitted whenever a message is created
+   * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
+   */
+  override once(event: Events.MessageCreate, listener: (message: Message) => any): this;
 
   /** Emitted when the client becomes ready to start working */
   override once(event: 'Ready', listener: (client: Client) => any): this;
@@ -182,6 +198,11 @@ class Client extends EventEmitter {
   override once(event: 'GuildDelete', listener: (guild: Guild) => any): this;
   /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
   override once(event: 'GuildUnavailable', listener: (guild: Guild) => any): this;
+  /**
+   * Emitted whenever a message is created
+   * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
+   */
+  override once(event: 'MessageCreate', listener: (message: Message) => any): this;
   override once(event: string | symbol, listener: (...args: any[]) => void): this {
     return super.once(event, listener);
   }
