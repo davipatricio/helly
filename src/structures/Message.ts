@@ -7,7 +7,9 @@ import { Embed } from './Embed';
 class Message extends BaseStructure {
   /** Raw message data */
   data: APIMessage;
+  /** The id of the guild the message is in */
   guildId: string | undefined;
+  /** The id of the channel the message is in */
   channelId: string;
   constructor(client: Client, data: APIMessage) {
     super(client);

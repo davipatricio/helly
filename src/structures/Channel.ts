@@ -29,10 +29,10 @@ export type MessageOptions = string | MessagePayload;
 class Channel extends BaseStructure {
   /** Raw {@link Role} data */
   data: APIChannel;
-  /** The guild that the channel belongs to */
-  guildId: string | null;
+  /** The id of the guild the channel is in */
+  guildId: string | undefined;
   /** The id of the category parent of this channel */
-  parentId: string | null;
+  parentId: string | undefined;
   constructor(client: Client, data: APIChannel, guild: Guild | undefined) {
     super(client);
     this.client = client;
@@ -188,8 +188,8 @@ class Channel extends BaseStructure {
     if (!data) return this;
 
     this.data = { ...this.data, ...data };
-    this.guildId = guild?.id ?? null;
-    this.parentId = (data as APITextChannel).parent_id ?? null;
+    this.guildId = guild?.id ?? undefined;
+    this.parentId = (data as APITextChannel).parent_id ?? undefined;
     return this;
   }
 }
