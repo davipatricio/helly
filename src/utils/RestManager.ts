@@ -49,7 +49,9 @@ class RestManager extends EventEmitter {
    * @param data - The data (body) to send with the request. Can be a string or object
    * @param additionalHeaders - The additional headers to send with the request, defaults to {}
    * @example
+   * ```js
    * client.rest.make('/channels/1234567891234567', 'POST', { 'id': '1234567891234567' })
+   * ```
    */
   make(endpoint: string, method = 'GET' as Method, data = undefined as any, additionalHeaders = {} as Headers, _retries = 0 as number): ResponseType {
     return new Promise((resolve, reject) => {

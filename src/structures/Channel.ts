@@ -108,15 +108,21 @@ class Channel extends BaseStructure {
    * Sends a message to this channel
    * @param content - The content of the message
    * @example
+   * ```js
    * const { Embed } = require('helly');
    * const embed = new Embed().setTitle('Pong!')
    * if (channel.isText()) channel.send({ embeds: [embed] })
+   * ```
    * @example
+   * ```js
    * const { Embed } = require('helly');
    * const embed = new Embed().setTitle('Pong!')
    * if (channel.isText()) channel.send({ content: 'Ping?', embeds: [embed] })
+   * ```
    * @example
+   * ```js
    * if (channel.isText()) channel.send('Hello world!')
+   * ```
    */
   send(content: MessageOptions) {
     return this.client.channels.send(this.id, content);

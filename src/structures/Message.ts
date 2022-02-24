@@ -90,15 +90,21 @@ class Message extends BaseStructure {
    * Replies to the message
    * @param content - The content of the message
    * @example
+   * ```js
    * const { Embed } = require('helly');
    * const embed = new Embed().setTitle('Pong!')
    * message.reply({ embeds: [embed] })
+   * ```
    * @example
+   * ```js
    * const { Embed } = require('helly');
    * const embed = new Embed().setTitle('Pong!')
    * message.reply({ content: 'Ping?', embeds: [embed] })
+   * ```
    * @example
+   * ```js
    * if (message.content === 'Hello!') message.reply('Hello!')
+   * ```
    */
   async reply(content: MessageOptions) {
     const parsedContent = (content === 'string' ? { content } : content) as MessagePayload;
