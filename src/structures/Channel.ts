@@ -1,6 +1,7 @@
 import { APIChannel, APIEmbed, APITextChannel, APIVoiceChannel, ChannelType } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils/Snowflake';
+import { Parsers } from '../utils/Transformers';
 import { BaseStructure } from './BaseStructure';
 import type { Embed } from './Embed';
 
@@ -80,7 +81,7 @@ class Channel extends BaseStructure {
 
   /** The {@link ChannelType | type} of the channel */
   get type() {
-    return ChannelType[this.data.type] as keyof typeof ChannelType;
+    return Parsers.parseChannelType(this.data.type);
   }
 
   /** The topic of the guild channel */

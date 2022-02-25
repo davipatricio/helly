@@ -21,6 +21,7 @@ export {
   GatewayIntentBits,
   GatewayReceivePayload,
   GuildFeature,
+  MessageFlags as APIMessageFlags,
   MessageType,
 } from 'discord-api-types/v10';
 export { Action, ActionHandler, ActionManager } from './client/actions/ActionManager';

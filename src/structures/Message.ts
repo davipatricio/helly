@@ -1,7 +1,8 @@
 import { APIMessage, MessageType } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
+import { Parsers } from '../utils/Transformers';
 import { BaseStructure } from './BaseStructure';
-import type { MessageOptions, MessagePayload, MessageReference } from './Channel';
+import type { MessageOptions, MessagePayload } from './Channel';
 import { Embed } from './Embed';
 
 class Message extends BaseStructure {
@@ -33,7 +34,7 @@ class Message extends BaseStructure {
 
   /** The type of the message */
   get type() {
-    return MessageType[this.data.type] as keyof typeof MessageType;
+    return Parsers.parseMessageFlags(this.data.flags);
   }
 
   /** Whether or not this message was sent by Discord, not actually a user (e.g. pin notifications) */
@@ -77,15 +78,8 @@ class Message extends BaseStructure {
   }
 
   /** Message reference data */
-  get messageReference(): MessageReference | undefined {
-    const reference = this.data.message_reference;
-    if (!reference) return undefined;
-
-    return {
-      messageId: reference.message_id,
-      guildId: reference.guild_id,
-      channelId: reference.channel_id,
-    };
+  get messageReference() {
+    return Parsers.parseMessageReference(this.data.message_reference);
   }
 
   /**
