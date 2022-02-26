@@ -1,24 +1,24 @@
-import { GatewayIntentBits } from 'discord-api-types/v10';
+import { MessageFlags } from 'discord-api-types/v10';
 
-export type IntentsCheckType = (keyof typeof GatewayIntentBits | number | string)[] | keyof typeof GatewayIntentBits | number | string;
+export type MessageFlagsCheckType = (keyof typeof MessageFlags | number | string)[] | keyof typeof MessageFlags | number | string;
 
-/** Utility class for working with intents */
-class IntentsBitField {
-  ['constructor']: typeof IntentsBitField;
+/** Utility class for working with message flags */
+class MessageFlagsBitField {
+  ['constructor']: typeof MessageFlagsBitField;
   bitfield: number;
   /**
    * The default bit
    * @private
    */
   static defaultBit: number;
-  /** Object containing all available intents */
-  static Flags: typeof GatewayIntentBits;
-  constructor(bits: IntentsCheckType) {
+  /** Object containing all available message flags */
+  static Flags: typeof MessageFlags;
+  constructor(bits: MessageFlagsCheckType) {
     this.bitfield = this.constructor.parse(bits ?? this.constructor.defaultBit);
   }
 
   /** Adds bits to these ones */
-  add(...bits: IntentsCheckType[]) {
+  add(...bits: MessageFlagsCheckType[]) {
     let total = this.constructor.defaultBit;
     for (const bit of bits) total |= this.constructor.parse(bit);
     this.bitfield |= Number(total);
@@ -26,7 +26,7 @@ class IntentsBitField {
   }
 
   /** Checks whether the bitfield has a bit, or multiple bits */
-  has(bit: IntentsCheckType) {
+  has(bit: MessageFlagsCheckType) {
     // eslint-disable-next-line no-param-reassign
     bit = this.constructor.parse(bit);
     return (this.bitfield & bit) === bit;
@@ -42,15 +42,15 @@ class IntentsBitField {
     return this;
   }
 
-  /** Gets an Array of {@link PermissionFlagsBits} names based on the bits available */
+  /** Gets an Array of {@link MessageFlags} names based on the bits available */
   toArray() {
     return Object.keys(this.constructor.Flags).filter(bit => this.has(bit));
   }
 
-  static parse(bit: IntentsCheckType): number {
+  static parse(bit: MessageFlagsCheckType): number {
     const { defaultBit } = this;
     if (typeof defaultBit === typeof bit && bit >= defaultBit) return Number(bit);
-    if (bit instanceof IntentsBitField) return bit.bitfield;
+    if (bit instanceof MessageFlagsBitField) return bit.bitfield;
     if (Array.isArray(bit)) {
       return bit
         .map(p => this.parse(p))
@@ -63,11 +63,11 @@ class IntentsBitField {
       // eslint-disable-next-line no-restricted-globals
       if (!isNaN(bit as unknown as number)) return Number(bit);
     }
-    throw new TypeError(`Expected bit to be a number, string, array or IntentsBitField`);
+    throw new TypeError(`Expected bit to be a number, string, array or MessageFlagsBitField`);
   }
 }
 
-IntentsBitField.Flags = GatewayIntentBits;
-IntentsBitField.defaultBit = 0;
+MessageFlagsBitField.Flags = MessageFlags;
+MessageFlagsBitField.defaultBit = 0;
 
-export { IntentsBitField };
+export { MessageFlagsBitField };

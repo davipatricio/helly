@@ -21,26 +21,15 @@ export {
   GatewayIntentBits,
   GatewayReceivePayload,
   GuildFeature,
-  MessageFlags as APIMessageFlags,
+  MessageFlags,
   MessageType,
 } from 'discord-api-types/v10';
-export { Action, ActionHandler, ActionManager } from './client/actions/ActionManager';
-export { Client } from './client/Client';
-export { ClientCacheOptions, ClientOptions, defaultClientOptions, ParsedClientOptions, RestOptions, WebSocketOptions } from './client/ClientOptions';
-export { Events, RestEvents } from './constants/Events';
-export { CacheManager } from './managers/CacheManager';
-export { ChannelManager } from './managers/ChannelManager';
-export { GuildChannelManager } from './managers/GuildChannelManager';
-export { GuildManager } from './managers/GuildManager';
-export { RoleManager } from './managers/RoleManager';
-export { BaseStructure } from './structures/BaseStructure';
-export { Channel, MessageOptions, MessagePayload, MessageReference } from './structures/Channel';
-export { Embed } from './structures/Embed';
-export { Guild } from './structures/Guild';
-export { Message } from './structures/Message';
-export { Role, RoleTags } from './structures/Role';
-export { IntentsBitField, IntentsCheckType } from './utils/IntentsBitField';
-export { LimitedCollection } from './utils/LimitedCollection';
-export { PermissionsBitField, PermissionsCheckType } from './utils/PermissionsBitField';
-export { APIRequestEvent, APIResponseEvent, RestManager } from './utils/RestManager';
-export { Snowflake } from './utils/Snowflake';
+export * from './client/actions/ActionManager';
+export * from './client/Client';
+export * from './client/ClientOptions';
+export * from './constants/Events';
+export * from './managers';
+export * from './structures';
+export * from './utils/bitfield';
+export * from './utils/rest';
+export * from './utils';

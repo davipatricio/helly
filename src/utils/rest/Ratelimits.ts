@@ -1,6 +1,6 @@
 import type { Method } from 'axios';
 import { setTimeout as sleep } from 'node:timers/promises';
-import type { Client } from '../client/Client';
+import type { Client } from '../../client/Client';
 import type { Headers } from './RestManager';
 
 export interface Ratelimit {

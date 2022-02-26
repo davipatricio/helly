@@ -1,5 +1,5 @@
 import { RouteBases, GatewayVersion } from 'discord-api-types/v10';
-import type { IntentsCheckType, IntentsBitField } from '../utils/IntentsBitField';
+import type { IntentsCheckType, IntentsBitField } from '../utils/bitfield/IntentsBitField';
 
 /** Options for a {@link Client} */
 export interface ClientOptions {

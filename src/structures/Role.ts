@@ -1,6 +1,6 @@
 import type { APIRole } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import { PermissionsBitField } from '../utils/PermissionsBitField';
+import { PermissionsBitField } from '../utils/bitfield/PermissionsBitField';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';

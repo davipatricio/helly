@@ -1,6 +1,6 @@
 import type { APIEmbed, RESTPostAPIChannelMessageJSONBody } from 'discord-api-types/v10';
-import type { Embed } from '../structures/Embed';
-import { Transformers } from './Transformers';
+import type { Embed } from '../../structures/Embed';
+import { Transformers } from '../Transformers';
 
 class MakeAPIMessage extends null {
   static transform(data: any): RESTPostAPIChannelMessageJSONBody {

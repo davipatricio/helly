@@ -1,7 +1,7 @@
-import { APIEmbed, APIMessageReference, APIMessageReferenceSend, ChannelType, MessageFlags as APIMessageFlags } from 'discord-api-types/v10';
+import { APIEmbed, APIMessageReference, APIMessageReferenceSend, ChannelType, MessageFlags } from 'discord-api-types/v10';
 import type { MessageReference } from '../structures/Channel';
 import { Embed } from '../structures/Embed';
-import { MessageFlags } from './MessageFlags';
+import { MessageFlagsBitField } from './bitfield/MessageFlagsBitField';
 
 function transformMessageReference(data: APIMessageReferenceSend | undefined): APIMessageReferenceSend | undefined {
   if (!data) return undefined;
@@ -19,10 +19,10 @@ function transformMessageEmbeds(data: Embed | APIEmbed): APIEmbed | undefined {
   return data;
 }
 
-function transformMessageFlags(data: MessageFlags | undefined): number | undefined {
+function transformMessageFlags(data: MessageFlags | MessageFlagsBitField | undefined): number | undefined {
   if (!data) return undefined;
-  if (data instanceof MessageFlags) return data.bitfield;
-  return new MessageFlags(data).bitfield;
+  if (data instanceof MessageFlagsBitField) return data.bitfield;
+  return new MessageFlagsBitField(data).bitfield;
 }
 
 function parseMessageReference(data: APIMessageReference | undefined): MessageReference | undefined {
@@ -34,9 +34,9 @@ function parseMessageReference(data: APIMessageReference | undefined): MessageRe
   };
 }
 
-function parseMessageFlags(data: APIMessageFlags | undefined) {
+function parseMessageFlags(data: MessageFlags | undefined) {
   if (!data) return undefined;
-  return APIMessageFlags[data] as keyof typeof APIMessageFlags;
+  return MessageFlags[data] as keyof typeof MessageFlags;
 }
 
 function parseChannelType(data: ChannelType | undefined) {

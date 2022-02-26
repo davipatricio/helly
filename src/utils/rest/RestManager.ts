@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import axios, { AxiosRequestHeaders, AxiosResponse, AxiosResponseHeaders, Method } from 'axios';
 import EventEmitter from 'node:events';
-import type { Client } from '../client/Client';
-import { RestEvents } from '../constants/Events';
+import type { Client } from '../../client/Client';
+import { RestEvents } from '../../constants/Events';
 import Checker from './CheckAPIError';
 import { Ratelimits } from './Ratelimits';
 
@@ -92,12 +92,19 @@ class RestManager extends EventEmitter {
             Ratelimits._retry(this.client, endpoint, method, data, additionalHeaders, majorId, _retries);
             return;
           }
-
           if (request.data?.code) Checker.verifyForJSONStatusCode(request.data, url, data, method);
           Checker.verifyForStatusCode(url, data, request.status, method);
           resolve(request.data);
         })
-        .catch(reject);
+        .catch(request => {
+          if (request.status === 429) {
+            Ratelimits._retry(this.client, endpoint, method, data, additionalHeaders, majorId, _retries);
+            return;
+          }
+          if (request.data?.code) Checker.verifyForJSONStatusCode(request.data, url, data, method);
+          Checker.verifyForStatusCode(url, data, request.status, method);
+          reject(request);
+        });
     });
   }
 

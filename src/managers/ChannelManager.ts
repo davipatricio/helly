@@ -2,7 +2,7 @@ import { APIChannel, APIMessage, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Channel, MessageOptions } from '../structures/Channel';
 import { Message } from '../structures/Message';
-import { MakeAPIMessage } from '../utils/MakeAPIMessage';
+import { MakeAPIMessage } from '../utils/rest/MakeAPIMessage';
 
 // TODO: ChannelManager methods (.create, .delete, .fetch etc)
 
