@@ -100,11 +100,6 @@ class Guild extends BaseStructure {
     return this.data.id;
   }
 
-  fetchOwner() {
-    // TODO: fetch/cache guild owner
-    return null;
-  }
-
   /** @private */
   parseData(data: APIGuild) {
     if (!data) return this;

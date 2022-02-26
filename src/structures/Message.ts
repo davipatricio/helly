@@ -32,16 +32,6 @@ class Message extends BaseStructure {
     return this.data.id;
   }
 
-  /** The type of the message */
-  get type() {
-    return Parsers.parseMessageFlags(this.data.flags);
-  }
-
-  /** Whether or not this message was sent by Discord, not actually a user (e.g. pin notifications) */
-  get system() {
-    return ![MessageType.Default, MessageType.Reply, MessageType.ChatInputCommand, MessageType.ContextMenuCommand].includes(this.data.type);
-  }
-
   /** Whether or not this message is pinned */
   get pinned() {
     return this.data.pinned;
@@ -80,6 +70,16 @@ class Message extends BaseStructure {
   /** Message reference data */
   get messageReference() {
     return Parsers.parseMessageReference(this.data.message_reference);
+  }
+
+  /** Whether or not this message was sent by Discord, not actually a user (e.g. pin notifications) */
+  get system() {
+    return ![MessageType.Default, MessageType.Reply, MessageType.ChatInputCommand, MessageType.ContextMenuCommand].includes(this.data.type);
+  }
+
+  /** The type of the message */
+  get type() {
+    return Parsers.parseMessageFlags(this.data.flags);
   }
 
   /**
