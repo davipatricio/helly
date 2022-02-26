@@ -41,5 +41,6 @@ export { Message } from './structures/Message';
 export { Role, RoleTags } from './structures/Role';
 export { IntentsBitField, IntentsCheckType } from './utils/IntentsBitField';
 export { LimitedCollection } from './utils/LimitedCollection';
+export { PermissionsBitField, PermissionsCheckType } from './utils/PermissionsBitField';
 export { APIRequestEvent, APIResponseEvent, RestManager } from './utils/RestManager';
 export { Snowflake } from './utils/Snowflake';

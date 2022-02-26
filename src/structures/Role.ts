@@ -1,5 +1,6 @@
 import type { APIRole } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
+import { PermissionsBitField } from '../utils/PermissionsBitField';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
@@ -19,6 +20,8 @@ class Role extends BaseStructure {
   data: APIRole;
   /** The id of the guild the role is in */
   guildId: string;
+  /** The role permissions */
+  permissions: PermissionsBitField;
   constructor(client: Client, data: APIRole, guild: Guild) {
     super(client);
     this.guildId = guild.id;
@@ -91,6 +94,7 @@ class Role extends BaseStructure {
     if (!data) return this;
 
     this.data = { ...this.data, ...data };
+    this.permissions = new PermissionsBitField(this.data.permissions);
     return this;
   }
 }
