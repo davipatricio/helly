@@ -6,7 +6,7 @@ class MakeAPIMessage extends null {
   static transform(data: any): RESTPostAPIChannelMessageJSONBody {
     if (!['object', 'string'].includes(typeof data)) throw new TypeError('Message content must be an object or string');
 
-    const parsedData = data === 'string' ? { content: data } : data;
+    const parsedData = typeof data === 'string' ? { content: data } : data;
 
     parsedData.embeds = parsedData.embeds?.map((embed: Embed | APIEmbed) => Transformers.transformMessageEmbeds(embed)) ?? [];
 

@@ -103,7 +103,7 @@ class Message extends BaseStructure {
    * ```
    */
   async reply(content: MessageOptions) {
-    const parsedContent = (content === 'string' ? { content } : content) as MessagePayload;
+    const parsedContent = (typeof content === 'string' ? { content } : content) as MessagePayload;
 
     parsedContent.messageReference = {
       messageId: this.id,
@@ -112,7 +112,7 @@ class Message extends BaseStructure {
       failIfNotExists: this.client.options.failIfNotExists,
     };
 
-    return this.client.channels.send(this.id, content);
+    return this.client.channels.send(this.channelId, content);
   }
 
   /** @private */
