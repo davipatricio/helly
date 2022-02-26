@@ -39,7 +39,7 @@ export { Embed } from './structures/Embed';
 export { Guild } from './structures/Guild';
 export { Message } from './structures/Message';
 export { Role, RoleTags } from './structures/Role';
-export { IntentParser, Intents } from './utils/Intents';
+export { IntentsBitField, IntentsCheckType } from './utils/IntentsBitField';
 export { LimitedCollection } from './utils/LimitedCollection';
 export { APIRequestEvent, APIResponseEvent, RestManager } from './utils/RestManager';
 export { Snowflake } from './utils/Snowflake';

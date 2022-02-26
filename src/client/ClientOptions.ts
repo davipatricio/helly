@@ -1,5 +1,5 @@
 import { RouteBases, GatewayVersion } from 'discord-api-types/v10';
-import type { IntentParser, Intents } from '../utils/Intents';
+import type { IntentsCheckType, IntentsBitField } from '../utils/IntentsBitField';
 
 /** Options for a {@link Client} */
 export interface ClientOptions {
@@ -12,8 +12,8 @@ export interface ClientOptions {
   failIfNotExists: boolean;
   /** Limit caching of specific structures */
   caches: ClientCacheOptions;
-  /** {@link Intents} to enable for this connection */
-  intents: Intents | IntentParser;
+  /** {@link IntentsBitField} to enable for this connection */
+  intents: IntentsBitField | IntentsCheckType;
   /** Options for the REST Manager */
   rest: RestOptions;
   /** Options for the WebSocket */
@@ -21,8 +21,8 @@ export interface ClientOptions {
 }
 
 export interface ParsedClientOptions extends ClientOptions {
-  /** {@link Intents} to enable for this connection */
-  intents: Intents;
+  /** {@link IntentsBitField} to enable for this connection */
+  intents: IntentsBitField;
 }
 
 /** Caching options for {@link ClientOptions.caches} */

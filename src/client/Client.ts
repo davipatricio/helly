@@ -5,7 +5,7 @@ import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
 import type { Guild } from '../structures/Guild';
 import type { Message } from '../structures/Message';
-import { Intents } from '../utils/Intents';
+import { IntentsBitField } from '../utils/IntentsBitField';
 import { RestManager } from '../utils/RestManager';
 import { ActionManager } from './actions/ActionManager';
 import { ClientOptions, defaultClientOptions, ParsedClientOptions } from './ClientOptions';
@@ -64,7 +64,7 @@ class Client extends EventEmitter {
     this.ws = new WebsocketManager(this);
 
     this.options = Object.assign(defaultClientOptions, options) as ParsedClientOptions;
-    this.options.intents = this.options.intents instanceof Intents ? this.options.intents : new Intents(this.options.intents);
+    this.options.intents = this.options.intents instanceof IntentsBitField ? this.options.intents : new IntentsBitField(this.options.intents);
 
     this.#prepareCaches();
 
