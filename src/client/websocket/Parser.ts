@@ -24,9 +24,14 @@ function message(client: Client, rawData: RawData): void {
 
     case GatewayOpcodes.InvalidSession: {
       if (client.api.shouldResume) return;
-      client.ws.connection?.close(4_000);
-      Heartbeater.stop(client);
+      client.emit(Events.Debug, `[DEBUG] Client session is invalid! Reconnecting...`);
+      client.ws.connection?.close(1_000);
+
       client.api.sessionId = null;
+      client.api.shouldResume = false;
+      client.api.sequence = null;
+
+      Heartbeater.stop(client);
       client.reconnect();
       break;
     }

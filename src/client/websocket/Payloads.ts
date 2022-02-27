@@ -1,4 +1,5 @@
 import { GatewayIdentify, GatewayOpcodes, GatewayResume } from 'discord-api-types/v10';
+import { Events } from '../../constants';
 import type { Client } from '../Client';
 
 function sendIdentify(client: Client) {
@@ -17,6 +18,7 @@ function sendIdentify(client: Client) {
     },
   };
 
+  client.emit(Events.Debug, `[DEBUG] Sending Identify payload to Gateway.`);
   client.ws.connection?.send(JSON.stringify(data));
 }
 
@@ -30,6 +32,7 @@ function sendResume(client: Client): void {
     },
   };
 
+  client.emit(Events.Debug, `[DEBUG] Sending Resume payload to Gateway.`);
   client.ws.connection?.send(JSON.stringify(ResumePayload));
 }
 

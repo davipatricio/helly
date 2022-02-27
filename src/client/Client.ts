@@ -62,6 +62,7 @@ class Client extends EventEmitter {
 
     this.actions = new ActionManager();
     this.ws = new WebsocketManager(this);
+    this.rest = new RestManager(this);
 
     this.options = Object.assign(defaultClientOptions, options) as ParsedClientOptions;
     this.options.intents = this.options.intents instanceof IntentsBitField ? this.options.intents : new IntentsBitField(this.options.intents);
@@ -95,7 +96,6 @@ class Client extends EventEmitter {
   login(token: string) {
     if (typeof token !== 'string') throw new Error('A token is required and must be a string');
     this.token = token;
-    this.rest = new RestManager(this);
     this.emit(Events.Debug, '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
     this.ws.connect();
     return token;
@@ -130,6 +130,7 @@ class Client extends EventEmitter {
 
   /** @private */
   #prepareCaches() {
+    this.emit(Events.Debug, '[DEBUG] Creating cache properties');
     this.caches = new CacheManager(this, this.options.caches);
     this.guilds = new GuildManager(this);
     this.channels = new ChannelManager(this);

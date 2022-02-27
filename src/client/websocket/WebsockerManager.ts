@@ -1,5 +1,6 @@
 import { GatewayCloseCodes } from 'discord-api-types/v10';
 import WebSocket from 'ws';
+import { Events } from '../../constants';
 import { WSCloseCodes } from '../../constants/WSCloseCodes';
 import type { Client } from '../Client';
 import * as Heartbeater from './Heartbeater';
@@ -39,12 +40,16 @@ class WebsocketManager {
     }
     if (Codes.reconnect.includes(code)) {
       this.client.api.sessionId = null;
+      this.client.api.shouldResume = false;
+      this.client.api.sequence = null;
+
       this.forceReconnect(false);
-      this.forceReconnect(true);
+      this.client.emit(Events.Debug, `[DEBUG] ${Codes.messages[code] ?? 'Websocket connection closed with unknown close code. Reconnecting instead of resuming...'}`);
+      return;
     }
     if (Codes.throw.includes(code)) throw new Error(`DiscordError: ${Codes.messages[code]} ${code}`);
+    this.client.emit(Events.Debug, `[DEBUG] ${Codes.messages[code] ?? 'Websocket connection closed with unknown close code. Resuming instead of reconnecting...'}`);
     this.forceReconnect();
-    this.client.emit('debug', `[DEBUG] ${Codes.messages[code] ?? 'Websocket connection closed with unknown close code. Reconnecting instead of resuming...'}`);
   }
 
   forceReconnect(resume = true) {

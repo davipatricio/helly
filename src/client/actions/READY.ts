@@ -10,7 +10,7 @@ function handle(client: Client, data: GatewayReadyDispatchData) {
       client.ready = true;
       client.emit(Events.Ready, client);
     },
-    client.options.intents.has(GatewayIntentBits.Guilds) ? 0 : 5500,
+    client.options.intents.has(GatewayIntentBits.Guilds) ? 5500 : 0,
   ).unref();
 }
 
