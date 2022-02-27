@@ -26,6 +26,7 @@ function message(client: Client, rawData: RawData): void {
       if (client.api.shouldResume) return;
       client.ws.connection?.close(4_000);
       Heartbeater.stop(client);
+      client.api.sessionId = null;
       client.reconnect();
       break;
     }

@@ -27,7 +27,7 @@ export {
 export * from './client/actions/ActionManager';
 export * from './client/Client';
 export * from './client/ClientOptions';
-export * from './constants/Events';
+export * from './constants';
 export * from './managers';
 export * from './structures';
 export * from './utils/bitfield';
