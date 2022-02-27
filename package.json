@@ -37,10 +37,10 @@
   },
   "scripts": {
     "docs": "npx typedoc --options typedoc.json",
-    "build": "tsc --project tsconfig.json",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "types:check": "tsc --noEmit --incremental false"
+    "build": "npx tsc --project tsconfig.json",
+    "lint": "npx eslint src",
+    "lint:fix": "npx eslint src --fix",
+    "types:check": " npx tsc --noEmit --incremental false"
   },
   "author": "Davi Patricio <davipatricio@pm.me>",
   "devDependencies": {
@@ -48,7 +48,7 @@
     "@types/ws": "8.2.2",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
-    "eslint": "^8.9.0",
+    "eslint": "^8.10.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-import": "^2.25.4",
@@ -56,7 +56,7 @@
     "prettier": "^2.5.1",
     "typedoc": "^0.22.12",
     "typedoc-plugin-extras": "^2.2.3",
-    "typescript": "4.5.5"
+    "typescript": "^4.7.0-dev.20220227"
   },
   "dependencies": {
     "@discordjs/collection": "^0.5.0",
@@ -64,8 +64,5 @@
     "discord-api-types": "^0.27.3",
     "tslib": "^2.3.1",
     "ws": "^8.5.0"
-  },
-  "engines": {
-    "node": ">=16.9.0"
   }
 }
