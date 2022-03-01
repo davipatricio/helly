@@ -22,7 +22,7 @@ function transformMessageEmbeds(data: Embed | APIEmbed): APIEmbed | undefined {
   return data;
 }
 
-function transformMessageFlags(data: MessageFlags | MessageFlagsBitField | undefined): number | undefined {
+function transformMessageFlags(data: MessageFlags | MessageFlagsBitField | undefined) {
   if (!data) return undefined;
   if (data instanceof MessageFlagsBitField) return data.bitfield;
   return new MessageFlagsBitField(data).bitfield;
