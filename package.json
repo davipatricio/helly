@@ -39,7 +39,8 @@
     "docs": "npx typedoc --options typedoc.json",
     "build": "npx tsc --project tsconfig.json",
     "lint": "npx eslint src",
-    "lint:fix": "npx eslint src --fix",
+    "lint:fix": "npm run lint:prettier && npx eslint src --fix",
+    "lint:prettier": "npx prettier -w src",
     "types:check": " npx tsc --noEmit --incremental false"
   },
   "author": "Davi Patricio <davipatricio@pm.me>",
