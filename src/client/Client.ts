@@ -148,6 +148,8 @@ class Client extends EventEmitter {
   override on(event: Events.GuildDelete, listener: (guild: Guild) => any): this;
   /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
   override on(event: Events.GuildUnavailable, listener: (guild: Guild) => any): this;
+  /** Emitted whenever the client needs to reconnect to the Discord API */
+  override on(event: Events.Reconnecting, listener: (guild: Guild) => any): this;
   /**
    * Emitted whenever a message is created
    * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
@@ -164,6 +166,8 @@ class Client extends EventEmitter {
   override on(event: 'GuildDelete', listener: (guild: Guild) => any): this;
   /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
   override on(event: 'GuildUnavailable', listener: (guild: Guild) => any): this;
+  /** Emitted whenever the client needs to reconnect to the Discord API */
+  override on(event: 'Reconnecting', listener: (guild: Guild) => any): this;
   /**
    * Emitted whenever a message is created
    * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
@@ -184,6 +188,8 @@ class Client extends EventEmitter {
   override once(event: Events.GuildDelete, listener: (guild: Guild) => any): this;
   /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
   override once(event: Events.GuildUnavailable, listener: (guild: Guild) => any): this;
+  /** Emitted whenever the client needs to reconnect to the Discord API */
+  override once(event: Events.Reconnecting, listener: (guild: Guild) => any): this;
   /**
    * Emitted whenever a message is created
    * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
@@ -200,6 +206,8 @@ class Client extends EventEmitter {
   override once(event: 'GuildDelete', listener: (guild: Guild) => any): this;
   /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
   override once(event: 'GuildUnavailable', listener: (guild: Guild) => any): this;
+  /** Emitted whenever the client needs to reconnect to the Discord API */
+  override once(event: 'Reconnecting', listener: (guild: Guild) => any): this;
   /**
    * Emitted whenever a message is created
    * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
