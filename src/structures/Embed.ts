@@ -48,31 +48,31 @@ class Embed {
   }
 
   /** Sets the description of this embed */
-  setDescription(description?: string): this {
+  setDescription(description?: string) {
     this.description = description;
     return this;
   }
 
   /** Sets the URL of this embed */
-  setURL(url?: string): this {
+  setURL(url?: string) {
     this.url = url;
     return this;
   }
 
   /** Sets the timestamp of this embed */
-  setTimestamp(timestamp?: number): this {
+  setTimestamp(timestamp?: number) {
     this.timestamp = String(timestamp ?? Date.now());
     return this;
   }
 
   /** Sets the color of this embed */
-  setColor(color?: number): this {
+  setColor(color?: number) {
     this.color = color;
     return this;
   }
 
   /** Make the provided field the only field in this embed */
-  setFooter(options?: APIEmbedFooter): this {
+  setFooter(options?: APIEmbedFooter) {
     if (!options) {
       this.footer = undefined;
       return this;
@@ -82,26 +82,26 @@ class Embed {
   }
 
   /** Sets the image of this embed */
-  setImage(url?: string): this {
+  setImage(url?: string) {
     this.image = url ? { url } : undefined;
     return this;
   }
 
   /** Sets the thumbnail of this embed */
-  setThumbnail(url?: string): this {
+  setThumbnail(url?: string) {
     this.thumbnail = url ? { url } : undefined;
     return this;
   }
 
   /** Adds a field to this embed */
-  addField(options: APIEmbedField): this {
+  addField(options: APIEmbedField) {
     if (!this.fields) this.fields = [];
     this.fields.push({ name: options.name, value: options.value, inline: options.inline ?? false });
     return this;
   }
 
   /** Make the provided fields the only fields in this embed */
-  setFields(options = [] as APIEmbedField[]): this {
+  setFields(options = [] as APIEmbedField[]) {
     if (!Array.isArray(options)) throw new TypeError('Expected an array of fields.');
     this.fields = options;
     return this;
