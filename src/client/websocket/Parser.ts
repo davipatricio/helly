@@ -25,14 +25,14 @@ function message(client: Client, rawData: RawData): void {
     case GatewayOpcodes.InvalidSession: {
       if (client.api.shouldResume) return;
       client.emit(Events.Debug, `[DEBUG] Client session is invalid! Reconnecting...`);
-      client.ws.connection?.close(1_000);
+      client.ws.connection?.close(4_999);
 
       client.api.sessionId = null;
       client.api.shouldResume = false;
       client.api.sequence = null;
 
-      Heartbeater.stop(client);
-      client.reconnect();
+      Heartbeater.stop(client.api);
+      setTimeout(() => client.reconnect(), 5000);
       break;
     }
 
@@ -46,6 +46,7 @@ function message(client: Client, rawData: RawData): void {
 
       // Here we should resume the session if we have a pending resume request
       if (client.api.shouldResume && client.api.sessionId && client.api.sequence !== null) {
+        Heartbeater.stop(client.api);
         Payloads.sendResume(client);
 
         client.api.shouldResume = false;

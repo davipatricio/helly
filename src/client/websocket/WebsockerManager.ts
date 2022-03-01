@@ -35,7 +35,7 @@ class WebsocketManager {
 
   parseClodeCode(code: number) {
     // TODO: emit disconnect event
-    if (code === 1_000) {
+    if (code === 1_000 || code === 4_999) {
       return;
     }
     if (Codes.reconnect.includes(code)) {
@@ -53,11 +53,10 @@ class WebsocketManager {
   }
 
   forceReconnect(resume = true) {
-    Heartbeater.stop(this.client);
+    Heartbeater.stop(this.client.api);
     this.client.api.sessionId = resume ? this.client.api.sessionId : null;
 
     this.client.reconnect();
-    this.client.api.shouldResume = resume;
   }
 }
 

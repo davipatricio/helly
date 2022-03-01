@@ -1,6 +1,6 @@
 import { GatewayHeartbeat, GatewayOpcodes } from 'discord-api-types/v10';
 import { Events } from '../../constants/Events';
-import type { Client } from '../Client';
+import type { Client, ClientAPI } from '../Client';
 
 function start(client: Client) {
   // We don't want a lot of intervals sending heartbeats, so we use a single interval to do this task
@@ -29,15 +29,15 @@ function start(client: Client) {
         client.emit(Events.Debug, "[DEBUG] Heartbeat wasn't acked in 15 seconds. Reconnecting...");
 
         // Close the connection with a non-1000 code so we can reconnect with the stored session id
-        client.ws.connection?.close(4_000);
+        client.ws.connection?.close(4_999);
       }
     }, 15_000).unref();
   }, client.api.heartbeatInterval).unref();
 }
 
-function stop(client: Client): void {
-  if (client.api.heartbeatTimer) clearInterval(client.api.heartbeatTimer);
-  client.api.heartbeatTimer ??= null;
+function stop(api: ClientAPI) {
+  if (api.heartbeatTimer) clearInterval(api.heartbeatTimer);
+  api.heartbeatTimer ??= null;
 }
 
 function sendImmediately(client: Client) {

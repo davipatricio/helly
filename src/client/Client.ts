@@ -12,7 +12,8 @@ import { ClientOptions, defaultClientOptions, ParsedClientOptions } from './Clie
 import * as Heartbeater from './websocket/Heartbeater';
 import { WebsocketManager } from './websocket/WebsockerManager';
 
-interface ClientAPI {
+/** @private */
+export interface ClientAPI {
   shouldResume: boolean;
   heartbeatInterval: number | null;
   sessionId: string | null;
@@ -62,7 +63,6 @@ class Client extends EventEmitter {
 
     this.actions = new ActionManager();
     this.ws = new WebsocketManager(this);
-    this.rest = new RestManager(this);
 
     this.options = Object.assign(defaultClientOptions, options) as ParsedClientOptions;
     this.options.intents = this.options.intents instanceof IntentsBitField ? this.options.intents : new IntentsBitField(this.options.intents);
@@ -96,6 +96,7 @@ class Client extends EventEmitter {
   login(token: string) {
     if (typeof token !== 'string') throw new Error('A token is required and must be a string');
     this.token = token;
+    this.rest = new RestManager(this);
     this.emit(Events.Debug, '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
     this.ws.connect();
     return token;
@@ -112,7 +113,7 @@ class Client extends EventEmitter {
    */
   reconnect() {
     // Stop heartbeating (this automatically verifies if there's a timer)
-    Heartbeater.stop(this);
+    Heartbeater.stop(this.api);
 
     this.cleanUp();
     this.emit(Events.Reconnecting);
