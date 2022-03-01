@@ -1,5 +1,6 @@
 import type { APIRole } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
+import { Parsers } from '../utils';
 import { PermissionsBitField } from '../utils/bitfield/PermissionsBitField';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
@@ -81,12 +82,7 @@ class Role extends BaseStructure {
   /** The tags this role has */
   get tags(): RoleTags {
     const { tags } = this.data;
-
-    return {
-      botId: tags?.bot_id ?? undefined,
-      integrationId: tags?.integration_id ?? undefined,
-      premiumSubscriber: tags?.premium_subscriber ?? null,
-    };
+    return Parsers.parseRoleTags(tags);
   }
 
   /** Whether this Role is the guild's premium subscription role */

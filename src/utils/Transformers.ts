@@ -1,7 +1,10 @@
-import { APIEmbed, APIMessageReference, APIMessageReferenceSend, ChannelType, MessageFlags } from 'discord-api-types/v10';
+import { APIEmbed, APIMessageReference, APIMessageReferenceSend, APIRoleTags, ChannelType, MessageFlags } from 'discord-api-types/v10';
+import type { RoleTags } from '../structures';
 import type { MessageReference } from '../structures/Channel';
 import { Embed } from '../structures/Embed';
 import { MessageFlagsBitField } from './bitfield/MessageFlagsBitField';
+
+// Transformers
 
 function transformMessageReference(data: APIMessageReferenceSend | undefined): APIMessageReferenceSend | undefined {
   if (!data) return undefined;
@@ -25,6 +28,8 @@ function transformMessageFlags(data: MessageFlags | MessageFlagsBitField | undef
   return new MessageFlagsBitField(data).bitfield;
 }
 
+// Parsers
+
 function parseMessageReference(data: APIMessageReference | undefined): MessageReference | undefined {
   if (!data) return undefined;
   return {
@@ -44,5 +49,13 @@ function parseChannelType(data: ChannelType | undefined) {
   return ChannelType[data] as keyof typeof ChannelType;
 }
 
-export const Parsers = { parseMessageReference, parseMessageFlags, parseChannelType };
+function parseRoleTags(data: APIRoleTags | undefined): RoleTags {
+  return {
+    botId: data?.bot_id ?? undefined,
+    integrationId: data?.integration_id ?? undefined,
+    premiumSubscriber: data?.premium_subscriber ?? null,
+  };
+}
+
+export const Parsers = { parseMessageReference, parseMessageFlags, parseChannelType, parseRoleTags };
 export const Transformers = { transformMessageReference, transformMessageEmbeds, transformMessageFlags };
