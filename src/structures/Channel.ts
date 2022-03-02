@@ -1,9 +1,10 @@
-import { APIChannel, APIEmbed, APITextChannel, APIVoiceChannel, ChannelType } from 'discord-api-types/v10';
+import { APIChannel, APIDMChannel, APIEmbed, APITextChannel, APIVoiceChannel, ChannelType } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils/Snowflake';
 import { Parsers } from '../utils/Transformers';
 import { BaseStructure } from './BaseStructure';
 import type { Embed } from './Embed';
+import type { User } from './User';
 
 /** Reference data sent in a message that contains ids identifying the referenced message */
 export interface MessageReference {
@@ -102,6 +103,13 @@ class Channel extends BaseStructure {
   /** The rate limit per user (slowmode) for this channel in seconds */
   get rateLimitPerUser() {
     return (this.data as APITextChannel).rate_limit_per_user ?? 0;
+  }
+
+  /** The recipient on the other end of the DM */
+  get recipient(): User | null {
+    const { recipients } = this.data as APIDMChannel;
+    if (!recipients) return null;
+    return this.client.users.updateOrSet(recipients[0].id, recipients[0]);
   }
 
   /**
