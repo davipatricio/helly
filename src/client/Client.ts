@@ -3,6 +3,7 @@ import { Events } from '../constants/Events';
 import { CacheManager } from '../managers/CacheManager';
 import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
+import { UserManager } from '../managers/UserManager';
 import type { Guild } from '../structures/Guild';
 import type { Message } from '../structures/Message';
 import { IntentsBitField } from '../utils/bitfield/IntentsBitField';
@@ -50,6 +51,8 @@ class Client extends EventEmitter {
   guilds: GuildManager;
   /** Manages API methods for {@link Channel}s */
   channels: ChannelManager;
+  /** Manages API methods for {@link User}s */
+  users: UserManager;
   rest: RestManager;
   /**
    * @param [options] - The options for the client
@@ -135,6 +138,7 @@ class Client extends EventEmitter {
     this.caches = new CacheManager(this, this.options.caches);
     this.guilds = new GuildManager(this);
     this.channels = new ChannelManager(this);
+    this.users = new UserManager(this);
   }
 
   override on(event: string | symbol, listener: (...args: any[]) => void): this;

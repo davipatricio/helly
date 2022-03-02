@@ -15,6 +15,7 @@ export {
   APINewsChannel,
   APIRole,
   APITextChannel,
+  APIUser,
   APIVoiceChannel,
   ChannelType,
   GatewayDispatchEvents,
@@ -30,6 +31,6 @@ export * from './client/ClientOptions';
 export * from './constants';
 export * from './managers';
 export * from './structures';
+export * from './utils';
 export * from './utils/bitfield';
 export * from './utils/rest';
-export * from './utils';
