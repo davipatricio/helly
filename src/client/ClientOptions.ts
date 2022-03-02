@@ -53,6 +53,11 @@ export interface RestOptions {
   gift: string;
   /** @defaultValue `https://discord.com/events` */
   scheduledEvent: string;
+  /**
+   * Default value for {@link ImageURLOptions.forceStatic}
+   * @defaultValue `false`
+   */
+  forceStatic: boolean;
 }
 
 /** Options for the {@link ClientOptions.ws | WebSocket} */
@@ -83,6 +88,7 @@ export const defaultClientOptions: ClientOptions = {
     template: RouteBases.template,
     gift: RouteBases.gift,
     scheduledEvent: RouteBases.scheduledEvent,
+    forceStatic: false,
   },
   ws: {
     gateway: 'wss://gateway.discord.gg/',
