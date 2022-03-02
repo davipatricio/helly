@@ -3,6 +3,7 @@ import type { Client } from '../client/Client';
 import { CDNEndpoints, AnimatedImageFormats, AllowedImageSizes } from '../constants/CDN';
 import { Snowflake } from '../utils';
 import { BaseStructure } from './BaseStructure';
+import type { MessageOptions } from './Channel';
 
 export interface ImageURLOptions {
   format?: AnimatedImageFormats;
@@ -99,10 +100,40 @@ class User extends BaseStructure {
     return CDNEndpoints.userBanner(this.id, this.banner, finalFormat, size);
   }
 
+  async createDM() {
+    if (this.dmChannel) return this.dmChannel;
+    return this.client.users.createDM(this.id);
+  }
+
   /** A link to the user's avatar if they have one. Otherwise a link to their default avatar will be returned */
   displayAvatarURL({ format = 'webp', size = 1024, forceStatic = this.client.options.rest.forceStatic }: ImageURLOptions) {
     if (!this.avatar) return CDNEndpoints.defaultUserAvatar(this.discriminator);
     return this.avatarURL({ format, size, forceStatic });
+  }
+
+  /**
+   * Sends a message to this user
+   * @param content - The content of the message
+   * @example
+   * ```js
+   * const { Embed } = require('helly');
+   * const embed = new Embed().setTitle('Pong!')
+   * user.send({ embeds: [embed] })
+   * ```
+   * @example
+   * ```js
+   * const { Embed } = require('helly');
+   * const embed = new Embed().setTitle('Pong!')
+   * user.send({ content: 'Ping?', embeds: [embed] })
+   * ```
+   * @example
+   * ```js
+   * user.send('Hello world!')
+   * ```
+   */
+  async send(content: MessageOptions) {
+    const dmChannel = await this.createDM();
+    return this.client.channels.send(dmChannel.id, content);
   }
 
   /** @private */

@@ -53,7 +53,7 @@ class RestManager extends EventEmitter {
    * client.rest.make('/channels/1234567891234567', 'POST', { 'id': '1234567891234567' })
    * ```
    */
-  make(endpoint: string, method = 'GET' as Method, data = undefined as any, additionalHeaders = {} as Headers, _retries = 0 as number): ResponseType {
+  make(endpoint: string, method = 'GET' as Method, data = undefined as any, additionalHeaders = {} as Headers, _retries = 0 as number): Promise<ResponseType> {
     return new Promise((resolve, reject) => {
       if (_retries === 5) {
         reject(new Error('Maximum retries reached'));
