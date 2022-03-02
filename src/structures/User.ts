@@ -48,6 +48,11 @@ class User extends BaseStructure {
     return Snowflake.deconstruct(this.id);
   }
 
+  /** The DM{@link Channel} between the client's user and this user */
+  get dmChannel() {
+    return this.client.caches.channels.find(c => c.recipient?.id === this.id);
+  }
+
   /** The username of the user */
   get username() {
     return this.data.username;
