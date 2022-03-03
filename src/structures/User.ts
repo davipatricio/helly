@@ -2,6 +2,7 @@ import type { APIUser } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { CDNEndpoints, AnimatedImageFormats, AllowedImageSizes } from '../constants/CDN';
 import { Snowflake } from '../utils';
+import { UserFlagsBitField } from '../utils/bitfield/UserFlagsBitField';
 import { BaseStructure } from './BaseStructure';
 import type { MessageOptions } from './Channel';
 
@@ -84,6 +85,10 @@ class User extends BaseStructure {
     return this.data.verified;
   }
 
+  get flags() {
+    return new UserFlagsBitField(this.data.public_flags ?? 0);
+  }
+
   /** A link to the user's avatar */
   avatarURL({ format = 'webp', size = 1024, forceStatic = this.client.options.rest.forceStatic }: ImageURLOptions) {
     if (!this.avatar) return null;
@@ -100,6 +105,7 @@ class User extends BaseStructure {
     return CDNEndpoints.userBanner(this.id, this.banner, finalFormat, size);
   }
 
+  /** Creates a DM{@link Channel} between the client and a user */
   async createDM() {
     if (this.dmChannel) return this.dmChannel;
     return this.client.users.createDM(this.id);
@@ -134,6 +140,11 @@ class User extends BaseStructure {
   async send(content: MessageOptions) {
     const dmChannel = await this.createDM();
     return this.client.channels.send(dmChannel.id, content);
+  }
+
+  /** Fetches this user */
+  fetch() {
+    return this.client.users.fetch(this.id);
   }
 
   /** @private */

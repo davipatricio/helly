@@ -24,6 +24,7 @@ export {
   GuildFeature,
   MessageFlags,
   MessageType,
+  UserFlags,
 } from 'discord-api-types/v10';
 export * from './client/actions/ActionManager';
 export * from './client/Client';

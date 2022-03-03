@@ -100,8 +100,7 @@ class Guild extends BaseStructure {
   }
 
   fetchOwner() {
-    // TODO: fetch owner with ownerId
-    return null;
+    return this.client.users.fetch(this.ownerId);
   }
 
   /** @private */
