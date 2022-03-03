@@ -10,6 +10,11 @@ class UserManager {
     this.client = client;
   }
 
+  /** User that the client is logged in as */
+  get me() {
+    return this.cache.get(this.client.id);
+  }
+
   /** A manager of the users belonging to this client */
   get cache() {
     return this.client.caches.users;

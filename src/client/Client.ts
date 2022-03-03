@@ -4,6 +4,7 @@ import { CacheManager } from '../managers/CacheManager';
 import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
 import { UserManager } from '../managers/UserManager';
+import type { User } from '../structures';
 import type { Guild } from '../structures/Guild';
 import type { Message } from '../structures/Message';
 import { IntentsBitField } from '../utils/bitfield/IntentsBitField';
@@ -53,6 +54,8 @@ class Client extends EventEmitter {
   channels: ChannelManager;
   /** Manages API methods for {@link User}s */
   users: UserManager;
+  /** The Id of the logged client */
+  id: string;
   rest: RestManager;
   /**
    * @param [options] - The options for the client
@@ -85,7 +88,13 @@ class Client extends EventEmitter {
 
     this.ready = false;
     this.token = '';
+    this.id = '';
     this.ping = 0;
+  }
+
+  /** User that the client is logged in as */
+  get user() {
+    return this.users.me;
   }
 
   /**
@@ -129,6 +138,7 @@ class Client extends EventEmitter {
   /** @private */
   cleanUp() {
     this.ping = 0;
+    this.id = '';
     this.caches.destroy();
   }
 
