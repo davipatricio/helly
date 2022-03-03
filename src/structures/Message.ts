@@ -17,6 +17,10 @@ class Message extends BaseStructure {
     this.parseData(data);
   }
 
+  get author() {
+    return this.client.users.cache.get(this.data.author.id) ?? this.client.users.updateOrSet(this.data.author.id, this.data.author);
+  }
+
   /** The id of the application of the interaction that sent this message, if any */
   get applicationId() {
     return this.data.application_id;
