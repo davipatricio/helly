@@ -71,8 +71,7 @@ class Guild extends BaseStructure {
   }
 
   get owner() {
-    // TODO: get guild owner from GuildMemberManager cache
-    return null;
+    return this.client.users.cache.get(this.ownerId);
   }
 
   /** An array of features available to this guild */
@@ -100,12 +99,16 @@ class Guild extends BaseStructure {
     return this.data.id;
   }
 
+  fetchOwner() {
+    // TODO: fetch owner with ownerId
+    return null;
+  }
+
   /** @private */
   parseData(data: APIGuild) {
     if (!data) return this;
 
     this.data = { ...this.data, ...data };
-    // TODO: parse channels, members etc
     this.data.roles?.forEach(apiRole => {
       this.roles.updateOrSet(apiRole.id, apiRole, this);
     });
