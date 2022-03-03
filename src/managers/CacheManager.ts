@@ -6,7 +6,6 @@ import type { Guild } from '../structures/Guild';
 import type { Role } from '../structures/Role';
 import { LimitedCollection } from '../utils/LimitedCollection';
 
-// TODO: Add type definitions for structures
 class CacheManager {
   /** The client that instantiated this Manager */
   client: Client;

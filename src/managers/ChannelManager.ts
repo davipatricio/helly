@@ -40,7 +40,6 @@ class ChannelManager {
    * ```
    */
   async send(channelId: string, content: MessageOptions) {
-    // TODO: Create Message structure
     const parsedMessage = MakeAPIMessage.transform(content);
     const data = await this.client.rest.make(Routes.channelMessages(channelId), 'POST', parsedMessage);
     return new Message(this.client, data as APIMessage);
