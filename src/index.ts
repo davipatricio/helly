@@ -1,5 +1,6 @@
 export { Collection } from '@discordjs/collection';
 export {
+  ActivityType,
   APIChannel,
   APIEmbedAuthor,
   APIEmbedField,
@@ -18,12 +19,18 @@ export {
   APIUser,
   APIVoiceChannel,
   ChannelType,
+  GatewayActivityUpdateData,
   GatewayDispatchEvents,
+  GatewayIdentify,
   GatewayIntentBits,
+  GatewayOpcodes,
   GatewayReceivePayload,
+  GatewayResume,
+  GatewayUpdatePresence,
   GuildFeature,
   MessageFlags,
   MessageType,
+  PresenceUpdateStatus,
   UserFlags,
 } from 'discord-api-types/v10';
 export * from './client/actions/ActionManager';

@@ -4,7 +4,6 @@ import { CacheManager } from '../managers/CacheManager';
 import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
 import { UserManager } from '../managers/UserManager';
-import type { User } from '../structures';
 import type { Guild } from '../structures/Guild';
 import type { Message } from '../structures/Message';
 import { IntentsBitField } from '../utils/bitfield/IntentsBitField';
@@ -36,7 +35,6 @@ class Client extends EventEmitter {
   /** @private */
   ws: WebsocketManager;
   /** The options the client was instantiated with */
-  // Replace intents property with the Intents class
   options: ParsedClientOptions;
   /** @private */
   api: ClientAPI;

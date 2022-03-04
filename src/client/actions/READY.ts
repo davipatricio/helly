@@ -1,13 +1,12 @@
 import { APIGuild, GatewayIntentBits, GatewayReadyDispatchData } from 'discord-api-types/v10';
 import { Events } from '../../constants/Events';
-import { User } from '../../structures';
+import { ClientUser } from '../../structures';
 import type { Client } from '../Client';
 
 function handle(client: Client, data: GatewayReadyDispatchData) {
   client.api.sessionId = data.session_id;
 
-  // TODO: ClientUser
-  const user = new User(client, data.user);
+  const user = new ClientUser(client, data.user);
   client.caches.users.set(user.id, user);
 
   client.id = user.id;

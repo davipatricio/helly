@@ -1,4 +1,4 @@
-import { GatewayIdentify, GatewayOpcodes, GatewayResume } from 'discord-api-types/v10';
+import { ActivityType, GatewayActivityUpdateData, GatewayIdentify, GatewayOpcodes, GatewayResume, GatewayUpdatePresence, PresenceUpdateStatus } from 'discord-api-types/v10';
 import { Events } from '../../constants';
 import type { Client } from '../Client';
 
@@ -18,7 +18,7 @@ function sendIdentify(client: Client) {
     },
   };
 
-  client.emit(Events.Debug, `[DEBUG] Sending Identify payload to Gateway.`);
+  client.emit(Events.Debug, `[DEBUG] Sending Identify payload to the Gateway.`);
   client.ws.connection?.send(JSON.stringify(data));
 }
 
@@ -32,8 +32,59 @@ function sendResume(client: Client): void {
     },
   };
 
-  client.emit(Events.Debug, `[DEBUG] Sending Resume payload to Gateway.`);
+  client.emit(Events.Debug, `[DEBUG] Sending Resume payload to the Gateway.`);
   client.ws.connection?.send(JSON.stringify(ResumePayload));
 }
 
-export { sendIdentify, sendResume };
+function setAFK(client: Client, afk: boolean) {
+  const UpdatePresencePayload: GatewayUpdatePresence = {
+    op: GatewayOpcodes.PresenceUpdate,
+    d: {
+      since: null,
+      activities: [],
+      status: PresenceUpdateStatus.Online,
+      afk,
+    },
+  };
+
+  client.emit(Events.Debug, `[DEBUG] Sending Update Presence payload to the Gateway.`);
+  client.ws.connection?.send(JSON.stringify(UpdatePresencePayload));
+}
+
+function setStatus(client: Client, status: PresenceUpdateStatus) {
+  const UpdatePresencePayload: GatewayUpdatePresence = {
+    op: GatewayOpcodes.PresenceUpdate,
+    d: {
+      since: null,
+      activities: [],
+      status,
+      afk: false,
+    },
+  };
+
+  client.emit(Events.Debug, `[DEBUG] Sending Update Presence payload to the Gateway.`);
+  client.ws.connection?.send(JSON.stringify(UpdatePresencePayload));
+}
+
+function setActivity(client: Client, activity: GatewayActivityUpdateData) {
+  const UpdatePresencePayload: GatewayUpdatePresence = {
+    op: GatewayOpcodes.PresenceUpdate,
+    d: {
+      since: null,
+      activities: [
+        {
+          name: activity.name ?? '',
+          type: activity.type ?? ActivityType.Playing,
+          url: activity.url ?? null,
+        },
+      ],
+      status: PresenceUpdateStatus.Online,
+      afk: false,
+    },
+  };
+
+  client.emit(Events.Debug, `[DEBUG] Sending Update Presence payload to the Gateway.`);
+  client.ws.connection?.send(JSON.stringify(UpdatePresencePayload));
+}
+
+export { sendIdentify, sendResume, setAFK, setStatus, setActivity };
