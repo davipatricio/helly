@@ -24,6 +24,7 @@ export {
   GatewayIdentify,
   GatewayIntentBits,
   GatewayOpcodes,
+  GatewayPresenceUpdateData,
   GatewayReceivePayload,
   GatewayResume,
   GatewayUpdatePresence,

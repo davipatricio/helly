@@ -1,4 +1,4 @@
-import { ActivityType, GatewayActivityUpdateData, GatewayIdentify, GatewayOpcodes, GatewayResume, GatewayUpdatePresence, PresenceUpdateStatus } from 'discord-api-types/v10';
+import { ActivityType, GatewayActivityUpdateData, GatewayIdentify, GatewayOpcodes, GatewayPresenceUpdateData, GatewayResume, GatewayUpdatePresence, PresenceUpdateStatus } from 'discord-api-types/v10';
 import { Events } from '../../constants';
 import type { Client } from '../Client';
 
@@ -87,4 +87,26 @@ function setActivity(client: Client, activity: GatewayActivityUpdateData) {
   client.ws.connection?.send(JSON.stringify(UpdatePresencePayload));
 }
 
-export { sendIdentify, sendResume, setAFK, setStatus, setActivity };
+function setPresence(client: Client, data: GatewayPresenceUpdateData) {
+  if (!data.activities) data.activities = [];
+  const UpdatePresencePayload: GatewayUpdatePresence = {
+    op: GatewayOpcodes.PresenceUpdate,
+    d: {
+      since: null,
+      activities: [
+        {
+          name: data.activities[0]?.name ?? '',
+          type: data.activities[0]?.type ?? ActivityType.Playing,
+          url: data.activities[0]?.url ?? null,
+        },
+      ],
+      status: data.status ?? PresenceUpdateStatus.Online,
+      afk: data.afk ?? false,
+    },
+  };
+
+  client.emit(Events.Debug, `[DEBUG] Sending Update Presence payload to the Gateway.`);
+  client.ws.connection?.send(JSON.stringify(UpdatePresencePayload));
+}
+
+export { sendIdentify, sendResume, setAFK, setStatus, setPresence, setActivity };

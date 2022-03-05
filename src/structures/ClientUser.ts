@@ -1,5 +1,5 @@
-import { GatewayActivityUpdateData, PresenceUpdateStatus } from 'discord-api-types/v10';
-import { setActivity, setAFK, setStatus } from '../client/websocket/Payloads';
+import { GatewayActivityUpdateData, GatewayPresenceUpdateData, PresenceUpdateStatus } from 'discord-api-types/v10';
+import { setActivity, setAFK, setPresence, setStatus } from '../client/websocket/Payloads';
 import { User } from './User';
 
 class ClientUser extends User {
@@ -40,7 +40,7 @@ class ClientUser extends User {
    * This will set the status to Online and set the AFK to false!
    * @example
    * ```js
-   * client.user.setActivity({ name: 'with Helly', type: PresenceUpdateStatus.Playing });
+   * client.user.setActivity({ name: 'with Helly', type: ActivityType.Playing });
    * ```
    * @example
    * ```js
@@ -49,6 +49,21 @@ class ClientUser extends User {
    */
   setActivity(data: GatewayActivityUpdateData) {
     setActivity(this.client, data);
+  }
+
+  /**
+   * Sets the presence of the client user
+   * @example
+   * ```js
+   * client.user.setPresence({ status: PresenceUpdateStatus.Online, activities: [{ name: 'Minecraft' }], afk: false });
+   * ```
+   * @example
+   * ```js
+   * client.user.setPresence({ status: 'idle', activities: [{ name: 'Games' }] });
+   * ```
+   */
+  setPresence(data: GatewayPresenceUpdateData) {
+    setPresence(this.client, data);
   }
 }
 
