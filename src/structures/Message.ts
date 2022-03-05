@@ -124,8 +124,8 @@ class Message extends BaseStructure {
     if (!data) return this;
 
     this.data = { ...this.data, ...data };
-    this.guildId = data.guild_id;
-    this.channelId = data.channel_id;
+    this.channelId = this.data.channel_id;
+    this.guildId = this.data.guild_id ?? this.channel?.guild?.id;
     return this;
   }
 }
