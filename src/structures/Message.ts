@@ -8,10 +8,6 @@ import { Embed } from './Embed';
 class Message extends BaseStructure {
   /** Raw message data */
   data: APIMessage;
-  /** The id of the guild the message is in */
-  guildId: string | undefined;
-  /** The id of the channel the message is in */
-  channelId: string;
   constructor(client: Client, data: APIMessage) {
     super(client);
     this.parseData(data);
@@ -86,6 +82,16 @@ class Message extends BaseStructure {
     return Parsers.parseMessageFlags(this.data.flags);
   }
 
+  /** The id of the channel the message is in */
+  get channelId() {
+    return this.data.channel_id;
+  }
+
+  /** The id of the guild the message is in */
+  get guildId() {
+    return this.data.guild_id ?? this.channel?.guild?.id;
+  }
+
   /**
    * Replies to the message
    * @param content - The content of the message
@@ -124,8 +130,6 @@ class Message extends BaseStructure {
     if (!data) return this;
 
     this.data = { ...this.data, ...data };
-    this.channelId = data.channel_id;
-    this.guildId = data.guild_id ?? this.channel?.guild?.id;
     return this;
   }
 }

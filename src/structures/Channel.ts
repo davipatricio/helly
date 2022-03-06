@@ -33,8 +33,6 @@ class Channel extends BaseStructure {
   data: APIChannel;
   /** The id of the guild the channel is in */
   guildId: string | undefined;
-  /** The id of the category parent of this channel */
-  parentId: string | undefined;
   constructor(client: Client, data: APIChannel, guild?: Guild) {
     super(client);
     this.client = client;
@@ -74,6 +72,11 @@ class Channel extends BaseStructure {
   /** The category parent of this channel */
   get parent() {
     return !this.parentId ? undefined : this.client.caches.channels.get(this.parentId);
+  }
+
+  /** The id of the category parent of this channel */
+  get parentId() {
+    return (this.data as APITextChannel).parent_id ?? undefined;
   }
 
   /** The URL to the channel */
@@ -198,7 +201,6 @@ class Channel extends BaseStructure {
 
     this.data = { ...this.data, ...data };
     this.guildId = (data as APITextChannel).guild_id ?? guild?.id ?? undefined;
-    this.parentId = (data as APITextChannel).parent_id ?? undefined;
     return this;
   }
 }
