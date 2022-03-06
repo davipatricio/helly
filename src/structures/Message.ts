@@ -106,7 +106,7 @@ class Message extends BaseStructure {
    * if (message.content === 'Hello!') message.reply('Hello!')
    * ```
    */
-  async reply(content: MessageOptions) {
+  reply(content: MessageOptions) {
     const parsedContent = (typeof content === 'string' ? { content } : content) as MessagePayload;
 
     parsedContent.messageReference = {

@@ -106,9 +106,8 @@ class User extends BaseStructure {
   }
 
   /** Creates a DM{@link Channel} between the client and a user */
-  async createDM() {
-    if (this.dmChannel) return this.dmChannel;
-    return this.client.users.createDM(this.id);
+  createDM() {
+    return this.dmChannel ?? this.client.users.createDM(this.id);
   }
 
   /** A link to the user's avatar if they have one. Otherwise a link to their default avatar will be returned */

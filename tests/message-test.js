@@ -1,4 +1,3 @@
-/* eslint-disable */
 // @ts-nocheck
 const { Events, Message, Embed } = require('../build/cjs/index');
 

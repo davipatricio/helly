@@ -1,6 +1,4 @@
-/* eslint-disable */
 // @ts-nocheck
-
 const { startMessageTests } = require('./message-test.js');
 const { startRoleTests } = require('./role-test.js');
 

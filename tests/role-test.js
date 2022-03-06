@@ -1,6 +1,4 @@
-/* eslint-disable */
 // @ts-nocheck
-
 const { Events, Role } = require('../build/cjs/index');
  
 module.exports.startRoleTests = (client) => {

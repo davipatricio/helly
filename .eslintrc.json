@@ -57,7 +57,7 @@
         "@typescript-eslint/no-use-before-define": [
             "error"
         ],
-        "require-await": "off",
+        "require-await": "error",
         "@typescript-eslint/require-await": "error"
     }
 }
