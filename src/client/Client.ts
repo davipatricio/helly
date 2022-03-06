@@ -4,6 +4,7 @@ import { CacheManager } from '../managers/CacheManager';
 import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
 import { UserManager } from '../managers/UserManager';
+import type { Channel } from '../structures';
 import type { Guild } from '../structures/Guild';
 import type { Message } from '../structures/Message';
 import { IntentsBitField } from '../utils/bitfield/IntentsBitField';
@@ -164,6 +165,10 @@ class Client extends EventEmitter {
   override on(event: Events.Reconnecting, listener: () => any): this;
   /** Emitted whenever a guild is updated - e.g. name change */
   override on(event: Events.GuildUpdate, listener: (oldGuild: Guild | undefined, newGuild: Guild) => any): this;
+  /** Emitted whenever a guild channel is created */
+  override on(event: Events.ChannelCreate, listener: (channel: Channel) => any): this;
+  /** Emitted whenever a channel is deleted */
+  override on(event: Events.ChannelDelete, listener: (channel: Channel) => any): this;
   /**
    * Emitted whenever a message is created
    * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
@@ -184,6 +189,10 @@ class Client extends EventEmitter {
   override on(event: 'Reconnecting', listener: () => any): this;
   /** Emitted whenever a guild is updated - e.g. name change */
   override on(event: 'GuildUpdate', listener: (oldGuild: Guild | undefined, newGuild: Guild) => any): this;
+  /** Emitted whenever a guild channel is created */
+  override on(event: 'ChannelCreate', listener: (channel: Channel) => any): this;
+  /** Emitted whenever a channel is deleted */
+  override on(event: 'ChannelDelete', listener: (channel: Channel) => any): this;
   /**
    * Emitted whenever a message is created
    * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
@@ -208,6 +217,10 @@ class Client extends EventEmitter {
   override once(event: Events.Reconnecting, listener: () => any): this;
   /** Emitted whenever a guild is updated - e.g. name change */
   override once(event: Events.GuildUpdate, listener: (oldGuild: Guild | undefined, newGuild: Guild) => any): this;
+  /** Emitted whenever a guild channel is created */
+  override once(event: Events.ChannelCreate, listener: (channel: Channel) => any): this;
+  /** Emitted whenever a channel is deleted */
+  override once(event: Events.ChannelDelete, listener: (channel: Channel) => any): this;
   /**
    * Emitted whenever a message is created
    * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
@@ -228,6 +241,10 @@ class Client extends EventEmitter {
   override once(event: 'Reconnecting', listener: () => any): this;
   /** Emitted whenever a guild is updated - e.g. name change */
   override once(event: 'GuildUpdate', listener: (oldGuild: Guild | undefined, newGuild: Guild) => any): this;
+  /** Emitted whenever a guild channel is created */
+  override once(event: 'ChannelCreate', listener: (channel: Channel) => any): this;
+  /** Emitted whenever a channel is deleted */
+  override once(event: 'ChannelDelete', listener: (channel: Channel) => any): this;
   /**
    * Emitted whenever a message is created
    * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots

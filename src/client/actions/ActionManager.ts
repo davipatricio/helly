@@ -24,6 +24,8 @@ class ActionManager {
   /** Loads all actions from the actions folder */
   async #loadActions() {
     this.loaded.READY = await import('./READY');
+    this.loaded.CHANNEL_CREATE = await import('./CHANNEL_CREATE');
+    this.loaded.CHANNEL_DELETE = await import('./CHANNEL_DELETE');
     this.loaded.GUILD_CREATE = await import('./GUILD_CREATE');
     this.loaded.GUILD_DELETE = await import('./GUILD_DELETE');
     this.loaded.GUILD_UPDATE = await import('./GUILD_UPDATE');
