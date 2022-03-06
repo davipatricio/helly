@@ -1,6 +1,5 @@
 import type { GatewayGuildCreateDispatchData } from 'discord-api-types/v10';
 import { Events } from '../../constants/Events';
-import type { Guild } from '../../structures/Guild';
 import type { Client } from '../Client';
 
 function handle(client: Client, data: GatewayGuildCreateDispatchData) {
@@ -13,7 +12,7 @@ function handle(client: Client, data: GatewayGuildCreateDispatchData) {
   }
 
   // When the current user joins a new Guild
-  if (client.ready) client.emit(Events.GuildCreate, guild as Guild);
+  if (client.ready) client.emit(Events.GuildCreate, guild);
 }
 
 export { handle };

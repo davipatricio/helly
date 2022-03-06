@@ -1,6 +1,5 @@
 import type { GatewayGuildDeleteDispatchData } from 'discord-api-types/v10';
 import { Events } from '../../constants/Events';
-import type { Guild } from '../../structures/Guild';
 import type { Client } from '../Client';
 
 function handle(client: Client, data: GatewayGuildDeleteDispatchData) {
@@ -14,7 +13,7 @@ function handle(client: Client, data: GatewayGuildDeleteDispatchData) {
       return;
     }
 
-    if (client.ready) client.emit(Events.GuildDelete, guild as Guild);
+    if (client.ready) client.emit(Events.GuildDelete, guild);
 
     for (const channel of guild.channels.cache.values()) client.caches.channels.delete(channel.id);
     for (const role of guild.roles.cache.values()) client.caches.roles.delete(role.id);
