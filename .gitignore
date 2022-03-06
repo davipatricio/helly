@@ -4,3 +4,4 @@ node_modules
 .env
 .vscode
 .git
+tests/config.json

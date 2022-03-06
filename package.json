@@ -38,6 +38,7 @@
   "scripts": {
     "docs": "npx typedoc --options typedoc.json",
     "build": "npx tsc --project tsconfig.json",
+    "test": "node tests/index",
     "lint": "npx eslint src",
     "lint:fix": "npm run lint:prettier && npx eslint src --fix",
     "lint:prettier": "npx prettier -w src",
