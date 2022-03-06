@@ -26,6 +26,7 @@ class ActionManager {
     this.loaded.READY = await import('./READY');
     this.loaded.GUILD_CREATE = await import('./GUILD_CREATE');
     this.loaded.GUILD_DELETE = await import('./GUILD_DELETE');
+    this.loaded.GUILD_UPDATE = await import('./GUILD_UPDATE');
     this.loaded.MESSAGE_CREATE = await import('./MESSAGE_CREATE');
   }
 }

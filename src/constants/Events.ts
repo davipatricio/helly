@@ -4,9 +4,9 @@ export const enum Events {
   Debug = 'Debug',
   Reconnecting = 'Reconnecting',
   GuildCreate = 'GuildCreate',
-  GuildUpdate = 'GuildUpdate',
   GuildDelete = 'GuildDelete',
   GuildUnavailable = 'GuildUnavailable',
+  GuildUpdate = 'GuildUpdate',
   MessageCreate = 'MessageCreate',
 }
 
