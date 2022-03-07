@@ -6,7 +6,7 @@ import { MessageFlagsBitField } from './bitfield/MessageFlagsBitField';
 
 // Transformers
 
-function transformMessageReference(data: APIMessageReferenceSend | undefined): APIMessageReferenceSend | undefined {
+function transformMessageReference(data?: APIMessageReferenceSend): APIMessageReferenceSend | undefined {
   if (!data) return undefined;
   return {
     message_id: data.message_id,
@@ -16,29 +16,30 @@ function transformMessageReference(data: APIMessageReferenceSend | undefined): A
   };
 }
 
-function transformMessageEmbeds(data: Embed | APIEmbed): APIEmbed | undefined {
+function transformMessageEmbeds(data?: Embed | APIEmbed): APIEmbed | undefined {
   if (!data) return undefined;
   if (data instanceof Embed) return data.toJSON() as APIEmbed;
   return data;
 }
 
-function transformMessageFlags(data: MessageFlags | MessageFlagsBitField | undefined) {
+function transformMessageFlags(data?: MessageFlags | MessageFlagsBitField) {
   if (!data) return undefined;
   if (data instanceof MessageFlagsBitField) return data.bitfield;
   return new MessageFlagsBitField(data).bitfield;
 }
 
-function transformChannelData(data: ChannelData | undefined): APIChannel | undefined {
+function transformChannelData(data?: ChannelData): APIChannel | undefined {
   if (!data) return undefined;
   const parsedData = data as unknown as APIChannel;
   if (data.rateLimitPerUser) (parsedData as APITextChannel).rate_limit_per_user = data.rateLimitPerUser;
-  if (typeof data.type === 'string') parsedData.type = ChannelType[data.type] as unknown as ChannelType;
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  if (data.type) parsedData.type = parseChannelCustomType(data.type);
   return parsedData;
 }
 
 // Parsers
 
-function parseMessageReference(data: APIMessageReference | undefined): MessageReference | undefined {
+function parseMessageReference(data?: APIMessageReference): MessageReference | undefined {
   if (!data) return undefined;
   return {
     messageId: data.message_id,
@@ -47,14 +48,15 @@ function parseMessageReference(data: APIMessageReference | undefined): MessageRe
   };
 }
 
-function parseMessageFlags(data: MessageFlags | undefined) {
+function parseMessageFlags(data?: MessageFlags) {
   if (!data) return undefined;
   return MessageFlags[data] as keyof typeof MessageFlags;
 }
 
-function parseChannelType(data: ChannelType | undefined) {
-  if (!data) return undefined;
-  return ChannelType[data] as keyof typeof ChannelType;
+function parseChannelCustomType(data?: ChannelType | number | string): ChannelType {
+  if (!data) return 0;
+  if (typeof data === 'string') return ChannelType[data as string] ?? 0;
+  return data;
 }
 
 function parseRoleTags(data: APIRoleTags | undefined): RoleTags {
@@ -65,5 +67,5 @@ function parseRoleTags(data: APIRoleTags | undefined): RoleTags {
   };
 }
 
-export const Parsers = { parseMessageReference, parseMessageFlags, parseChannelType, parseRoleTags };
+export const Parsers = { parseMessageReference, parseMessageFlags, parseRoleTags, parseChannelCustomType };
 export const Transformers = { transformChannelData, transformMessageReference, transformMessageEmbeds, transformMessageFlags };

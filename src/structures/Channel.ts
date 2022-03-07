@@ -1,7 +1,6 @@
 import { APIChannel, APIDMChannel, APIEmbed, APITextChannel, APIVoiceChannel, ChannelType } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils/Snowflake';
-import { Parsers } from '../utils/Transformers';
 import { BaseStructure } from './BaseStructure';
 import type { Embed } from './Embed';
 import type { Guild } from './Guild';
@@ -97,8 +96,13 @@ class Channel extends BaseStructure {
   }
 
   /** The {@link ChannelType | type} of the channel */
-  get type() {
-    return Parsers.parseChannelType(this.data.type);
+  get type(): keyof typeof ChannelType | number {
+    return (ChannelType[this.data.type] as keyof typeof ChannelType) ?? this.rawType;
+  }
+
+  /** The numeric {@link ChannelType | type} of the channel */
+  get rawType() {
+    return this.data.type;
   }
 
   /** The topic of the guild channel */
@@ -244,55 +248,56 @@ class Channel extends BaseStructure {
    * @param reason - The reason for changing the type
    * @example
    * ```js
-   * channel.setType('GuildNews')
+   * channel.setType(ChannelType.GuildNews)
    * ```
    * @example
    * ```js
-   * channel.setType('GuildText', 'This was needed')
+   * // set the type of the channel to Text
+   * channel.setType(0, 'This was needed')
    * ```
    */
-  setType(type = 'GuildNews' as keyof typeof ChannelType, reason?: string) {
+  setType(type = ChannelType.GuildText, reason?: string) {
     return this.guild?.channels.edit(this.id, { type }, reason);
   }
 
   /** Indicates whether this channel is a text channel */
   isText() {
-    return this.data.type === ChannelType.GuildText;
+    return this.rawType === ChannelType.GuildText;
   }
 
   /** Indicates whether this channel is a category */
   isCategory() {
-    return this.data.type === ChannelType.GuildCategory;
+    return this.rawType === ChannelType.GuildCategory;
   }
 
   /** Indicates whether this channel is a news channel */
   isNews() {
-    return this.data.type === ChannelType.GuildNews;
+    return this.rawType === ChannelType.GuildNews;
   }
 
   /** Indicates whether this channel is a voice channel */
   isVoice() {
-    return this.data.type === ChannelType.GuildVoice;
+    return this.rawType === ChannelType.GuildVoice;
   }
 
   /** Indicates whether this channel is a stage channel */
   isStage() {
-    return this.data.type === ChannelType.GuildStageVoice;
+    return this.rawType === ChannelType.GuildStageVoice;
   }
 
   /** Indicates whether this channel is a thread in a news channel */
   isNewsThread() {
-    return this.data.type === ChannelType.GuildNewsThread;
+    return this.rawType === ChannelType.GuildNewsThread;
   }
 
   /** Indicates whether this channel is a public thread in a text channel */
   isPublicThread() {
-    return this.data.type === ChannelType.GuildPublicThread;
+    return this.rawType === ChannelType.GuildPublicThread;
   }
 
   /** Indicates whether this channel is a private thread in a text channel */
   isPrivateThread() {
-    return this.data.type === ChannelType.GuildPrivateThread;
+    return this.rawType === ChannelType.GuildPrivateThread;
   }
 
   /** Indicates whether this channel can have messages */
