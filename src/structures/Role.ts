@@ -15,6 +15,8 @@ export interface RoleTags {
   premiumSubscriber?: null;
 }
 
+export type RoleData = Partial<Role>;
+
 /** Represents a role on Discord */
 class Role extends BaseStructure {
   /** Raw {@link Role} data */
@@ -83,26 +85,6 @@ class Role extends BaseStructure {
   get tags(): RoleTags {
     const { tags } = this.data;
     return Parsers.parseRoleTags(tags);
-  }
-
-  /** Whether this Role is the guild's premium subscription role */
-  isPremiumSubcriber() {
-    return Boolean(this.tags.premiumSubscriber);
-  }
-
-  /** Whether this Role was automatically created for an integration */
-  isIntegration() {
-    return Boolean(this.tags.integrationId);
-  }
-
-  /** Whether this Role was automatically created for a bot */
-  isBotRole() {
-    return Boolean(this.tags.botId);
-  }
-
-  /** Whether this Role is managed by an external service */
-  isManaged() {
-    return this.managed;
   }
 
   /** @private */
