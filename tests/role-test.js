@@ -10,6 +10,7 @@ module.exports.startRoleTests = (client) => {
         if (role.id !== '912013404259102750') throw new Error('Role ID is not equal to \'912013404259102750\'.');
         if (role.name !== 'Bots') throw new Error('Role name is not equal to \'Bots\'.');
         if (role.guild.id !== '542107745785217065') throw new Error('Role guild ID is not equal to \'542107745785217065\'.');
+        if (role.managed) throw new Error('Role \'Bots\' is managed.');
 
         console.log('   [Role Tests] ✅ Role tests passed.')
     })
