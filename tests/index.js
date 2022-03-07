@@ -1,6 +1,7 @@
 // @ts-nocheck
 const { startMessageTests } = require('./message-test.js');
 const { startRoleTests } = require('./role-test.js');
+const { startChannelTests } = require('./channel-test.js');
 
 const { Client, IntentsBitField, Events } = require('../build/cjs/index');
 const { token } = require('./config.json')
@@ -18,6 +19,13 @@ try {
     startRoleTests(client)
 } catch (e) {
     console.log('   [Role Tests] ❌ Role tests failed.')
+    console.error(e)
+}
+
+try {
+    startChannelTests(client)
+} catch (e) {
+    console.log('   [Channel Tests] ❌ Channel tests failed.')
     console.error(e)
 }
 
