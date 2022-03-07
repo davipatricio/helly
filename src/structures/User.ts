@@ -12,6 +12,8 @@ export interface ImageURLOptions {
   forceStatic?: boolean;
 }
 
+export type UserData = Partial<User>;
+
 class User extends BaseStructure {
   /** Raw {@link User} data */
   data: APIUser;

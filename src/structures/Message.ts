@@ -5,6 +5,8 @@ import { BaseStructure } from './BaseStructure';
 import type { MessageOptions, MessagePayload } from './Channel';
 import { Embed } from './Embed';
 
+export type MessageData = Partial<Message>;
+
 class Message extends BaseStructure {
   /** Raw message data */
   data: APIMessage;

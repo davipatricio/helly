@@ -24,6 +24,8 @@ export interface MessagePayload {
   messageReference?: MessageReference & { failIfNotExists?: boolean };
 }
 
+export type ChannelData = Partial<Channel>;
+
 /** Base options provided when sending */
 export type MessageOptions = string | MessagePayload;
 
@@ -138,6 +140,10 @@ class Channel extends BaseStructure {
    */
   send(content: MessageOptions) {
     return this.client.channels.send(this.id, content);
+  }
+
+  setName(name: string, reason?: string) {
+    return this.guild?.channels.edit(this.id, { name }, reason);
   }
 
   /** Indicates whether this channel is a text channel */
