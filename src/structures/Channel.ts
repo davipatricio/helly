@@ -41,6 +41,11 @@ class Channel extends BaseStructure {
     this.parseData(data, guild);
   }
 
+  /** The bitrate of this voice-based channel */
+  get bitrate() {
+    return (this.data as APIVoiceChannel).bitrate ?? null;
+  }
+
   /** The time the channel was created at */
   get createdAt() {
     return new Date(this.createdTimestamp);
@@ -81,6 +86,11 @@ class Channel extends BaseStructure {
     return (this.data as APITextChannel).parent_id ?? undefined;
   }
 
+  /** The position of this {@link Guild} channel */
+  get position() {
+    return (this.data as APITextChannel).position ?? undefined;
+  }
+
   /** The URL to the channel */
   get url() {
     return !this.guildId ? `https://discord.com/channels/@me/${this.id}` : `https://discord.com/channels/${this.guildId}/${this.id}`;
@@ -99,11 +109,6 @@ class Channel extends BaseStructure {
   /** The maximum amount of users allowed in this channel */
   get userLimit() {
     return (this.data as APIVoiceChannel).user_limit ?? null;
-  }
-
-  /** The bitrate of this voice-based channel */
-  get bitrate() {
-    return (this.data as APIVoiceChannel).bitrate ?? null;
   }
 
   /** The rate limit per user (slowmode) for this channel in seconds */
@@ -142,8 +147,112 @@ class Channel extends BaseStructure {
     return this.client.channels.send(this.id, content);
   }
 
+  /**
+   * Sets a new name for the guild channel
+   * @param name - The new name for the guild channel
+   * @param reason - Reason for changing the guild channel's name
+   * @example
+   * ```js
+   * channel.setName('server-rules')
+   * ```
+   * @example
+   * ```js
+   * channel.setName('general')
+   * ```
+   */
   setName(name: string, reason?: string) {
     return this.guild?.channels.edit(this.id, { name }, reason);
+  }
+
+  /**
+   * Sets a new position for the guild channel
+   * @param position - The new position for the guild channel
+   * @param reason - The reason for changing the position
+   * @example
+   * ```js
+   * channel.setPosition(13)
+   * ```
+   * @example
+   * ```js
+   * channel.setPosition(3)
+   * ```
+   */
+  setPosition(position = 0, reason?: string) {
+    return this.guild?.channels.edit(this.id, { position }, reason);
+  }
+
+  /**
+   * Sets whether this channel is flagged as NSFW
+   * @param topic - Whether the channel should be considered NSFW
+   * @param reason - Reason for changing the channel's NSFW flag
+   * @example
+   * ```js
+   * channel.setNSFW(true)
+   * ```
+   * @example
+   * ```js
+   * channel.setNSFW(false, 'No longer NSFW')
+   * ```
+   */
+  setNSFW(nsfw = true, reason?: string) {
+    return this.guild?.channels.edit(this.id, { nsfw }, reason);
+  }
+
+  /**
+   * Changes the topic of this channel
+   * @param topic - The new topic of this channel
+   * @param reason - The reason for changing the topic
+   * @example
+   * ```js
+   * // Removes the channel topic
+   * channel.setTopic(null)
+   * ```
+   * @example
+   * ```js
+   * channel.setTopic('Server rules.')
+   * ```
+   */
+  setTopic(topic = null as string | null, reason?: string) {
+    return this.guild?.channels.edit(this.id, { topic }, reason);
+  }
+
+  /**
+   * Sets the bitrate of the channel
+   * @param bitrate - The new bitrate
+   * @param reason - Reason for changing the channel's bitrate
+   * @example
+   * ```js
+   * channel.setBitrate(48_000)
+   * ```
+   */
+  setBitrate(bitrate = 64_000, reason?: string) {
+    return this.guild?.channels.edit(this.id, { bitrate }, reason);
+  }
+
+  /**
+   * Sets the rate limit per user (slowmode) for this channel
+   * @param rateLimitPerUser - The rate limit per user in seconds
+   * @param reason - The reason for changing the rate limit
+   */
+  setRateLimitPerUser(rateLimitPerUser = 0, reason?: string) {
+    return this.guild?.channels.edit(this.id, { rateLimitPerUser }, reason);
+  }
+
+  /**
+   * Changes the type of this channel
+   * @param type - The new type of the channel. Only conversion between `GuildText` and `GuildNews` is supported and only in guilds with the "NEWS" feature
+   * @param reason - The reason for changing the type
+   * @example
+   * ```js
+   * channel.setType('GuildNews')
+   * ```
+   * @example
+   * ```js
+   * channel.setType('GuildText', 'This was needed')
+   * ```
+   */
+  setType(type = 'GuildNews' as keyof typeof ChannelType, reason?: string) {
+    return this.guild?.channels.edit(this.id, { type }, reason);
   }
 
   /** Indicates whether this channel is a text channel */
