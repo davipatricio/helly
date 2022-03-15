@@ -1,6 +1,7 @@
 import type { APIGuild } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { GuildChannelManager } from '../managers/GuildChannelManager';
+import { GuildMemberManager } from '../managers/GuildMemberManager';
 import { RoleManager } from '../managers/RoleManager';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
@@ -13,10 +14,13 @@ class Guild extends BaseStructure {
   roles: RoleManager;
   /** A manager of the {@link Channel}s belonging to this guild */
   channels: GuildChannelManager;
+  /** A manager of the {@link GuildMember}s belonging to this guild */
+  members: GuildMemberManager;
   constructor(client: Client, data: APIGuild) {
     super(client);
     this.roles = new RoleManager(client, this);
     this.channels = new GuildChannelManager(client, this);
+    this.members = new GuildMemberManager(client, this);
     this.parseData(data);
   }
 
@@ -110,6 +114,10 @@ class Guild extends BaseStructure {
     this.data = { ...this.data, ...data };
     data.roles?.forEach(apiRole => {
       this.roles.updateOrSet(apiRole.id, apiRole, this);
+    });
+    data.members?.forEach(apiMember => {
+      if (!apiMember.user) return;
+      this.members.updateOrSet(apiMember.user.id, apiMember);
     });
     data.channels?.forEach(apiChannel => {
       this.client.channels.updateOrSet(apiChannel.id, apiChannel, this);

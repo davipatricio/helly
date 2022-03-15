@@ -4,6 +4,7 @@ import { Parsers } from '../utils/Transformers';
 import { BaseStructure } from './BaseStructure';
 import type { MessageOptions, MessagePayload } from './Channel';
 import { Embed } from './Embed';
+import { GuildMember } from './GuildMember';
 
 export type MessageData = Partial<Message>;
 
@@ -82,6 +83,12 @@ class Message extends BaseStructure {
   /** The type of the message */
   get type() {
     return Parsers.parseMessageFlags(this.data.flags);
+  }
+
+  /** Represents the author of the message as a guild member. */
+  get member() {
+    if (!this.guild) return undefined;
+    return this.data.member ? new GuildMember(this.client, this.data.member, this.guild) : this.guild?.members.cache.get(this.author.id);
   }
 
   /** The id of the channel the message is in */
