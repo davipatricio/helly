@@ -5,6 +5,8 @@ export {
   ActivityType,
   APIChannel,
   APIEmbedAuthor,
+  APIActionRowComponent,
+  APIMessageActionRowComponent,
   APIEmbedField,
   APIEmbedFooter,
   APIEmbedImage,

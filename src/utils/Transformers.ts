@@ -1,5 +1,16 @@
-import { APIChannel, APIEmbed, APIMessageReference, APIMessageReferenceSend, APIRoleTags, APITextChannel, ChannelType, MessageFlags } from 'discord-api-types/v10';
-import { EmbedBuilder, UnsafeEmbedBuilder } from '..';
+import {
+  APIActionRowComponent,
+  APIChannel,
+  APIEmbed,
+  APIMessageActionRowComponent,
+  APIMessageReference,
+  APIMessageReferenceSend,
+  APIRoleTags,
+  APITextChannel,
+  ChannelType,
+  MessageFlags,
+} from 'discord-api-types/v10';
+import { ActionRowBuilder, EmbedBuilder, UnsafeEmbedBuilder } from '..';
 import type { RoleTags } from '../structures';
 import type { ChannelData, MessageReference } from '../structures/Channel';
 import { MessageFlagsBitField } from './bitfield/MessageFlagsBitField';
@@ -38,7 +49,18 @@ function transformChannelData(data?: ChannelData): APIChannel | undefined {
   return parsedData;
 }
 
+function transformMessageComponents(data: ActionRowBuilder | APIActionRowComponent<APIMessageActionRowComponent> | undefined) {
+  if (!data) return undefined;
+  if (data instanceof ActionRowBuilder) return data.toJSON();
+  return data;
+}
+
 // Parsers
+
+function parseMessageComponents(row: APIActionRowComponent<APIMessageActionRowComponent>) {
+  const actionRow = new ActionRowBuilder({ type: row.type, components: row.components });
+  return actionRow;
+}
 
 function parseMessageReference(data?: APIMessageReference): MessageReference | undefined {
   if (!data) return undefined;
@@ -68,5 +90,5 @@ function parseRoleTags(data: APIRoleTags | undefined): RoleTags {
   };
 }
 
-export const Parsers = { parseMessageReference, parseMessageFlags, parseRoleTags, parseChannelCustomType };
-export const Transformers = { transformChannelData, transformMessageReference, transformMessageEmbeds, transformMessageFlags };
+export const Parsers = { parseMessageReference, parseMessageFlags, parseRoleTags, parseChannelCustomType, parseMessageComponents };
+export const Transformers = { transformChannelData, transformMessageComponents, transformMessageReference, transformMessageEmbeds, transformMessageFlags };

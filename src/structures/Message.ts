@@ -31,6 +31,11 @@ class Message extends BaseStructure {
     return this.data.content;
   }
 
+  /** The components of this message */
+  get components() {
+    return this.data.components?.map(c => Parsers.parseMessageComponents(c)) ?? [];
+  }
+
   /** The message's id */
   get id() {
     return this.data.id;
