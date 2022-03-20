@@ -8,7 +8,7 @@ module.exports.startChannelTests = (client) => {
 
         if (!channel) throw new Error('Channel not found.');
         if (!(channel instanceof Channel)) throw new Error('Test channel is not instance of Channel.');
-        if (channel.type !== ChannelType.GuildText) throw new Error('Test channel is not a text channel.');
+        if (channel.rawType !== ChannelType.GuildText) throw new Error('Test channel is not a text channel.');
 
         if (channel.id !== '949804142048727050') throw new Error('Role ID is not equal to \'949804142048727050\'.');
 
