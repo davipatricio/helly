@@ -1,3 +1,4 @@
+import { RequestMethod } from '@discordjs/rest';
 import { APIChannel, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import type { Channel, ChannelData } from '../structures/Channel';
@@ -25,7 +26,7 @@ class GuildChannelManager extends ChannelManager {
 
   async edit(id: string, options: ChannelData, reason = '') {
     const transformed = Transformers.transformChannelData(options);
-    const data = await this.client.rest.make(Routes.channel(id), 'PATCH', transformed, { 'X-Audit-Log-Reason': reason });
+    const data = await this.client.rest.make(Routes.channel(id), RequestMethod.Patch, transformed, { 'X-Audit-Log-Reason': reason });
     return this.updateOrSet(id, data as APIChannel, this.guild);
   }
 }

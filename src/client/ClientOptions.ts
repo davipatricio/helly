@@ -41,7 +41,7 @@ export interface ClientCacheOptions {
 
 /** Options for the {@link ClientOptions.rest | REST Manager} */
 export interface RestOptions {
-  /** @defaultValue `https://discord.com/api/v10` */
+  /** @defaultValue `https://discord.com/api` */
   api: string;
   /** @defaultValue `https://cdn.discordapp.com` */
   cdn: string;
@@ -58,6 +58,10 @@ export interface RestOptions {
    * @defaultValue `false`
    */
   forceStatic: boolean;
+  /** How many requests to allow sending per second (`Infinity` for unlimited, 50 for the standard global limit used by Discord) */
+  globalRequestsPerSecond: number;
+  /** The number of retries for errors with the 500 code, or errors that timeout */
+  retries: number;
 }
 
 /** Options for the {@link ClientOptions.ws | WebSocket} */
@@ -82,13 +86,15 @@ export const defaultClientOptions: ClientOptions = {
   },
   intents: 0,
   rest: {
-    api: RouteBases.api,
+    api: 'https://discord.com/api',
     cdn: RouteBases.cdn,
     invite: RouteBases.invite,
     template: RouteBases.template,
     gift: RouteBases.gift,
     scheduledEvent: RouteBases.scheduledEvent,
     forceStatic: false,
+    globalRequestsPerSecond: 50,
+    retries: 1,
   },
   ws: {
     gateway: 'wss://gateway.discord.gg/',
