@@ -1,7 +1,7 @@
 import { APIChannel, APIEmbed, APIMessageReference, APIMessageReferenceSend, APIRoleTags, APITextChannel, ChannelType, MessageFlags } from 'discord-api-types/v10';
+import { EmbedBuilder, UnsafeEmbedBuilder } from '..';
 import type { RoleTags } from '../structures';
 import type { ChannelData, MessageReference } from '../structures/Channel';
-import { Embed } from '../structures/Embed';
 import { MessageFlagsBitField } from './bitfield/MessageFlagsBitField';
 
 // Transformers
@@ -16,9 +16,10 @@ function transformMessageReference(data?: APIMessageReferenceSend): APIMessageRe
   };
 }
 
-function transformMessageEmbeds(data?: Embed | APIEmbed): APIEmbed | undefined {
+function transformMessageEmbeds(data?: EmbedBuilder | UnsafeEmbedBuilder | APIEmbed): APIEmbed | undefined {
   if (!data) return undefined;
-  if (data instanceof Embed) return data.toJSON() as APIEmbed;
+  if (data instanceof EmbedBuilder) return data.toJSON() as APIEmbed;
+  if (data instanceof UnsafeEmbedBuilder) return data.toJSON() as APIEmbed;
   return data;
 }
 

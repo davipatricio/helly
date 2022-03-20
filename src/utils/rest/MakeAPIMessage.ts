@@ -1,5 +1,5 @@
+import type { EmbedBuilder, UnsafeEmbedBuilder } from '@discordjs/builders';
 import type { APIEmbed, RESTPostAPIChannelMessageJSONBody } from 'discord-api-types/v10';
-import type { Embed } from '../../structures/Embed';
 import { Transformers } from '../Transformers';
 
 class MakeAPIMessage extends null {
@@ -8,7 +8,7 @@ class MakeAPIMessage extends null {
 
     const parsedData = typeof data === 'string' ? { content: data } : data;
 
-    parsedData.embeds = parsedData.embeds?.map((embed: Embed | APIEmbed) => Transformers.transformMessageEmbeds(embed)) ?? [];
+    parsedData.embeds = parsedData.embeds?.map((embed: EmbedBuilder | UnsafeEmbedBuilder | APIEmbed) => Transformers.transformMessageEmbeds(embed)) ?? [];
 
     if (parsedData.messageReference) {
       parsedData.message_reference = Transformers.transformMessageReference(parsedData.messageReference);

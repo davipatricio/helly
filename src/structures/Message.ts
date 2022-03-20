@@ -1,9 +1,9 @@
+import { EmbedBuilder } from '@discordjs/builders';
 import { APIMessage, MessageType } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Parsers } from '../utils/Transformers';
 import { BaseStructure } from './BaseStructure';
 import type { MessageOptions, MessagePayload } from './Channel';
-import { Embed } from './Embed';
 import { GuildMember } from './GuildMember';
 
 export type MessageData = Partial<Message>;
@@ -53,7 +53,7 @@ class Message extends BaseStructure {
 
   /* A list of embeds in the message - e.g. YouTube Player */
   get embeds() {
-    return this.data.embeds.map(e => new Embed(e));
+    return this.data.embeds.map(e => new EmbedBuilder(e));
   }
 
   /** The {@link Guild} that the message belongs to */
