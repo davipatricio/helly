@@ -34,6 +34,7 @@ export {
   PresenceUpdateStatus,
   UserFlags,
 } from 'discord-api-types/v10';
+export { RestEvents, RESTEvents, RequestMethod } from '@discordjs/rest';
 export * from './client/actions/ActionManager';
 export * from './client/Client';
 export * from './client/ClientOptions';
