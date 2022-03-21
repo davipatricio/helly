@@ -1,12 +1,11 @@
-export * from '@discordjs/builders';
+export { ActionRowBuilder } from '@discordjs/builders';
 export { Collection } from '@discordjs/collection';
 export { RequestMethod, RestEvents, RESTEvents } from '@discordjs/rest';
 export {
   ActivityType,
+  APIActionRowComponent,
   APIChannel,
   APIEmbedAuthor,
-  APIActionRowComponent,
-  APIMessageActionRowComponent,
   APIEmbedField,
   APIEmbedFooter,
   APIEmbedImage,
@@ -15,6 +14,7 @@ export {
   APIEmbedVideo,
   APIGuild,
   APIMessage,
+  APIMessageActionRowComponent,
   APIMessageReference,
   APIMessageReferenceSend,
   APINewsChannel,

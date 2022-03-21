@@ -8,7 +8,8 @@
         "declarationDir": "build/types",
         "declarationMap": true,
         "esModuleInterop": true,
-        "exactOptionalPropertyTypes": true,
+		// if true: conflicts with discord-api-types
+        "exactOptionalPropertyTypes": false,
         "forceConsistentCasingInFileNames": true,
         "importHelpers": true,
         "importsNotUsedAsValues": "error",

@@ -1,8 +1,8 @@
-import type { EmbedBuilder, UnsafeEmbedBuilder } from '@discordjs/builders';
 import { APIChannel, APIDMChannel, APIEmbed, APITextChannel, APIVoiceChannel, ChannelType } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
+import type { Embed } from './Embed';
 import type { Guild } from './Guild';
 import type { User } from './User';
 
@@ -19,7 +19,7 @@ export interface MessageReference {
 /** Represents a message to be sent to the Discord API */
 export interface MessagePayload {
   content?: string;
-  embeds?: (EmbedBuilder | UnsafeEmbedBuilder | APIEmbed)[];
+  embeds?: (Embed | APIEmbed)[];
   messageReference?: MessageReference & { failIfNotExists?: boolean };
 }
 

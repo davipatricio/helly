@@ -10,8 +10,8 @@ import {
   ChannelType,
   MessageFlags,
 } from 'discord-api-types/v10';
-import { ActionRowBuilder, EmbedBuilder, UnsafeEmbedBuilder } from '..';
-import type { RoleTags } from '../structures';
+import { ActionRowBuilder } from '@discordjs/builders';
+import { Embed, RoleTags } from '../structures';
 import type { ChannelData, MessageReference } from '../structures/Channel';
 import { MessageFlagsBitField } from './bitfield/MessageFlagsBitField';
 
@@ -27,10 +27,9 @@ function transformMessageReference(data?: APIMessageReferenceSend): APIMessageRe
   };
 }
 
-function transformMessageEmbeds(data?: EmbedBuilder | UnsafeEmbedBuilder | APIEmbed): APIEmbed | undefined {
+function transformMessageEmbeds(data?: Embed | APIEmbed): APIEmbed | undefined {
   if (!data) return undefined;
-  if (data instanceof EmbedBuilder) return data.toJSON() as APIEmbed;
-  if (data instanceof UnsafeEmbedBuilder) return data.toJSON() as APIEmbed;
+  if (data instanceof Embed) return data.toJSON();
   return data;
 }
 
