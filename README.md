@@ -8,7 +8,7 @@
 
 ## Installation
 
-#### Node.js 16.0.0 or newer is required
+#### Node.js 16.9.0 or newer is required
 
 ### Stable version
 
@@ -16,14 +16,6 @@
 npm install helly
 yarn add helly
 pnpm add helly
-```
-
-### Development version
-
-```sh-session
-npm install https://github.com/davipatricio/helly.git
-yarn add https://github.com/davipatricio/helly.git
-pnpm add https://github.com/davipatricio/helly.git
 ```
 
 ### Optional packages
