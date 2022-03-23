@@ -10,6 +10,7 @@ import type { Message } from '../structures/Message';
 import { IntentsBitField } from '../utils/bitfield/IntentsBitField';
 import { RestManager } from '../utils/rest/RestManager';
 import { ActionManager } from './actions/ActionManager';
+import type { GuildMembersChunkEventArgs } from './actions/GUILD_MEMBERS_CHUNK';
 import { ClientOptions, defaultClientOptions, ParsedClientOptions } from './ClientOptions';
 import * as Heartbeater from './websocket/Heartbeater';
 import { WebsocketManager } from './websocket/WebsockerManager';
@@ -118,10 +119,7 @@ class Client extends EventEmitter {
     return this.ready === true;
   }
 
-  /**
-   * Emits `Client#Reconnecting` and calls `Client.login()` again
-   * @private
-   */
+  /** Emits `Client#Reconnecting` and calls `Client.login()` again */
   reconnect() {
     // Stop heartbeating (this automatically verifies if there's a timer)
     Heartbeater.stop(this.api);
@@ -150,6 +148,18 @@ class Client extends EventEmitter {
     this.users = new UserManager(this);
   }
 
+  /** @private */
+  incrementMaxListeners() {
+    const maxListeners = this.getMaxListeners();
+    if (maxListeners !== 0) this.setMaxListeners(maxListeners + 1);
+  }
+
+  /** @private */
+  decrementMaxListeners() {
+    const maxListeners = this.getMaxListeners();
+    if (maxListeners !== 0) this.setMaxListeners(maxListeners - 1);
+  }
+
   override on(event: string | symbol, listener: (...args: any[]) => void): this;
   /** Emitted when the client becomes ready to start working */
   override on(event: Events.Ready, listener: (client: Client) => any): this;
@@ -169,6 +179,8 @@ class Client extends EventEmitter {
   override on(event: Events.ChannelCreate, listener: (channel: Channel) => any): this;
   /** Emitted whenever a channel is deleted */
   override on(event: Events.ChannelDelete, listener: (channel: Channel) => any): this;
+  /** Emitted whenever a chunk of guild members is received (all members come from the same guild) */
+  override on(event: Events.GuildMembersChunk, listener: (data: GuildMembersChunkEventArgs) => any): this;
   /**
    * Emitted whenever a message is created
    * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
@@ -193,6 +205,8 @@ class Client extends EventEmitter {
   override on(event: 'ChannelCreate', listener: (channel: Channel) => any): this;
   /** Emitted whenever a channel is deleted */
   override on(event: 'ChannelDelete', listener: (channel: Channel) => any): this;
+  /** Emitted whenever a chunk of guild members is received (all members come from the same guild) */
+  override on(event: 'GuildMembersChunk', listener: (data: GuildMembersChunkEventArgs) => any): this;
   /**
    * Emitted whenever a message is created
    * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
@@ -221,6 +235,8 @@ class Client extends EventEmitter {
   override once(event: Events.ChannelCreate, listener: (channel: Channel) => any): this;
   /** Emitted whenever a channel is deleted */
   override once(event: Events.ChannelDelete, listener: (channel: Channel) => any): this;
+  /** Emitted whenever a chunk of guild members is received (all members come from the same guild) */
+  override once(event: Events.GuildMembersChunk, listener: (data: GuildMembersChunkEventArgs) => any): this;
   /**
    * Emitted whenever a message is created
    * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
@@ -245,6 +261,8 @@ class Client extends EventEmitter {
   override once(event: 'ChannelCreate', listener: (channel: Channel) => any): this;
   /** Emitted whenever a channel is deleted */
   override once(event: 'ChannelDelete', listener: (channel: Channel) => any): this;
+  /** Emitted whenever a chunk of guild members is received (all members come from the same guild) */
+  override once(event: 'GuildMembersChunk', listener: (data: GuildMembersChunkEventArgs) => any): this;
   /**
    * Emitted whenever a message is created
    * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots

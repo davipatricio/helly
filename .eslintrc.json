@@ -48,6 +48,7 @@
         ],
         "no-bitwise": "off",
         "no-restricted-syntax": "off",
+        "no-continue": "off",
         "no-plusplus": [
             "error",
             {
