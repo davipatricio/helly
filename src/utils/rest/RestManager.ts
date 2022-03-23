@@ -2,6 +2,7 @@ import { RequestMethod, REST } from '@discordjs/rest';
 import type { Client } from '../../client/Client';
 
 type Headers = Record<string, string>;
+type Methods = keyof typeof RequestMethod;
 
 /** This is a utility class that makes requests to the Discord API easier */
 class RestManager extends REST {
@@ -17,12 +18,12 @@ class RestManager extends REST {
     this.client = client;
   }
 
-  make(endpoint: string, method = RequestMethod.Get as RequestMethod, body = undefined as unknown, headers = {} as Headers) {
+  make(endpoint: string, method: Methods = 'Get', body = undefined as unknown, headers = {} as Headers) {
     const fullRoute: `/${string}` = endpoint.startsWith('/') ? (endpoint as `/${string}`) : `/${endpoint}`;
     return this.request({
       fullRoute,
       body,
-      method,
+      method: method as RequestMethod,
       headers,
     });
   }

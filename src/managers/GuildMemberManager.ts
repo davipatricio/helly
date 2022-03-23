@@ -1,8 +1,17 @@
-import type { APIGuildMember } from 'discord-api-types/v10';
+import { APIGuildMember, RESTPatchAPIGuildMemberJSONBody, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import type { Guild } from '../structures';
 import { GuildMember } from '../structures/GuildMember';
 import { LimitedCollection } from '../utils';
+
+/** The data for editing a guild member */
+export interface GuildMemberEditData {
+  roles?: string[];
+  nick?: string;
+  mute?: boolean;
+  deaf?: boolean;
+  communicationDisabledUntil?: number;
+}
 
 // TODO: GuildMemberManager methods (.create, .delete, .fetch etc)
 
@@ -18,6 +27,31 @@ class GuildMemberManager {
     this.client = client;
     this.cache = new LimitedCollection(this.client.options.caches.members);
     this.guild = guild;
+  }
+
+  /**
+   * Edits a guild member
+   * @param userId - The id of the user to edit
+   * @param data - The data to edit the member with
+   * @param reason - The reason for editing the member
+   * @example
+   * ```js
+   * guild.members.edit('12345678901234567', { roles: ['12345678901234567'] })
+   * ```
+   * @example
+   * ```js
+   * guild.members.edit('12345678901234567', { nick: 'Veric', roles: ['2345678954234590'] })
+   * ```
+   */
+  async edit(userId: string, data: GuildMemberEditData, reason = '') {
+    const rawData: RESTPatchAPIGuildMemberJSONBody = { ...data };
+
+    if (data.communicationDisabledUntil) {
+      rawData.communication_disabled_until = new Date(data.communicationDisabledUntil).toISOString();
+    }
+
+    const rawMember = (await this.client.rest.make(Routes.guildMember(this.guild.id, userId), 'Patch', data, { 'X-Audit-Log-Reason': reason })) as APIGuildMember;
+    return this.updateOrSet(userId, rawMember);
   }
 
   /**

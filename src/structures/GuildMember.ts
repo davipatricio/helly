@@ -1,5 +1,7 @@
 import type { APIGuildMember } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
+import type { GuildMemberEditData } from '../managers';
+import { GuildMemberRoleManager } from '../managers/GuildMemberRoleManager';
 import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
 
@@ -63,6 +65,24 @@ class GuildMember extends BaseStructure {
   /** The {@link Guild} object the member is in */
   get guild() {
     return this.client.caches.guilds.get(this.guildId);
+  }
+
+  /**
+   * Edits this member
+   * @param data - The data to edit the member with
+   * @param reason - The reason for editing the member
+   * @example
+   * ```js
+   * guildMember.edit({ roles: ['12345678901234567'] })
+   * ```
+   * @example
+   * ```js
+   * guildMember.edit({ nick: 'Veric', roles: ['2345678954234590'] })
+   * ```
+   */
+  edit(data: GuildMemberEditData, reason = '') {
+    if (!this.guild || !this.id) return undefined;
+    return this.guild.members.edit(this.id, data, reason);
   }
 
   /** @private */
