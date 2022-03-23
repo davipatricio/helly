@@ -4,23 +4,21 @@ export type PermissionsCheckType = (keyof typeof PermissionsBitField | bigint | 
 
 /** Utility class for working with permissions */
 class PermissionsBitField {
-  ['constructor']: typeof PermissionsBitField;
   bitfield: bigint;
-  /**
-   * The default bit
-   * @private
-   */
-  static defaultBit: bigint;
+
+  /** The default bit */
+  static defaultBit = 0n;
   /** Object containing all available permissions */
-  static Flags: typeof PermissionFlagsBits;
+  static Flags = PermissionFlagsBits;
+
   constructor(bits: PermissionsCheckType) {
-    this.bitfield = this.constructor.parse(bits ?? this.constructor.defaultBit);
+    this.bitfield = PermissionsBitField.parse(bits ?? PermissionsBitField.defaultBit);
   }
 
   /** Adds bits to these ones */
   add(...bits: PermissionsCheckType[]) {
-    let total = this.constructor.defaultBit;
-    for (const bit of bits) total |= this.constructor.parse(bit);
+    let total = PermissionsBitField.defaultBit;
+    for (const bit of bits) total |= PermissionsBitField.parse(bit);
     this.bitfield |= BigInt(total);
     return this;
   }
@@ -28,15 +26,15 @@ class PermissionsBitField {
   /** Checks whether the bitfield has a bit, or multiple bits */
   has(bit: PermissionsCheckType) {
     // eslint-disable-next-line no-param-reassign
-    bit = this.constructor.parse(bit);
+    bit = PermissionsBitField.parse(bit);
     return (this.bitfield & bit) === bit;
   }
 
   /** Removes bits from these */
   remove(...bits) {
-    let total = this.constructor.defaultBit;
+    let total = PermissionsBitField.defaultBit;
     for (const bit of bits) {
-      total |= this.constructor.parse(bit);
+      total |= PermissionsBitField.parse(bit);
     }
     this.bitfield &= ~total;
     return this;
@@ -44,7 +42,7 @@ class PermissionsBitField {
 
   /** Gets an Array of {@link PermissionFlagsBits} names based on the bits available */
   toArray() {
-    return Object.keys(this.constructor.Flags).filter(bit => this.has(bit));
+    return Object.keys(PermissionsBitField.Flags).filter(bit => this.has(bit));
   }
 
   static parse(bit: PermissionsCheckType): bigint {
@@ -66,8 +64,5 @@ class PermissionsBitField {
     throw new TypeError(`Expected bit to be a bigint, string, array or PermissionsBitField`);
   }
 }
-
-PermissionsBitField.Flags = PermissionFlagsBits;
-PermissionsBitField.defaultBit = 0n;
 
 export { PermissionsBitField };

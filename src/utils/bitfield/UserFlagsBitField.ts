@@ -4,23 +4,21 @@ export type UserFlagsCheckType = (keyof typeof UserFlags | number | string)[] | 
 
 /** Utility class for working with user flags */
 class UserFlagsBitField {
-  ['constructor']: typeof UserFlagsBitField;
   bitfield: number;
-  /**
-   * The default bit
-   * @private
-   */
-  static defaultBit: number;
+
+  /** The default bit */
+  static defaultBit = 0;
   /** Object containing all available user flags */
-  static Flags: typeof UserFlags;
+  static Flags = UserFlags;
+
   constructor(bits: UserFlagsCheckType) {
-    this.bitfield = this.constructor.parse(bits ?? this.constructor.defaultBit);
+    this.bitfield = UserFlagsBitField.parse(bits ?? UserFlagsBitField.defaultBit);
   }
 
   /** Adds bits to these ones */
   add(...bits: UserFlagsCheckType[]) {
-    let total = this.constructor.defaultBit;
-    for (const bit of bits) total |= this.constructor.parse(bit);
+    let total = UserFlagsBitField.defaultBit;
+    for (const bit of bits) total |= UserFlagsBitField.parse(bit);
     this.bitfield |= Number(total);
     return this;
   }
@@ -28,15 +26,15 @@ class UserFlagsBitField {
   /** Checks whether the bitfield has a bit, or multiple bits */
   has(bit: UserFlagsCheckType) {
     // eslint-disable-next-line no-param-reassign
-    bit = this.constructor.parse(bit);
+    bit = UserFlagsBitField.parse(bit);
     return (this.bitfield & bit) === bit;
   }
 
   /** Removes bits from these */
   remove(...bits) {
-    let total = this.constructor.defaultBit;
+    let total = UserFlagsBitField.defaultBit;
     for (const bit of bits) {
-      total |= this.constructor.parse(bit);
+      total |= UserFlagsBitField.parse(bit);
     }
     this.bitfield &= ~total;
     return this;
@@ -44,7 +42,7 @@ class UserFlagsBitField {
 
   /** Gets an Array of {@link UserFlags} names based on the bits available */
   toArray() {
-    return Object.keys(this.constructor.Flags).filter(bit => this.has(bit));
+    return Object.keys(UserFlagsBitField.Flags).filter(bit => this.has(bit));
   }
 
   static parse(bit: UserFlagsCheckType): number {
@@ -66,8 +64,5 @@ class UserFlagsBitField {
     throw new TypeError(`Expected bit to be a number, string, array or UserFlagsBitField`);
   }
 }
-
-UserFlagsBitField.Flags = UserFlags;
-UserFlagsBitField.defaultBit = 0;
 
 export { UserFlagsBitField };

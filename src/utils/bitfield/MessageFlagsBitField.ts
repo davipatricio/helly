@@ -4,23 +4,21 @@ export type MessageFlagsCheckType = (keyof typeof MessageFlags | number | string
 
 /** Utility class for working with message flags */
 class MessageFlagsBitField {
-  ['constructor']: typeof MessageFlagsBitField;
   bitfield: number;
-  /**
-   * The default bit
-   * @private
-   */
-  static defaultBit: number;
+
+  /** The default bit */
+  static defaultBit = 0;
   /** Object containing all available message flags */
-  static Flags: typeof MessageFlags;
+  static Flags = MessageFlags;
+
   constructor(bits: MessageFlagsCheckType) {
-    this.bitfield = this.constructor.parse(bits ?? this.constructor.defaultBit);
+    this.bitfield = MessageFlagsBitField.parse(bits ?? MessageFlagsBitField.defaultBit);
   }
 
   /** Adds bits to these ones */
   add(...bits: MessageFlagsCheckType[]) {
-    let total = this.constructor.defaultBit;
-    for (const bit of bits) total |= this.constructor.parse(bit);
+    let total = MessageFlagsBitField.defaultBit;
+    for (const bit of bits) total |= MessageFlagsBitField.parse(bit);
     this.bitfield |= Number(total);
     return this;
   }
@@ -28,15 +26,15 @@ class MessageFlagsBitField {
   /** Checks whether the bitfield has a bit, or multiple bits */
   has(bit: MessageFlagsCheckType) {
     // eslint-disable-next-line no-param-reassign
-    bit = this.constructor.parse(bit);
+    bit = MessageFlagsBitField.parse(bit);
     return (this.bitfield & bit) === bit;
   }
 
   /** Removes bits from these */
   remove(...bits) {
-    let total = this.constructor.defaultBit;
+    let total = MessageFlagsBitField.defaultBit;
     for (const bit of bits) {
-      total |= this.constructor.parse(bit);
+      total |= MessageFlagsBitField.parse(bit);
     }
     this.bitfield &= ~total;
     return this;
@@ -44,7 +42,7 @@ class MessageFlagsBitField {
 
   /** Gets an Array of {@link MessageFlags} names based on the bits available */
   toArray() {
-    return Object.keys(this.constructor.Flags).filter(bit => this.has(bit));
+    return Object.keys(MessageFlagsBitField.Flags).filter(bit => this.has(bit));
   }
 
   static parse(bit: MessageFlagsCheckType): number {
@@ -66,8 +64,5 @@ class MessageFlagsBitField {
     throw new TypeError(`Expected bit to be a number, string, array or MessageFlagsBitField`);
   }
 }
-
-MessageFlagsBitField.Flags = MessageFlags;
-MessageFlagsBitField.defaultBit = 0;
 
 export { MessageFlagsBitField };
