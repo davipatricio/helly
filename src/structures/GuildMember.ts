@@ -68,6 +68,21 @@ class GuildMember extends BaseStructure {
   }
 
   /**
+   * The roles of the member
+   * @example
+   * ```js
+   * guildMember.roles.cache.map(r => r.name).join(', ');
+   * ```
+   * @example
+   * ```js
+   * guildMember.set([], 'They don\'t deserve roles');
+   * ```
+   */
+  get roles() {
+    return new GuildMemberRoleManager(this.client, this.guild as Guild, this);
+  }
+
+  /**
    * Edits this member
    * @param data - The data to edit the member with
    * @param reason - The reason for editing the member
