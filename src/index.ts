@@ -1,9 +1,8 @@
 export { ActionRowBuilder } from '@discordjs/builders';
 export { Collection } from '@discordjs/collection';
-export { RequestMethod, RestEvents, RESTEvents } from '@discordjs/rest';
+export { RestEvents, RESTEvents } from '@discordjs/rest';
 export {
   ActivityType,
-  APIActionRowComponent,
   APIChannel,
   APIEmbedAuthor,
   APIEmbedField,
@@ -32,10 +31,14 @@ export {
   GatewayReceivePayload,
   GatewayResume,
   GatewayUpdatePresence,
+  GatewayVersion,
   GuildFeature,
   MessageFlags,
   MessageType,
+  PermissionFlagsBits,
   PresenceUpdateStatus,
+  RouteBases,
+  Routes,
   UserFlags,
 } from 'discord-api-types/v10';
 export * from './client/actions/ActionManager';

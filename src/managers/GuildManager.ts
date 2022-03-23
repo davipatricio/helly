@@ -1,3 +1,4 @@
+import Collection from '@discordjs/collection';
 import type { APIGuild } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Guild } from '../structures/Guild';
@@ -15,6 +16,27 @@ class GuildManager {
   /** All of the guilds the client is currently handling, mapped by their ids */
   get cache() {
     return this.client.caches.guilds;
+  }
+
+  /**
+   * Obtains one or multiple guilds from Discord, or the guild cache if it's already available
+   * @param id The guild's id to fetch. If undefined, fetches all guilds.
+   */
+  async fetch(id?: string) {
+    if (!id) {
+      const guilds = (await this.client.rest.make('/users/@me/guilds', 'Get')) as APIGuild[];
+      const fetchedGuilds = new Collection<string, Guild>();
+
+      for (const guild of guilds) {
+        const data = this.updateOrSet(guild.id, guild);
+        fetchedGuilds.set(guild.id, data);
+      }
+      return fetchedGuilds;
+    }
+
+    const fetchedGuild = (await this.client.rest.make(`/guilds/${id}`, 'Get')) as APIGuild;
+    const cachedGuild = this.updateOrSet(id, fetchedGuild);
+    return cachedGuild;
   }
 
   /**

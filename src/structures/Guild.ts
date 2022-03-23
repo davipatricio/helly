@@ -107,8 +107,14 @@ class Guild extends BaseStructure {
     return this.data.id;
   }
 
+  /** Fetches the owner of the guild. If the member object isn't needed, use {@link Guild.ownerId} instead */
   fetchOwner() {
     return this.client.users.fetch(this.ownerId);
+  }
+
+  /** Fetches this guild */
+  fetch() {
+    return this.client.guilds.fetch(this.id);
   }
 
   /** @private */
