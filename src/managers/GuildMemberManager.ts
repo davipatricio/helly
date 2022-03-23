@@ -1,8 +1,11 @@
-import { APIGuildMember, RESTPatchAPIGuildMemberJSONBody, Routes } from 'discord-api-types/v10';
+import Collection from '@discordjs/collection';
+import { APIGuildMember, GatewayRequestGuildMembersData, RESTPatchAPIGuildMemberJSONBody, Routes } from 'discord-api-types/v10';
+import type { GuildMembersChunkEventArgs } from '../client/actions/GUILD_MEMBERS_CHUNK';
 import type { Client } from '../client/Client';
+import { Events } from '../constants';
 import type { Guild } from '../structures';
 import { GuildMember } from '../structures/GuildMember';
-import { LimitedCollection } from '../utils';
+import { LimitedCollection, Snowflake } from '../utils';
 
 /** The data for editing a guild member */
 export interface GuildMemberEditData {
@@ -52,6 +55,46 @@ class GuildMemberManager {
 
     const rawMember = (await this.client.rest.make(Routes.guildMember(this.guild.id, userId), 'Patch', data, { 'X-Audit-Log-Reason': reason })) as APIGuildMember;
     return this.updateOrSet(userId, rawMember);
+  }
+
+  /**
+   * Fetches member(s) from this guild, even if they're offline
+   * @param id If a ID, the user to fetch. If undefined, fetches all members
+   */
+  async fetch(id?: string) {
+    if (!id) return this.#fetchAll({ limit: 0, guild_id: this.guild.id, query: '', nonce: Snowflake.generate() });
+
+    const data = (await this.client.rest.make(`/guilds/${this.guild.id}/members/${id}`, 'Get')) as APIGuildMember;
+    const member = this.updateOrSet(id, data);
+    return member;
+  }
+
+  /** @private */
+  #fetchAll(options: GatewayRequestGuildMembersData): Promise<Collection<string, GuildMember>> {
+    const requestData = JSON.stringify({ op: 8, d: options });
+    this.client.ws.connection.send(requestData);
+
+    return new Promise(resolve => {
+      const finalMembers = new Collection<string, GuildMember>();
+      let chunkIndex = 0;
+      let chunkCount = 0;
+      const handler = (data: GuildMembersChunkEventArgs) => {
+        if (data.nonce !== options.nonce) return;
+
+        chunkCount = data.chunkCount;
+        chunkIndex = data.chunkIndex;
+
+        for (const member of data.members.values()) finalMembers.set(member.user.id, member);
+
+        if (chunkCount === chunkIndex + 1) {
+          this.client.off(Events.GuildMembersChunk, handler);
+          this.client.decrementMaxListeners();
+          resolve(finalMembers);
+        }
+      };
+      this.client.on(Events.GuildMembersChunk, handler);
+      this.client.incrementMaxListeners();
+    });
   }
 
   /**

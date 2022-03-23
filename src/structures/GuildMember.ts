@@ -1,4 +1,5 @@
 import type { APIGuildMember } from 'discord-api-types/v10';
+import type { APIUser } from 'discord-api-types/v9';
 import type { Client } from '../client/Client';
 import type { GuildMemberEditData } from '../managers';
 import { GuildMemberRoleManager } from '../managers/GuildMemberRoleManager';
@@ -33,8 +34,7 @@ class GuildMember extends BaseStructure {
 
   /** The {@link User} object of the member */
   get user() {
-    if (!this.data.user) return undefined;
-    return this.client.users.updateOrSet(this.data.user.id, this.data.user);
+    return this.client.users.updateOrSet((this.data.user as APIUser).id, this.data.user as APIUser);
   }
 
   /** The nick of the member */
@@ -98,6 +98,12 @@ class GuildMember extends BaseStructure {
   edit(data: GuildMemberEditData, reason = '') {
     if (!this.guild || !this.id) return undefined;
     return this.guild.members.edit(this.id, data, reason);
+  }
+
+  /** Fetches this GuildMember */
+  fetch() {
+    if (!this.guild) return undefined;
+    return this.guild.members.fetch(this.id) as Promise<GuildMember>;
   }
 
   /** @private */
