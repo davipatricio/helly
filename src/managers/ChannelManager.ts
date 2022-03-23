@@ -1,7 +1,6 @@
-import { RequestMethod } from '@discordjs/rest';
 import { APIChannel, APIMessage, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import type { Guild } from '../structures';
+import type { Guild } from '../structures/Guild';
 import { Channel, MessageOptions } from '../structures/Channel';
 import { Message } from '../structures/Message';
 import { MakeAPIMessage } from '../utils/rest/MakeAPIMessage';
@@ -43,7 +42,7 @@ class ChannelManager {
    */
   async send(channelId: string, content: MessageOptions) {
     const parsedMessage = MakeAPIMessage.transform(content);
-    const data = await this.client.rest.make(Routes.channelMessages(channelId), RequestMethod.Post, parsedMessage);
+    const data = await this.client.rest.make(Routes.channelMessages(channelId), 'Post', parsedMessage);
     return new Message(this.client, data as APIMessage);
   }
 

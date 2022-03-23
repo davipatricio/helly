@@ -1,6 +1,6 @@
 import type { APIGuild } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import { GuildChannelManager } from '../managers/GuildChannelManager';
+import type { GuildChannelManager as GuildChannelManagerType } from '../managers/GuildChannelManager';
 import { GuildMemberManager } from '../managers/GuildMemberManager';
 import { RoleManager } from '../managers/RoleManager';
 import { Snowflake } from '../utils/Snowflake';
@@ -13,12 +13,16 @@ class Guild extends BaseStructure {
   /** A manager of the {@link Role}s belonging to this guild */
   roles: RoleManager;
   /** A manager of the {@link Channel}s belonging to this guild */
-  channels: GuildChannelManager;
+  channels: GuildChannelManagerType;
   /** A manager of the {@link GuildMember}s belonging to this guild */
   members: GuildMemberManager;
   constructor(client: Client, data: APIGuild) {
     super(client);
     this.roles = new RoleManager(client, this);
+
+    // For some reason this is a cyclic dependency
+    // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
+    const { GuildChannelManager } = require('../managers/GuildChannelManager');
     this.channels = new GuildChannelManager(client, this);
     this.members = new GuildMemberManager(client, this);
     this.parseData(data);

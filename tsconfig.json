@@ -4,6 +4,7 @@
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
         "alwaysStrict": true,
+        "checkJs": false,
         "declaration": true,
         "declarationDir": "build/types",
         "declarationMap": true,
