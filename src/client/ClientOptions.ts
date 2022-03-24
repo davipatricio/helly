@@ -1,63 +1,104 @@
-/**
- * Options for {@link ClientOptions}#cache
- * @typedef {Object} ClientCacheOptions
- * @property {number} [guilds=Infinity] - Maximum number of {@link Guild}s to cache
- * @property {number} [channels=Infinity] - Maximum number of {@link Channel}s to cache
- * @property {number} [guildChannels=Infinity] - Maximum number of Guild{@link Channel}s to cache
- * @property {number} [users=Infinity] - Maximum number of {@link User}s to cache
- * @property {number} [messages=Infinity] - Maximum number of {@link TextChannel#messages} to cache
- */
-export interface ClientCacheOptions {
-	guilds?: number;
-	channels?: number;
-	guildChannels?: number;
-	users?: number;
-	members?: number;
-	presences?: number;
-	messages?: number;
-	emojis?: number;
-	roles?: number;
-}
+import { RouteBases, GatewayVersion } from 'discord-api-types/v10';
+import type { IntentsCheckType, IntentsBitField } from '../utils/bitfield/IntentsBitField';
 
-/**
- * Options for a {@link Client}
- * @typedef {Object} ClientOptions
- * @property {boolean} [autoReconnect=true] - If the client should automatically reconnect to the gateway
- * @property {number} [shardCount=1] - The total amount of shards used by this bot
- * @property {number[]} [shards=[0, 1]] - The shard's id to run, or an array of shard ids
- * @property {number} [apiVersion=9] - API version to use
- * @property {number} [largeThreshold=50] - Number of members in a guild after which offline users will no longer be sent in the initial guild member list, must be between 50 and 250
- * @property {Array<string | number | undefined> | number | undefined} [intents=0] - {@link Intents} to enable for this connection
- * @property {string[]} [disabledEvents=[]] - Events to disable
- * @property {boolean} [failIfNotExists=false] - Default value for {@link MessageReference#fail_if_not_exists}
- * @property {ClientCacheOptions} [cache] - Limit chaching of specific structures to reduce CPU/memory usage
- */
+/** Options for a {@link Client} */
 export interface ClientOptions {
-	autoReconnect?: boolean;
-	shardId?: number;
-	shardCount?: number;
-	shards?: number[];
-	apiVersion?: number;
-	largeThreshold?: number;
-	intents?: (string | number | undefined)[] | number;
-	disabledEvents?: string[];
-	failIfNotExists?: boolean;
-	cache?: ClientCacheOptions;
+  /**
+   * Whether the client should automatically reconnect if it loses its connection
+   * @defaultValue `true`
+   */
+  autoReconnect: boolean;
+  /** Default value for {@link APIMessageReferenceSend.fail_if_not_exists} */
+  failIfNotExists: boolean;
+  /** Limit caching of specific structures */
+  caches: ClientCacheOptions;
+  /** {@link IntentsBitField} to enable for this connection */
+  intents: IntentsBitField | IntentsCheckType;
+  /** Options for the REST Manager */
+  rest: RestOptions;
+  /** Options for the WebSocket */
+  ws: WebSocketOptions;
 }
 
-export const defaultValues: ClientOptions = {
-	autoReconnect: true,
-	disabledEvents: [],
+export interface ParsedClientOptions extends ClientOptions {
+  /** {@link IntentsBitField} to enable for this connection */
+  intents: IntentsBitField;
+}
 
-	// Data sent in IDENTIFY payload
-	shardId: 0,
-	shardCount: 1,
+/** Caching options for {@link ClientOptions.caches} */
+export interface ClientCacheOptions {
+  /** @defaultValue `Infinity` */
+  guilds: number;
+  /** @defaultValue `Infinity` */
+  roles: number;
+  /** @defaultValue `Infinity` */
+  members: number;
+  /** @defaultValue `Infinity` */
+  channels: number;
+  /** @defaultValue `Infinity` */
+  users: number;
+}
 
-	apiVersion: 9,
+/** Options for the {@link ClientOptions.rest | REST Manager} */
+export interface RestOptions {
+  /** @defaultValue `https://discord.com/api` */
+  api: string;
+  /** @defaultValue `https://cdn.discordapp.com` */
+  cdn: string;
+  /** @defaultValue `https://discord.gg` */
+  invite: string;
+  /** @defaultValue `https://discord.new` */
+  template: string;
+  /** @defaultValue `https://discord.gift` */
+  gift: string;
+  /** @defaultValue `https://discord.com/events` */
+  scheduledEvent: string;
+  /**
+   * Default value for {@link ImageURLOptions.forceStatic}
+   * @defaultValue `false`
+   */
+  forceStatic: boolean;
+  /** How many requests to allow sending per second (`Infinity` for unlimited, 50 for the standard global limit used by Discord) */
+  globalRequestsPerSecond: number;
+  /** The number of retries for errors with the 500 code, or errors that timeout */
+  retries: number;
+}
 
-	intents: [],
-	largeThreshold: 50,
+/** Options for the {@link ClientOptions.ws | WebSocket} */
+export interface WebSocketOptions {
+  /** @defaultValue `wss://gateway.discord.gg/` */
+  gateway: string;
+  /** @defaultValue `10` */
+  version: string;
+  /** @defaultValue `50` */
+  largeThreshold: number;
+}
 
-	// Default message options
-	failIfNotExists: false,
+export const defaultClientOptions: ClientOptions = {
+  autoReconnect: true,
+  failIfNotExists: true,
+  caches: {
+    guilds: Infinity,
+    roles: Infinity,
+    members: Infinity,
+    channels: Infinity,
+    users: Infinity,
+  },
+  intents: 0,
+  rest: {
+    api: 'https://discord.com/api',
+    cdn: RouteBases.cdn,
+    invite: RouteBases.invite,
+    template: RouteBases.template,
+    gift: RouteBases.gift,
+    scheduledEvent: RouteBases.scheduledEvent,
+    forceStatic: false,
+    globalRequestsPerSecond: 50,
+    retries: 1,
+  },
+  ws: {
+    gateway: 'wss://gateway.discord.gg/',
+    version: GatewayVersion,
+    largeThreshold: 50,
+  },
 };

@@ -1,34 +1,50 @@
+import { APIDMChannel, APIUser, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import { DMChannel } from '../structures/DMChannel';
-import { User } from '../structures/User';
-import { LimitedMap } from '../utils/LimitedMap';
+import { Channel, User } from '../structures';
 
-/**
- * Manages API methods for Users and stores their cache.
- */
+/** Manages API methods for {@link User}s */
 class UserManager {
-	cache: LimitedMap<string, User>;
-	client: Client;
-	constructor(client: Client, limit: number) {
-		this.cache = new LimitedMap(limit);
-		this.client = client;
-	}
+  /** The {@link Client} that instantiated this Manager */
+  client: Client;
+  constructor(client: Client) {
+    this.client = client;
+  }
 
-	/**
-	 * Obtains a user from Discord
-	 * @param {string} id The user to fetch
-	 * @returns {Promise<User>}
-	 */
-	async fetch(id: string): Promise<User> {
-		const data = await this.client.requester.make(`users/${id}`, 'GET');
-		return this.client.users.cache.get(data.id)?._update(data) ?? new User(this.client, data);
-	}
+  /** User that the client is logged in as */
+  get me() {
+    return this.cache.get(this.client.id);
+  }
 
-	async createDM(recipient_id: string) {
-		const data = await this.client.requester.make('users/@me/channels', 'POST', { recipient_id });
-		const dm = this.client.channels._getChannel(data.id)?._update(data) ?? new DMChannel(this.client, data);
-		return dm as DMChannel;
-	}
+  /** A manager of the users belonging to this client */
+  get cache() {
+    return this.client.caches.users;
+  }
+
+  /** Creates a DM{@link Channel} between the client and a user */
+  async createDM(id: string) {
+    const data = await this.client.rest.make(Routes.userChannels(), 'Post', { recipient_id: id });
+    return new Channel(this.client, data as APIDMChannel);
+  }
+
+  /** Obtains a user from Discord, or the user cache if it's already available */
+  async fetch(id: string) {
+    const data = await this.client.rest.make(Routes.user(id));
+    return this.updateOrSet(id, data as APIUser);
+  }
+
+  /**
+   * Updates or caches a {@link User} with the provided {@link APIUser} data
+   * @private
+   */
+  updateOrSet(id: string, data: APIUser) {
+    const cachedUser = this.client.caches.users.get(id);
+    if (cachedUser) return cachedUser.parseData(data);
+
+    const user = new User(this.client, data);
+    this.client.caches.users.set(id, user);
+
+    return user;
+  }
 }
 
 export { UserManager };

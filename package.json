@@ -1,9 +1,11 @@
 {
+  "module": "./build/cjs/index.js",
+  "main": "./build/cjs/index.js",
+  "types": "./build/types/index.d.ts",
   "name": "helly",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "private": false,
   "description": "A simple, typed, performance-focused Discord API Wrapper.",
-  "main": "./build/index.js",
   "type": "commonjs",
   "keywords": [
     "discord",
@@ -21,6 +23,11 @@
     "package-lock.json",
     "package.json"
   ],
+  "exports": {
+    "import": "./build/cjs/index.js",
+    "require": "./build/cjs/index.js",
+    "default": "./build/cjs/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/davipatricio/helly.git"
@@ -29,31 +36,38 @@
     "url": "https://github.com/davipatricio/helly/issues"
   },
   "scripts": {
-    "docs": "jsdoc src -R README.md -c jsdoc.json",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "build": "tsc",
-    "build:check": "tsc --noEmit --incremental false"
+    "docs": "npx typedoc --options typedoc.json",
+    "build": "npx tsc --project tsconfig.json",
+    "test": "node tests/index",
+    "lint": "npx eslint src",
+    "lint:fix": "npm run lint:prettier && npx eslint src --fix",
+    "lint:prettier": "npx prettier -w src",
+    "types:check": " npx tsc --noEmit --incremental false"
   },
   "author": "Davi Patricio <davipatricio@pm.me>",
   "devDependencies": {
-    "@babel/core": "7.17.2",
-    "@babel/preset-env": "7.16.11",
-    "@babel/preset-typescript": "7.16.7",
     "@types/node": "16.11.24",
     "@types/ws": "8.2.2",
-    "@typescript-eslint/eslint-plugin": "5.11.0",
-    "@typescript-eslint/parser": "5.11.0",
-    "clean-jsdoc-theme": "3.3.2",
-    "eslint": "8.9.0",
-    "eslint-plugin-import": "2.25.4",
-    "jsdoc": "3.6.10",
-    "jsdoc-babel": "0.5.0",
-    "typescript": "4.5.5"
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
+    "eslint": "^8.11.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.6.0",
+    "typedoc": "^0.22.13",
+    "typedoc-plugin-extras": "^2.2.3",
+    "typescript": "^4.7.0-dev.20220322"
   },
   "dependencies": {
+    "@discordjs/builders": "^0.13.0-dev.1647259738.2297c2b",
+    "@discordjs/collection": "^0.5.0",
+    "@discordjs/rest": "^0.4.0-dev.1647259762.2297c2b",
+    "@sapphire/ratelimits": "^2.4.3",
     "axios": "^0.25.0",
+    "discord-api-types": "^0.27.3",
     "tslib": "^2.3.1",
-    "ws": "^8.2.3"
+    "ws": "^8.5.0"
   }
 }

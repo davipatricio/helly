@@ -1,45 +1,54 @@
+import type { APIRole } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import type { Guild } from '../structures/Guild';
-import { Role, RoleData } from '../structures/Role';
-import { LimitedMap } from '../utils/LimitedMap';
-import { Permission } from '../utils/Permission';
+import { Role } from '../structures/Role';
 
-/**
- * Manages API methods for Role and stores their cache.
- */
+// TODO: RoleManager methods (.create, .delete, .fetch etc)
+
+/** Manages API methods for {@link Role}s */
 class RoleManager {
-	cache: LimitedMap<string, Role>;
-	client: Client;
-	guild: Guild;
-	constructor(client: Client, limit: number, guild: Guild) {
-		this.cache = new LimitedMap(limit);
-		this.client = client;
-		this.guild = guild;
-	}
+  /** The {@link Client} that instantiated this Manager */
+  client: Client;
+  /** The {@link Guild} belonging to this manager */
+  guild: Guild;
+  constructor(client: Client, guild: Guild) {
+    this.client = client;
+    this.guild = guild;
+  }
 
-	/**
-	 * Edits a role
-	 * @param {string} id - The ID of the role
-	 * @param {RoleData} options - The new role data
-	 * @param {string} [reason] - Reason for editing the role
-	 * @returns {Promise<Role>}
-	 */
-	async edit(id: string, options: Partial<RoleData>, reason = '' as string) {
-		if (options.permissions instanceof Permission) options.permissions = options.permissions.bitfield;
-		const data = await this.client.requester.make(`guilds/${this.guild.id}/roles/${id}`, 'PATCH', options, { 'X-Audit-Log-Reason': reason });
-		return this.cache.get(id)?._update(data) ?? new Role(this.client, data, this.guild);
-	}
+  /** A manager of the roles belonging to this guild */
+  get cache() {
+    return this.client.caches.roles.filter(r => r.guild?.id === this.guild.id);
+  }
 
-	/**
-	 * Deletes a role
-	 * @param {string} id - The ID of the role to delete
-	 * @param {string} [reason] - Reason for deleting the role
-	 * @returns {Promise<void>}
-	 */
-	async delete(id: string, reason = '' as string) {
-		await this.client.requester.make(`guilds/${this.guild.id}/roles/${id}`, 'DELETE', '', { 'X-Audit-Log-Reason': reason });
-		return void 0;
-	}
+  /** The role with the highest position in the cache */
+  get highest() {
+    return this.cache.sort((a, b) => b.position - a.position).first();
+  }
+
+  /** The premium subscriber role of the guild, if any */
+  get premiumSubscriberRole() {
+    return this.cache.find(role => role.tags?.premiumSubscriber !== null) ?? null;
+  }
+
+  /** The `@everyone` role of the guild */
+  get everyone() {
+    return this.cache.get(this.guild.id);
+  }
+
+  /**
+   * Updates or caches a {@link Role} with the provided {@link APIRole} data
+   * @private
+   */
+  updateOrSet(id: string, data: APIRole, guild: Guild) {
+    const cachedRole = this.client.caches.roles.get(id);
+    if (cachedRole) return cachedRole.parseData(data);
+
+    const role = new Role(this.client, data, guild);
+    this.client.caches.roles.set(id, role);
+
+    return role;
+  }
 }
 
 export { RoleManager };

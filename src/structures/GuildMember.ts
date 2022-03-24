@@ -1,124 +1,118 @@
+import type { APIGuildMember } from 'discord-api-types/v10';
+import type { APIUser } from 'discord-api-types/v9';
 import type { Client } from '../client/Client';
-import * as Images from '../constants/images';
-import { DataManager } from './DataManager';
+import type { GuildMemberEditData } from '../managers';
+import { GuildMemberRoleManager } from '../managers/GuildMemberRoleManager';
+import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
-import { ImageURLOptions, User } from './User';
 
+class GuildMember extends BaseStructure {
+  /** Raw member data */
+  data: APIGuildMember;
+  /** The id of the {@link Guild} the member is in */
+  guildId: string;
+  constructor(client: Client, data: APIGuildMember, guild: Guild) {
+    super(client);
+    this.parseData(data);
+    this.guildId = guild.id;
+  }
 
-/**
- * Represents a Guild Member on Discord
- */
-class GuildMember extends DataManager {
-	// String types
-	avatar!: string | null;
-	nickname!: string | null;
-	// Number types
-	joinedTimestamp!: number | null;
-	// Classes types
-	guild: Guild;
-	user!: User;
-	constructor(client: Client, memberData: any, guild: Guild) {
-		super(client);
-		this.guild = guild;
-		this.parseData(memberData);
-	}
+  /** The time this member's timeout will be removed */
+  get communicationDisabledUntil() {
+    return this.data.communication_disabled_until ? new Date(this.data.communication_disabled_until) : undefined;
+  }
 
-	/**
-	 * A link to the member's guild avatar if they have one. Otherwise, a link to their {@link User#displayAvatarURL} will be returned
-	 * @param {ImageURLOptions} options - {@link ImageURLOptions} Options for the Image URL
-	 * @returns {string}
-	 */
-	displayAvatarURL({ format = 'webp', size = 1024, forceStatic = false }: ImageURLOptions) {
-		if (!this.avatar) return this.user.displayAvatarURL({ format, size, forceStatic });
-		if (!forceStatic && this.avatar.startsWith('a_')) format = 'gif';
-		return Images.userGuildAvatarUrl(this.guild.id, this.user.id, this.avatar, format, size);
-	}
+  /** The timestamp this member's timeout will be removed */
+  get communicationDisabledUntilTimestamp() {
+    return this.data.communication_disabled_until ? Date.parse(this.data.communication_disabled_until) : undefined;
+  }
 
-	/**
-	 * Fetches this GuildMember.
-	 * @returns {Promise<GuildMember>}
-	 */
-	fetch() {
-		return this.guild.members.fetch(this.user.id);
-	}
+  /** The id of the member */
+  get id() {
+    return this.user?.id;
+  }
 
-	/**
-	 * The member's id
-	 * @type {string}
-	 * @readonly
-	 */
-	get id() {
-		return this.user.id;
-	}
+  /** The {@link User} object of the member */
+  get user() {
+    return this.client.users.updateOrSet((this.data.user as APIUser).id, this.data.user as APIUser);
+  }
 
-	/**
-	 * The time this member joined the guild
-	 * @type {?Date}
-	 * @readonly
-	 */
-	get createdAt() {
-		return this.joinedTimestamp && new Date(this.joinedTimestamp);
-	}
+  /** The nick of the member */
+  get nick() {
+    return this.data.nick ?? null;
+  }
 
-	/**
-	 * The nickname of this member, or their username if they don't have one
-	 * @type {?string}
-	 * @readonly
-	 */
-	get displayName() {
-		return this.nickname ?? this.user.username;
-	}
+  /** The time this member joined the guild */
+  get joinedAt() {
+    return new Date(this.data.joined_at);
+  }
 
-	/**
-	 * When concatenated with a string, this automatically returns the members's mention instead of the GuildMember object
-	 * @returns {string}
-	 */
-	override toString(): string {
-		return `<@!${this.user.id}>`;
-	}
+  /** The timestamp the member joined the guild at */
+  get joinedTimestamp() {
+    return Date.parse(this.data.joined_at);
+  }
 
-	override parseData(data: any) {
-		if (typeof data === 'undefined') return null;
+  /** The last time this member started boosting the guild */
+  get premiumSince() {
+    return this.data.premium_since ? new Date(this.data.premium_since) : null;
+  }
 
-		if ('user' in data) {
-			/**
-			 * The user that this guild member instance represents
-			 * @type {?User}
-			 */
-			this.user = this.client.users.cache.get(data.user.id) ?? new User(this.client, data.user);
-		}
+  /** The last timestamp this member started boosting the guild */
+  get premiumSinceTimestamp() {
+    return this.data.premium_since ? Date.parse(this.data.premium_since) : null;
+  }
 
-		if ('avatar' in data) {
-			/**
-			 * The user's guild avatar hash
-			 * @type {?string}
-			 */
-			this.avatar = data.avatar;
-		}
+  /** The {@link Guild} object the member is in */
+  get guild() {
+    return this.client.caches.guilds.get(this.guildId);
+  }
 
-		if ('joined_at' in data) {
-			/**
-			 * The timestamp the member joined the guild at
-			 * @type {?number}
-			 */
-			this.joinedTimestamp = Date.parse(data.joined_at);
-		}
+  /**
+   * The roles of the member
+   * @example
+   * ```js
+   * guildMember.roles.cache.map(r => r.name).join(', ');
+   * ```
+   * @example
+   * ```js
+   * guildMember.set([], 'They don\'t deserve roles');
+   * ```
+   */
+  get roles() {
+    return new GuildMemberRoleManager(this.client, this.guild as Guild, this);
+  }
 
-		if ('nick' in data) {
-			/**
-			 * The nickname of this member, if they have one
-			 * @type {?string}
-			 */
-			this.nickname = data.nick;
-		}
+  /**
+   * Edits this member
+   * @param data - The data to edit the member with
+   * @param reason - The reason for editing the member
+   * @example
+   * ```js
+   * guildMember.edit({ roles: ['12345678901234567'] })
+   * ```
+   * @example
+   * ```js
+   * guildMember.edit({ nick: 'Veric', roles: ['2345678954234590'] })
+   * ```
+   */
+  edit(data: GuildMemberEditData, reason = '') {
+    if (!this.guild || !this.id) return undefined;
+    return this.guild.members.edit(this.id, data, reason);
+  }
 
-		this.guild.members.cache.set(this.user.id, this);
-	}
+  /** Fetches this GuildMember */
+  fetch() {
+    if (!this.guild) return undefined;
+    return this.guild.members.fetch(this.id) as Promise<GuildMember>;
+  }
 
-	_update(data: any): GuildMember {
-		this.parseData(data);
-		return this;
-	}
+  /** @private */
+  parseData(data: APIGuildMember) {
+    if (!data) return this;
+
+    this.data = { ...this.data, ...data };
+    return this;
+  }
 }
 
 export { GuildMember };

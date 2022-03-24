@@ -1,170 +1,152 @@
+import { APIMessage, MessageType } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import { makeAPIMessage } from '../utils/MakeAPIMessage';
-import { Snowflake } from '../utils/Snowflake';
-import type { MessageOptions } from './Channel';
-import { DataManager } from './DataManager';
-import { User } from './User';
+import { Parsers } from '../utils/Transformers';
+import { BaseStructure } from './BaseStructure';
+import type { MessageOptions, MessagePayload } from './Channel';
+import { Embed } from '../builders/Embed';
+import { GuildMember } from './GuildMember';
 
-/**
- * Represents a message on Discord
- */
-class Message extends DataManager {
-	// String types
-	channelId!: string;
-	guildId?: string;
-	id!: string;
-	// Number types
-	createdTimestamp!: number;
-	// Classes types
-	author!: User | null;
-	content!: string | null;
-	constructor(client: Client, userData: any) {
-		super(client);
-		this.parseData(userData);
-	}
+export type MessageData = Partial<Message>;
 
-	/**
-	 * Adds a reaction to the message
-	 * @param {string} emoji - The emoji to react with. Custom emojis should be used with `name:id`.
-	 * @example
-	 * // React with a unicode emoji
-	 * message.react('🤔');
-	 * @example
-	 * // React with a custom emoji
-	 * message.react('clyde_dark:785673063828160542');
-	 */
-	async react(emoji: string): Promise<null> {
-		if (typeof emoji !== 'string') throw new TypeError('Emoji must be a string.');
+class Message extends BaseStructure {
+  /** Raw message data */
+  data: APIMessage;
+  constructor(client: Client, data: APIMessage) {
+    super(client);
+    this.parseData(data);
+  }
 
-		// Custom emojis should be sent to the api as "name:id"
-		// Unicode emojis should be URL encoded
-		// https://discord.com/developers/docs/resources/channel#create-reaction
-		emoji = emoji.includes(':') ? emoji.replaceAll('<:', '').replaceAll('<a:', '').replaceAll('>', '') : encodeURIComponent(emoji);
-		await this.client.requester.make(`channels/${this.channelId}/messages/${this.id}/reactions/${emoji}/@me`, 'PUT');
+  /** The author of the message */
+  get author() {
+    return this.client.users.cache.get(this.data.author.id) ?? this.client.users.updateOrSet(this.data.author.id, this.data.author);
+  }
 
-		// TODO: MessageReaction
-		return null;
-	}
+  /** The id of the application of the interaction that sent this message, if any */
+  get applicationId() {
+    return this.data.application_id;
+  }
 
-	/**
-	 * Replies to this message
-	 * @param {string|MessagePayload} content
-	 * @example
-	 * message.reply(`Hello, ${message.author}!`);
-	 * @example
-	 * message.reply({ content: `Hello, ${message.author}!` });
-	 * @returns {Promise<Message>}
-	 */
-	async reply(content: MessageOptions) {
-		if (typeof content === 'string') content = { content };
+  /** The message's content */
+  get content() {
+    return this.data.content;
+  }
 
-		const transformedObject = makeAPIMessage(content);
-		transformedObject.message_reference = {
-			message_id: this.id,
-			channel_id: this.channelId,
-			guild_id: this.guildId,
-			fail_if_not_exists: this.client.options.failIfNotExists,
-		};
-		const data = await this.client.requester.make(`channels/${this.channelId}/messages`, 'POST', transformedObject);
-		return new Message(this.client, data);
-	}
+  /** The components of this message */
+  get components() {
+    return this.data.components?.map(c => Parsers.parseMessageComponents(c)) ?? [];
+  }
 
-	/**
-	 * Deletes this message
-	 * @returns Promise<void>
-	 */
-	delete() {
-		return this.client.requester.make(`channels/${this.channelId}/messages/${this.id}`, 'DELETE');
-	}
+  /** The message's id */
+  get id() {
+    return this.data.id;
+  }
 
-	/**
-	 * The time the message was sent at
-	 * @type {Date}
-	 * @readonly
-	 */
-	get createdAt() {
-		return new Date(this.createdTimestamp);
-	}
+  /** Whether or not this message is pinned */
+  get pinned() {
+    return this.data.pinned;
+  }
 
-	/**
-	 * The channel the message was sent in
-	 * @type {?(TextChannel|GuildChannel|DMChannel|Channel)}
-	 * @readonly
-	 */
-	get channel() {
-		return this.client.channels._getChannel(this.channelId, this.guildId) ?? null;
-	}
+  /** Whether or not the message was Text-To-Speech */
+  get tts() {
+    return this.data.tts;
+  }
 
-	/**
-	 * The guild the message was sent in
-	 * @type {?Guild}
-	 * @readonly
-	 */
-	get guild() {
-		return this.guildId ? this.client.guilds.cache.get(this.guildId) ?? null : null;
-	}
+  /** A random number or string used for checking message delivery */
+  get nonce() {
+    return this.data.nonce;
+  }
 
-	/**
-	 * Represents the author of the message as a guild member.
-	 * Only available if the message comes from a guild where the author is still a member
-	 * @type {?GuildMember}
-	 */
-	get member() {
-		return this.author ? this.guild?.members.cache.get(this.author.id) : undefined;
-	}
+  /* A list of embeds in the message - e.g. YouTube Player */
+  get embeds() {
+    return this.data.embeds.map(e => new Embed(e));
+  }
 
-	/**
-	 * When concatenated with a string, this automatically returns the message content instead of the Message object
-	 * @returns {string}
-	 */
-	override toString(): string {
-		return this.content ?? '';
-	}
+  /** The {@link Guild} that the message belongs to */
+  get guild() {
+    return !this.guildId ? undefined : this.client.caches.guilds.get(this.guildId);
+  }
 
-	override parseData(data: any) {
-		if (!data) return null;
-		/**
-		 * The message's id
-		 * @type {string}
-		 */
-		this.id = data.id;
+  /** The {@link Channel} that the message belongs to */
+  get channel() {
+    return !this.channelId ? undefined : this.client.caches.channels.get(this.channelId);
+  }
 
-		/**
-		 * The timestamp the message was sent at
-		 * @type {number}
-		 */
-		this.createdTimestamp = Snowflake.deconstruct(this.id);
+  /** The URL to jump to this message */
+  get url() {
+    return `https://discord.com/channels/${this.guildId ?? '@me'}/${this.channelId}/${this.id}`;
+  }
 
-		if ('content' in data) {
-			/**
-			 * The content of the message
-			 * @type {?string}
-			 */
-			this.content = data.content;
-		} else {
-			this.content ??= null;
-		}
+  /** Message reference data */
+  get messageReference() {
+    return Parsers.parseMessageReference(this.data.message_reference);
+  }
 
-		if (data.author) {
-			/**
-			 * The author of the message
-			 * @type {?User}
-			 */
-			this.author = this.client.users.cache.get(data.author.id) ?? new User(this.client, data.author);
-		} else {
-			this.author ??= null;
-		}
+  /** Whether or not this message was sent by Discord, not actually a user (e.g. pin notifications) */
+  get system() {
+    return ![MessageType.Default, MessageType.Reply, MessageType.ChatInputCommand, MessageType.ContextMenuCommand].includes(this.data.type);
+  }
 
-		if ('guild_id' in data) this.guildId = data.guild_id;
-		if ('channel_id' in data) this.channelId = data.channel_id;
-		if (this.member && data.member) this.member.parseData(data.member);
-	}
+  /** The type of the message */
+  get type() {
+    return Parsers.parseMessageFlags(this.data.flags);
+  }
 
-	_update(data: any): Message {
-		this.parseData(data);
-		return this;
-	}
+  /** Represents the author of the message as a guild member. */
+  get member() {
+    if (!this.guild) return undefined;
+    return this.data.member ? new GuildMember(this.client, this.data.member, this.guild) : this.guild?.members.cache.get(this.author.id);
+  }
+
+  /** The id of the channel the message is in */
+  get channelId() {
+    return this.data.channel_id;
+  }
+
+  /** The id of the guild the message is in */
+  get guildId() {
+    return this.data.guild_id ?? this.channel?.guild?.id;
+  }
+
+  /**
+   * Replies to the message
+   * @param content - The content of the message
+   * @example
+   * ```js
+   * const { Embed } = require('helly');
+   * const embed = new Embed().setTitle('Pong!')
+   * message.reply({ embeds: [embed] })
+   * ```
+   * @example
+   * ```js
+   * const { Embed } = require('helly');
+   * const embed = new Embed().setTitle('Pong!')
+   * message.reply({ content: 'Ping?', embeds: [embed] })
+   * ```
+   * @example
+   * ```js
+   * if (message.content === 'Hello!') message.reply('Hello!')
+   * ```
+   */
+  reply(content: MessageOptions) {
+    const parsedContent = (typeof content === 'string' ? { content } : content) as MessagePayload;
+
+    parsedContent.messageReference = {
+      messageId: this.id,
+      channelId: this.channelId,
+      guildId: this.guildId,
+      failIfNotExists: this.client.options.failIfNotExists,
+    };
+
+    return this.channel?.send(content);
+  }
+
+  /** @private */
+  parseData(data: APIMessage) {
+    if (!data) return this;
+
+    this.data = { ...this.data, ...data };
+    return this;
+  }
 }
 
 export { Message };
-

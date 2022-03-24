@@ -1,0 +1,12 @@
+{
+    "name": "helly",
+    "customTitle": "helly - Discord API Wrapper",
+    "customTitleLink": "https://helly.js.org",
+    "customDescription": "A minimalist and perfomance-focused library in development designed to interact with Discord API.",
+    "entryPoints": ["./src/index.ts"],
+    "entryPointStrategy": "resolve",
+    "out": "docs",
+    "footerDate": true,
+    "footerTime": true,
+    "footerTypedocVersion": true
+}

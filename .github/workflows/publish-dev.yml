@@ -1,0 +1,24 @@
+name: Publish dev
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */12 * * *'
+jobs:
+  npm:
+    name: npm
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'davipatricio'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install node.js v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+
+      - name: Publish
+        run: cd .tasks && node .
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

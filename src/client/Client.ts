@@ -1,172 +1,193 @@
 import EventEmitter from 'node:events';
-import { ActionManager } from '../actions/ActionManager';
+import { Events } from '../constants/Events';
+import { CacheManager } from '../managers/CacheManager';
 import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
 import { UserManager } from '../managers/UserManager';
-import { Intents } from '../utils/Intents';
-import { Requester } from '../utils/Requester';
-import { ClientOptions, defaultValues } from './ClientOptions';
+import { IntentsBitField } from '../utils/bitfield/IntentsBitField';
+import { RestManager } from '../utils/rest/RestManager';
+import { ActionManager } from './actions/ActionManager';
+import type { ClientEvents } from './ClientEvents';
+import { ClientOptions, defaultClientOptions, ParsedClientOptions } from './ClientOptions';
 import * as Heartbeater from './websocket/Heartbeater';
 import { WebsocketManager } from './websocket/WebsocketManager';
 
-/**
- * The main hub for interacting with the Discord API, and the starting point for any bot
- * @extends {EventEmitter}
- * @param {ClientOptions} options Options to pass to the client
- */
+type Awaitable<T> = T | PromiseLike<T>;
+
+/** @private */
+export interface ClientAPI {
+  shouldResume: boolean;
+  heartbeatInterval: number | null;
+  sessionId: string | null;
+  sequence: number | null;
+  heartbeatAcked: boolean;
+  lastHeartbeatAck: number | null;
+  lastHeartbeat: number | null;
+  heartbeatTimer: NodeJS.Timer | null;
+}
+
+/** The main hub for interacting with the Discord API, and the starting point for any bot */
 class Client extends EventEmitter {
-	api: any;
-	user: null;
-	ping: number;
-	token: string;
-	ready: boolean;
-	// Managers
-	ws: WebsocketManager;
-	actions: ActionManager;
-	guilds: GuildManager;
-	users: UserManager;
-	channels: ChannelManager;
-	// Other
-	options: ClientOptions;
-	requester!: Requester;
-	constructor(options?: ClientOptions) {
-		super();
+  /**
+   * ActionManager is responsible for handling all events that are dispatched by the Gateway
+   * @private
+   */
+  actions: ActionManager;
+  /** @private */
+  ws: WebsocketManager;
+  /** The options the client was instantiated with */
+  options: ParsedClientOptions;
+  /** @private */
+  api: ClientAPI;
+  /** Whether the client has logged in */
+  ready: boolean;
+  /** Authorization token for the logged in bot */
+  token: string;
+  /** The previous heartbeat ping of the {@link Client} */
+  ping: number;
+  /** Stores caches of {@link Guild}s, {@link Role}s, Members, Channels and Messages */
+  caches: CacheManager;
+  /** Manages API methods for {@link Guild}s */
+  guilds: GuildManager;
+  /** Manages API methods for {@link Channel}s */
+  channels: ChannelManager;
+  /** Manages API methods for {@link User}s */
+  users: UserManager;
+  /** The Id of the logged client */
+  id: string;
+  rest: RestManager;
+  /**
+   * @param [options] - The options for the client
+   * @example
+   * ```js
+   *  const client = new Client({ intents: ['Guilds'] })
+   * ```
+   */
+  constructor(options = {} as Partial<ClientOptions>) {
+    super();
 
-		this.options = Object.assign(defaultValues, options);
-		this.options.cache = Object.assign({
-			guilds: Infinity,
-			channels: Infinity,
-			guildChannels: Infinity,
-			users: Infinity,
-			members: Infinity,
-			presences: Infinity,
-			messages: 100,
-			emojis: 300,
-			roles: Infinity,
-		}, options?.cache);
-		this.options.intents = Intents.parse(this.options.intents ?? 0);
+    this.actions = new ActionManager();
+    this.ws = new WebsocketManager(this);
 
-		this.api = {};
-		this.ready = false;
+    this.options = Object.assign(defaultClientOptions, options) as ParsedClientOptions;
+    this.options.intents = this.options.intents instanceof IntentsBitField ? this.options.intents : new IntentsBitField(this.options.intents);
 
-		/**
-		 * User that the client is logged in as
-		 * @type {?ClientUser}
-		 **/
-		this.user = null;
+    this.#prepareCaches();
 
-		/**
-		 * The average ping of the {@link Client}
-		 * @type {number}
-		 * @readonly
-		 **/
-		this.ping = -1;
+    this.api = {
+      shouldResume: false,
+      heartbeatInterval: null,
+      sessionId: null,
+      sequence: null,
+      heartbeatAcked: false,
+      lastHeartbeatAck: null,
+      lastHeartbeat: null,
+      heartbeatTimer: null,
+    };
 
-		/**
-		 * Authorization token for the logged in bot
-		 * @type {string}
-		 */
-		this.token = '';
+    this.ready = false;
+    this.token = '';
+    this.id = '';
+    this.ping = 0;
+  }
 
-		this.checkOptions(this.options);
-		this.ws = new WebsocketManager(this);
-		this.actions = new ActionManager();
+  /** User that the client is logged in as */
+  get user() {
+    return this.users.me;
+  }
 
-		/**
-		 * All of the guilds the client is currently handling, mapped by their ids
-		 * @type {GuildManager}
-		 */
-		this.guilds = new GuildManager(this, this.options.cache?.guilds as number);
+  /**
+   * Logs the client in, establishing a WebSocket connection to Discord
+   * @param token - Token of the account to log in with
+   * @example
+   * ```js
+   *  client.login('NzA8MDY1MDZxNjM3MTkzNzU5.XrR6-Q.IvHQd-6_XFNRfX4T7508QsyhaIc')
+   * ```
+   */
+  login(token: string) {
+    if (typeof token !== 'string') throw new Error('A token is required and must be a string');
+    this.token = token;
+    this.rest = new RestManager(this);
+    this.emit(Events.Debug, '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
+    this.ws.connect();
+    return token;
+  }
 
-		/**
-		 * All of the {@link User} objects that have been cached at any point, mapped by their ids
-		 * @type {UserManager}
-		 */
-		this.users = new UserManager(this, this.options.cache?.users as number);
+  /** Returns whether the client has logged in, indicative of being able to access properties such as user and application */
+  isReady() {
+    return this.ready === true;
+  }
 
-		/**
-		 * All of the {@link Channel} objects that have been cached at any point, mapped by their ids
-		 * @type {ChannelManager}
-		 */
-		this.channels = new ChannelManager(this, this.options.cache?.channels as number);
-	}
+  /** Emits `Client#Reconnecting` and calls `Client.login()` again */
+  reconnect() {
+    // Stop heartbeating (this automatically verifies if there's a timer)
+    Heartbeater.stop(this.api);
 
-	/**
-	 * Returns whether the client has logged in, indicative of being able to access properties such as user and application
-	 * @returns {boolean}
-	 */
-	isReady(): boolean {
-		return this.ready;
-	}
+    this.cleanUp();
+    this.emit(Events.Reconnecting);
 
-	/**
-	 * Logs the client in, establishing a WebSocket connection to Discord
-	 * @param {string} token Token for logging in
-	 */
-	login(token: string): void {
-		if (!token) throw new Error('No token was provided');
+    // If we don't have a session id, we cannot reconnect
+    this.api.shouldResume = Boolean(this.api.sessionId);
+    return this.login(this.token);
+  }
 
-		this.token = token.replace('Bot ', '').replace('Bearer ', '');
-		this.requester = new Requester(this.token, this);
-		this.ws.connect();
-		this.emit('debug', '[DEBUG] Login method was called. Preparing to connect to the Discord Gateway.');
-	}
+  /** @private */
+  cleanUp() {
+    this.ping = 0;
+    this.id = '';
+    this.caches.destroy();
+  }
 
-	checkOptions(options: ClientOptions): void {
-		if (typeof options !== 'object') throw new TypeError('Client#options must be an object');
-		if (typeof options.apiVersion !== 'number') throw new TypeError('Client#options.apiVersion must be a number');
-		if (typeof options.autoReconnect !== 'boolean') throw new TypeError('Client#options.autoReconnect must be a boolean');
-		if (!Array.isArray(options.disabledEvents)) throw new TypeError('Client#options.disabledEvents must be an array');
-		if (!Array.isArray(options.intents) && typeof options.intents !== 'number') throw new TypeError('Client#options.intents must be an array or a number');
-		if (typeof options.failIfNotExists !== 'boolean') throw new TypeError('Client#options.failIfNotExists must be a boolean');
+  /** @private */
+  #prepareCaches() {
+    this.emit(Events.Debug, '[DEBUG] Creating cache properties');
+    this.caches = new CacheManager(this, this.options.caches);
+    this.guilds = new GuildManager(this);
+    this.channels = new ChannelManager(this);
+    this.users = new UserManager(this);
+  }
 
-		// Cache
-		if (typeof options.cache !== 'object') throw new TypeError('Client#options.cache must be an object');
-		if (typeof options.cache.guilds !== 'number') throw new TypeError('Client#options.cache.guilds must be a number');
-		if (typeof options.cache.guildChannels !== 'number') throw new TypeError('Client#options.cache.guildChannels must be a number');
-		if (typeof options.cache.users !== 'number') throw new TypeError('Client#options.cache.users must be a number');
-		if (typeof options.cache.members !== 'number') throw new TypeError('Client#options.cache.members must be a number');
-		if (typeof options.cache.presences !== 'number') throw new TypeError('Client#options.cache.presences must be a number');
-		if (typeof options.cache.messages !== 'number') throw new TypeError('Client#options.cache.messages must be a number');
-		if (typeof options.cache.emojis !== 'number') throw new TypeError('Client#options.cache.emojis must be a number');
-		if (typeof options.cache.roles !== 'number') throw new TypeError('Client#options.cache.roles must be a number');
-	}
+  /** @private */
+  incrementMaxListeners() {
+    const maxListeners = this.getMaxListeners();
+    if (maxListeners !== 0) this.setMaxListeners(maxListeners + 1);
+  }
 
-	reconnect(): void {
-		// Stop heartbeating (this automatically verifies if there's a timer)
-		Heartbeater.stop(this);
+  /** @private */
+  decrementMaxListeners() {
+    const maxListeners = this.getMaxListeners();
+    if (maxListeners !== 0) this.setMaxListeners(maxListeners - 1);
+  }
 
-		this.cleanUp();
-		this.emit('reconnecting');
+  override on<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
+  override on<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
+  override on(event: string | symbol, listener: (...args: any[]) => void): this {
+    return super.on(event, listener);
+  }
 
-		// If we don't have a session id, we cannot reconnect
-		this.api.shouldResume = Boolean(this.api.sessionId);
-		this.login(this.token);
-	}
+  override once<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
+  override once<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
+  override once(event: string | symbol, listener: (...args: any[]) => void): this {
+    return super.once(event, listener);
+  }
 
-	cleanUp(): void {
-		this.ping = 1;
-		this.ready = false;
-		this.user = null;
-		this.guilds.cache.clear();
-		this.users.cache.clear();
-		this.channels.cache.clear();
-	}
+  override emit<K extends keyof ClientEvents>(event: K, ...args: any[]): boolean;
+  override emit<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, ...args: any[]): boolean;
+  override emit(event: string | symbol, ...args: any[]): boolean {
+    return super.emit(event, ...args);
+  }
 
-	incrementMaxListeners(): void {
-		const maxListeners = this.getMaxListeners();
-		if (maxListeners !== 0) {
-			this.setMaxListeners(maxListeners + 1);
-		}
-	}
+  override off<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
+  override off<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
+  override off(event: string | symbol, listener: (...args: any[]) => void): this {
+    return super.off(event, listener);
+  }
 
-	decrementMaxListeners(): void {
-		const maxListeners = this.getMaxListeners();
-		if (maxListeners !== 0) {
-			this.setMaxListeners(maxListeners - 1);
-		}
-	}
-
+  override removeAllListeners<K extends keyof ClientEvents>(event?: K): this;
+  override removeAllListeners<S extends string | symbol>(event?: Exclude<S, keyof ClientEvents>): this;
+  override removeAllListeners(event: string | symbol): this {
+    return super.removeAllListeners(event);
+  }
 }
 
 export { Client };

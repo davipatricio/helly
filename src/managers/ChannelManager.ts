@@ -1,58 +1,64 @@
+import { APIChannel, APIMessage, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import type { Channel } from '../structures/Channel';
-import { DMChannel } from '../structures/DMChannel';
 import type { Guild } from '../structures/Guild';
-import { GuildChannel, ChannelData } from '../structures/GuildChannel';
-import { TextChannel } from '../structures/TextChannel';
-import { LimitedMap } from '../utils/LimitedMap';
+import { Channel, MessageOptions } from '../structures/Channel';
+import { Message } from '../structures/Message';
+import { MakeAPIMessage } from '../utils/rest/MakeAPIMessage';
 
-export type AnyChannel = TextChannel | GuildChannel | DMChannel | Channel;
+// TODO: ChannelManager methods (.create, .delete, .fetch etc)
 
+/** Manages API methods for {@link Channel}s */
 class ChannelManager {
-	cache: LimitedMap<string, AnyChannel>;
-	client: Client;
-	constructor(client: Client, limit: number) {
-		this.cache = new LimitedMap(limit);
-		this.client = client;
-	}
+  /** The {@link Client} that instantiated this Manager */
+  client: Client;
+  constructor(client: Client) {
+    this.client = client;
+  }
 
-	/**
-	 * Obtains one or more {@link GuildChannel}s from Discord, or the channel cache if they're already available.
-	 * @param {string|undefined} [id] - The channel's id. If undefined, fetches all channels.
-	 * @returns {Promise<Channel | Map<string, Channel>>}
-	 */
-	async fetch(id: string | undefined): Promise<AnyChannel> {
-		const channel = await this.client.requester.make(`channels/${id}`, 'GET');
-		let guild = null;
-		if(channel.guild_id) guild = this.client.guilds.cache.get(channel.guild_id) ?? await this.client.guilds.fetch(channel.guild_id);
-		const parsedChannel = this._getChannel(channel.id)?._update(channel) ?? this._createChannel(channel, guild);
-		return parsedChannel;
-	}
+  /** A manager of the channels belonging to this client */
+  get cache() {
+    return this.client.caches.channels;
+  }
 
-	_createChannel(channel: ChannelData, guild: Guild): AnyChannel {
-		switch (channel.type) {
-		// Text channels
-		case 0: {
-			return new TextChannel(this.client, channel, guild);
-		}
+  /**
+   * Sends a message to this channel
+   * @param content - The content of the message
+   * @example
+   * ```js
+   * const { Embed } = require('helly');
+   * const embed = new Embed().setTitle('Pong!')
+   * guild.channels.send('12345678901234567', { embeds: [embed] })
+   * ```
+   * @example
+   * ```js
+   * const { Embed } = require('helly');
+   * const embed = new Embed().setTitle('Pong!')
+   * guild.channels.send'12345678901234567', ({ content: 'Ping?', embeds: [embed] })
+   * ```
+   * @example
+   * ```js
+   * guild.channels.send('12345678901234567', 'Hello world!')
+   * ```
+   */
+  async send(channelId: string, content: MessageOptions) {
+    const parsedMessage = MakeAPIMessage.transform(content);
+    const data = await this.client.rest.make(Routes.channelMessages(channelId), 'Post', parsedMessage);
+    return new Message(this.client, data as APIMessage);
+  }
 
-		// DM channels
-		case 1: {
-			const parsedChannel = new DMChannel(this.client, channel);
-			return parsedChannel;
-		}
+  /**
+   * Updates or caches a {@link Channel} with the provided {@link APIChannel} data
+   * @private
+   */
+  updateOrSet(id: string, data: APIChannel, guild?: Guild) {
+    const cachedChannel = this.client.caches.channels.get(id);
+    if (cachedChannel) return cachedChannel.parseData(data, guild);
 
-		// Unknown channels
-		default: {
-			return new GuildChannel(this.client, channel, guild);
-		}
-		}
-	}
+    const channel = new Channel(this.client, data, guild);
+    this.client.caches.channels.set(id, channel);
 
-	_getChannel(id: string, guildId = '' as string): AnyChannel | undefined {
-		return this.cache.get(id) ?? this.client.guilds.cache.get(guildId)?.channels.cache.get(id);
-	}
+    return channel;
+  }
 }
 
 export { ChannelManager };
-

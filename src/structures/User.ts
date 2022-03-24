@@ -1,185 +1,160 @@
-/**
- * An image format, here are the possible values:
- * * png
- * * jpg
- * * webp
- * * gif
- * @typedef {string} ImageFormat
-*/
-
-/**
- * An image size, here are the possible values:
- * 16, 32, 56, 96, 128, 256, 512, 600, 1024, 2048, 4096
- * @typedef {number} ImageSize
-*/
-
-/**
- * Options for Image URLs.
- * @typedef {Object} ImageURLOptions
- * @property {ImageFormat} [format='webp'] - An image format.
- * @property {ImageSize} [size=2048] - An image format.
- * @property {boolean} [forceStatic=false] - If true, the format will be as specified. If false, format may be a gif if animated.
- */
+import type { APIUser } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import * as Images from '../constants/images';
-import { Snowflake } from '../utils/Snowflake';
+import { CDNEndpoints, AnimatedImageFormats, AllowedImageSizes } from '../constants/CDN';
+import { Snowflake } from '../utils';
+import { UserFlagsBitField } from '../utils/bitfield/UserFlagsBitField';
+import { BaseStructure } from './BaseStructure';
 import type { MessageOptions } from './Channel';
-import { DataManager } from './DataManager';
 
-export type ImageFormat = 'png' | 'jpg' | 'gif' | 'webp';
-export type ImageSize = 16 | 32 | 56 | 64 | 96 | 128 | 256 | 300 | 512 | 600 | 1024 | 2048 | 4096;
 export interface ImageURLOptions {
-	format?: ImageFormat;
-	size?: ImageSize;
-	forceStatic?: true | false;
+  format?: AnimatedImageFormats;
+  size?: AllowedImageSizes;
+  forceStatic?: boolean;
 }
 
-/**
- * Represents a User on Discord
- */
-class User extends DataManager {
-	// String types
-	id!: string;
-	avatar!: string | null;
-	banner!: string | null;
-	username!: string;
-	// Boolean types
-	bot!: boolean;
-	// Number types
-	discriminator!: number;
-	createdTimestamp!: number;
-	constructor(client: Client, userData: any) {
-		super(client);
-		this.parseData(userData);
-	}
+export type UserData = Partial<User>;
 
-	/**
-	 * Sends a message to this user
-	 * @param {string|MessagePayload} content
-	 * @example
-	 * message.reply(`Hello, ${message.author}!`);
-	 * @example
-	 * message.reply({ content: `Hello, ${message.author}!` });
-	 * @returns {Promise<Message>}
-	 */
-	async send(content: MessageOptions) {
-		const dm = await this.client.users.createDM(this.id);
-		return dm.send(content);
-	}
+class User extends BaseStructure {
+  /** Raw {@link User} data */
+  data: APIUser;
+  constructor(client: Client, data: APIUser) {
+    super(client);
+    this.parseData(data);
+  }
 
-	/**
-	 * Display the user's avatar URL
-	 * @param {ImageURLOptions} options - Options for the Image URL
-	 * @returns {string}
-	 */
-	displayAvatarURL({ format = 'webp', size = 1024, forceStatic = false }: ImageURLOptions): string {
-		if (!this.avatar) return Images.defaultUserAvatarUrl(this.discriminator);
-		if (!forceStatic && this.avatar.startsWith('a_')) format = 'gif';
-		return Images.userAvatarUrl(this.id, this.avatar, format, size);
-	}
+  /** The base 10 accent color of the user's banner */
+  get accentColor() {
+    return this.data.accent_color;
+  }
 
-	/**
-	 * Display the user's banner URL
-	 * @param {ImageURLOptions} options - Options for the Image URL
-	 * @returns {?string}
-	 */
-	displayBannerURL({ format = 'webp', size = 1024, forceStatic = false }: ImageURLOptions): string | null {
-		if (!this.banner) return null;
-		if (!forceStatic && this.banner.startsWith('a_')) format = 'gif';
-		return Images.userBannerUrl(this.id, this.banner, format, size);
-	}
+  /** The user avatar's hash */
+  get avatar() {
+    return this.data.avatar;
+  }
 
-	/**
-	 * The time the user was created at
-	 * @type {Date}
-	 */
-	get createdAt() {
-		return new Date(this.createdTimestamp);
-	}
+  /** Whether or not the user is a bot */
+  get bot() {
+    return Boolean(this.data.bot ?? false);
+  }
 
-	/**
-	 * The Discord "tag" (e.g. Veric#2799) for this user
-	 * @type {?string}
-	 */
-	get tag() {
-		return this.username && this.discriminator ? `${this.username}#${this.discriminator}` : null;
-	}
+  /** The user banner's hash */
+  get banner() {
+    return this.data.banner;
+  }
 
-	/**
-	 * When concatenated with a string, this automatically returns the user's mention instead of the User object
-	 * @returns {string}
-	 */
-	override toString(): string {
-		return `<@!${this.id}>`;
-	}
+  /** The time the user was created at */
+  get createdAt() {
+    return new Date(this.createdTimestamp);
+  }
 
-	override parseData(data: any) {
-		if (typeof data === 'undefined') return null;
+  /** The timestamp the user was created at */
+  get createdTimestamp() {
+    return Snowflake.deconstruct(this.id);
+  }
 
-		if ('id' in data) {
-			/**
-			 * The user's id
-			 * @type {string}
-			 */
-			this.id = data.id;
-		}
+  /** The DM{@link Channel} between the client's user and this user */
+  get dmChannel() {
+    return this.client.caches.channels.find(c => c.recipient?.id === this.id);
+  }
 
-		if ('username' in data) {
-			/**
-			 * The user's username
-			 * @type {string}
-			 */
-			this.username = data.username;
-		}
+  /** The username of the user */
+  get username() {
+    return this.data.username;
+  }
 
-		if ('discriminator' in data) {
-			/**
-			 * The user's discriminator
-			 * @type {string}
-			 */
-			this.discriminator = data.discriminator;
-		}
+  /** The discriminator of the user */
+  get discriminator() {
+    return this.data.discriminator;
+  }
 
-		if ('bot' in data) {
-			/**
-			 * Whether the user is a bot
-			 * @type {boolean}
-			 */
-			this.bot = data.bot;
-		} else {
-			this.bot = false;
-		}
+  /** The Discord "tag" (e.g. `Veric#2755`) for this user */
+  get tag() {
+    return this.username && this.discriminator ? `${this.username}#${this.discriminator}` : null;
+  }
 
-		if ('avatar' in data) {
-			/**
-			 * The user's avatar hash
-			 * @type {?string}
-			 */
-			this.avatar = data.avatar;
-		}
+  /** The user's id */
+  get id() {
+    return this.data.id;
+  }
 
-		if ('banner' in data) {
-			/**
-			 * The user's banner hash
-			 * @type {?string}
-			 */
-			this.banner = data.banner;
-		}
+  /** Whether the user is an Official Discord System user (part of the urgent message system) */
+  get system() {
+    return this.data.system;
+  }
 
-		/**
-		 * The timestamp the user was created at
-		 * @type {number}
-		 */
-		this.createdTimestamp = Snowflake.deconstruct(this.id);
+  /** Whether or not the user is verified */
+  get verified() {
+    return this.data.verified;
+  }
 
-		this.client.users.cache.set(this.id, this);
-	}
+  get flags() {
+    return new UserFlagsBitField(this.data.public_flags ?? 0);
+  }
 
-	_update(data: any): User {
-		this.parseData(data);
-		return this;
-	}
+  /** A link to the user's avatar */
+  avatarURL({ format = 'webp', size = 1024, forceStatic = this.client.options.rest.forceStatic }: ImageURLOptions) {
+    if (!this.avatar) return null;
+    let finalFormat = format;
+    if (!forceStatic && this.avatar.startsWith('a_')) finalFormat = 'gif';
+    return CDNEndpoints.userAvatar(this.id, this.avatar, finalFormat, size);
+  }
+
+  /** A link to the user's banner */
+  bannerURL({ format = 'webp', size = 1024, forceStatic = this.client.options.rest.forceStatic }: ImageURLOptions) {
+    if (!this.banner) return null;
+    let finalFormat = format;
+    if (!forceStatic && this.banner.startsWith('a_')) finalFormat = 'gif';
+    return CDNEndpoints.userBanner(this.id, this.banner, finalFormat, size);
+  }
+
+  /** Creates a DM{@link Channel} between the client and a user */
+  createDM() {
+    return this.dmChannel ?? this.client.users.createDM(this.id);
+  }
+
+  /** A link to the user's avatar if they have one. Otherwise a link to their default avatar will be returned */
+  displayAvatarURL({ format = 'webp', size = 1024, forceStatic = this.client.options.rest.forceStatic }: ImageURLOptions) {
+    if (!this.avatar) return CDNEndpoints.defaultUserAvatar(this.discriminator);
+    return this.avatarURL({ format, size, forceStatic });
+  }
+
+  /**
+   * Sends a message to this user
+   * @param content - The content of the message
+   * @example
+   * ```js
+   * const { Embed } = require('helly');
+   * const embed = new Embed().setTitle('Pong!')
+   * user.send({ embeds: [embed] })
+   * ```
+   * @example
+   * ```js
+   * const { Embed } = require('helly');
+   * const embed = new Embed().setTitle('Pong!')
+   * user.send({ content: 'Ping?', embeds: [embed] })
+   * ```
+   * @example
+   * ```js
+   * user.send('Hello world!')
+   * ```
+   */
+  async send(content: MessageOptions) {
+    const dmChannel = await this.createDM();
+    return this.client.channels.send(dmChannel.id, content);
+  }
+
+  /** Fetches this user */
+  fetch() {
+    return this.client.users.fetch(this.id);
+  }
+
+  /** @private */
+  parseData(data: APIUser): this {
+    if (!data) return this;
+
+    this.data = { ...this.data, ...data };
+    return this;
+  }
 }
 
 export { User };
-

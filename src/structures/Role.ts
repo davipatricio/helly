@@ -1,169 +1,100 @@
-/**
- * The data for a role.
- * @typedef {Object} RoleData
- * @property {string} [name] The name of the role
- * @property {boolean} [hoist] Whether or not the role should be hoisted
- * @property {number} [position] The position of the role
- * @property {Permission|number} [permissions] The permissions of the role
- * @property {boolean} [mentionable] Whether or not the role should be mentionable
- */
-
+import type { APIRole } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import { Permission } from '../utils/Permission';
-import { DataManager } from './DataManager';
+import { Parsers } from '../utils';
+import { PermissionsBitField } from '../utils/bitfield/PermissionsBitField';
+import { Snowflake } from '../utils/Snowflake';
+import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
 
-export interface RoleData {
-	name?: string;
-	color?: number;
-	hoist?: boolean;
-	position?: number;
-	permissions?: Permission | bigint;
-	mentionable?: boolean;
+export interface RoleTags {
+  /** The id of the bot this role belongs to */
+  botId: string | undefined;
+  /** The id of the integration this role belongs to */
+  integrationId: string | undefined;
+  /** Whether this is the guild's premium subscription role */
+  premiumSubscriber?: null;
 }
 
-/**
- * Represents a Role on Discord
- */
-class Role extends DataManager {
-	// String types
-	name!: string;
-	id!: string;
-	// Boolean types
-	mentionable!: boolean;
-	managed!: boolean;
-	// Number types
-	position!: number;
-	// Classes types
-	permissions!: Permission;
-	guild!: Guild;
-	constructor(client: Client, data: any, guild: Guild) {
-		super(client);
-		this.guild = guild;
-		this.parseData(data);
-	}
+export type RoleData = Partial<Role>;
 
-	/**
-	  * Edits the role
-	  * @param {RoleData} data The new data for the role
-	  * @param {string} [reason] - Reason for editing this role
-	  * @returns {Promise<Role>}
-	  */
-	edit(options: RoleData, reason?: string) {
-		return this.guild.roles.edit(this.id, options, reason);
-	}
+/** Represents a role on Discord */
+class Role extends BaseStructure {
+  /** Raw {@link Role} data */
+  data: APIRole;
+  /** The id of the guild the role is in */
+  guildId: string;
+  /** The role permissions */
+  permissions: PermissionsBitField;
+  constructor(client: Client, data: APIRole, guild: Guild) {
+    super(client);
+    this.guildId = guild.id;
+    this.parseData(data);
+  }
 
-	/**
-	 * Deletes this role
-	 * @param {string} [reason] - Reason for deleting this role
-	 * @returns {Promise<void>}
-	 */
-	delete(reason = '' as string) {
-		return this.guild.roles.delete(this.id, reason);
-	}
+  /** The time the role was created at */
+  get createdAt() {
+    return new Date(this.createdTimestamp);
+  }
 
-	/**
-	 * Changes the name of the role
-	 * @param {string} name - The new name of the role
-	 * @returns {Promise<Role>}
-	 */
-	setName(name: string, reason = '' as string) {
-		return this.guild.roles.edit(this.id, { name }, reason);
-	}
+  /** The timestamp the role was created at */
+  get createdTimestamp() {
+    return Snowflake.deconstruct(this.id);
+  }
 
-	/**
-	 * Sets whether the role should be displayed separately in the sidebar
-	 * @param {boolean} [hoist=true]
-	 * @returns {Promise<Role>}
-	 */
-	setHoist(hoist = true as boolean, reason = '' as string) {
-		return this.guild.roles.edit(this.id, { hoist }, reason);
-	}
+  /** The name of this role */
+  get name() {
+    return this.data.name;
+  }
 
-	/**
-	 * Sets whether the role should be mentionable
-	 * @param {boolean} [mentionable=true]
-	 * @returns {Promise<Role>}
-	 */
-	setMentionable(mentionable = true as boolean, reason = '' as string) {
-		return this.guild.roles.edit(this.id, { mentionable }, reason);
-	}
+  /** The role's id */
+  get id() {
+    return this.data.id;
+  }
 
-	/**
-	 * Sets the position of the role
-	 * @param {number} [position=1]
-	 * @returns {Promise<Role>}
-	 */
-	setPosition(position = 1 as number, reason = '' as string) {
-		return this.guild.roles.edit(this.id, { position }, reason);
-	}
+  /** The position of this role */
+  get position() {
+    return this.data.position;
+  }
 
-	/**
-	 * When concatenated with a string, this automatically returns the role's mention instead of the Role object
-	 * @returns {string}
-	 */
-	override toString(): string {
-		return `<@&${this.id}>`;
-	}
+  /** Integer representation of hexadecimal color code */
+  get color() {
+    return this.data.color;
+  }
 
-	override parseData(data: any) {
-		if (typeof data === 'undefined') return null;
+  /** If true, users that are part of this role will appear in a separate category in the users list */
+  get hoist() {
+    return this.data.hoist;
+  }
 
-		if ('id' in data) {
-			/**
-			 * The role's id (unique to the guild it is part of)
-			 * @type {string}
-			 */
-			this.id = data.id;
-		}
+  /** Whether or not the role can be mentioned by anyone */
+  get mentionable() {
+    return this.data.mentionable;
+  }
 
-		if ('name' in data) {
-			/**
-			 * The name of the role
-			 * @type {string}
-			 */
-			this.name = data.name;
-		}
+  /** Whether or not the role is managed by an external service */
+  get managed() {
+    return this.data.managed;
+  }
 
-		if ('permissions' in data) {
-			/**
-			 * The role's permissions
-			 * @type {Permission}
-			 */
-			this.permissions = new Permission().parseBitfield(data.permissions);
-		}
+  /** The guild that the role belongs to */
+  get guild() {
+    return this.client.caches.guilds.get(this.guildId);
+  }
 
-		if ('mentionable' in data) {
-			/**
-			 * Whether the role is mentionable
-			 * @type {boolean}
-			 */
-			this.mentionable = data.mentionable;
-		}
+  /** The tags this role has */
+  get tags(): RoleTags {
+    const { tags } = this.data;
+    return Parsers.parseRoleTags(tags);
+  }
 
-		if ('managed' in data) {
-			/**
-			 * Whether the role is managed by a integration
-			 * @type {boolean}
-			 */
-			this.managed = data.managed;
-		}
+  /** @private */
+  parseData(data: APIRole): this {
+    if (!data) return this;
 
-		if ('position' in data) {
-			/**
-			 * The position of the role
-			 * @type {number}
-			 */
-			this.position = data.position;
-		}
-
-		this.guild.roles.cache.set(this.id, this);
-	}
-
-	_update(data: any): Role {
-		this.parseData(data);
-		return this;
-	}
+    this.data = { ...this.data, ...data };
+    this.permissions = new PermissionsBitField(this.data.permissions);
+    return this;
+  }
 }
 
 export { Role };
