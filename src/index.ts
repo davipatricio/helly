@@ -3,6 +3,8 @@ export { Collection } from '@discordjs/collection';
 export { RestEvents, RESTEvents } from '@discordjs/rest';
 export {
   ActivityType,
+  APIActionRowComponent,
+  APIButtonComponent,
   APIChannel,
   APIEmbedAuthor,
   APIEmbedField,
@@ -18,7 +20,9 @@ export {
   APIMessageReferenceSend,
   APINewsChannel,
   APIRole,
+  APISelectMenuComponent,
   APITextChannel,
+  APITextInputComponent,
   APIUser,
   APIVoiceChannel,
   ChannelType,

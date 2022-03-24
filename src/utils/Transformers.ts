@@ -1,13 +1,16 @@
 import { ActionRowBuilder } from '@discordjs/builders';
 import {
   APIActionRowComponent,
+  APIButtonComponent,
   APIChannel,
   APIEmbed,
   APIMessageActionRowComponent,
   APIMessageReference,
   APIMessageReferenceSend,
   APIRoleTags,
+  APISelectMenuComponent,
   APITextChannel,
+  APITextInputComponent,
   ChannelType,
   MessageFlags,
 } from 'discord-api-types/v10';
@@ -49,7 +52,9 @@ function transformChannelData(data?: ChannelData): APIChannel | undefined {
   return parsedData;
 }
 
-function transformMessageComponents(data: ActionRowBuilder | APIActionRowComponent<APIMessageActionRowComponent> | undefined) {
+function transformMessageComponents(
+  data: ActionRowBuilder | APIActionRowComponent<APIMessageActionRowComponent> | undefined,
+): APIActionRowComponent<APIButtonComponent | APISelectMenuComponent | APITextInputComponent> | undefined {
   if (!data) return undefined;
   if (data instanceof ActionRowBuilder) return data.toJSON();
   return data;
