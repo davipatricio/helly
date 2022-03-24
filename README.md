@@ -23,6 +23,14 @@ yarn add helly
 pnpm add helly
 ```
 
+#### Development version
+
+```sh-session
+npm install helly@dev
+yarn add helly@dev
+pnpm add helly@dev
+```
+
 ### Optional packages
 - [bufferutil](https://www.npmjs.com/package/bufferutil) for a much faster WebSocket connection (`npm install bufferutil`)
 
