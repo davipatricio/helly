@@ -46,7 +46,7 @@
   },
   "author": "Davi Patricio <davipatricio@pm.me>",
   "devDependencies": {
-    "@types/node": "16.11.24",
+    "@types/node": "16.11.26",
     "@types/ws": "8.2.2",
     "@typescript-eslint/eslint-plugin": "^5.16.0",
     "@typescript-eslint/parser": "^5.16.0",
