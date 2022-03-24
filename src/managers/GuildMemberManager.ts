@@ -72,7 +72,7 @@ class GuildMemberManager {
   /** @private */
   #fetchAll(options: GatewayRequestGuildMembersData): Promise<Collection<string, GuildMember>> {
     const requestData = JSON.stringify({ op: 8, d: options });
-    this.client.ws.connection.send(requestData);
+    this.client.ws.send(requestData);
 
     return new Promise(resolve => {
       const finalMembers = new Collection<string, GuildMember>();

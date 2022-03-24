@@ -26,11 +26,14 @@ class WebsocketManager {
 
   send(data: any) {
     if (!this.connection) return;
+
     if (this.ratelimit.limited) {
+      this.client.emit(Events.Debug, `[DEBUG] Ratelimit reached while sending a Gateway Command, waiting for ${this.ratelimit.remainingTime}ms...`);
       setTimeout(() => this.send(data), this.ratelimit.remainingTime);
       return;
     }
-    this.connection.send(data);
+
+    this.send(data);
     this.ratelimit.consume();
   }
 
@@ -43,11 +46,11 @@ class WebsocketManager {
     this.connection.on('close', (code: number) => {
       if (!this.client.options.autoReconnect) return;
       if (typeof code !== 'number') return;
-      this.parseClodeCode(code);
+      this.#parseClodeCode(code);
     });
   }
 
-  parseClodeCode(code: number) {
+  #parseClodeCode(code: number) {
     // TODO: emit disconnect event
     if (code === 1_000 || code === 4_999) return;
 
@@ -56,17 +59,17 @@ class WebsocketManager {
       this.client.api.shouldResume = false;
       this.client.api.sequence = null;
 
-      this.forceReconnect(false);
+      this.#forceReconnect(false);
       this.client.emit(Events.Debug, `[DEBUG] ${Codes.messages[code] ?? 'Websocket connection closed with unknown close code. Reconnecting instead of resuming...'}`);
       return;
     }
 
     if (Codes.throw.includes(code)) throw new Error(`DiscordError: ${Codes.messages[code]} ${code}`);
     this.client.emit(Events.Debug, `[DEBUG] ${Codes.messages[code] ?? 'Websocket connection closed with unknown close code. Resuming instead of reconnecting...'}`);
-    this.forceReconnect();
+    this.#forceReconnect();
   }
 
-  forceReconnect(resume = true) {
+  #forceReconnect(resume = true) {
     Heartbeater.stop(this.client.api);
     this.client.api.sessionId = resume ? this.client.api.sessionId : null;
 

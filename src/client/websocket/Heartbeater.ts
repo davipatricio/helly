@@ -19,7 +19,7 @@ function start(client: Client) {
     client.api.lastHeartbeat = Date.now();
     client.api.heartbeatAcked = false;
 
-    client.ws.connection?.send(JSON.stringify(heartbeatData));
+    client.ws.send(JSON.stringify(heartbeatData));
     client.emit(Events.Debug, '[DEBUG] Sent heartbeat to Discord.');
 
     // The client should receive an ACK in less than 15 seconds
@@ -46,7 +46,7 @@ function sendImmediately(client: Client) {
     d: client.api.sequence,
   };
 
-  client.ws.connection?.send(JSON.stringify(heartbeatData));
+  client.ws.send(JSON.stringify(heartbeatData));
   client.emit(Events.Debug, '[DEBUG] Sent heartbeat to Discord.');
 }
 

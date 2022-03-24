@@ -19,7 +19,7 @@ function sendIdentify(client: Client) {
   };
 
   client.emit(Events.Debug, `[DEBUG] Sending Identify payload to the Gateway.`);
-  client.ws.connection?.send(JSON.stringify(data));
+  client.ws.send(JSON.stringify(data));
 }
 
 function sendResume(client: Client): void {
@@ -33,7 +33,7 @@ function sendResume(client: Client): void {
   };
 
   client.emit(Events.Debug, `[DEBUG] Sending Resume payload to the Gateway.`);
-  client.ws.connection?.send(JSON.stringify(ResumePayload));
+  client.ws.send(JSON.stringify(ResumePayload));
 }
 
 function setAFK(client: Client, afk: boolean) {
@@ -48,7 +48,7 @@ function setAFK(client: Client, afk: boolean) {
   };
 
   client.emit(Events.Debug, `[DEBUG] Sending Update Presence payload to the Gateway.`);
-  client.ws.connection?.send(JSON.stringify(UpdatePresencePayload));
+  client.ws.send(JSON.stringify(UpdatePresencePayload));
 }
 
 function setStatus(client: Client, status: PresenceUpdateStatus) {
@@ -63,7 +63,7 @@ function setStatus(client: Client, status: PresenceUpdateStatus) {
   };
 
   client.emit(Events.Debug, `[DEBUG] Sending Update Presence payload to the Gateway.`);
-  client.ws.connection?.send(JSON.stringify(UpdatePresencePayload));
+  client.ws.send(JSON.stringify(UpdatePresencePayload));
 }
 
 function setActivity(client: Client, activity: GatewayActivityUpdateData) {
@@ -84,7 +84,7 @@ function setActivity(client: Client, activity: GatewayActivityUpdateData) {
   };
 
   client.emit(Events.Debug, `[DEBUG] Sending Update Presence payload to the Gateway.`);
-  client.ws.connection?.send(JSON.stringify(UpdatePresencePayload));
+  client.ws.send(JSON.stringify(UpdatePresencePayload));
 }
 
 function setPresence(client: Client, data: GatewayPresenceUpdateData) {
@@ -106,7 +106,7 @@ function setPresence(client: Client, data: GatewayPresenceUpdateData) {
   };
 
   client.emit(Events.Debug, `[DEBUG] Sending Update Presence payload to the Gateway.`);
-  client.ws.connection?.send(JSON.stringify(UpdatePresencePayload));
+  client.ws.send(JSON.stringify(UpdatePresencePayload));
 }
 
 export { sendIdentify, sendResume, setAFK, setStatus, setPresence, setActivity };
