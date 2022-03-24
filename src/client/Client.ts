@@ -63,7 +63,7 @@ class Client extends EventEmitter {
    *  const client = new Client({ intents: ['Guilds'] })
    * ```
    */
-  constructor(options = {} as Partial<ClientOptions>) {
+  constructor(options: Partial<ClientOptions> = {}) {
     super();
 
     this.actions = new ActionManager();

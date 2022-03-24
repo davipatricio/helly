@@ -20,8 +20,10 @@ class GuildManager {
 
   /**
    * Obtains one or multiple guilds from Discord, or the guild cache if it's already available
-   * @param id The guild's id to fetch. If undefined, fetches all guilds.
+   * @param id The guild's id to fetch. If undefined, fetches all guilds
    */
+  fetch(id: string): Promise<Guild>;
+  fetch(id?: string): Promise<Collection<string, Guild>>;
   async fetch(id?: string) {
     if (!id) {
       const guilds = (await this.client.rest.make('/users/@me/guilds', 'Get')) as APIGuild[];

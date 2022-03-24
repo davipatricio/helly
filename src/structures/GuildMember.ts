@@ -103,7 +103,7 @@ class GuildMember extends BaseStructure {
   /** Fetches this GuildMember */
   fetch() {
     if (!this.guild) return undefined;
-    return this.guild.members.fetch(this.id) as Promise<GuildMember>;
+    return this.guild.members.fetch(this.id);
   }
 
   /** @private */

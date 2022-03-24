@@ -22,6 +22,16 @@ class GuildChannelManager extends ChannelManager {
     return this.client.caches.channels.filter(c => c.guildId === this.guild.id) as LimitedCollection<string, Channel>;
   }
 
+  /**
+   * Edits this channel
+   * @param id The id of the channel
+   * @param options The options to edit the channel with
+   * @param reason The reason to edit the channel
+   * @example
+   * ```js
+   * guild.channels.edit(channel.id, { name: 'new-name', nsfw: true });
+   * ```
+   */
   async edit(id: string, options: ChannelData, reason = '') {
     const transformed = Transformers.transformChannelData(options);
     const data = await this.client.rest.make(Routes.channel(id), 'Patch', transformed, { 'X-Audit-Log-Reason': reason });
