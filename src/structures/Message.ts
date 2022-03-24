@@ -137,7 +137,7 @@ class Message extends BaseStructure {
       failIfNotExists: this.client.options.failIfNotExists,
     };
 
-    return this.channel?.send(content);
+    return this.channel?.send(parsedContent);
   }
 
   /** Returns the message content */

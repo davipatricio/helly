@@ -21,13 +21,13 @@ import { MessageFlagsBitField } from './bitfield/MessageFlagsBitField';
 
 // Transformers
 
-function transformMessageReference(data?: APIMessageReferenceSend): APIMessageReferenceSend | undefined {
+function transformMessageReference(data: MessageReference & { failIfNotExists?: boolean }): APIMessageReferenceSend | undefined {
   if (!data) return undefined;
   return {
-    message_id: data.message_id,
-    guild_id: data.guild_id,
-    channel_id: data.channel_id,
-    fail_if_not_exists: data.fail_if_not_exists,
+    message_id: data.messageId as string,
+    guild_id: data.guildId,
+    channel_id: data.channelId,
+    fail_if_not_exists: data.failIfNotExists,
   };
 }
 
