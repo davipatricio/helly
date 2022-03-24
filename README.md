@@ -1,3 +1,7 @@
+## Helly
+
+A Node.js wrapper for interfacing with Discord.
+
 <div align="center">
   <br />
   <p>
@@ -23,12 +27,10 @@ yarn add helly
 pnpm add helly
 ```
 
-#### Development version
+##### Development version
 
 ```sh-session
 npm install helly@dev
-yarn add helly@dev
-pnpm add helly@dev
 ```
 
 ### Optional packages
@@ -36,7 +38,32 @@ pnpm add helly@dev
 
 - [utf-8-validate](https://www.npmjs.com/package/utf-8-validate) in combination with `bufferutil` for much faster WebSocket processing (`npm install utf-8-validate`)
 
----
+## Ping Pong Example
+```js
+const { Client, Events, GatewayIntentBits } = require('helly');
 
-## Examples
-You can see examples in the [examples](https://github.com/davipatricio/helly/tree/main/examples) folder.
+const client = new Client({
+    intents: [GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]
+});
+
+// Code inside here will run when the bot connects to the Discord API
+client.on(Events.Ready /* you can also use 'Ready', but using enums are recommended */, () => {
+    console.log("Ready!"); // Log "Ready!"
+});
+
+
+// Code inside here will run when someone sends a message in a channel
+client.on(Events.MessageCreate /* you can also use 'MessageCreate', but using enums are recommended */, (message) => {
+  if (message.content === '!ping') return message.reply(`🏓 ${client.ping}ms...`)
+  if (message.content === 'Hi') return message.reply(`Hello, ${message.author}! How are you?`)
+})
+
+// Replace TOKEN with your bot account's token
+client.login('TOKEN')
+```
+
+
+## Useful Links
+- [The website](https://helly.js.org) has more details and documentation.
+- [The GitHub repo](https://github.com/davipatricio/helly) is where development primarily happens.
+- [The NPM package webpage](https://npmjs.com/package/helly) is, well, the webpage for the NPM package.
