@@ -19,6 +19,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Publish
-        run: cd .tasks && node .
+        run: cd .tasks && npm i && node .
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
