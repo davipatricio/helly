@@ -1,3 +1,4 @@
+import { ActionRowBuilder } from '@discordjs/builders';
 import {
   APIActionRowComponent,
   APIChannel,
@@ -10,9 +11,9 @@ import {
   ChannelType,
   MessageFlags,
 } from 'discord-api-types/v10';
-import { ActionRowBuilder } from '@discordjs/builders';
-import { Embed, RoleTags } from '../structures';
+import { Embed } from '../builders/Embed';
 import type { ChannelData, MessageReference } from '../structures/Channel';
+import type { RoleTags } from '../structures/Role';
 import { MessageFlagsBitField } from './bitfield/MessageFlagsBitField';
 
 // Transformers
