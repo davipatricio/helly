@@ -89,7 +89,7 @@ class Guild extends BaseStructure {
 
   /** Whether the guild is "large" (has more than {@link WebSocketOptions.largeThreshold} members, `50` by default) */
   get large() {
-    return this.data.large || false;
+    return this.data.large ?? false;
   }
 
   /** The full amount of members in this guild */
