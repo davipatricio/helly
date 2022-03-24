@@ -23,13 +23,13 @@ async function publish() {
     await transpileCode();
 
     console.log('Deprecating older dev versions...');
-    await deprecateOlderDevVersions();
+    await deprecateOlderDevVersions().catch(() => {});
 
     console.log('Last commit was not published.');
 
     // Set version
     console.log(`Setting version to ${version}-dev${lastCommitHashString}`);
-    await exec(`cd .. && npm version ${version}-dev${lastCommitHashString}`);
+    await exec(`cd .. && npm version ${version}-dev${lastCommitHashString} --force`);
 
     // Publish
     console.log('Publishing...');
