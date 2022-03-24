@@ -3,7 +3,7 @@
   "main": "./build/cjs/index.js",
   "types": "./build/types/index.d.ts",
   "name": "helly",
-  "version": "2.0.0-dev",
+  "version": "2.0.0",
   "private": false,
   "description": "A simple, typed, performance-focused Discord API Wrapper.",
   "type": "commonjs",

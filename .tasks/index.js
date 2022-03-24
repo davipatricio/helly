@@ -28,8 +28,8 @@ async function publish() {
     console.log('Last commit was not published.');
 
     // Set version
-    console.log(`Setting version to ${version}-c${lastCommitHashString}`);
-    await exec(`cd .. && npm version ${version}-c${lastCommitHashString}`);
+    console.log(`Setting version to ${version}-dev${lastCommitHashString}`);
+    await exec(`cd .. && npm version ${version}-dev${lastCommitHashString}`);
 
     // Publish
     console.log('Publishing...');
