@@ -4,16 +4,15 @@ import { CacheManager } from '../managers/CacheManager';
 import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
 import { UserManager } from '../managers/UserManager';
-import type { Channel } from '../structures';
-import type { Guild } from '../structures/Guild';
-import type { Message } from '../structures/Message';
 import { IntentsBitField } from '../utils/bitfield/IntentsBitField';
 import { RestManager } from '../utils/rest/RestManager';
 import { ActionManager } from './actions/ActionManager';
-import type { GuildMembersChunkEventArgs } from './actions/GUILD_MEMBERS_CHUNK';
+import type { ClientEvents } from './ClientEvents';
 import { ClientOptions, defaultClientOptions, ParsedClientOptions } from './ClientOptions';
 import * as Heartbeater from './websocket/Heartbeater';
 import { WebsocketManager } from './websocket/WebsockerManager';
+
+type Awaitable<T> = T | PromiseLike<T>;
 
 /** @private */
 export interface ClientAPI {
@@ -160,116 +159,34 @@ class Client extends EventEmitter {
     if (maxListeners !== 0) this.setMaxListeners(maxListeners - 1);
   }
 
-  override on(event: string | symbol, listener: (...args: any[]) => void): this;
-  /** Emitted when the client becomes ready to start working */
-  override on(event: Events.Ready, listener: (client: Client) => any): this;
-  /** Emitted for general debugging information */
-  override on(event: Events.Debug, listener: (information: string) => any): this;
-  /** Emitted whenever the client joins a guild */
-  override on(event: Events.GuildCreate, listener: (guild: Guild) => any): this;
-  /** Emitted whenever a guild kicks the client or the guild is deleted/left */
-  override on(event: Events.GuildDelete, listener: (guild: Guild) => any): this;
-  /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
-  override on(event: Events.GuildUnavailable, listener: (guild: Guild) => any): this;
-  /** Emitted whenever the client needs to reconnect to the Discord API */
-  override on(event: Events.Reconnecting, listener: () => any): this;
-  /** Emitted whenever a guild is updated - e.g. name change */
-  override on(event: Events.GuildUpdate, listener: (oldGuild: Guild | undefined, newGuild: Guild) => any): this;
-  /** Emitted whenever a guild channel is created */
-  override on(event: Events.ChannelCreate, listener: (channel: Channel) => any): this;
-  /** Emitted whenever a channel is deleted */
-  override on(event: Events.ChannelDelete, listener: (channel: Channel) => any): this;
-  /** Emitted whenever a chunk of guild members is received (all members come from the same guild) */
-  override on(event: Events.GuildMembersChunk, listener: (data: GuildMembersChunkEventArgs) => any): this;
-  /**
-   * Emitted whenever a message is created
-   * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
-   */
-  override on(event: Events.MessageCreate, listener: (message: Message) => any): this;
-
-  /** Emitted when the client becomes ready to start working */
-  override on(event: 'Ready', listener: (client: Client) => any): this;
-  /** Emitted for general debugging information */
-  override on(event: 'Debug', listener: (information: string) => any): this;
-  /** Emitted whenever the client joins a guild */
-  override on(event: 'GuildCreate', listener: (guild: Guild) => any): this;
-  /** Emitted whenever a guild kicks the client or the guild is deleted/left */
-  override on(event: 'GuildDelete', listener: (guild: Guild) => any): this;
-  /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
-  override on(event: 'GuildUnavailable', listener: (guild: Guild) => any): this;
-  /** Emitted whenever the client needs to reconnect to the Discord API */
-  override on(event: 'Reconnecting', listener: () => any): this;
-  /** Emitted whenever a guild is updated - e.g. name change */
-  override on(event: 'GuildUpdate', listener: (oldGuild: Guild | undefined, newGuild: Guild) => any): this;
-  /** Emitted whenever a guild channel is created */
-  override on(event: 'ChannelCreate', listener: (channel: Channel) => any): this;
-  /** Emitted whenever a channel is deleted */
-  override on(event: 'ChannelDelete', listener: (channel: Channel) => any): this;
-  /** Emitted whenever a chunk of guild members is received (all members come from the same guild) */
-  override on(event: 'GuildMembersChunk', listener: (data: GuildMembersChunkEventArgs) => any): this;
-  /**
-   * Emitted whenever a message is created
-   * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
-   */
-  override on(event: 'MessageCreate', listener: (message: Message) => any): this;
+  override on<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
+  override on<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
   override on(event: string | symbol, listener: (...args: any[]) => void): this {
-    return super.on(event, listener);
+    return super.once(event, listener);
   }
 
-  override once(event: string | symbol, listener: (...args: any[]) => void): this;
-  /** Emitted when the client becomes ready to start working */
-  override once(event: Events.Ready, listener: (client: Client) => any): this;
-  /** Emitted for general debugging information */
-  override once(event: Events.Debug, listener: (information: string) => any): this;
-  /** Emitted whenever the client joins a guild */
-  override once(event: Events.GuildCreate, listener: (guild: Guild) => any): this;
-  /** Emitted whenever a guild kicks the client or the guild is deleted/left */
-  override once(event: Events.GuildDelete, listener: (guild: Guild) => any): this;
-  /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
-  override once(event: Events.GuildUnavailable, listener: (guild: Guild) => any): this;
-  /** Emitted whenever the client needs to reconnect to the Discord API */
-  override once(event: Events.Reconnecting, listener: () => any): this;
-  /** Emitted whenever a guild is updated - e.g. name change */
-  override once(event: Events.GuildUpdate, listener: (oldGuild: Guild | undefined, newGuild: Guild) => any): this;
-  /** Emitted whenever a guild channel is created */
-  override once(event: Events.ChannelCreate, listener: (channel: Channel) => any): this;
-  /** Emitted whenever a channel is deleted */
-  override once(event: Events.ChannelDelete, listener: (channel: Channel) => any): this;
-  /** Emitted whenever a chunk of guild members is received (all members come from the same guild) */
-  override once(event: Events.GuildMembersChunk, listener: (data: GuildMembersChunkEventArgs) => any): this;
-  /**
-   * Emitted whenever a message is created
-   * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
-   */
-  override once(event: Events.MessageCreate, listener: (message: Message) => any): this;
-
-  /** Emitted when the client becomes ready to start working */
-  override once(event: 'Ready', listener: (client: Client) => any): this;
-  /** Emitted for general debugging information */
-  override once(event: 'Debug', listener: (information: string) => any): this;
-  /** Emitted whenever the client joins a guild */
-  override once(event: 'GuildCreate', listener: (guild: Guild) => any): this;
-  /** Emitted whenever a guild kicks the client or the guild is deleted/left */
-  override once(event: 'GuildDelete', listener: (guild: Guild) => any): this;
-  /** Emitted whenever a guild becomes unavailable, likely due to a server outage */
-  override once(event: 'GuildUnavailable', listener: (guild: Guild) => any): this;
-  /** Emitted whenever the client needs to reconnect to the Discord API */
-  override once(event: 'Reconnecting', listener: () => any): this;
-  /** Emitted whenever a guild is updated - e.g. name change */
-  override once(event: 'GuildUpdate', listener: (oldGuild: Guild | undefined, newGuild: Guild) => any): this;
-  /** Emitted whenever a guild channel is created */
-  override once(event: 'ChannelCreate', listener: (channel: Channel) => any): this;
-  /** Emitted whenever a channel is deleted */
-  override once(event: 'ChannelDelete', listener: (channel: Channel) => any): this;
-  /** Emitted whenever a chunk of guild members is received (all members come from the same guild) */
-  override once(event: 'GuildMembersChunk', listener: (data: GuildMembersChunkEventArgs) => any): this;
-  /**
-   * Emitted whenever a message is created
-   * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
-   */
-  override once(event: 'MessageCreate', listener: (message: Message) => any): this;
+  override once<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
+  override once<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
   override once(event: string | symbol, listener: (...args: any[]) => void): this {
     return super.once(event, listener);
+  }
+
+  override emit<K extends keyof ClientEvents>(event: K, ...args: any[]): boolean;
+  override emit<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, ...args: any[]): boolean;
+  override emit(event: string | symbol, ...args: any[]): boolean {
+    return super.emit(event, args);
+  }
+
+  override off<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
+  override off<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
+  override off(event: string | symbol, listener: (...args: any[]) => void): this {
+    return super.off(event, listener);
+  }
+
+  override removeAllListeners<K extends keyof ClientEvents>(event?: K): this;
+  override removeAllListeners<S extends string | symbol>(event?: Exclude<S, keyof ClientEvents>): this;
+  override removeAllListeners(event: string | symbol): this {
+    return super.removeAllListeners(event);
   }
 }
 
