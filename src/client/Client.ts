@@ -10,7 +10,7 @@ import { ActionManager } from './actions/ActionManager';
 import type { ClientEvents } from './ClientEvents';
 import { ClientOptions, defaultClientOptions, ParsedClientOptions } from './ClientOptions';
 import * as Heartbeater from './websocket/Heartbeater';
-import { WebsocketManager } from './websocket/WebsockerManager';
+import { WebsocketManager } from './websocket/WebsocketManager';
 
 type Awaitable<T> = T | PromiseLike<T>;
 
