@@ -14,7 +14,8 @@
         "build/",
         "tests/",
         "docs/",
-        ".github/"
+        ".github/",
+        ".tasks/"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
