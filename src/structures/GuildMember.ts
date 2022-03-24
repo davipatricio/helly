@@ -106,6 +106,11 @@ class GuildMember extends BaseStructure {
     return this.guild.members.fetch(this.id);
   }
 
+  /** Returns the mention of the member */
+  override toString() {
+    return `<@!${this.id}>`;
+  }
+
   /** @private */
   parseData(data: APIGuildMember) {
     if (!data) return this;

@@ -315,6 +315,11 @@ class Channel extends BaseStructure {
     return [ChannelType.GuildNewsThread, ChannelType.GuildPublicThread, ChannelType.GuildPrivateThread].includes(this.data.type);
   }
 
+  /** Returns the mention of the chanel */
+  override toString() {
+    return `<#${this.id}>`;
+  }
+
   /** @private */
   parseData(data: APIChannel, guild?: Guild) {
     if (!data) return this;

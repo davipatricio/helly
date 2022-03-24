@@ -117,6 +117,11 @@ class Guild extends BaseStructure {
     return this.client.guilds.fetch(this.id);
   }
 
+  /** Returns the name of the guild */
+  override toString() {
+    return this.name;
+  }
+
   /** @private */
   parseData(data: APIGuild) {
     if (!data) return this;

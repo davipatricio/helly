@@ -87,6 +87,11 @@ class Role extends BaseStructure {
     return Parsers.parseRoleTags(tags);
   }
 
+  /** Returns the mention of the role */
+  override toString() {
+    return `<@&${this.id}>`;
+  }
+
   /** @private */
   parseData(data: APIRole): this {
     if (!data) return this;

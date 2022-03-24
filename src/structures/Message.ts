@@ -140,6 +140,11 @@ class Message extends BaseStructure {
     return this.channel?.send(content);
   }
 
+  /** Returns the message content */
+  override toString() {
+    return this.content;
+  }
+
   /** @private */
   parseData(data: APIMessage) {
     if (!data) return this;

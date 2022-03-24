@@ -148,6 +148,11 @@ class User extends BaseStructure {
     return this.client.users.fetch(this.id);
   }
 
+  /** Returns the mention of the user */
+  override toString() {
+    return `<@!${this.id}>`;
+  }
+
   /** @private */
   parseData(data: APIUser): this {
     if (!data) return this;
