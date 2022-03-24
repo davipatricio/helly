@@ -21,7 +21,8 @@
     "build",
     "LICENSE",
     "package-lock.json",
-    "package.json"
+    "package.json",
+    "README.md"
   ],
   "exports": {
     "import": "./build/cjs/index.js",
