@@ -2,7 +2,7 @@ import { APIChannel, APIDMChannel, APIEmbed, APITextChannel, APIVoiceChannel, Ch
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
-import type { Embed } from './Embed';
+import type { Embed } from '../builders/Embed';
 import type { Guild } from './Guild';
 import type { User } from './User';
 

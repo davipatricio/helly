@@ -41,11 +41,12 @@ export {
   Routes,
   UserFlags,
 } from 'discord-api-types/v10';
+export * from './builders';
 export * from './client/actions/ActionManager';
 export { GuildMembersChunkEventArgs } from './client/actions/GUILD_MEMBERS_CHUNK';
 export * from './client/Client';
-export * from './client/ClientOptions';
 export * from './client/ClientEvents';
+export * from './client/ClientOptions';
 export * from './constants';
 export * from './managers';
 export * from './structures';

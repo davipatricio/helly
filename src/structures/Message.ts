@@ -3,7 +3,7 @@ import type { Client } from '../client/Client';
 import { Parsers } from '../utils/Transformers';
 import { BaseStructure } from './BaseStructure';
 import type { MessageOptions, MessagePayload } from './Channel';
-import { Embed } from './Embed';
+import { Embed } from '../builders/Embed';
 import { GuildMember } from './GuildMember';
 
 export type MessageData = Partial<Message>;
