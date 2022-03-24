@@ -58,7 +58,7 @@
     "prettier": "^2.6.0",
     "typedoc": "^0.22.13",
     "typedoc-plugin-extras": "^2.2.3",
-    "typescript": "^4.7.0-dev.20220322"
+    "typescript": "4.7.0-dev.20220323"
   },
   "dependencies": {
     "@discordjs/builders": "^0.13.0-dev.1647259738.2297c2b",
