@@ -33,7 +33,7 @@ class WebsocketManager {
       return;
     }
 
-    this.send(data);
+    this.connection.send(data);
     this.ratelimit.consume();
   }
 
