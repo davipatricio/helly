@@ -162,7 +162,7 @@ class Client extends EventEmitter {
   override on<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
   override on<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
   override on(event: string | symbol, listener: (...args: any[]) => void): this {
-    return super.once(event, listener);
+    return super.on(event, listener);
   }
 
   override once<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
@@ -174,7 +174,7 @@ class Client extends EventEmitter {
   override emit<K extends keyof ClientEvents>(event: K, ...args: any[]): boolean;
   override emit<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, ...args: any[]): boolean;
   override emit(event: string | symbol, ...args: any[]): boolean {
-    return super.emit(event, args);
+    return super.emit(event, ...args);
   }
 
   override off<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
