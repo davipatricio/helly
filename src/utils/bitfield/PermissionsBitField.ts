@@ -10,6 +10,8 @@ class PermissionsBitField {
   static defaultBit = 0n;
   /** Object containing all available permissions */
   static Flags = PermissionFlagsBits;
+  /** Bitfield representing the permissions required for moderators of stage channels */
+  static StageModerator = PermissionFlagsBits.ManageChannels | PermissionFlagsBits.MuteMembers | PermissionFlagsBits.MoveMembers;
 
   constructor(bits: PermissionsCheckType) {
     this.bitfield = PermissionsBitField.parse(bits ?? PermissionsBitField.defaultBit);
