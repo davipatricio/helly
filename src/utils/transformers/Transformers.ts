@@ -4,6 +4,7 @@ import type {
   APIButtonComponent,
   APIChannel,
   APIEmbed,
+  APIGuild,
   APIMessageActionRowComponent,
   APIMessageReferenceSend,
   APISelectMenuComponent,
@@ -13,6 +14,7 @@ import type {
 } from 'discord-api-types/v10';
 import { Embed } from '../../builders/Embed';
 import type { ChannelData, MessageReferenceSend } from '../../structures/Channel';
+import type { Guild } from '../../structures/Guild';
 import { MessageFlagsBitField } from '../bitfield/MessageFlagsBitField';
 import { Parsers } from './Parsers';
 
@@ -27,23 +29,41 @@ class Transformers extends null {
     } as APIMessageReferenceSend;
   }
 
+  static messageEmbeds(): undefined;
+  static messageEmbeds(data?: Embed | APIEmbed): APIEmbed;
   static messageEmbeds(data?: Embed | APIEmbed) {
     if (!data) return undefined;
     if (data instanceof Embed) return data.toJSON();
     return data;
   }
 
+  static messageFlags(): undefined;
+  static messageFlags(data?: MessageFlags | MessageFlagsBitField): number;
   static messageFlags(data?: MessageFlags | MessageFlagsBitField) {
     if (!data) return undefined;
     if (data instanceof MessageFlagsBitField) return data.bitfield;
     return new MessageFlagsBitField(data).bitfield;
   }
 
+  static channelData(): undefined;
+  static channelData(data?: ChannelData): APIChannel;
   static channelData(data?: ChannelData): APIChannel | undefined {
     if (!data) return undefined;
     const parsedData = data as unknown as APIChannel;
     if (data.rateLimitPerUser) (parsedData as APITextChannel).rate_limit_per_user = data.rateLimitPerUser;
     if (data.type) parsedData.type = Parsers.channelCustomType(data.type);
+    return parsedData;
+  }
+
+  static guildData(): undefined;
+  static guildData(data?: Partial<Guild>): APIGuild;
+  static guildData(data?: Partial<Guild>) {
+    if (!data) return undefined;
+    const parsedData = data as unknown as APIGuild;
+    if (data.afkChannel) parsedData.afk_channel_id = data.afkChannel.id;
+    if (data.afkChannelId) parsedData.afk_channel_id = data.afkChannelId;
+    if (data.afkTimeout) parsedData.afk_timeout = data.afkTimeout;
+    if (data.ownerId) parsedData.owner_id = data.ownerId;
     return parsedData;
   }
 
