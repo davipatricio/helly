@@ -3,6 +3,7 @@ import type { APIUser } from 'discord-api-types/v9';
 import type { Client } from '../client/Client';
 import type { GuildMemberEditData } from '../managers';
 import { GuildMemberRoleManager } from '../managers/GuildMemberRoleManager';
+import { PermissionsBitField } from '../utils/bitfield/PermissionsBitField';
 import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
 
@@ -80,6 +81,13 @@ class GuildMember extends BaseStructure {
    */
   get roles() {
     return new GuildMemberRoleManager(this.client, this.guild as Guild, this);
+  }
+
+  /** The overall set of permissions for this member, taking only roles and owner status into account */
+  get permissions() {
+    const totalBitfield = this.roles.cache.map(r => r.permissions.bitfield).reduce((a, b) => a | b, 0n);
+    const permissionBitfield = new PermissionsBitField(totalBitfield);
+    return permissionBitfield;
   }
 
   /**
