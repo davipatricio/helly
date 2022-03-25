@@ -16,6 +16,7 @@ import { Embed } from '../../builders/Embed';
 import type { ChannelData, MessageReferenceSend } from '../../structures/Channel';
 import type { Guild } from '../../structures/Guild';
 import { MessageFlagsBitField } from '../bitfield/MessageFlagsBitField';
+import { SystemChannelFlagsBitField } from '../bitfield/SystemChannelFlagsBitField';
 import { Parsers } from './Parsers';
 
 class Transformers extends null {
@@ -63,6 +64,7 @@ class Transformers extends null {
     const parsedData = data as unknown as APIGuild;
     if (data.afkChannel) parsedData.afk_channel_id = data.afkChannel.id;
     if (data.afkChannelId) parsedData.afk_channel_id = data.afkChannelId;
+    if (data.afkTimeout) parsedData.afk_timeout = data.afkTimeout;
 
     if (data.publicUpdatesChannel) parsedData.public_updates_channel_id = data.publicUpdatesChannel.id;
     if (data.publicUpdatesChannelId) parsedData.public_updates_channel_id = data.publicUpdatesChannelId;
@@ -73,7 +75,9 @@ class Transformers extends null {
     if (data.systemChannel) parsedData.system_channel_id = data.systemChannel.id;
     if (data.systemChannelId) parsedData.system_channel_id = data.systemChannelId;
 
-    if (data.afkTimeout) parsedData.afk_timeout = data.afkTimeout;
+    if (data.systemChannelFlags instanceof SystemChannelFlagsBitField) parsedData.system_channel_flags = data.systemChannelFlags.bitfield;
+    if (typeof data.systemChannelFlags === 'number') parsedData.system_channel_flags = data.systemChannelFlags;
+
     if (data.description) parsedData.description = data.description;
     if (data.ownerId) parsedData.owner_id = data.ownerId;
     if (data.premiumProgressBarEnabled) parsedData.premium_progress_bar_enabled = data.premiumProgressBarEnabled;

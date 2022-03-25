@@ -3,6 +3,7 @@ import type { Client } from '../client/Client';
 import type { GuildChannelManager as GuildChannelManagerType } from '../managers/GuildChannelManager';
 import { GuildMemberManager } from '../managers/GuildMemberManager';
 import { RoleManager } from '../managers/RoleManager';
+import { SystemChannelFlagsBitField } from '../utils/bitfield/SystemChannelFlagsBitField';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
 import type { Channel } from './Channel';
@@ -140,6 +141,11 @@ class Guild extends BaseStructure {
   /** Whether the guild has the boost progress bar enabled */
   get premiumProgressBarEnabled() {
     return this.data.premium_progress_bar_enabled;
+  }
+
+  /** The value set for the guild's system channel flags */
+  get systemChannelFlags() {
+    return new SystemChannelFlagsBitField(this.data.system_channel_flags);
   }
 
   /** Fetches the owner of the guild. If the member object isn't needed, use {@link Guild.ownerId} instead */
