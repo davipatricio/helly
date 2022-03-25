@@ -1,4 +1,4 @@
-import type { APIGuild, APIGuildWidgetSettings } from 'discord-api-types/v10';
+import type { APIGuild } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import type { GuildChannelManager as GuildChannelManagerType } from '../managers/GuildChannelManager';
 import { GuildMemberManager } from '../managers/GuildMemberManager';
