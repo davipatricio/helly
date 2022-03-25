@@ -107,6 +107,11 @@ class Guild extends BaseStructure {
     return this.data.id;
   }
 
+  /** Whether the guild has the boost progress bar enabled */
+  get premiumProgressBarEnabled() {
+    return this.data.premium_progress_bar_enabled;
+  }
+
   /** Fetches the owner of the guild. If the member object isn't needed, use {@link Guild.ownerId} instead */
   fetchOwner() {
     return this.client.users.fetch(this.ownerId);
