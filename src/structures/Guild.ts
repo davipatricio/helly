@@ -122,6 +122,21 @@ class Guild extends BaseStructure {
     return this.client.guilds.edit(this.id, data, reason);
   }
 
+  /**
+   * Sets a new owner of the guild
+   * @param user The Id of the new owner of the guild
+   * @param reason Reason for setting the new owner
+   */
+  setOwner(id: string, reason = '') {
+    return this.client.guilds.edit(this.id, { ownerId: id }, reason);
+  }
+
+  /** Leaves the guild */
+  leave() {
+    if (this.ownerId === this.client.user?.id ?? this.client.id) throw new Error('Cannot leave a guild you own.');
+    return this.client.guilds.leave(this.id);
+  }
+
   /** Returns the name of the guild */
   override toString() {
     return this.name;

@@ -58,6 +58,12 @@ class GuildManager {
     return this.updateOrSet(guildId, data as APIGuild);
   }
 
+  /** Leaves a guild */
+  async leave(id: string) {
+    await this.client.rest.make(Routes.userGuild(id), 'Delete');
+    return undefined;
+  }
+
   /**
    * Updates or caches a {@link Guild} with the provided {@link APIGuild} data
    * @private
