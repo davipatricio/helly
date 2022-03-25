@@ -66,7 +66,7 @@ class GuildMemberManager {
   async fetch(id?: string) {
     if (!id) return this.#fetchAll({ limit: 0, guild_id: this.guild.id, query: '', nonce: Snowflake.generate() });
 
-    const data = (await this.client.rest.make(`/guilds/${this.guild.id}/members/${id}`, 'Get')) as APIGuildMember;
+    const data = (await this.client.rest.make(Routes.guildMember(this.guild.id, id), 'Get')) as APIGuildMember;
     const member = this.updateOrSet(id, data);
     return member;
   }

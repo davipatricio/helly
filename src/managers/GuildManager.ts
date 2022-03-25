@@ -1,7 +1,7 @@
 import Collection from '@discordjs/collection';
 import { APIGuild, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import { Guild } from '../structures/Guild';
+import { Guild, GuildWidgetSettingsData } from '../structures/Guild';
 import { Transformers } from '../utils/transformers';
 
 // TODO: GuildManager methods (.create, .delete, .fetch etc)
@@ -56,6 +56,18 @@ class GuildManager {
     const transformed = Transformers.guildData(options);
     const data = await this.client.rest.make(Routes.guild(guildId), 'Patch', transformed, { 'X-Audit-Log-Reason': reason });
     return this.updateOrSet(guildId, data as APIGuild);
+  }
+
+  /**
+   * Edits a guild's widget settings
+   * @param settings The widget settings for the guild
+   * @param reason Reason for changing the guild's widget settings
+   */
+  async setWidgetSettings(guildId: string, settings: GuildWidgetSettingsData, reason = '') {
+    const transformed = Transformers.guildWidgetSettings(settings);
+    await this.client.rest.make(Routes.guildWidgetSettings(guildId), 'Patch', transformed, { 'X-Audit-Log-Reason': reason });
+    // TODO: GuildWidget class
+    return null;
   }
 
   /** Leaves a guild */

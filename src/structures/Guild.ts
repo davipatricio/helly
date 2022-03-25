@@ -1,4 +1,4 @@
-import type { APIGuild } from 'discord-api-types/v10';
+import type { APIGuild, APIGuildWidgetSettings } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import type { GuildChannelManager as GuildChannelManagerType } from '../managers/GuildChannelManager';
 import { GuildMemberManager } from '../managers/GuildMemberManager';
@@ -7,6 +7,13 @@ import { SystemChannelFlagsBitField } from '../utils/bitfield/SystemChannelFlags
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
 import type { Channel } from './Channel';
+
+export interface GuildWidgetSettingsData {
+  /** Whether the widget is enabled */
+  enabled: boolean;
+  /** The widget invite channel */
+  channelId?: string | null;
+}
 
 class Guild extends BaseStructure {
   /** Raw guild data */
@@ -148,6 +155,21 @@ class Guild extends BaseStructure {
     return new SystemChannelFlagsBitField(this.data.system_channel_flags);
   }
 
+  /** The widget channel's id, if enabled */
+  get widgetChannelId() {
+    return this.data.widget_channel_id;
+  }
+
+  /** Widget channel for this guild */
+  get widgetChannel(): Channel | undefined {
+    return !this.widgetChannelId ? undefined : this.client.caches.channels.get(this.widgetChannelId);
+  }
+
+  /** Whether widget images are enabled on this guild */
+  get widgetEnabled() {
+    return this.data.widget_enabled;
+  }
+
   /** Fetches the owner of the guild. If the member object isn't needed, use {@link Guild.ownerId} instead */
   fetchOwner() {
     return this.client.users.fetch(this.ownerId);
@@ -170,6 +192,15 @@ class Guild extends BaseStructure {
    */
   setOwner(id: string, reason = '') {
     return this.client.guilds.edit(this.id, { ownerId: id }, reason);
+  }
+
+  /**
+   * Edits the guild's widget settings
+   * @param settings The widget settings for the guild
+   * @param reason Reason for changing the guild's widget settings
+   */
+  setWidgetSettings(settings: GuildWidgetSettingsData, reason = '') {
+    return this.client.guilds.setWidgetSettings(this.id, settings, reason);
   }
 
   /** Leaves the guild */

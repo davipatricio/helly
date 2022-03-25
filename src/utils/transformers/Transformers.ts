@@ -5,6 +5,7 @@ import type {
   APIChannel,
   APIEmbed,
   APIGuild,
+  APIGuildWidgetSettings,
   APIMessageActionRowComponent,
   APIMessageReferenceSend,
   APISelectMenuComponent,
@@ -14,7 +15,7 @@ import type {
 } from 'discord-api-types/v10';
 import { Embed } from '../../builders/Embed';
 import type { ChannelData, MessageReferenceSend } from '../../structures/Channel';
-import type { Guild } from '../../structures/Guild';
+import type { Guild, GuildWidgetSettingsData } from '../../structures/Guild';
 import { MessageFlagsBitField } from '../bitfield/MessageFlagsBitField';
 import { SystemChannelFlagsBitField } from '../bitfield/SystemChannelFlagsBitField';
 import { Parsers } from './Parsers';
@@ -46,6 +47,7 @@ class Transformers extends null {
     return new MessageFlagsBitField(data).bitfield;
   }
 
+  // https://discord.com/developers/docs/resources/channel#modify-channel
   static channelData(): undefined;
   static channelData(data?: ChannelData): APIChannel;
   static channelData(data?: ChannelData): APIChannel | undefined {
@@ -56,11 +58,10 @@ class Transformers extends null {
     return parsedData;
   }
 
-  static guildData(): undefined;
-  static guildData(data?: Partial<Guild>): APIGuild;
+  // https://discord.com/developers/docs/resources/guild#membership-screening-object-json-params
   static guildData(data?: Partial<Guild>) {
     if (!data) return undefined;
-    // TODO: add remaining parameters https://discord.com/developers/docs/resources/guild#membership-screening-object-json-params
+    // TODO: add remaining parameters
     const parsedData = data as unknown as APIGuild;
     if (data.afkChannel) parsedData.afk_channel_id = data.afkChannel.id;
     if (data.afkChannelId) parsedData.afk_channel_id = data.afkChannelId;
@@ -82,6 +83,16 @@ class Transformers extends null {
     if (data.ownerId) parsedData.owner_id = data.ownerId;
     if (data.premiumProgressBarEnabled) parsedData.premium_progress_bar_enabled = data.premiumProgressBarEnabled;
     return parsedData;
+  }
+
+  static guildWidgetSettings(): undefined;
+  static guildWidgetSettings(data?: GuildWidgetSettingsData): APIGuildWidgetSettings;
+  static guildWidgetSettings(data?: GuildWidgetSettingsData) {
+    if (!data) return undefined;
+    return {
+      channel_id: data.channelId,
+      enabled: data.enabled,
+    };
   }
 
   static messageComponents(
