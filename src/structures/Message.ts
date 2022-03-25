@@ -91,6 +91,11 @@ class Message extends BaseStructure {
     return MessageType[this.data.type];
   }
 
+  /** The numeric {@link MessageType | type} of the channel */
+  get rawType() {
+    return this.data.type;
+  }
+
   /** The flags of the message */
   get flags() {
     return Parsers.messageFlags(this.data.flags);

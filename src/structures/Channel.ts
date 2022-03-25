@@ -132,6 +132,11 @@ class Channel extends BaseStructure {
     return this.client.users.updateOrSet(recipients[0].id, recipients[0]);
   }
 
+  /** A {@link Collection} of {@link Message}s sent in this channel */
+  get messages() {
+    return this.client.caches.messages.filter(m => m.channelId === this.id);
+  }
+
   /**
    * Sends a message to this channel
    * @param content - The content of the message

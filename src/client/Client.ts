@@ -3,6 +3,7 @@ import { Events } from '../constants/Events';
 import { CacheManager } from '../managers/CacheManager';
 import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
+import { MessageManager } from '../managers/MessageManager';
 import { UserManager } from '../managers/UserManager';
 import { IntentsBitField } from '../utils/bitfield/IntentsBitField';
 import { RestManager } from '../utils/rest/RestManager';
@@ -53,6 +54,8 @@ class Client extends EventEmitter {
   channels: ChannelManager;
   /** Manages API methods for {@link User}s */
   users: UserManager;
+  /** Manages API methods for {@link Message}s */
+  messages: MessageManager;
   /** The Id of the logged client */
   id: string;
   rest: RestManager;
@@ -145,6 +148,7 @@ class Client extends EventEmitter {
     this.guilds = new GuildManager(this);
     this.channels = new ChannelManager(this);
     this.users = new UserManager(this);
+    this.messages = new MessageManager(this);
   }
 
   /** @private */

@@ -6,6 +6,8 @@ import type { Client } from '../Client';
 function handle(client: Client, data: GatewayMessageCreateDispatchData) {
   const message = new Message(client, data);
   if (client.ready) client.emit(Events.MessageCreate, message);
+
+  client.messages.updateOrSet(message.id, data);
 }
 
 export { handle };
