@@ -63,7 +63,7 @@ class Message extends BaseStructure {
 
   /** The {@link Guild} that the message belongs to */
   get guild() {
-    return !this.guildId ? undefined : this.client.caches.guilds.get(this.guildId);
+    return !this.guildId ? undefined : this.client.caches.guilds.get(this.guildId) ?? this.channel?.guild;
   }
 
   /** The {@link Channel} that the message belongs to */
@@ -88,6 +88,11 @@ class Message extends BaseStructure {
 
   /** The type of the message */
   get type() {
+    return MessageType[this.data.type];
+  }
+
+  /** The flags of the message */
+  get flags() {
     return Parsers.messageFlags(this.data.flags);
   }
 
