@@ -1,7 +1,7 @@
 import type { ActionRowBuilder } from '@discordjs/builders';
 import type { APIActionRowComponent, APIEmbed, APIMessageActionRowComponent, RESTPostAPIChannelMessageJSONBody } from 'discord-api-types/v10';
 import type { Embed } from '../../builders/Embed';
-import { Transformers } from '../Transformers';
+import { Transformers } from '../transformers/Transformers';
 
 class MakeAPIMessage extends null {
   static transform(data: any): RESTPostAPIChannelMessageJSONBody {
@@ -9,11 +9,11 @@ class MakeAPIMessage extends null {
 
     const parsedData = typeof data === 'string' ? { content: data } : data;
 
-    parsedData.embeds = parsedData.embeds?.map((embed: Embed | APIEmbed) => Transformers.transformMessageEmbeds(embed)) ?? [];
-    parsedData.components = parsedData.components?.map((component: ActionRowBuilder | APIActionRowComponent<APIMessageActionRowComponent>) => Transformers.transformMessageComponents(component)) ?? [];
+    parsedData.embeds = parsedData.embeds?.map((embed: Embed | APIEmbed) => Transformers.messageEmbeds(embed)) ?? [];
+    parsedData.components = parsedData.components?.map((component: ActionRowBuilder | APIActionRowComponent<APIMessageActionRowComponent>) => Transformers.messageComponents(component)) ?? [];
 
     if (parsedData.messageReference) {
-      parsedData.message_reference = Transformers.transformMessageReference(parsedData.messageReference);
+      parsedData.message_reference = Transformers.messageReference(parsedData.messageReference);
     }
 
     delete parsedData.messageReference;

@@ -3,7 +3,7 @@ import type { Client } from '../client/Client';
 import type { Channel, ChannelData } from '../structures/Channel';
 import type { Guild } from '../structures/Guild';
 import type { LimitedCollection } from '../utils/LimitedCollection';
-import { Transformers } from '../utils/Transformers';
+import { Transformers } from '../utils/transformers/Transformers';
 import { ChannelManager } from './ChannelManager';
 
 // TODO: GuildChannelManager methods (.create, .delete, .fetch etc)
@@ -33,7 +33,7 @@ class GuildChannelManager extends ChannelManager {
    * ```
    */
   async edit(id: string, options: ChannelData, reason = '') {
-    const transformed = Transformers.transformChannelData(options);
+    const transformed = Transformers.channelData(options);
     const data = await this.client.rest.make(Routes.channel(id), 'Patch', transformed, { 'X-Audit-Log-Reason': reason });
     return this.updateOrSet(id, data as APIChannel, this.guild);
   }

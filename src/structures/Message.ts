@@ -1,6 +1,6 @@
 import { APIMessage, MessageType } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import { Parsers } from '../utils/Transformers';
+import { Parsers } from '../utils/transformers/Parsers';
 import { BaseStructure } from './BaseStructure';
 import type { MessageOptions, MessagePayload } from './Channel';
 import { Embed } from '../builders/Embed';
@@ -33,7 +33,7 @@ class Message extends BaseStructure {
 
   /** The components of this message */
   get components() {
-    return this.data.components?.map(c => Parsers.parseMessageComponents(c)) ?? [];
+    return this.data.components?.map(c => Parsers.messageComponents(c)) ?? [];
   }
 
   /** The message's id */
@@ -78,7 +78,7 @@ class Message extends BaseStructure {
 
   /** Message reference data */
   get messageReference() {
-    return Parsers.parseMessageReference(this.data.message_reference);
+    return Parsers.messageReference(this.data.message_reference);
   }
 
   /** Whether or not this message was sent by Discord, not actually a user (e.g. pin notifications) */
@@ -88,7 +88,7 @@ class Message extends BaseStructure {
 
   /** The type of the message */
   get type() {
-    return Parsers.parseMessageFlags(this.data.flags);
+    return Parsers.messageFlags(this.data.flags);
   }
 
   /** Represents the author of the message as a guild member. */

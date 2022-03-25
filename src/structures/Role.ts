@@ -1,6 +1,6 @@
 import type { APIRole } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import { Parsers } from '../utils';
+import { Parsers } from '../utils/transformers/Parsers';
 import { PermissionsBitField } from '../utils/bitfield/PermissionsBitField';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
@@ -84,7 +84,7 @@ class Role extends BaseStructure {
   /** The tags this role has */
   get tags(): RoleTags {
     const { tags } = this.data;
-    return Parsers.parseRoleTags(tags);
+    return Parsers.roleTags(tags);
   }
 
   /** Returns the mention of the role */

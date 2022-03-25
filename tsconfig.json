@@ -9,9 +9,9 @@
         "declarationDir": "build/types",
         "declarationMap": true,
         "esModuleInterop": true,
-		// if true: conflicts with discord-api-types
+        // if true: conflicts with discord-api-types
         "exactOptionalPropertyTypes": false,
-        "forceConsistentCasingInFileNames": true,
+        "forceConsistentCasingInFileNames": false,
         "importHelpers": true,
         "importsNotUsedAsValues": "error",
         "inlineSources": false,
@@ -35,7 +35,9 @@
         "strictNullChecks": true,
         "sourceMap": true,
         "target": "ESNext",
-        "lib": ["ESNext"],
+        "lib": [
+            "ESNext"
+        ],
         "useDefineForClassFields": false,
         "useUnknownInCatchVariables": true
     },

@@ -57,3 +57,4 @@ export * from './structures';
 export * from './utils';
 export * from './utils/bitfield';
 export * from './utils/rest';
+export * from './utils/transformers';
