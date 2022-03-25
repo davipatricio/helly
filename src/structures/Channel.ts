@@ -16,11 +16,16 @@ export interface MessageReference {
   guildId?: string | undefined;
 }
 
+/** Reference data to be sent in a message */
+export interface MessageReferenceSend extends MessageReference {
+  failIfNotExists: boolean;
+}
+
 /** Represents a message to be sent to the Discord API */
 export interface MessagePayload {
   content?: string;
   embeds?: (Embed | APIEmbed)[];
-  messageReference?: MessageReference & { failIfNotExists?: boolean };
+  messageReference?: MessageReferenceSend;
 }
 
 export type ChannelData = Partial<Channel>;

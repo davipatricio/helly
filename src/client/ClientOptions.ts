@@ -8,7 +8,7 @@ export interface ClientOptions {
    * @defaultValue `true`
    */
   autoReconnect: boolean;
-  /** Default value for {@link APIMessageReferenceSend.fail_if_not_exists} */
+  /** Default value for {@link MessageReferenceSend.failIfNotExists} */
   failIfNotExists: boolean;
   /** Limit caching of specific structures */
   caches: ClientCacheOptions;

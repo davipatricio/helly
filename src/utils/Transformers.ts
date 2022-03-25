@@ -15,13 +15,13 @@ import {
   MessageFlags,
 } from 'discord-api-types/v10';
 import { Embed } from '../builders/Embed';
-import type { ChannelData, MessageReference } from '../structures/Channel';
+import type { ChannelData, MessageReference, MessageReferenceSend } from '../structures/Channel';
 import type { RoleTags } from '../structures/Role';
 import { MessageFlagsBitField } from './bitfield/MessageFlagsBitField';
 
 // Transformers
 
-function transformMessageReference(data: MessageReference & { failIfNotExists?: boolean }): APIMessageReferenceSend | undefined {
+function transformMessageReference(data: MessageReferenceSend): APIMessageReferenceSend | undefined {
   if (!data) return undefined;
   return {
     message_id: data.messageId as string,
