@@ -117,6 +117,11 @@ class Guild extends BaseStructure {
     return this.client.guilds.fetch(this.id);
   }
 
+  /** Edits this guild */
+  edit(data: Partial<Guild>, reason = '') {
+    return this.client.guilds.edit(this.id, data, reason);
+  }
+
   /** Returns the name of the guild */
   override toString() {
     return this.name;
