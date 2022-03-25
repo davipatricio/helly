@@ -107,6 +107,36 @@ class Guild extends BaseStructure {
     return this.data.id;
   }
 
+  /** The community updates channel's id for the guild */
+  get publicUpdatesChannelId() {
+    return this.data.public_updates_channel_id;
+  }
+
+  /** Public updates channel for this guild */
+  get publicUpdatesChannel(): Channel | undefined {
+    return !this.publicUpdatesChannelId ? undefined : this.client.caches.channels.get(this.publicUpdatesChannelId);
+  }
+
+  /** The rules channel's id for the guild */
+  get rulesChannelId() {
+    return this.data.rules_channel_id;
+  }
+
+  /** Rules channel for this guild */
+  get rulesChannel(): Channel | undefined {
+    return !this.rulesChannelId ? undefined : this.client.caches.channels.get(this.rulesChannelId);
+  }
+
+  /** The system channel's id */
+  get systemChannelId() {
+    return this.data.system_channel_id;
+  }
+
+  /** System channel for this guild */
+  get systemChannel(): Channel | undefined {
+    return !this.systemChannelId ? undefined : this.client.caches.channels.get(this.systemChannelId);
+  }
+
   /** Whether the guild has the boost progress bar enabled */
   get premiumProgressBarEnabled() {
     return this.data.premium_progress_bar_enabled;
