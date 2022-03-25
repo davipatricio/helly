@@ -1,7 +1,8 @@
 import Collection from '@discordjs/collection';
-import type { APIGuild } from 'discord-api-types/v10';
+import { APIGuild, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Guild } from '../structures/Guild';
+import { Transformers } from '../utils/transformers';
 
 // TODO: GuildManager methods (.create, .delete, .fetch etc)
 
@@ -22,11 +23,11 @@ class GuildManager {
    * Obtains one or multiple guilds from Discord, or the guild cache if it's already available
    * @param id The guild's id to fetch. If undefined, fetches all guilds
    */
-  fetch(id: string): Promise<Guild>;
-  fetch(id?: string): Promise<Collection<string, Guild>>;
+  fetch(): Promise<Collection<string, Guild>>;
+  fetch(id?: string): Promise<Guild>;
   async fetch(id?: string) {
     if (!id) {
-      const guilds = (await this.client.rest.make('/users/@me/guilds', 'Get')) as APIGuild[];
+      const guilds = (await this.client.rest.make(Routes.userGuilds(), 'Get')) as APIGuild[];
       const fetchedGuilds = new Collection<string, Guild>();
 
       for (const guild of guilds) {
@@ -36,9 +37,25 @@ class GuildManager {
       return fetchedGuilds;
     }
 
-    const fetchedGuild = (await this.client.rest.make(`/guilds/${id}`, 'Get')) as APIGuild;
+    const fetchedGuild = (await this.client.rest.make(Routes.guild(id), 'Get')) as APIGuild;
     const cachedGuild = this.updateOrSet(id, fetchedGuild);
     return cachedGuild;
+  }
+
+  /**
+   * Edits a {@link Guild}
+   * @param guildId The id of the guild
+   * @param options The options to edit the guild with
+   * @param reason The reason to edit the guild
+   * @example
+   * ```js
+   * client.guilds.edit('123456789123456', { name: 'My amazing community!'});
+   * ```
+   */
+  async edit(guildId: string, options: Partial<Guild>, reason = '') {
+    const transformed = Transformers.guildData(options);
+    const data = await this.client.rest.make(Routes.guild(guildId), 'Patch', transformed, { 'X-Audit-Log-Reason': reason });
+    return this.updateOrSet(guildId, data as APIGuild);
   }
 
   /**
