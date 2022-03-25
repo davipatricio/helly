@@ -28,4 +28,9 @@ export interface ClientEvents {
    * @see https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots
    */
   MessageCreate: [data: Message];
+  /**
+   * Emitted whenever a message is deleted
+   * Can miss structures if the message is not cached
+   */
+  MessageDelete: [data: Message];
 }

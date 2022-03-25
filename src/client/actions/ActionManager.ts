@@ -31,6 +31,7 @@ class ActionManager {
     this.loaded.GUILD_UPDATE = await import('./GUILD_UPDATE');
     this.loaded.GUILD_MEMBERS_CHUNK = await import('./GUILD_MEMBERS_CHUNK');
     this.loaded.MESSAGE_CREATE = await import('./MESSAGE_CREATE');
+    this.loaded.MESSAGE_DELETE = await import('./MESSAGE_DELETE');
   }
 }
 
