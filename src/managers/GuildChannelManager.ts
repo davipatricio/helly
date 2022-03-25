@@ -23,7 +23,7 @@ class GuildChannelManager extends ChannelManager {
   }
 
   /**
-   * Edits this channel
+   * Edits a {@link Channel}
    * @param id The id of the channel
    * @param options The options to edit the channel with
    * @param reason The reason to edit the channel
