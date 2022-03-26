@@ -71,6 +71,16 @@ class GuildMemberManager {
     return member;
   }
 
+  /**
+   * Kicks a user from the guild
+   * @param userId The member to kick
+   * @param reason Reason for kicking
+   */
+  async kick(userId: string, reason = '') {
+    await this.client.rest.make(Routes.guildMember(this.guild.id, userId), 'Delete', undefined, { 'X-Audit-Log-Reason': reason });
+    return undefined;
+  }
+
   /** @private */
   #fetchAll(options: GatewayRequestGuildMembersData): Promise<Collection<string, GuildMember>> {
     const requestData = JSON.stringify({ op: 8, d: options });

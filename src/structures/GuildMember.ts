@@ -114,6 +114,15 @@ class GuildMember extends BaseStructure {
     return this.guild.members.fetch(this.id);
   }
 
+  /**
+   * Kicks this member from the guild
+   * @param reason Reason for kicking user
+   */
+  kick(reason = '') {
+    if (!this.guild) return undefined;
+    return this.guild.members.kick(this.user.id, reason);
+  }
+
   /** Returns the mention of the member */
   override toString() {
     return `<@!${this.id}>`;
