@@ -103,8 +103,8 @@ class Message extends BaseStructure {
 
   /** Represents the author of the message as a guild member. */
   get member() {
-    if (!this.guild) return undefined;
-    return this.data.member ? new GuildMember(this.client, this.data.member, this.guild) : this.guild?.members.cache.get(this.author.id);
+    if (!this.guild || !this.data.member) return undefined;
+    return this.guild?.members.cache.get(this.author.id) ?? new GuildMember(this.client, this.data.member, this.guild);
   }
 
   /** The id of the channel the message is in */
