@@ -7,6 +7,17 @@ import { PermissionsBitField } from '../utils/bitfield/PermissionsBitField';
 import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
 
+/** Options used to ban a user from a guild */
+export interface BanOptions {
+  /**
+   * Number of days of messages to delete, must be between 0 and 7
+   * @defaultValue `0`
+   */
+  deleteMessageDays?: number;
+  /** The reason for the ban */
+  reason?: string;
+}
+
 class GuildMember extends BaseStructure {
   /** Raw member data */
   data: APIGuildMember;
