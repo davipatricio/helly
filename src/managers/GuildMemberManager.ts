@@ -3,9 +3,10 @@ import { APIGuildMember, GatewayRequestGuildMembersData, RESTPatchAPIGuildMember
 import type { GuildMembersChunkEventArgs } from '../client/actions/GUILD_MEMBERS_CHUNK';
 import type { Client } from '../client/Client';
 import { Events } from '../constants';
-import type { Guild } from '../structures';
+import type { BanOptions, Guild } from '../structures';
 import { GuildMember } from '../structures/GuildMember';
 import { LimitedCollection, Snowflake } from '../utils';
+import { Transformers } from '../utils/transformers';
 
 /** The data for editing a guild member */
 export interface GuildMemberEditData {
@@ -78,6 +79,24 @@ class GuildMemberManager {
    */
   async kick(userId: string, reason = '') {
     await this.client.rest.make(Routes.guildMember(this.guild.id, userId), 'Delete', undefined, { 'X-Audit-Log-Reason': reason });
+    return undefined;
+  }
+
+  /**
+   * Bans a user from the guild
+   * @param userId The member to ban
+   * @param options Options for the ban
+   * @example
+     ```js
+      guild.members.ban('123456789123456')
+      ```
+   * @example
+     ```js
+      guild.members.ban('123456789123456', { reason: 'Spamming', daysToDeleteMessages: 1 })
+     ``` 
+   */
+  async ban(userId: string, options: BanOptions = { days: 0 }) {
+    await this.client.rest.make(Routes.guildBan(this.guild.id, userId), 'Put', Transformers.banOptions(options), { 'X-Audit-Log-Reason': options.reason ?? '' });
     return undefined;
   }
 
