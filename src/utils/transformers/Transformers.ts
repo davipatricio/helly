@@ -110,7 +110,7 @@ class Transformers extends null {
   static banOptions(data?: BanOptions) {
     if (!data) return undefined;
     return {
-      delete_message_days: data.deleteMessageDays,
+      delete_message_days: data.days,
     } as RESTPutAPIGuildBanJSONBody;
   }
 }

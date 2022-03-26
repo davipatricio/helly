@@ -13,7 +13,7 @@ export interface BanOptions {
    * Number of days of messages to delete, must be between 0 and 7
    * @defaultValue `0`
    */
-  deleteMessageDays?: number;
+  days?: number;
   /** The reason for the ban */
   reason?: string;
 }
@@ -123,6 +123,23 @@ class GuildMember extends BaseStructure {
   fetch() {
     if (!this.guild) return undefined;
     return this.guild.members.fetch(this.id);
+  }
+
+  /**
+   * Bans this member from the guild
+   * @param options Options for the ban
+   * @example
+     ```js
+      guildMember.ban()
+     ```
+   * @example
+     ```js
+      guildMember.ban({ reason: 'Spamming', days: 1 })
+     ```
+   */
+  ban(banOptions: BanOptions = {}) {
+    if (!this.guild) return undefined;
+    return this.guild.members.ban(this.user.id, banOptions);
   }
 
   /**
