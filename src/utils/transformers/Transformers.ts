@@ -12,10 +12,12 @@ import type {
   APITextChannel,
   APITextInputComponent,
   MessageFlags,
+  RESTPutAPIGuildBanJSONBody,
 } from 'discord-api-types/v10';
 import { Embed } from '../../builders/Embed';
 import type { ChannelData, MessageReferenceSend } from '../../structures/Channel';
 import type { Guild, GuildWidgetSettingsData } from '../../structures/Guild';
+import type { BanOptions } from '../../structures/GuildMember';
 import { MessageFlagsBitField } from '../bitfield/MessageFlagsBitField';
 import { SystemChannelFlagsBitField } from '../bitfield/SystemChannelFlagsBitField';
 import { Parsers } from './Parsers';
@@ -101,6 +103,15 @@ class Transformers extends null {
     if (!data) return undefined;
     if (data instanceof ActionRowBuilder) return data.toJSON();
     return data;
+  }
+
+  static banOptions(): undefined;
+  static banOptions(data?: BanOptions): RESTPutAPIGuildBanJSONBody;
+  static banOptions(data?: BanOptions) {
+    if (!data) return undefined;
+    return {
+      delete_message_days: data.deleteMessageDays,
+    } as RESTPutAPIGuildBanJSONBody;
   }
 }
 
