@@ -1,4 +1,4 @@
-import type { APIEmbed, APIEmbedField, APIEmbedFooter } from 'discord-api-types/v10';
+import type { APIEmbed, APIEmbedAuthor, APIEmbedField, APIEmbedFooter } from 'discord-api-types/v10';
 
 /** Represents an embed in a message (image/video preview, rich embed, etc.) */
 class Embed {
@@ -71,6 +71,16 @@ class Embed {
   /** Sets the title of this embed */
   setTitle(title: string | null) {
     this.data.title = title ?? undefined;
+    return this;
+  }
+
+  /** Sets the author of this embed */
+  setAuthor(options: APIEmbedAuthor | null) {
+    if (options === null) {
+      this.data.author = undefined;
+      return this;
+    }
+    this.data.author = { name: options.name, icon_url: options.icon_url };
     return this;
   }
 
