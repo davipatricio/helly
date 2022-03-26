@@ -23,7 +23,9 @@ import { SystemChannelFlagsBitField } from '../bitfield/SystemChannelFlagsBitFie
 import { Parsers } from './Parsers';
 
 class Transformers extends null {
-  static messageReference(data: MessageReferenceSend) {
+  static messageReference(): undefined;
+  static messageReference(data?: MessageReferenceSend): APIMessageReferenceSend;
+  static messageReference(data?: MessageReferenceSend) {
     if (!data) return undefined;
     return {
       message_id: data.messageId as string,
