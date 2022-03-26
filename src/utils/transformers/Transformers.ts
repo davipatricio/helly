@@ -96,7 +96,7 @@ class Transformers extends null {
     return {
       channel_id: data.channelId,
       enabled: data.enabled,
-    };
+    } as APIGuildWidgetSettings;
   }
 
   static messageComponents(
