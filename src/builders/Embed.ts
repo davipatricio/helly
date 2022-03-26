@@ -1,4 +1,19 @@
-import type { APIEmbed, APIEmbedAuthor, APIEmbedField, APIEmbedFooter } from 'discord-api-types/v10';
+import type { APIEmbed, APIEmbedField } from 'discord-api-types/v10';
+
+export interface EmbedBuilderAuthorData {
+  /** * Name of author */
+  name: string;
+  /** URL of author */
+  url?: string;
+  /** URL of author icon (only supports http(s) and attachments) */
+  iconURL?: string;
+}
+export interface EmbedBuilderFooterData {
+  /** Footer text */
+  text: string;
+  /** URL of footer icon (only supports http(s) and attachments) */
+  iconURL?: string;
+}
 
 /** Represents an embed in a message (image/video preview, rich embed, etc.) */
 class Embed {
@@ -68,25 +83,31 @@ class Embed {
     return this.data.fields;
   }
 
-  /** Sets the title of this embed */
-  setTitle(title: string | null) {
-    this.data.title = title ?? undefined;
-    return this;
-  }
-
   /** Sets the author of this embed */
-  setAuthor(options: APIEmbedAuthor | null) {
+  setAuthor(options: EmbedBuilderAuthorData | null) {
     if (options === null) {
       this.data.author = undefined;
       return this;
     }
-    this.data.author = { name: options.name, icon_url: options.icon_url };
+    this.data.author = { name: options.name, icon_url: options.iconURL };
     return this;
   }
 
   /** Sets the description of this embed */
   setDescription(description: string | null) {
     this.data.description = description ?? undefined;
+    return this;
+  }
+
+  /** Sets the color of this embed */
+  setColor(color: number | null) {
+    this.data.color = color ?? undefined;
+    return this;
+  }
+
+  /** Sets the title of this embed */
+  setTitle(title: string | null) {
+    this.data.title = title ?? undefined;
     return this;
   }
 
@@ -102,19 +123,13 @@ class Embed {
     return this;
   }
 
-  /** Sets the color of this embed */
-  setColor(color: number | null) {
-    this.data.color = color ?? undefined;
-    return this;
-  }
-
   /** Make the provided field the only field in this embed */
-  setFooter(options: APIEmbedFooter | null) {
+  setFooter(options: EmbedBuilderFooterData | null) {
     if (options === null) {
       this.data.footer = undefined;
       return this;
     }
-    this.data.footer = { text: options.text, icon_url: options.icon_url };
+    this.data.footer = { text: options.text, icon_url: options.iconURL };
     return this;
   }
 
