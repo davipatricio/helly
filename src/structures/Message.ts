@@ -1,4 +1,4 @@
-import { APIMessage, MessageType } from 'discord-api-types/v10';
+import { APIGuildMember, APIMessage, MessageType } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Parsers } from '../utils/transformers/Parsers';
 import { BaseStructure } from './BaseStructure';
@@ -103,8 +103,9 @@ class Message extends BaseStructure {
 
   /** Represents the author of the message as a guild member. */
   get member() {
-    if (!this.guild || !this.data.member) return undefined;
-    return this.guild?.members.cache.get(this.author.id) ?? new GuildMember(this.client, this.data.member, this.guild);
+    if (!this.guild) return undefined;
+    const finalMemberData = this.data.member ?? ({ user: this.data.author } as APIGuildMember);
+    return this.guild?.members.cache.get(this.author.id) ?? new GuildMember(this.client, finalMemberData, this.guild);
   }
 
   /** The id of the channel the message is in */
