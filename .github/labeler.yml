@@ -1,5 +1,7 @@
 actions:
   - src/actions/**/*
+bitfields:
+  - src/utils/bitfield/**/*
 channels:
   - '**/?(*Channel*).ts'
 client:
@@ -14,13 +16,15 @@ exports:
 github:
   - .github/**/*
 intents:
-  - src/utils/Intents.ts
-  - src/constants/intents.ts
-managers:
-  - src/managers/**/*
+  - src/utils/bitfields/IntentsBitField.ts
+transformers:
+  - src/utils/managers/**/*
+rest:
+  - src/utils/rest/**/*
 permissions:
-  - src/utils/Permission.ts
-  - src/constants/permissions.ts
+  - src/utils/bitfields/PermissionsBitFields.ts
+rest:
+  - src/utils/rest/**/*
 roles:
   - '**/?(*Role*).ts'
 structures:
