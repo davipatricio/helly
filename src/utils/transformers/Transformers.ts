@@ -14,7 +14,7 @@ import type {
   MessageFlags,
   RESTPutAPIGuildBanJSONBody,
 } from 'discord-api-types/v10';
-import { Embed } from '../../builders/Embed';
+import { EmbedBuilder } from '../../builders/Embed';
 import type { ChannelData, MessageReferenceSend } from '../../structures/Channel';
 import type { Guild, GuildWidgetSettingsData } from '../../structures/Guild';
 import type { BanOptions } from '../../structures/GuildMember';
@@ -36,10 +36,10 @@ class Transformers extends null {
   }
 
   static messageEmbeds(): undefined;
-  static messageEmbeds(data?: Embed | APIEmbed): APIEmbed;
-  static messageEmbeds(data?: Embed | APIEmbed) {
+  static messageEmbeds(data?: EmbedBuilder | APIEmbed): APIEmbed;
+  static messageEmbeds(data?: EmbedBuilder | APIEmbed) {
     if (!data) return undefined;
-    if (data instanceof Embed) return data.toJSON();
+    if (data instanceof EmbedBuilder) return data.toJSON();
     return data;
   }
 
