@@ -1,5 +1,5 @@
-import { RouteBases, GatewayVersion } from 'discord-api-types/v10';
-import type { IntentsCheckType, IntentsBitField } from '../utils/bitfield/IntentsBitField';
+import { GatewayVersion, RouteBases } from 'discord-api-types/v10';
+import type { IntentsBitField, IntentsCheckType } from '../utils/bitfield/IntentsBitField';
 
 /** Options for a {@link Client} */
 export interface ClientOptions {
@@ -27,18 +27,41 @@ export interface ParsedClientOptions extends ClientOptions {
 
 /** Caching options for {@link ClientOptions.caches} */
 export interface ClientCacheOptions {
-  /** @defaultValue `Infinity` */
+  /**
+   * Maximum amount of guilds to cache
+   * @defaultValue `Infinity`
+   */
   guilds: number;
-  /** @defaultValue `Infinity` */
+  /**
+   * Maximum amount of roles to cache
+   * @defaultValue `Infinity`
+   */
   roles: number;
-  /** @defaultValue `Infinity` */
+  /**
+   * Maximum amount of members to cache - per guild
+   * @defaultValue `Infinity`
+   */
   members: number;
-  /** @defaultValue `Infinity` */
+  /**
+   * Maximum amount of channels to cache
+   * @defaultValue `Infinity`
+   */
   channels: number;
-  /** @defaultValue `Infinity` */
+  /**
+   * Maximum amount of users to cache
+   * @defaultValue `Infinity`
+   */
   users: number;
-  /** @defaultValue `200` */
+  /**
+   * Maximum amount of messages to cache - per channel
+   * @defaultValue `200`
+   */
   messages: number;
+  /**
+   * Maximum amount of bans to cache - per guild
+   * @defaultValue `100`
+   */
+  bans: number;
 }
 
 /** Options for the {@link ClientOptions.rest | REST Manager} */
@@ -86,6 +109,7 @@ export const defaultClientOptions: ClientOptions = {
     channels: Infinity,
     users: Infinity,
     messages: 200,
+    bans: 100,
   },
   intents: 0,
   rest: {

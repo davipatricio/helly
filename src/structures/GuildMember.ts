@@ -137,9 +137,9 @@ class GuildMember extends BaseStructure {
       guildMember.ban({ reason: 'Spamming', days: 1 })
      ```
    */
-  ban(banOptions: BanOptions = {}) {
+  ban(options: BanOptions = { days: 0, reason: '' }) {
     if (!this.guild) return undefined;
-    return this.guild.members.ban(this.user.id, banOptions);
+    return this.guild.members.ban(this.user.id, options);
   }
 
   /**

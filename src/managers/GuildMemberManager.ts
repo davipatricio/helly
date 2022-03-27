@@ -6,7 +6,6 @@ import { Events } from '../constants';
 import type { BanOptions, Guild } from '../structures';
 import { GuildMember } from '../structures/GuildMember';
 import { LimitedCollection, Snowflake } from '../utils';
-import { Transformers } from '../utils/transformers';
 
 /** The data for editing a guild member */
 export interface GuildMemberEditData {
@@ -59,6 +58,28 @@ class GuildMemberManager {
   }
 
   /**
+   * Searches member(s) from this guild
+   * @param query Query string to match username(s) and nickname(s) against
+   * @param limit Max number of members to return (1-1000). Default: 100
+   * @example
+   * ```js
+   * guild.members.search('Bob', 10)
+   * ```
+   */
+  async search(query = '', limit = 100) {
+    const params = new URLSearchParams({ query, limit: String(limit) });
+
+    const data = (await this.client.rest.make(`${Routes.guildMembersSearch(this.guild.id)}?${params.toString()}`, 'Get')) as APIGuildMember[];
+    const finalMembers = new Collection<string, GuildMember>();
+
+    for (const member of data) {
+      if (!member.user) continue;
+      finalMembers.set(member.user.id, this.updateOrSet(member.user.id, member));
+    }
+    return finalMembers;
+  }
+
+  /**
    * Fetches member(s) from this guild, even if they're offline
    * @param id If a ID, the user to fetch. If undefined, fetches all members
    */
@@ -84,20 +105,36 @@ class GuildMemberManager {
 
   /**
    * Bans a user from the guild
-   * @param userId The member to ban
+   * @param id The member to ban
    * @param options Options for the ban
    * @example
-     ```js
-      guild.members.ban('123456789123456')
-      ```
+   * ```js
+   * guild.members.ban('123456789123456')
+   * ```
    * @example
-     ```js
-      guild.members.ban('123456789123456', { reason: 'Spamming', daysToDeleteMessages: 1 })
-     ``` 
+   * ```js
+   * guild.members.ban('123456789123456', { reason: 'Spamming', days: 1 })
+   * ```
    */
-  async ban(userId: string, options: BanOptions = { days: 0 }) {
-    await this.client.rest.make(Routes.guildBan(this.guild.id, userId), 'Put', Transformers.banOptions(options), { 'X-Audit-Log-Reason': options.reason ?? '' });
-    return undefined;
+  ban(id: string, options: BanOptions = { days: 0, reason: '' }) {
+    return this.guild.bans.create(id, options);
+  }
+
+  /**
+   * Unbans a user from the guild
+   * @param id The user to unban
+   * @param reason Reason for unbanning
+   * @example
+   * ```js
+   * guild.members.ban('123456789123456')
+   * ```
+   * * @example
+   * ```js
+   * guild.bans.remove('123456789123456', 'Applied ban in the wrong user')
+   * ```
+   */
+  unban(id: string, reason = '') {
+    return this.guild.bans.remove(id, reason);
   }
 
   /** @private */

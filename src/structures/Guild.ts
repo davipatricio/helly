@@ -1,5 +1,6 @@
 import type { APIGuild } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
+import { GuildBanManager } from '../managers/GuildBanManager';
 import type { GuildChannelManager as GuildChannelManagerType } from '../managers/GuildChannelManager';
 import { GuildMemberManager } from '../managers/GuildMemberManager';
 import { RoleManager } from '../managers/RoleManager';
@@ -24,6 +25,11 @@ class Guild extends BaseStructure {
   channels: GuildChannelManagerType;
   /** A manager of the {@link GuildMember}s belonging to this guild */
   members: GuildMemberManager;
+  /**
+   * A manager of the {@link GuildBan}s belonging to this guild
+   * You should manually fetch bans before using this
+   */
+  bans: GuildBanManager;
   constructor(client: Client, data: APIGuild) {
     super(client);
     this.roles = new RoleManager(client, this);
@@ -33,6 +39,7 @@ class Guild extends BaseStructure {
     const { GuildChannelManager } = require('../managers/GuildChannelManager');
     this.channels = new GuildChannelManager(client, this);
     this.members = new GuildMemberManager(client, this);
+    this.bans = new GuildBanManager(client, this);
     this.parseData(data);
   }
 
