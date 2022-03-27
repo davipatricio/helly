@@ -22,7 +22,7 @@ transformers:
 rest:
   - src/utils/rest/**/*
 permissions:
-  - src/utils/bitfields/PermissionsBitFields.ts
+  - src/utils/bitfields/PermissionsBitField.ts
 roles:
   - '**/?(*Role*).ts'
 structures:
