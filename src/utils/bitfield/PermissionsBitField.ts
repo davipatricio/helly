@@ -60,7 +60,6 @@ class PermissionsBitField {
     }
     if (typeof bit === 'string') {
       if (typeof this.Flags[bit] !== 'undefined') return this.Flags[bit];
-      // eslint-disable-next-line no-restricted-globals
       if (!isNaN(bit as unknown as number)) return BigInt(bit);
     }
     throw new TypeError(`Expected bit to be a bigint, string, array or PermissionsBitField`);
