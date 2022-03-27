@@ -32,6 +32,7 @@ class ActionManager {
     this.loaded.GUILD_MEMBERS_CHUNK = await import('./GUILD_MEMBERS_CHUNK');
     this.loaded.MESSAGE_CREATE = await import('./MESSAGE_CREATE');
     this.loaded.MESSAGE_DELETE = await import('./MESSAGE_DELETE');
+    this.loaded.INTERACTION_CREATE = await import('./INTERACTION_CREATE');
   }
 }
 

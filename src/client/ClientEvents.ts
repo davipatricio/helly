@@ -4,7 +4,7 @@ import type { Message } from '../structures/Message';
 import type { GuildMembersChunkEventArgs } from './actions/GUILD_MEMBERS_CHUNK';
 import type { Client } from './Client';
 
-export interface ClientEvents {
+export type ClientEvents {
   /** Emitted whenever a guild channel is created */
   ChannelCreate: [channel: Channel];
   /** Emitted whenever a channel is deleted */
@@ -33,4 +33,5 @@ export interface ClientEvents {
    * Can miss structures if the message is not cached
    */
   MessageDelete: [data: Message];
+  InteractionCreate: [interaction: unknown];
 }

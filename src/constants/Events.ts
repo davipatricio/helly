@@ -12,6 +12,7 @@ export const enum Events {
   GuildUpdate = 'GuildUpdate',
   MessageCreate = 'MessageCreate',
   MessageDelete = 'MessageDelete',
+  InteractionCreate = 'InteractionCreate',
 }
 
 export const enum RestEvents {
