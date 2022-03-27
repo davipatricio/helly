@@ -2,6 +2,8 @@ actions:
   - src/actions/**/*
 bitfields:
   - src/utils/bitfield/**/*
+builders:
+  - src/builders/**/*
 channels:
   - '**/?(*Channel*).ts'
 client:
