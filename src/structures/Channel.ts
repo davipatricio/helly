@@ -1,8 +1,8 @@
 import { APIChannel, APIDMChannel, APIEmbed, APITextChannel, APIVoiceChannel, ChannelType } from 'discord-api-types/v10';
+import type { EmbedBuilder } from '../builders/Embed';
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
-import type { Embed } from '../builders/Embed';
 import type { Guild } from './Guild';
 import type { User } from './User';
 
@@ -24,7 +24,7 @@ export interface MessageReferenceSend extends MessageReference {
 /** Represents a message to be sent to the Discord API */
 export interface MessagePayload {
   content?: string;
-  embeds?: (Embed | APIEmbed)[];
+  embeds?: (EmbedBuilder | APIEmbed)[];
   messageReference?: MessageReferenceSend;
 }
 
@@ -142,14 +142,14 @@ class Channel extends BaseStructure {
    * @param content - The content of the message
    * @example
    * ```js
-   * const { Embed } = require('helly');
-   * const embed = new Embed().setTitle('Pong!')
+   * const { EmbedBuilder } = require('helly');
+   * const embed = new EmbedBuilder().setTitle('Pong!')
    * if (channel.isText()) channel.send({ embeds: [embed] })
    * ```
    * @example
    * ```js
-   * const { Embed } = require('helly');
-   * const embed = new Embed().setTitle('Pong!')
+   * const { EmbedBuilder } = require('helly');
+   * const embed = new EmbedBuilder().setTitle('Pong!')
    * if (channel.isText()) channel.send({ content: 'Ping?', embeds: [embed] })
    * ```
    * @example

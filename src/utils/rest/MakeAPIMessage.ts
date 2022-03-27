@@ -1,6 +1,6 @@
 import type { ActionRowBuilder } from '@discordjs/builders';
 import type { APIActionRowComponent, APIEmbed, APIMessageActionRowComponent, RESTPostAPIChannelMessageJSONBody } from 'discord-api-types/v10';
-import type { Embed } from '../../builders/Embed';
+import type { EmbedBuilder } from '../../builders/Embed';
 import { Transformers } from '../transformers/Transformers';
 
 class MakeAPIMessage extends null {
@@ -9,7 +9,7 @@ class MakeAPIMessage extends null {
 
     const parsedData = typeof data === 'string' ? { content: data } : data;
 
-    parsedData.embeds = parsedData.embeds?.map((embed: Embed | APIEmbed) => Transformers.messageEmbeds(embed)) ?? [];
+    parsedData.embeds = parsedData.embeds?.map((embed: EmbedBuilder | APIEmbed) => Transformers.messageEmbeds(embed)) ?? [];
     parsedData.components = parsedData.components?.map((component: ActionRowBuilder | APIActionRowComponent<APIMessageActionRowComponent>) => Transformers.messageComponents(component)) ?? [];
 
     if (parsedData.messageReference) {

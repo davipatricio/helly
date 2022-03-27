@@ -3,7 +3,7 @@ import type { Client } from '../client/Client';
 import { Parsers } from '../utils/transformers/Parsers';
 import { BaseStructure } from './BaseStructure';
 import type { MessageOptions, MessagePayload } from './Channel';
-import { Embed } from '../builders/Embed';
+import { EmbedBuilder } from '../builders/Embed';
 import { GuildMember } from './GuildMember';
 
 export type MessageData = Partial<Message>;
@@ -58,7 +58,7 @@ class Message extends BaseStructure {
 
   /* A list of embeds in the message - e.g. YouTube Player */
   get embeds() {
-    return this.data.embeds.map(e => new Embed(e));
+    return this.data.embeds.map(e => new EmbedBuilder(e));
   }
 
   /** The {@link Guild} that the message belongs to */
@@ -123,14 +123,14 @@ class Message extends BaseStructure {
    * @param content - The content of the message
    * @example
    * ```js
-   * const { Embed } = require('helly');
-   * const embed = new Embed().setTitle('Pong!')
+   * const { EmbedBuilder } = require('helly');
+   * const embed = new EmbedBuilder().setTitle('Pong!')
    * message.reply({ embeds: [embed] })
    * ```
    * @example
    * ```js
-   * const { Embed } = require('helly');
-   * const embed = new Embed().setTitle('Pong!')
+   * const { EmbedBuilder } = require('helly');
+   * const embed = new EmbedBuilder().setTitle('Pong!')
    * message.reply({ content: 'Ping?', embeds: [embed] })
    * ```
    * @example

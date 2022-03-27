@@ -1,11 +1,11 @@
 import { ActionRowBuilder } from '@discordjs/builders';
-import { APIActionRowComponent, APIMessageActionRowComponent, APIMessageReference, APIRoleTags, ChannelType, MessageFlags } from 'discord-api-types/v10';
+import { APIActionRowComponent, APIMessageActionRowComponent, APIMessageReference, APIRoleTags, ChannelType, ComponentType, MessageFlags } from 'discord-api-types/v10';
 import type { MessageReference } from '../../structures/Channel';
 import type { RoleTags } from '../../structures/Role';
 
 class Parsers extends null {
   static messageComponents(row: APIActionRowComponent<APIMessageActionRowComponent>) {
-    const actionRow = new ActionRowBuilder({ type: row.type, components: row.components });
+    const actionRow = new ActionRowBuilder({ type: ComponentType.ActionRow, components: row.components });
     return actionRow;
   }
 
