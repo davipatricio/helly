@@ -4,7 +4,7 @@ import type { Message } from '../structures/Message';
 import type { GuildMembersChunkEventArgs } from './actions/GUILD_MEMBERS_CHUNK';
 import type { Client } from './Client';
 
-export type ClientEvents {
+export interface ClientEvents {
   /** Emitted whenever a guild channel is created */
   ChannelCreate: [channel: Channel];
   /** Emitted whenever a channel is deleted */
