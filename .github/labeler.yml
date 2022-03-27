@@ -23,8 +23,6 @@ rest:
   - src/utils/rest/**/*
 permissions:
   - src/utils/bitfields/PermissionsBitFields.ts
-rest:
-  - src/utils/rest/**/*
 roles:
   - '**/?(*Role*).ts'
 structures:
