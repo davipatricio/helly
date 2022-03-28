@@ -1,7 +1,6 @@
 import type { APIChatInputApplicationCommandInteraction } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { BaseStructure } from './BaseStructure';
-import { User } from './User';
 
 class ChatInputCommandInteraction extends BaseStructure {
   /** Raw {@link ChatInputCommandInteraction} data */

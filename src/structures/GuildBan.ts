@@ -2,7 +2,6 @@ import type { APIBan } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
-import { User } from './User';
 
 class GuildBan extends BaseStructure {
   /** Raw ban data */
