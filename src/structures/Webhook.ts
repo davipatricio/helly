@@ -1,4 +1,4 @@
-import { APIWebhook, Routes } from 'discord-api-types/v10';
+import { APIGuild, APIWebhook, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { CDNEndpoints } from '../constants';
 import { BaseStructure } from './BaseStructure';
@@ -32,22 +32,22 @@ class Webhook extends BaseStructure {
     return this.data.id;
   }
 
-  /** The Id of the guild the Webhook is in */
+  /** The Id of the guild the webhook is in */
   get guildId() {
     return this.data.guild_id;
   }
 
-  /** The Id of the channel the Webhook is in */
+  /** The Id of the channel the webhook is in */
   get channelId() {
     return this.data.channel_id;
   }
 
-  /** The {@link Guild} this Webhook belongs to */
+  /** The {@link Guild} this webhook belongs to */
   get guild() {
     return !this.guildId ? undefined : this.client.caches.guilds.get(this.guildId);
   }
 
-  /** The {@link Channel} this Webhook belongs to */
+  /** The {@link Channel} this webhook belongs to */
   get channel() {
     return !this.guildId ? undefined : this.client.caches.guilds.get(this.channelId);
   }
@@ -55,6 +55,29 @@ class Webhook extends BaseStructure {
   /** The URL of this webhook */
   get url() {
     return this.data.url ?? Routes.webhook(this.id, this.token);
+  }
+
+  /** The source channel of the webhook */
+  get sourceChannel() {
+    if (!this.data.source_channel) return undefined;
+    return this.client.channels.updateOrSet(this.data.source_channel.id, this.data.source_channel);
+  }
+
+  /** The source guild of the webhook */
+  get sourceGuild() {
+    if (!this.data.source_guild) return undefined;
+    return this.client.guilds.updateOrSet(this.data.source_guild.id, this.data.source_guild as APIGuild);
+  }
+
+  /** The owner of the webhook */
+  get user() {
+    if (!this.data.user) return undefined;
+    return this.client.users.updateOrSet(this.data.user.id, this.data.user);
+  }
+
+  /** The type of the webhook */
+  get type() {
+    return this.data.type;
   }
 
   /** A link to the webhook's avatar */

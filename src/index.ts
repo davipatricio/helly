@@ -23,6 +23,8 @@ export {
   APIMessageReference,
   APIMessageReferenceSend,
   APINewsChannel,
+  APIPartialChannel,
+  APIPartialGuild,
   APIRole,
   APISelectMenuComponent,
   APISelectMenuOption,
@@ -49,6 +51,7 @@ export {
   RouteBases,
   Routes,
   UserFlags,
+  WebhookType,
 } from 'discord-api-types/v10';
 export * from './builders';
 export * from './client/actions/ActionManager';
