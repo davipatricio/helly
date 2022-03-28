@@ -35,6 +35,21 @@ class ChatInputCommandInteraction extends BaseStructure {
     return Snowflake.deconstruct(this.id);
   }
 
+  /** The invoked application command's id */
+  get commandId() {
+    return this.data.data.id;
+  }
+
+  /** The invoked application command's type */
+  get commandType() {
+    return this.data.data.type;
+  }
+
+  /** The invoked application command's name */
+  get commandName() {
+    return this.data.data.name;
+  }
+
   /** The preferred locale from the guild this interaction was sent in */
   get guildLocale() {
     return this.data.guild_locale;
