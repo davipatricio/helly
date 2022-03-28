@@ -1,6 +1,7 @@
 import { APIGuild, APIMessage, APIWebhook, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { CDNEndpoints } from '../constants';
+import { Snowflake } from '../utils';
 import { BaseStructure } from './BaseStructure';
 import type { ImageURLOptions } from './User';
 
@@ -15,6 +16,26 @@ class Webhook extends BaseStructure {
   /** The webhook avatar's hash */
   get avatar() {
     return this.data.avatar;
+  }
+
+  /** The time the webhook was created at */
+  get createdAt() {
+    return new Date(this.createdTimestamp);
+  }
+
+  /** The timestamp the webhook was created at */
+  get createdTimestamp() {
+    return Snowflake.deconstruct(this.id);
+  }
+
+  /** The {@link Channel} this webhook belongs to */
+  get channel() {
+    return !this.guildId ? undefined : this.client.caches.guilds.get(this.channelId);
+  }
+
+  /** The Id of the channel the webhook is in */
+  get channelId() {
+    return this.data.channel_id;
   }
 
   /** The token of this webhook */
@@ -37,19 +58,9 @@ class Webhook extends BaseStructure {
     return this.data.guild_id;
   }
 
-  /** The Id of the channel the webhook is in */
-  get channelId() {
-    return this.data.channel_id;
-  }
-
   /** The {@link Guild} this webhook belongs to */
   get guild() {
     return !this.guildId ? undefined : this.client.caches.guilds.get(this.guildId);
-  }
-
-  /** The {@link Channel} this webhook belongs to */
-  get channel() {
-    return !this.guildId ? undefined : this.client.caches.guilds.get(this.channelId);
   }
 
   /** The URL of this webhook */
