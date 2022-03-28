@@ -58,7 +58,6 @@ class Transformers extends null {
     if (!data) return undefined;
     const parsedData = data as unknown as APIChannel;
     if (data.rateLimitPerUser) (parsedData as APITextChannel).rate_limit_per_user = data.rateLimitPerUser;
-    if (data.type) parsedData.type = Parsers.channelCustomType(data.type);
     return parsedData;
   }
 

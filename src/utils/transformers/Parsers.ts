@@ -23,11 +23,6 @@ class Parsers extends null {
     return MessageFlags[data] as keyof typeof MessageFlags;
   }
 
-  static channelCustomType(data: ChannelType | number | string = 0): ChannelType {
-    if (typeof data === 'string') return ChannelType[data as string] ?? 0;
-    return data;
-  }
-
   static roleTags(data: APIRoleTags | undefined): RoleTags {
     return {
       botId: data?.bot_id ?? undefined,
