@@ -1,5 +1,6 @@
 import type { APIChatInputApplicationCommandInteraction } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
+import { Snowflake } from '../utils';
 import { BaseStructure } from './BaseStructure';
 
 class ChatInputCommandInteraction extends BaseStructure {
@@ -17,6 +18,21 @@ class ChatInputCommandInteraction extends BaseStructure {
   /** The {@link Channel} that the interaction belongs to */
   get channel() {
     return !this.channelId ? undefined : this.client.caches.channels.get(this.channelId);
+  }
+
+  /** The id of the channel the interaction is in */
+  get channelId() {
+    return this.data.channel_id;
+  }
+
+  /** The time the interaction was created at */
+  get createdAt() {
+    return new Date(this.createdTimestamp);
+  }
+
+  /** The timestamp the interaction was created at */
+  get createdTimestamp() {
+    return Snowflake.deconstruct(this.id);
   }
 
   /** The preferred locale from the guild this interaction was sent in */
@@ -43,11 +59,6 @@ class ChatInputCommandInteraction extends BaseStructure {
   /** The locale of the user who invoked this interaction */
   get locale() {
     return this.data.locale;
-  }
-
-  /** The id of the channel the interaction is in */
-  get channelId() {
-    return this.data.channel_id;
   }
 
   /** The id of the guild the interaction is in */
