@@ -1,6 +1,6 @@
 import { APIChannel, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import type { Channel, ChannelData } from '../structures/Channel';
+import { Channel, ChannelData } from '../structures/Channel';
 import type { Guild } from '../structures/Guild';
 import type { LimitedCollection } from '../utils/LimitedCollection';
 import { Transformers } from '../utils/transformers/Transformers';
@@ -24,7 +24,7 @@ class GuildChannelManager extends ChannelManager {
 
   /**
    * Edits a {@link Channel}
-   * @param id The id of the channel
+   * @param id The Id of the channel
    * @param options The options to edit the channel with
    * @param reason The reason to edit the channel
    * @example
@@ -36,6 +36,23 @@ class GuildChannelManager extends ChannelManager {
     const transformed = Transformers.channelData(options);
     const data = await this.client.rest.make(Routes.channel(id), 'Patch', transformed, { 'X-Audit-Log-Reason': reason });
     return this.updateOrSet(id, data as APIChannel, this.guild);
+  }
+
+  /**
+   * Deletes a {@link Channel}
+   * @param id The Id of the channel
+   * @param reason The reason to delete the channel
+   * @example
+   * ```js
+   * guild.channels.delete(channel.id, 'I am no longer needed');
+   * ```
+   */
+  async delete(id: string, reason = '') {
+    const data = (await this.client.rest.make(Routes.channel(id), 'Delete', undefined, { 'X-Audit-Log-Reason': reason })) as APIChannel;
+
+    const channel = new Channel(this.client, data, this.guild);
+    this.client.caches.channels.delete(id);
+    return channel;
   }
 }
 

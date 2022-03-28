@@ -157,6 +157,19 @@ class Channel extends BaseStructure {
   }
 
   /**
+   * Deletes this {@link @Guild}Channel
+   * @param reason Reason for deleting this channel
+   * @example
+   * ```js
+   * channel.delete('I am no longer needed')
+   * ```
+   */
+  delete(reason = '') {
+    if (!this.guild) throw new Error('The target channel must be in a guild.');
+    return this.guild.channels.delete(this.id, reason);
+  }
+
+  /**
    * Sets a new name for the guild channel
    * @param name The new name for the guild channel
    * @param reason Reason for changing the guild channel's name
@@ -169,7 +182,7 @@ class Channel extends BaseStructure {
    * channel.setName('general')
    * ```
    */
-  setName(name: string, reason?: string) {
+  setName(name: string, reason = '') {
     return this.guild?.channels.edit(this.id, { name }, reason);
   }
 
@@ -186,7 +199,7 @@ class Channel extends BaseStructure {
    * channel.setPosition(3)
    * ```
    */
-  setPosition(position = 0, reason?: string) {
+  setPosition(position = 0, reason = '') {
     return this.guild?.channels.edit(this.id, { position }, reason);
   }
 
@@ -203,7 +216,7 @@ class Channel extends BaseStructure {
    * channel.setNSFW(false, 'No longer NSFW')
    * ```
    */
-  setNSFW(nsfw = true, reason?: string) {
+  setNSFW(nsfw = true, reason = '') {
     return this.guild?.channels.edit(this.id, { nsfw }, reason);
   }
 
@@ -221,7 +234,7 @@ class Channel extends BaseStructure {
    * channel.setTopic('Server rules.')
    * ```
    */
-  setTopic(topic = null as string | null, reason?: string) {
+  setTopic(topic = null as string | null, reason = '') {
     return this.guild?.channels.edit(this.id, { topic }, reason);
   }
 
@@ -234,7 +247,7 @@ class Channel extends BaseStructure {
    * channel.setBitrate(48_000)
    * ```
    */
-  setBitrate(bitrate = 64_000, reason?: string) {
+  setBitrate(bitrate = 64_000, reason = '') {
     return this.guild?.channels.edit(this.id, { bitrate }, reason);
   }
 
@@ -243,7 +256,7 @@ class Channel extends BaseStructure {
    * @param rateLimitPerUser The rate limit per user in seconds
    * @param reason The reason for changing the rate limit
    */
-  setRateLimitPerUser(rateLimitPerUser = 0, reason?: string) {
+  setRateLimitPerUser(rateLimitPerUser = 0, reason = '') {
     return this.guild?.channels.edit(this.id, { rateLimitPerUser }, reason);
   }
 
@@ -261,7 +274,7 @@ class Channel extends BaseStructure {
    * channel.setType(0, 'This was needed')
    * ```
    */
-  setType(type = ChannelType.GuildText, reason?: string) {
+  setType(type = ChannelType.GuildText, reason = '') {
     return this.guild?.channels.edit(this.id, { type }, reason);
   }
 
