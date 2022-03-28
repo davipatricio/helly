@@ -32,7 +32,7 @@ class GuildMemberRoleManager {
 
   /**
    * Sets the roles applied to the member
-   * @param roles The role ids to apply
+   * @param roles The role Ids to apply
    * @param reason Reason for applying the roles
    * @example
    * ```js
@@ -51,7 +51,7 @@ class GuildMemberRoleManager {
 
   /**
    * Adds a role (or multiple roles) from the member.
-   * @param roles The role ids to add
+   * @param roles The role Ids to add
    * @param reason Reason for adding the roles
    * @example
    * ```js
@@ -79,7 +79,7 @@ class GuildMemberRoleManager {
 
   /**
    * Removes a role (or multiple roles) from the member.
-   * @param roles The role ids to remove
+   * @param roles The role Ids to remove
    * @param reason Reason for removing the roles
    * @example
    * ```js

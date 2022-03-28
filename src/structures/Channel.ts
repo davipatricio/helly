@@ -6,13 +6,13 @@ import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
 import type { User } from './User';
 
-/** Reference data sent in a message that contains ids identifying the referenced message */
+/** Reference data sent in a message that contains Ids identifying the referenced message */
 export interface MessageReference {
-  /** The message's id that was referenced */
+  /** The message'sthat was referenced */
   messageId?: string | undefined;
-  /** The channel's id the message was referenced */
+  /** The channel'sthe message was referenced */
   channelId: string;
-  /** The guild's id the message was referenced */
+  /** The guild'sthe message was referenced */
   guildId?: string | undefined;
 }
 
@@ -37,7 +37,7 @@ export type MessageOptions = string | MessagePayload;
 class Channel extends BaseStructure {
   /** Raw {@link Role} data */
   data: APIChannel;
-  /** The id of the guild the channel is in */
+  /** Theof the guild the channel is in */
   guildId: string | undefined;
   constructor(client: Client, data: APIChannel, guild?: Guild) {
     super(client);
@@ -65,7 +65,7 @@ class Channel extends BaseStructure {
     return this.data.name;
   }
 
-  /** The id of the channel */
+  /** Theof the channel */
   get id() {
     return this.data.id;
   }
@@ -85,7 +85,7 @@ class Channel extends BaseStructure {
     return !this.parentId ? undefined : this.client.caches.channels.get(this.parentId);
   }
 
-  /** The id of the category parent of this channel */
+  /** Theof the category parent of this channel */
   get parentId() {
     return (this.data as APITextChannel).parent_id ?? undefined;
   }

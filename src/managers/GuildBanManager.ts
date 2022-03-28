@@ -23,7 +23,7 @@ class GuildBanManager {
 
   /**
    * Fetches ban(s) from Discord
-   * @param id The user ID to fetch
+   * @param id The user Id to fetch
    * @example
    * ```js
    * guild.bans.fetch().then(bans => console.log(bans.size)));

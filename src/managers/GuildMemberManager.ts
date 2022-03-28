@@ -22,7 +22,7 @@ export interface GuildMemberEditData {
 class GuildMemberManager {
   /** The client that instantiated this Manager */
   client: Client;
-  /** All of the members the client is currently handling in this guild, mapped by their ids */
+  /** All of the members the client is currently handling in this guild, mapped by their Ids */
   cache: LimitedCollection<string, GuildMember>;
   /** The {@link Guild} belonging to this manager */
   guild: Guild;
@@ -34,7 +34,7 @@ class GuildMemberManager {
 
   /**
    * Edits a guild member
-   * @param userId The id of the user to edit
+   * @param userId The Id of the user to edit
    * @param data The data to edit the member with
    * @param reason The reason for editing the member
    * @example
@@ -81,7 +81,7 @@ class GuildMemberManager {
 
   /**
    * Fetches member(s) from this guild, even if they're offline
-   * @param id If a ID, the user to fetch. If undefined, fetches all members
+   * @param Id If a ID, the user to fetch. If undefined, fetches all members
    */
   fetch(id: string): Promise<GuildMember>;
   fetch(id?: string): Promise<Collection<string, GuildMember>>;
@@ -105,7 +105,7 @@ class GuildMemberManager {
 
   /**
    * Bans a user from the guild
-   * @param id The member to ban
+   * @param Id The member to ban
    * @param options Options for the ban
    * @example
    * ```js
@@ -122,7 +122,7 @@ class GuildMemberManager {
 
   /**
    * Unbans a user from the guild
-   * @param id The user to unban
+   * @param Id The user to unban
    * @param reason Reason for unbanning
    * @example
    * ```js

@@ -14,14 +14,14 @@ class GuildManager {
     this.client = client;
   }
 
-  /** All of the guilds the client is currently handling, mapped by their ids */
+  /** All of the guilds the client is currently handling, mapped by their Ids */
   get cache() {
     return this.client.caches.guilds;
   }
 
   /**
    * Obtains one or multiple guilds from Discord, or the guild cache if it's already available
-   * @param id The guild's id to fetch. If undefined, fetches all guilds
+   * @param id The guild's Id to fetch. If undefined, fetches all guilds
    */
   fetch(): Promise<Collection<string, Guild>>;
   fetch(id?: string): Promise<Guild>;
@@ -44,7 +44,7 @@ class GuildManager {
 
   /**
    * Edits a {@link Guild}
-   * @param guildId The id of the guild
+   * @param guildId The Id of the guild
    * @param options The options to edit the guild with
    * @param reason The reason to edit the guild
    * @example

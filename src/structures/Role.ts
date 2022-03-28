@@ -7,9 +7,9 @@ import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
 
 export interface RoleTags {
-  /** The id of the bot this role belongs to */
+  /** The Id of the bot this role belongs to */
   botId: string | undefined;
-  /** The id of the integration this role belongs to */
+  /** The Id of the integration this role belongs to */
   integrationId: string | undefined;
   /** Whether this is the guild's premium subscription role */
   premiumSubscriber?: null;
@@ -21,7 +21,7 @@ export type RoleData = Partial<Role>;
 class Role extends BaseStructure {
   /** Raw {@link Role} data */
   data: APIRole;
-  /** The id of the guild the role is in */
+  /** The Id of the guild the role is in */
   guildId: string;
   /** The role permissions */
   permissions: PermissionsBitField;
@@ -46,7 +46,7 @@ class Role extends BaseStructure {
     return this.data.name;
   }
 
-  /** The role's id */
+  /** The role's Id */
   get id() {
     return this.data.id;
   }

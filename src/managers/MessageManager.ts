@@ -12,7 +12,7 @@ class MessageManager {
     this.client = client;
   }
 
-  /** A Collection of all the messages the client is currently handling, mapped by their ids */
+  /** A Collection of all the messages the client is currently handling, mapped by their Ids */
   get cache() {
     return this.client.caches.messages;
   }

@@ -21,7 +21,7 @@ export interface BanOptions {
 class GuildMember extends BaseStructure {
   /** Raw member data */
   data: APIGuildMember;
-  /** The id of the {@link Guild} the member is in */
+  /** Theof the {@link Guild} the member is in */
   guildId: string;
   constructor(client: Client, data: APIGuildMember, guild: Guild) {
     super(client);
@@ -39,7 +39,7 @@ class GuildMember extends BaseStructure {
     return this.data.communication_disabled_until ? Date.parse(this.data.communication_disabled_until) : undefined;
   }
 
-  /** The id of the member */
+  /** Theof the member */
   get id() {
     return this.user?.id;
   }

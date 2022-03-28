@@ -48,7 +48,7 @@ class Guild extends BaseStructure {
     return Boolean(!this.data.unavailable);
   }
 
-  /** The id of the voice channel where AFK members are moved */
+  /** The Id of the voice channel where AFK members are moved */
   get afkChannelId() {
     return this.data.afk_channel_id;
   }
@@ -88,7 +88,7 @@ class Guild extends BaseStructure {
     return this.data.description;
   }
 
-  /** The user id of this guild's owner */
+  /** The user Id of this guild's owner */
   get ownerId() {
     return this.data.owner_id;
   }
@@ -117,12 +117,12 @@ class Guild extends BaseStructure {
     return this.data.name;
   }
 
-  /** The guild's id */
+  /** The guild's Id */
   get id() {
     return this.data.id;
   }
 
-  /** The community updates channel's id for the guild */
+  /** The community updates channel's Id for the guild */
   get publicUpdatesChannelId() {
     return this.data.public_updates_channel_id;
   }
@@ -132,7 +132,7 @@ class Guild extends BaseStructure {
     return !this.publicUpdatesChannelId ? undefined : this.client.caches.channels.get(this.publicUpdatesChannelId);
   }
 
-  /** The rules channel's id for the guild */
+  /** The rules channel's Id for the guild */
   get rulesChannelId() {
     return this.data.rules_channel_id;
   }
@@ -142,7 +142,7 @@ class Guild extends BaseStructure {
     return !this.rulesChannelId ? undefined : this.client.caches.channels.get(this.rulesChannelId);
   }
 
-  /** The system channel's id */
+  /** The system channel's Id */
   get systemChannelId() {
     return this.data.system_channel_id;
   }
@@ -162,7 +162,7 @@ class Guild extends BaseStructure {
     return new SystemChannelFlagsBitField(this.data.system_channel_flags);
   }
 
-  /** The widget channel's id, if enabled */
+  /** The widget channel's Id, if enabled */
   get widgetChannelId() {
     return this.data.widget_channel_id;
   }
@@ -194,7 +194,7 @@ class Guild extends BaseStructure {
 
   /**
    * Sets a new owner of the guild
-   * @param user The Id of the new owner of the guild
+   * @param id The Id of the new owner of the guild
    * @param reason Reason for setting the new owner
    */
   setOwner(id: string, reason = '') {

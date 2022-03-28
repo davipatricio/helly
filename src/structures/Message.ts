@@ -21,7 +21,7 @@ class Message extends BaseStructure {
     return this.client.users.cache.get(this.data.author.id) ?? this.client.users.updateOrSet(this.data.author.id, this.data.author);
   }
 
-  /** The id of the application of the interaction that sent this message, if any */
+  /** The Id of the application of the interaction that sent this message, if any */
   get applicationId() {
     return this.data.application_id;
   }
@@ -36,7 +36,7 @@ class Message extends BaseStructure {
     return this.data.components?.map(c => Parsers.messageComponents(c)) ?? [];
   }
 
-  /** The message's id */
+  /** The message's Id */
   get id() {
     return this.data.id;
   }
@@ -108,12 +108,12 @@ class Message extends BaseStructure {
     return this.guild?.members.cache.get(this.author.id) ?? new GuildMember(this.client, finalMemberData, this.guild);
   }
 
-  /** The id of the channel the message is in */
+  /** Theof the channel the message is in */
   get channelId() {
     return this.data.channel_id;
   }
 
-  /** The id of the guild the message is in */
+  /** Theof the guild the message is in */
   get guildId() {
     return this.data.guild_id ?? this.channel?.guild?.id;
   }

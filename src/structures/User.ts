@@ -72,7 +72,7 @@ class User extends BaseStructure {
     return this.username && this.discriminator ? `${this.username}#${this.discriminator}` : null;
   }
 
-  /** The user's id */
+  /** The user's Id */
   get id() {
     return this.data.id;
   }
