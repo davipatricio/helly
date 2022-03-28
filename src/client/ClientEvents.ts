@@ -1,4 +1,5 @@
 import type { Channel } from '../structures/Channel';
+import type { ChatInputCommandInteraction } from '../structures/ChatInputCommandInteraction';
 import type { Guild } from '../structures/Guild';
 import type { Message } from '../structures/Message';
 import type { GuildMembersChunkEventArgs } from './actions/GUILD_MEMBERS_CHUNK';
@@ -33,5 +34,5 @@ export interface ClientEvents {
    * Can miss structures if the message is not cached
    */
   MessageDelete: [data: Message];
-  InteractionCreate: [interaction: unknown];
+  InteractionCreate: [interaction: ChatInputCommandInteraction];
 }
