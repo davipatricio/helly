@@ -19,6 +19,8 @@ github:
   - .github/**/*
 intents:
   - src/utils/bitfields/IntentsBitField.ts
+interactions:
+  - '**/?(*Interaction*).ts'
 transformers:
   - src/utils/managers/**/*
 rest:
@@ -33,3 +35,5 @@ utility:
   - src/utils/**/*
 websocket:
   - src/client/websocket/**/*
+webhooks:
+  - '**/?(*Webhook*).ts'
