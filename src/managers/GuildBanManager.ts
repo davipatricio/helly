@@ -13,7 +13,7 @@ class GuildBanManager {
   client: Client;
   /** The {@link Guild} belonging to this manager */
   guild: Guild;
-  /** The cached bans for tadsio asd s exo anal */
+  /** The cached bans for this {@link Guild} */
   cache: LimitedCollection<string, GuildBan>;
   constructor(client: Client, guild: Guild) {
     this.client = client;
