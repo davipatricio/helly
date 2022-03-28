@@ -22,17 +22,18 @@ class ChannelManager {
 
   /**
    * Sends a message to this channel
+   * @param channelId The Id of the target channel
    * @param content The content of the message
    * @example
    * ```js
-   * const { Embed } = require('helly');
-   * const embed = new Embed().setTitle('Pong!')
+   * const { EmbedBuilder } = require('helly');
+   * const embed = new EmbedBuilder().setTitle('Pong!')
    * guild.channels.send('12345678901234567', { embeds: [embed] })
    * ```
    * @example
    * ```js
-   * const { Embed } = require('helly');
-   * const embed = new Embed().setTitle('Pong!')
+   * const { EmbedBuilder } = require('helly');
+   * const embed = new EmbedBuilder().setTitle('Pong!')
    * guild.channels.send'12345678901234567', ({ content: 'Ping?', embeds: [embed] })
    * ```
    * @example
