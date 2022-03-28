@@ -23,6 +23,7 @@ export {
   APIMessageReference,
   APIMessageReferenceSend,
   APINewsChannel,
+  APIWebhook,
   APIPartialChannel,
   APIPartialGuild,
   APIRole,
