@@ -20,7 +20,6 @@ import type { Guild, GuildWidgetSettingsData } from '../../structures/Guild';
 import type { BanOptions } from '../../structures/GuildMember';
 import { MessageFlagsBitField } from '../bitfield/MessageFlagsBitField';
 import { SystemChannelFlagsBitField } from '../bitfield/SystemChannelFlagsBitField';
-import { Parsers } from './Parsers';
 
 class Transformers extends null {
   static messageReference(): undefined;

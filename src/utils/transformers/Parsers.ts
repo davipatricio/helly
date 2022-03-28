@@ -1,5 +1,5 @@
 import { ActionRowBuilder } from '@discordjs/builders';
-import { APIActionRowComponent, APIMessageActionRowComponent, APIMessageReference, APIRoleTags, ChannelType, ComponentType, MessageFlags } from 'discord-api-types/v10';
+import { APIActionRowComponent, APIMessageActionRowComponent, APIMessageReference, APIRoleTags, ComponentType, MessageFlags } from 'discord-api-types/v10';
 import type { MessageReference } from '../../structures/Channel';
 import type { RoleTags } from '../../structures/Role';
 
