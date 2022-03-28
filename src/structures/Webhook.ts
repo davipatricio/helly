@@ -1,4 +1,4 @@
-import { APIGuild, APIWebhook, Routes } from 'discord-api-types/v10';
+import { APIGuild, APIMessage, APIWebhook, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { CDNEndpoints } from '../constants';
 import { BaseStructure } from './BaseStructure';
@@ -86,6 +86,14 @@ class Webhook extends BaseStructure {
     let finalFormat = format;
     if (!forceStatic && this.avatar.startsWith('a_')) finalFormat = 'gif';
     return CDNEndpoints.userAvatar(this.id, this.avatar, finalFormat, size);
+  }
+
+  // TODO: support thread_id param
+  /** Gets a message that was sent by this webhook */
+  async fetchMessage(id: string) {
+    if (!this.token) throw new Error('Webhooks cannot fetch messages without a token');
+    const data = (await this.client.rest.make(Routes.webhookMessage(this.id, this.token, id))) as APIMessage;
+    return this.client.messages.updateOrSet(data.id, data);
   }
 
   /** @private */
