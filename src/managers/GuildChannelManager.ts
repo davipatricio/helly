@@ -39,6 +39,25 @@ class GuildChannelManager extends ChannelManager {
   }
 
   /**
+   * Creates a {@link Channel}
+   * @param options The options to create the channel
+   * @param reason The reason to create the channel
+   * @example
+   * ```js
+   * guild.channels.create({ name: 'general', type: GuildChannelType.GuildText }, 'Use this chat to talk with other members');
+   * ```
+   * @example
+   * ```js
+   * guild.channels.create({ name: 'news', type: GuildChannelType.GuildNews }, 'Use this chat to notify other members');
+   * ```
+   */
+  async create(options: ChannelData, reason = '') {
+    const transformed = Transformers.channelData(options);
+    const channel = (await this.client.rest.make(Routes.guildChannels(this.guild.id), 'Post', transformed, { 'X-Audit-Log-Reason': reason })) as APIChannel;
+    return this.updateOrSet(channel.id, channel, this.guild);
+  }
+
+  /**
    * Deletes a {@link Channel}
    * @param id The Id of the channel
    * @param reason The reason to delete the channel
