@@ -95,7 +95,6 @@ class Transformers extends null {
     if (data.systemChannelFlags instanceof SystemChannelFlagsBitField) parsedData.system_channel_flags = data.systemChannelFlags.bitfield;
     if (typeof data.systemChannelFlags === 'number') parsedData.system_channel_flags = data.systemChannelFlags;
 
-    if (data.description) parsedData.description = data.description;
     if (data.ownerId) parsedData.owner_id = data.ownerId;
     if (data.premiumProgressBarEnabled) parsedData.premium_progress_bar_enabled = data.premiumProgressBarEnabled;
     return parsedData;
