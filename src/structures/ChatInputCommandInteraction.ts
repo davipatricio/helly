@@ -1,7 +1,16 @@
-import type { APIChatInputApplicationCommandInteraction } from 'discord-api-types/v10';
+import { APIChatInputApplicationCommandInteraction, InteractionResponseType, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils';
+import { MessageFlagsBitField } from '../utils/bitfield';
 import { BaseStructure } from './BaseStructure';
+
+// TODO: fetchReply() option
+
+/** Options for deferring the reply to a {@link ChatInputCommandInteraction} */
+export interface InteractionDeferReplyOptions {
+  /** Whether the reply should be ephemeral */
+  ephemeral?: boolean;
+}
 
 class ChatInputCommandInteraction extends BaseStructure {
   /** Raw {@link ChatInputCommandInteraction} data */
@@ -84,6 +93,27 @@ class ChatInputCommandInteraction extends BaseStructure {
   /** The {@link Guild} that the interaction belongs to */
   get guild() {
     return !this.guildId ? undefined : this.client.caches.guilds.get(this.guildId) ?? this.channel?.guild;
+  }
+
+  /**
+   * Defers the reply to this interaction.
+   * @param options Options for deferring the reply to this interaction
+   * @example
+   * // Defer the reply to this interaction
+   * interaction.deferReply()
+   * @example
+   * // Defer to send an ephemeral reply later
+   * interaction.deferReply({ ephemeral: true })
+   */
+  async deferReply(options: InteractionDeferReplyOptions = {}) {
+    this.ephemeral = options.ephemeral ?? false;
+    await this.client.rest.make(Routes.interactionCallback(this.id, this.token), 'Post', {
+      type: InteractionResponseType.DeferredChannelMessageWithSource,
+      data: {
+        flags: this.ephemeral ? MessageFlagsBitField.Flags.Ephemeral : undefined,
+      },
+    });
+    return this;
   }
 
   /** @private */
