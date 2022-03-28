@@ -157,24 +157,6 @@ class Channel extends BaseStructure {
   }
 
   /**
-   * Creates this {@link @Guild}Channel
-   * @param options The options to create the channel
-   * @param reason The reason to create the channel
-   * @example
-   * ```js
-   * guild.channels.create({ name: 'general', type: GuildChannelType.GuildText }, 'Use this chat to talk with other members');
-   * ```
-   * @example
-   * ```js
-   * guild.channels.create({ name: 'news', type: GuildChannelType.GuildNews }, 'Use this chat to notify other members');
-   * ```
-   */
-  create(options: ChannelData, reason = '') {
-    if (!this.guild) throw new Error('The target channel must be in a guild.');
-    return this.guild.channels.create(options, reason);
-  }
-
-  /**
    * Deletes this {@link @Guild}Channel
    * @param reason Reason for deleting this channel
    * @example
