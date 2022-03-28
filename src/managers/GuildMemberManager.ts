@@ -22,7 +22,7 @@ export interface GuildMemberEditData {
 class GuildMemberManager {
   /** The client that instantiated this Manager */
   client: Client;
-  /** All of the guilds the client is currently handling, mapped by their ids */
+  /** All of the members the client is currently handling in this guild, mapped by their ids */
   cache: LimitedCollection<string, GuildMember>;
   /** The {@link Guild} belonging to this manager */
   guild: Guild;
