@@ -22,14 +22,14 @@ class UserManager {
 
   /** Creates a DM{@link Channel} between the client and a user */
   async createDM(id: string) {
-    const data = await this.client.rest.make(Routes.userChannels(), 'Post', { recipient_id: id });
-    return new Channel(this.client, data as APIDMChannel);
+    const data = (await this.client.rest.make(Routes.userChannels(), 'Post', { recipient_id: id })) as APIDMChannel;
+    return new Channel(this.client, data);
   }
 
   /** Obtains a user from Discord, or the user cache if it's already available */
   async fetch(id: string) {
-    const data = await this.client.rest.make(Routes.user(id));
-    return this.updateOrSet(id, data as APIUser);
+    const data = (await this.client.rest.make(Routes.user(id))) as APIUser;
+    return this.updateOrSet(id, data);
   }
 
   /**
