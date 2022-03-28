@@ -1,3 +1,4 @@
+export * from './ApplicationCommandManager';
 export * from './CacheManager';
 export * from './ChannelManager';
 export * from './GuildChannelManager';

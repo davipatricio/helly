@@ -3,6 +3,7 @@ export { RestEvents, RESTEvents } from '@discordjs/rest';
 export {
   ActivityType,
   APIActionRowComponent,
+  APIApplicationCommand,
   APIButtonComponent,
   APIButtonComponentBase,
   APIButtonComponentWithCustomId,
