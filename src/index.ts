@@ -1,4 +1,3 @@
-export { ActionRowBuilder } from '@discordjs/builders';
 export { Collection } from '@discordjs/collection';
 export { RestEvents, RESTEvents } from '@discordjs/rest';
 export {
