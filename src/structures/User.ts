@@ -120,7 +120,7 @@ class User extends BaseStructure {
 
   /**
    * Sends a message to this user
-   * @param content - The content of the message
+   * @param content The content of the message
    * @example
    * ```js
    * const { Embed } = require('helly');

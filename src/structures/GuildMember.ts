@@ -103,8 +103,8 @@ class GuildMember extends BaseStructure {
 
   /**
    * Edits this member
-   * @param data - The data to edit the member with
-   * @param reason - The reason for editing the member
+   * @param data The data to edit the member with
+   * @param reason The reason for editing the member
    * @example
    * ```js
    * guildMember.edit({ roles: ['12345678901234567'] })

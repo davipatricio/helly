@@ -22,7 +22,7 @@ class ChannelManager {
 
   /**
    * Sends a message to this channel
-   * @param content - The content of the message
+   * @param content The content of the message
    * @example
    * ```js
    * const { Embed } = require('helly');

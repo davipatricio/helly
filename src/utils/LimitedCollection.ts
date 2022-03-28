@@ -4,7 +4,7 @@ import { Collection } from '@discordjs/collection';
 class LimitedCollection<K, V> extends Collection<K, V> {
   /** The maximum limit of this map */
   limit: number;
-  /** @param limit - The maximum size of the map */
+  /** @param limit The maximum size of the map */
   constructor(limit = Infinity) {
     super();
     this.limit = limit;
@@ -12,8 +12,8 @@ class LimitedCollection<K, V> extends Collection<K, V> {
 
   /**
    * Adds or updates an element with a specified key and a value
-   * @param key - The key of the element to add or update
-   * @param value - The value of the element to add or update
+   * @param key The key of the element to add or update
+   * @param value The value of the element to add or update
    */
   override set(key: K, value: V) {
     if (this.limit <= 0) return this;

@@ -34,9 +34,9 @@ class GuildMemberManager {
 
   /**
    * Edits a guild member
-   * @param userId - The id of the user to edit
-   * @param data - The data to edit the member with
-   * @param reason - The reason for editing the member
+   * @param userId The id of the user to edit
+   * @param data The data to edit the member with
+   * @param reason The reason for editing the member
    * @example
    * ```js
    * guild.members.edit('12345678901234567', { roles: ['12345678901234567'] })

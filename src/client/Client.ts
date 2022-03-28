@@ -60,10 +60,11 @@ class Client extends EventEmitter {
   id: string;
   rest: RestManager;
   /**
-   * @param [options] - The options for the client
+   * @param options The options for the client
    * @example
    * ```js
-   *  const client = new Client({ intents: ['Guilds'] })
+   *  const { Client, GatewayIntentBits } = require('helly');
+   *  const client = new Client({ intents: [GatewayIntentBits.Guilds] })
    * ```
    */
   constructor(options: Partial<ClientOptions> = {}) {
@@ -101,7 +102,7 @@ class Client extends EventEmitter {
 
   /**
    * Logs the client in, establishing a WebSocket connection to Discord
-   * @param token - Token of the account to log in with
+   * @param token Token of the account to log in with
    * @example
    * ```js
    *  client.login('NzA8MDY1MDZxNjM3MTkzNzU5.XrR6-Q.IvHQd-6_XFNRfX4T7508QsyhaIc')

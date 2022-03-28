@@ -6,7 +6,7 @@ let INCREMENT = BigInt(0);
 class Snowflake extends null {
   /**
    * Deconstructs a Discord snowflake
-   * @param id - The snowflake to deconstruct
+   * @param id The snowflake to deconstruct
    * @example
    * ```js
    * const timestamp = Snowflake.deconstruct('934675087108481044');
@@ -19,7 +19,7 @@ class Snowflake extends null {
 
   /**
    * Generates a Discord snowflake
-   * @param timestamp - Timestamp of the snowflake to generate
+   * @param timestamp Timestamp of the snowflake to generate
    */
   static generate(timestamp = Date.now() as number) {
     if (INCREMENT >= 4095n) INCREMENT = BigInt(0);

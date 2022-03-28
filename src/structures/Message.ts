@@ -120,7 +120,7 @@ class Message extends BaseStructure {
 
   /**
    * Replies to the message
-   * @param content - The content of the message
+   * @param content The content of the message
    * @example
    * ```js
    * const { EmbedBuilder } = require('helly');

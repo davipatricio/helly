@@ -134,7 +134,7 @@ class Channel extends BaseStructure {
 
   /**
    * Sends a message to this channel
-   * @param content - The content of the message
+   * @param content The content of the message
    * @example
    * ```js
    * const { EmbedBuilder } = require('helly');
@@ -158,8 +158,8 @@ class Channel extends BaseStructure {
 
   /**
    * Sets a new name for the guild channel
-   * @param name - The new name for the guild channel
-   * @param reason - Reason for changing the guild channel's name
+   * @param name The new name for the guild channel
+   * @param reason Reason for changing the guild channel's name
    * @example
    * ```js
    * channel.setName('server-rules')
@@ -175,8 +175,8 @@ class Channel extends BaseStructure {
 
   /**
    * Sets a new position for the guild channel
-   * @param position - The new position for the guild channel
-   * @param reason - The reason for changing the position
+   * @param position The new position for the guild channel
+   * @param reason The reason for changing the position
    * @example
    * ```js
    * channel.setPosition(13)
@@ -192,8 +192,8 @@ class Channel extends BaseStructure {
 
   /**
    * Sets whether this channel is flagged as NSFW
-   * @param topic - Whether the channel should be considered NSFW
-   * @param reason - Reason for changing the channel's NSFW flag
+   * @param topic Whether the channel should be considered NSFW
+   * @param reason Reason for changing the channel's NSFW flag
    * @example
    * ```js
    * channel.setNSFW(true)
@@ -209,8 +209,8 @@ class Channel extends BaseStructure {
 
   /**
    * Changes the topic of this channel
-   * @param topic - The new topic of this channel
-   * @param reason - The reason for changing the topic
+   * @param topic The new topic of this channel
+   * @param reason The reason for changing the topic
    * @example
    * ```js
    * // Removes the channel topic
@@ -227,8 +227,8 @@ class Channel extends BaseStructure {
 
   /**
    * Sets the bitrate of the channel
-   * @param bitrate - The new bitrate
-   * @param reason - Reason for changing the channel's bitrate
+   * @param bitrate The new bitrate
+   * @param reason Reason for changing the channel's bitrate
    * @example
    * ```js
    * channel.setBitrate(48_000)
@@ -240,8 +240,8 @@ class Channel extends BaseStructure {
 
   /**
    * Sets the rate limit per user (slowmode) for this channel
-   * @param rateLimitPerUser - The rate limit per user in seconds
-   * @param reason - The reason for changing the rate limit
+   * @param rateLimitPerUser The rate limit per user in seconds
+   * @param reason The reason for changing the rate limit
    */
   setRateLimitPerUser(rateLimitPerUser = 0, reason?: string) {
     return this.guild?.channels.edit(this.id, { rateLimitPerUser }, reason);
@@ -249,8 +249,8 @@ class Channel extends BaseStructure {
 
   /**
    * Changes the type of this channel
-   * @param type - The new type of the channel. Only conversion between `GuildText` and `GuildNews` is supported and only in guilds with the "NEWS" feature
-   * @param reason - The reason for changing the type
+   * @param type The new type of the channel. Only conversion between `GuildText` and `GuildNews` is supported and only in guilds with the "NEWS" feature
+   * @param reason The reason for changing the type
    * @example
    * ```js
    * channel.setType(ChannelType.GuildNews)
