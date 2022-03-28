@@ -29,7 +29,7 @@ class ChatInputCommandInteraction extends BaseStructure {
     return !this.channelId ? undefined : this.client.caches.channels.get(this.channelId);
   }
 
-  /** The id of the channel the interaction is in */
+  /** The Id of the channel the interaction is in */
   get channelId() {
     return this.data.channel_id;
   }
@@ -39,12 +39,12 @@ class ChatInputCommandInteraction extends BaseStructure {
     return new Date(this.createdTimestamp);
   }
 
-  /** The timestamp the interaction was created at */
+  /** The timestamp the interaction was created Id */
   get createdTimestamp() {
     return Snowflake.deconstruct(this.id);
   }
 
-  /** The invoked application command's id */
+  /** The invoked application command's Id */
   get commandId() {
     return this.data.data.id;
   }
@@ -69,12 +69,12 @@ class ChatInputCommandInteraction extends BaseStructure {
     return this.data.token;
   }
 
-  /** The interaction's id */
+  /** The interaction's Id */
   get id() {
     return this.data.id;
   }
 
-  /** The interaction's id */
+  /** The interaction's Id */
   get user() {
     if (!this.data.user) return undefined;
     return this.client.caches.users.get(this.data.user.id) ?? this.client.users.updateOrSet(this.data.user.id, this.data.user);
@@ -85,7 +85,7 @@ class ChatInputCommandInteraction extends BaseStructure {
     return this.data.locale;
   }
 
-  /** The id of the guild the interaction is in */
+  /** The Id of the guild the interaction is in */
   get guildId() {
     return this.data.guild_id ?? this.channel?.guild?.id;
   }
@@ -96,7 +96,7 @@ class ChatInputCommandInteraction extends BaseStructure {
   }
 
   /**
-   * Defers the reply to this interaction.
+   * Defers the reply to this interaction
    * @param options Options for deferring the reply to this interaction
    * @example
    * // Defer the reply to this interaction
