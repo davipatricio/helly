@@ -56,7 +56,7 @@ class Guild extends BaseStructure {
 
   /** The Id of the voice channel where AFK members are moved */
   get afkChannelId() {
-    return this.data.afk_channel_id;
+    return this.data.afk_channel_id ?? undefined;
   }
 
   /** The {@link Channel | object} of the voice channel where AFK members are moved */
@@ -91,7 +91,7 @@ class Guild extends BaseStructure {
 
   /** The description of the guild, if any */
   get description() {
-    return this.data.description;
+    return this.data.description ?? undefined;
   }
 
   /** The user Id of this guild's owner */
@@ -140,7 +140,7 @@ class Guild extends BaseStructure {
 
   /** The rules channel's Id for the guild */
   get rulesChannelId() {
-    return this.data.rules_channel_id;
+    return this.data.rules_channel_id ?? undefined;
   }
 
   /** Rules channel for this guild */
@@ -150,7 +150,7 @@ class Guild extends BaseStructure {
 
   /** The system channel's Id */
   get systemChannelId() {
-    return this.data.system_channel_id;
+    return this.data.system_channel_id ?? undefined;
   }
 
   /** System channel for this guild */
@@ -170,7 +170,7 @@ class Guild extends BaseStructure {
 
   /** The widget channel's Id, if enabled */
   get widgetChannelId() {
-    return this.data.widget_channel_id;
+    return this.data.widget_channel_id ?? undefined;
   }
 
   /** Widget channel for this guild */
@@ -180,7 +180,7 @@ class Guild extends BaseStructure {
 
   /** Whether widget images are enabled on this guild */
   get widgetEnabled() {
-    return this.data.widget_enabled;
+    return this.data.widget_enabled ?? undefined;
   }
 
   /** Fetches the owner of the guild. If the member object isn't needed, use {@link Guild.ownerId} instead */
