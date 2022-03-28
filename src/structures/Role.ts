@@ -93,7 +93,7 @@ class Role extends BaseStructure {
   }
 
   /** @private */
-  parseData(data: APIRole): this {
+  parseData(data: APIRole) {
     if (!data) return this;
 
     this.data = { ...this.data, ...data };

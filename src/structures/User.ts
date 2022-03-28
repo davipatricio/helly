@@ -154,7 +154,7 @@ class User extends BaseStructure {
   }
 
   /** @private */
-  parseData(data: APIUser): this {
+  parseData(data: APIUser) {
     if (!data) return this;
 
     this.data = { ...this.data, ...data };

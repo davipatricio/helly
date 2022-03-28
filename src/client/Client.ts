@@ -182,13 +182,13 @@ class Client extends EventEmitter {
 
   override on<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
   override on<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
-  override on(event: string | symbol, listener: (...args: any[]) => void): this {
+  override on(event: string | symbol, listener: (...args: any[]) => void) {
     return super.on(event, listener);
   }
 
   override once<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
   override once<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
-  override once(event: string | symbol, listener: (...args: any[]) => void): this {
+  override once(event: string | symbol, listener: (...args: any[]) => void) {
     return super.once(event, listener);
   }
 
@@ -200,13 +200,13 @@ class Client extends EventEmitter {
 
   override off<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
   override off<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
-  override off(event: string | symbol, listener: (...args: any[]) => void): this {
+  override off(event: string | symbol, listener: (...args: any[]) => void) {
     return super.off(event, listener);
   }
 
   override removeAllListeners<K extends keyof ClientEvents>(event?: K): this;
   override removeAllListeners<S extends string | symbol>(event?: Exclude<S, keyof ClientEvents>): this;
-  override removeAllListeners(event: string | symbol): this {
+  override removeAllListeners(event: string | symbol) {
     return super.removeAllListeners(event);
   }
 }
