@@ -38,13 +38,13 @@ class GuildBanManager {
   async fetch(id?: string) {
     if (id) {
       const data = (await this.client.rest.make(Routes.guildBan(this.guild.id, id))) as APIBan;
-      const ban = new GuildBan(this.client, data, this.guild);
+      const ban = this.updateOrSet(data.user.id, data);
       return ban;
     }
 
     const data = (await this.client.rest.make(Routes.guildBans(this.guild.id))) as APIBan[];
     const finalCollection = new Collection<string, GuildBan>();
-    for (const ban of data) finalCollection.set(ban.user.id, new GuildBan(this.client, ban, this.guild));
+    for (const ban of data) finalCollection.set(ban.user.id, this.updateOrSet(ban.user.id, ban));
 
     return finalCollection;
   }
@@ -64,8 +64,7 @@ class GuildBanManager {
    */
   async create(id: string, options: BanOptions = { days: 0, reason: '' }) {
     const data = (await this.client.rest.make(Routes.guildBan(this.guild.id, id), 'Put', Transformers.banOptions(options), { 'X-Audit-Log-Reason': options.reason ?? '' })) as APIBan;
-    const ban = new GuildBan(this.client, data, this.guild);
-    this.cache.set(id, ban);
+    const ban = this.updateOrSet(id, data);
     return ban;
   }
 
@@ -84,7 +83,22 @@ class GuildBanManager {
    */
   async remove(id: string, reason = '') {
     await this.client.rest.make(Routes.guildBan(this.guild.id, id), 'Delete', undefined, { 'X-Audit-Log-Reason': reason });
+    this.cache.delete(id);
     return this.client.caches.users.get(id);
+  }
+
+  /**
+   * Updates or caches a {@link GuildBan} with the provided {@link APIBan} data
+   * @private
+   */
+  updateOrSet(id: string, data: APIBan) {
+    const cachedBan = this.guild.bans.cache.get(id);
+    if (cachedBan) return cachedBan.parseData(data);
+
+    const ban = new GuildBan(this.client, data, this.guild);
+    this.guild.bans.cache.set(id, ban);
+
+    return ban;
   }
 }
 
