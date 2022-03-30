@@ -68,7 +68,7 @@ class ApplicationCommand extends BaseStructure {
     return this.parseData(data);
   }
 
-  /** Return the command name, options and options values */
+  /** Return the command name and options name */
   override toString() {
     return `${this.name} ${this.options.map(option => option.name)}`;
   }
