@@ -1,14 +1,16 @@
 import { APIGuild, APIMessage, APIWebhook, Routes } from 'discord-api-types/v10';
+import type { MessageOptions } from '.';
 import type { Client } from '../client/Client';
 import { CDNEndpoints } from '../constants';
 import { Snowflake } from '../utils';
+import { MakeAPIMessage } from '../utils/rest';
 import { BaseStructure } from './BaseStructure';
 import type { ImageURLOptions } from './User';
 
 class Webhook extends BaseStructure {
   /** Raw {@link User} data */
   data: APIWebhook;
-  constructor(client: Client, data: APIWebhook) {
+  constructor(client: Client, data: Partial<APIWebhook>) {
     super(client);
     this.parseData(data);
   }
@@ -99,6 +101,52 @@ class Webhook extends BaseStructure {
     return CDNEndpoints.userAvatar(this.id, this.avatar, finalFormat, size);
   }
 
+  /**
+   * Sends a message with this webhook
+   * @param content The content of the message
+   * @example
+   * ```js
+   * const { EmbedBuilder } = require('helly');
+   * const embed = new EmbedBuilder().setTitle('...world!')
+   * webhook.send({ content: 'Hello...', embeds: [embed] })
+   * ```
+   * @example
+   * ```js
+   * webhook.send('I\'m watching you!')
+   * ```
+   */
+  async send(content: MessageOptions) {
+    if (!this.token) throw new Error('Webhooks cannot send messages without a token');
+    const parsedMessage = MakeAPIMessage.transform(content);
+    const data = (await this.client.rest.make(`${Routes.webhook(this.id, this.token)}?wait=true`, 'Post', parsedMessage)) as APIMessage;
+    return this.client.messages.updateOrSet(data.id, data);
+  }
+
+  /**
+   * Sends a raw slack message with this webhook
+   * @param message The data to send
+   * @example
+   * ```js
+   * webhook.sendSlackMessage({
+   *  'username': 'Wumpus',
+   *  'attachments': [{
+   *    'pretext': 'this looks pretty cool',
+   *    'color': '#F0F',
+   *    'footer_icon': 'http://snek.s3.amazonaws.com/topSnek.png',
+   *    'footer': 'Powered by sneks',
+   *    'ts': Date.now() / 1_000
+   *  }]
+   * })
+   * ```
+   * @see https://api.slack.com/incoming-webhooks
+   * @see https://discord.com/developers/docs/resources/webhook#execute-slackcompatible-webhook
+   */
+  async sendSlackMessage(message: Record<string, unknown>): Promise<boolean> {
+    if (!this.token) throw new Error('Webhooks cannot send messages without a token');
+    const data = (await this.client.rest.make(`${Routes.webhookPlatform(this.id, this.token, 'slack')}?wait=true`, 'Post', message)) as string;
+    return data.toString() === 'ok';
+  }
+
   // TODO: support thread_id param
   /** Gets a message that was sent by this webhook */
   async fetchMessage(id: string) {
@@ -108,7 +156,7 @@ class Webhook extends BaseStructure {
   }
 
   /** @private */
-  parseData(data: APIWebhook): this {
+  parseData(data: Partial<APIWebhook>): this {
     if (!data) return this;
 
     this.data = { ...this.data, ...data };
