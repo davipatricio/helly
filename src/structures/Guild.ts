@@ -1,4 +1,5 @@
-import type { APIGuild } from 'discord-api-types/v10';
+import Collection from '@discordjs/collection';
+import { APIGuild, APIWebhook, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { GuildBanManager } from '../managers/GuildBanManager';
 import type { GuildChannelManager as GuildChannelManagerType } from '../managers/GuildChannelManager';
@@ -8,6 +9,7 @@ import { SystemChannelFlagsBitField } from '../utils/bitfield/SystemChannelFlags
 import { Snowflake } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
 import type { Channel } from './Channel';
+import { Webhook } from './Webhook';
 
 export interface GuildWidgetSettingsData {
   /** Whether the widget is enabled */
@@ -180,6 +182,14 @@ class Guild extends BaseStructure {
   /** Fetches the owner of the guild. If the member object isn't needed, use {@link Guild.ownerId} instead */
   fetchOwner() {
     return this.client.users.fetch(this.ownerId);
+  }
+
+  /** Fetches all webhooks for the guild. */
+  async fetchWebhooks() {
+    const rawWebhooks = (await this.client.rest.get(Routes.guildWebhooks(this.id))) as APIWebhook[];
+    const webhooks = new Collection<string, Webhook>();
+    for (const webhook of rawWebhooks) webhooks.set(webhook.id, new Webhook(this.client, webhook));
+    return webhooks;
   }
 
   /** Fetches this guild */
