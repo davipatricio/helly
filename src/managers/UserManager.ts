@@ -1,6 +1,6 @@
 import { APIDMChannel, APIUser, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
-import { Channel, User } from '../structures';
+import { User } from '../structures';
 
 /** Manages API methods for {@link User}s */
 class UserManager {
@@ -23,7 +23,7 @@ class UserManager {
   /** Creates a DM{@link Channel} between the client and a user */
   async createDM(id: string) {
     const data = (await this.client.rest.make(Routes.userChannels(), 'Post', { recipient_id: id })) as APIDMChannel;
-    return new Channel(this.client, data);
+    return this.client.channels.updateOrSet(data.id, data);
   }
 
   /** Obtains a user from Discord, or the user cache if it's already available */

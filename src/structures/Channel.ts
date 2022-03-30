@@ -75,7 +75,7 @@ class Channel extends BaseStructure {
     return (this.data as APITextChannel).nsfw ?? false;
   }
 
-  /** The {@link Guild} that the channel belongs to */
+  /** The {@link Guild} this channel belongs to */
   get guild() {
     return !this.guildId ? undefined : this.client.caches.guilds.get(this.guildId);
   }

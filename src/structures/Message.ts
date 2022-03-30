@@ -118,6 +118,11 @@ class Message extends BaseStructure {
     return this.data.guild_id ?? this.channel?.guild?.id;
   }
 
+  /** The id of the webhook that sent the message, if applicable */
+  get webhookId() {
+    return this.data.webhook_id;
+  }
+
   /**
    * Replies to the message
    * @param content The content of the message
@@ -149,6 +154,16 @@ class Message extends BaseStructure {
     };
 
     return this.channel?.send(parsedContent);
+  }
+
+  /**
+   * Fetches the webhook used to create this message.
+   * @returns {Promise<?Webhook>}
+   */
+  fetchWebhook() {
+    if (!this.webhookId) throw new Error('This message was not sent by a Webhook.');
+    if (this.webhookId === this.applicationId) throw new Error('Webhook is part of an application.');
+    return this.client.fetchWebhook(this.webhookId);
   }
 
   /** Returns the message content */

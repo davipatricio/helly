@@ -1,3 +1,4 @@
+import { APIWebhook, Routes } from 'discord-api-types/v10';
 import EventEmitter from 'node:events';
 import { Events } from '../constants/Events';
 import { CacheManager } from '../managers/CacheManager';
@@ -5,6 +6,7 @@ import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
 import { MessageManager } from '../managers/MessageManager';
 import { UserManager } from '../managers/UserManager';
+import { Webhook } from '../structures/Webhook';
 import { IntentsBitField } from '../utils/bitfield/IntentsBitField';
 import { RestManager } from '../utils/rest/RestManager';
 import { ActionManager } from './actions/ActionManager';
@@ -100,6 +102,11 @@ class Client extends EventEmitter {
     return this.users.me;
   }
 
+  /** Returns whether the client has logged in, indicative of being able to access properties such as user and application */
+  isReady() {
+    return this.ready === true;
+  }
+
   /**
    * Logs the client in, establishing a WebSocket connection to Discord
    * @param token Token of the account to log in with
@@ -117,9 +124,14 @@ class Client extends EventEmitter {
     return token;
   }
 
-  /** Returns whether the client has logged in, indicative of being able to access properties such as user and application */
-  isReady() {
-    return this.ready === true;
+  /**
+   * Obtains a webhook from Discord
+   * @param id The Id of the webhook
+   * @param token The token of the webhook
+   */
+  async fetchWebhook(id: string, token?: string) {
+    const data = (await this.rest.make(Routes.webhook(id), 'Get')) as APIWebhook;
+    return new Webhook(this, { token, ...data });
   }
 
   /** Emits `Client#Reconnecting` and calls `Client.login()` again */
