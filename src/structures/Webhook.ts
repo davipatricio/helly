@@ -189,6 +189,13 @@ class Webhook extends BaseStructure {
     return this.client.messages.updateOrSet(data.id, data);
   }
 
+  /** Deletes this webhook */
+  async delete() {
+    if (!this.token) throw new Error('Webhooks cannot edit messages without a token');
+    await this.client.rest.make(Routes.webhook(this.id, this.token), 'Delete');
+    return undefined;
+  }
+
   /** @private */
   parseData(data: Partial<APIWebhook>): this {
     if (!data) return this;
