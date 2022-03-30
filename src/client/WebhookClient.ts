@@ -69,6 +69,30 @@ class WebhookClient {
   fetchMessage(id: string) {
     return this.webhook.fetchMessage(id);
   }
+
+  /** Deletes a message that was sent by this webhook */
+  deleteMessage(id: string) {
+    return this.webhook.deleteMessage(id);
+  }
+
+  /**
+   * Edits a message that was sent by this webhook
+   * @param id The Id of the message to edit
+   * @param content The new content of the message
+   * @example
+   * ```js
+   * const { EmbedBuilder } = require('helly');
+   * const embed = new EmbedBuilder().setTitle('...world!')
+   * webhook.editMessage('123456789123456', { content: 'Hello...', embeds: [embed] })
+   * ```
+   * @example
+   * ```js
+   * webhook.editMessage('123456789123456', 'I\'m watching you!')
+   * ```
+   */
+  editMessage(id: string, content: MessageOptions) {
+    return this.webhook.editMessage(id, content);
+  }
 }
 
 export { WebhookClient };

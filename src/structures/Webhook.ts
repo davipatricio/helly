@@ -161,6 +161,34 @@ class Webhook extends BaseStructure {
     return this.client.messages.updateOrSet(data.id, data);
   }
 
+  /** Deletes a message that was sent by this webhook */
+  async deleteMessage(id: string) {
+    if (!this.token) throw new Error('Webhooks cannot edit messages without a token');
+    await this.client.rest.make(Routes.webhookMessage(this.id, this.token, id), 'Delete');
+    return undefined;
+  }
+
+  /**
+   * Edits a message that was sent by this webhook
+   * @param id The Id of the message to edit
+   * @param content The new content of the message
+   * @example
+   * ```js
+   * const { EmbedBuilder } = require('helly');
+   * const embed = new EmbedBuilder().setTitle('...world!')
+   * webhook.editMessage('123456789123456', { content: 'Hello...', embeds: [embed] })
+   * ```
+   * @example
+   * ```js
+   * webhook.editMessage('123456789123456', 'I\'m watching you!')
+   * ```
+   */
+  async editMessage(id: string, content: MessageOptions) {
+    if (!this.token) throw new Error('Webhooks cannot edit messages without a token');
+    const data = (await this.client.rest.make(Routes.webhookMessage(this.id, this.token, id), 'Patch', content)) as APIMessage;
+    return this.client.messages.updateOrSet(data.id, data);
+  }
+
   /** @private */
   parseData(data: Partial<APIWebhook>): this {
     if (!data) return this;
