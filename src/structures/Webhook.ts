@@ -135,12 +135,11 @@ class Webhook extends BaseStructure {
    * ```js
    * webhook.sendSlackMessage({
    *  'username': 'Wumpus',
+   *  'text': 'Hey there!',
    *  'attachments': [{
    *    'pretext': 'this looks pretty cool',
    *    'color': '#F0F',
-   *    'footer_icon': 'http://snek.s3.amazonaws.com/topSnek.png',
-   *    'footer': 'Powered by sneks',
-   *    'ts': Date.now() / 1_000
+   *    'ts': 123456789
    *  }]
    * })
    * ```
