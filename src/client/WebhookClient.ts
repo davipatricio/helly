@@ -1,5 +1,5 @@
 import { MessageOptions, Webhook } from '../structures';
-import type { Client } from './Client';
+import { Client } from './Client';
 
 /** The webhook client */
 class WebhookClient {
@@ -10,14 +10,18 @@ class WebhookClient {
   /** The webhook representing this client */
   webhook: Webhook;
   /**
+   * @param client A {@link Client} instance
    * @param id The id of the webhook
    * @param token The token of the webhook
    */
-  constructor(id: string, token: string) {
+  constructor(client: Client, id: string, token: string) {
+    if (!client) throw new Error('A client must be provided');
+    if (!(client instanceof Client)) throw new Error('The client must be an instance of Client');
+
     if (!id) throw new Error('The id of the webhook is required.');
     if (!token) throw new Error('The token of the webhook is required.');
 
-    this.webhook = new Webhook(this as unknown as Client, { id, token });
+    this.webhook = new Webhook(client, { id, token });
   }
 
   /**

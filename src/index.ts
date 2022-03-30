@@ -23,7 +23,6 @@ export {
   APIMessageReference,
   APIMessageReferenceSend,
   APINewsChannel,
-  APIWebhook,
   APIPartialChannel,
   APIPartialGuild,
   APIRole,
@@ -33,6 +32,7 @@ export {
   APITextInputComponent,
   APIUser,
   APIVoiceChannel,
+  APIWebhook,
   ChannelType,
   GatewayActivityUpdateData,
   GatewayDispatchEvents,
@@ -60,6 +60,7 @@ export { GuildMembersChunkEventArgs } from './client/actions/GUILD_MEMBERS_CHUNK
 export * from './client/Client';
 export * from './client/ClientEvents';
 export * from './client/ClientOptions';
+export * from './client/WebhookClient';
 export * from './constants';
 export * from './managers';
 export * from './structures';
