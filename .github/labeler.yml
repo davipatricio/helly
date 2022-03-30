@@ -6,6 +6,10 @@ builders:
   - src/builders/**/*
 channels:
   - '**/?(*Channel*).ts'
+commands:
+  - '**/?(*Command*).ts'
+commands:
+  - '**/?(*Command*).ts'
 client:
   - src/client/Client.ts
 dependecies:
@@ -14,15 +18,17 @@ dependecies:
 examples:
   - examples/**/*
 exports:
-  - src/index.ts
+  - src/**/index.ts
 github:
   - .github/**/*
 intents:
   - src/utils/bitfields/IntentsBitField.ts
 interactions:
   - '**/?(*Interaction*).ts'
+managers:
+  - src/managers/**/*
 transformers:
-  - src/utils/managers/**/*
+  - src/utils/transformers/**/*
 rest:
   - src/utils/rest/**/*
 permissions:
