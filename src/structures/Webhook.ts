@@ -8,7 +8,7 @@ import { BaseStructure } from './BaseStructure';
 import type { ImageURLOptions } from './User';
 
 class Webhook extends BaseStructure {
-  /** Raw {@link User} data */
+  /** Raw {@link Webhook} data */
   data: APIWebhook;
   constructor(client: Client, data: Partial<APIWebhook>) {
     super(client);
@@ -17,6 +17,8 @@ class Webhook extends BaseStructure {
 
   /** The webhook avatar's hash */
   get avatar() {
+    if (typeof this.data.avatar === 'undefined') return undefined;
+    if (this.data.avatar === null) return null;
     return this.data.avatar;
   }
 
@@ -32,11 +34,12 @@ class Webhook extends BaseStructure {
 
   /** The {@link Channel} this webhook belongs to */
   get channel() {
-    return !this.guildId ? undefined : this.client.caches.guilds.get(this.channelId);
+    return !this.channelId ? undefined : this.client.caches.guilds.get(this.channelId);
   }
 
   /** The Id of the channel the webhook is in */
   get channelId() {
+    if (!this.data.channel_id) return undefined;
     return this.data.channel_id;
   }
 
@@ -47,6 +50,7 @@ class Webhook extends BaseStructure {
 
   /** The name of this webhook */
   get name() {
+    if (!this.data.name) return undefined;
     return this.data.name;
   }
 
@@ -57,6 +61,7 @@ class Webhook extends BaseStructure {
 
   /** The Id of the guild the webhook is in */
   get guildId() {
+    if (!this.data.channel_id) return undefined;
     return this.data.guild_id;
   }
 
@@ -90,6 +95,7 @@ class Webhook extends BaseStructure {
 
   /** The type of the webhook */
   get type() {
+    if (!this.data.type) return undefined;
     return this.data.type;
   }
 
