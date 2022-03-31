@@ -1,6 +1,7 @@
 import Collection from '@discordjs/collection';
 import { APIGuild, APIWebhook, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
+import { GuildApplicationCommandManager } from '../managers/GuildApplicationCommandManager';
 import { GuildBanManager } from '../managers/GuildBanManager';
 import type { GuildChannelManager as GuildChannelManagerType } from '../managers/GuildChannelManager';
 import { GuildMemberManager } from '../managers/GuildMemberManager';
@@ -23,15 +24,17 @@ class Guild extends BaseStructure {
   data: APIGuild;
   /** A manager of the {@link Role}s belonging to this guild */
   roles: RoleManager;
-  /** A manager of the {@link Channel}s belonging to this guild */
-  channels: GuildChannelManagerType;
-  /** A manager of the {@link GuildMember}s belonging to this guild */
-  members: GuildMemberManager;
   /**
    * A manager of the {@link GuildBan}s belonging to this guild
    * You should manually fetch bans before using this
    */
   bans: GuildBanManager;
+  /** A manager of the {@link Channel}s belonging to this guild */
+  channels: GuildChannelManagerType;
+  /** A manager of the {@link ApplicationCommand}s belonging to this guild */
+  commands: GuildApplicationCommandManager;
+  /** A manager of the {@link GuildMember}s belonging to this guild */
+  members: GuildMemberManager;
   constructor(client: Client, data: APIGuild) {
     super(client);
     this.roles = new RoleManager(client, this);
@@ -39,9 +42,10 @@ class Guild extends BaseStructure {
     // For some reason this is a cyclic dependency
     // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
     const { GuildChannelManager } = require('../managers/GuildChannelManager');
-    this.channels = new GuildChannelManager(client, this);
-    this.members = new GuildMemberManager(client, this);
     this.bans = new GuildBanManager(client, this);
+    this.channels = new GuildChannelManager(client, this);
+    this.commands = new GuildApplicationCommandManager(client, this);
+    this.members = new GuildMemberManager(client, this);
     this.parseData(data);
   }
 
