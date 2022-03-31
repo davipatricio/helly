@@ -1,8 +1,9 @@
-import { APIChatInputApplicationCommandInteraction, InteractionResponseType, Routes } from 'discord-api-types/v10';
+import { APIChatInputApplicationCommandInteraction, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils';
-import { MessageFlagsBitField } from '../utils/bitfield';
+import { MakeAPIMessage } from '../utils/rest';
 import { BaseStructure } from './BaseStructure';
+import type { MessageOptions } from './Channel';
 import type { Message } from './Message';
 import { Webhook } from './Webhook';
 
@@ -23,11 +24,13 @@ class ChatInputCommandInteraction extends BaseStructure {
   ephemeral: boolean | undefined;
   /** Whether the reply to this interaction has been deferred */
   deferred: boolean;
+  /** Whether this interaction has already been replied to */
+  replied: boolean;
   /** An associated interaction webhook, can be used to further interact with this interaction */
   webhook: Webhook;
   constructor(client: Client, data: APIChatInputApplicationCommandInteraction) {
     super(client);
-    this.webhook = new Webhook(client, { channel_id: data.channel_id, guild_id: data.guild_id, id: data.id, token: data.token, application_id: data.application_id });
+    this.webhook = new Webhook(client, { channel_id: data.channel_id, guild_id: data.guild_id, id: data.application_id, token: data.token, application_id: data.application_id });
     this.parseData(data);
   }
 
@@ -115,14 +118,45 @@ class ChatInputCommandInteraction extends BaseStructure {
   async deferReply(options?: InteractionDeferReplyOptions & { fetchReply: false }): Promise<undefined>;
   async deferReply(options?: InteractionDeferReplyOptions & { fetchReply: true }): Promise<Message>;
   async deferReply(options: InteractionDeferReplyOptions = {}) {
+    if (this.deferred || this.replied) throw new Error('This interaction has already been replied to');
     this.ephemeral = options.ephemeral ?? false;
     await this.client.rest.make(Routes.interactionCallback(this.id, this.token), 'Post', {
       type: InteractionResponseType.DeferredChannelMessageWithSource,
       data: {
-        flags: options.ephemeral ? MessageFlagsBitField.Flags.Ephemeral : undefined,
+        flags: options.ephemeral ? MessageFlags.Ephemeral : undefined,
       },
     });
+    this.deferred = true;
+
     return options.fetchReply ? this.fetchReply() : undefined;
+  }
+
+  async editReply(content: MessageOptions) {
+    if (!this.deferred && !this.replied) throw new Error('This interaction has not been replied to');
+    const message = await this.webhook.editMessage('@original', content);
+    this.replied = true;
+    return message;
+  }
+
+  async reply(content: MessageOptions & InteractionDeferReplyOptions & { fetchReply: false }): Promise<undefined>;
+  async reply(content: MessageOptions & InteractionDeferReplyOptions & { fetchReply: true }): Promise<Message>;
+  async reply(content: MessageOptions & InteractionDeferReplyOptions) {
+    if (this.deferred || this.replied) throw new Error('This interaction has already been replied to');
+    this.ephemeral = content.ephemeral ?? false;
+    const parsedMessage = MakeAPIMessage.transform(content);
+
+    await this.client.rest.make(Routes.interactionCallback(this.id, this.token), 'Post', {
+      type: InteractionResponseType.ChannelMessageWithSource,
+      data: parsedMessage,
+    });
+    this.replied = true;
+
+    return content.fetchReply ? this.fetchReply() : undefined;
+  }
+
+  followUp(options: MessageOptions & InteractionDeferReplyOptions) {
+    if (!this.deferred && !this.replied) throw new Error('This interaction has not been replied to');
+    return this.webhook.send(options);
   }
 
   /** Fetches the initial reply to this interaction */
@@ -141,6 +175,7 @@ class ChatInputCommandInteraction extends BaseStructure {
     this.data = { ...this.data, ...data };
     this.ephemeral = args.ephemeral ?? false;
     this.deferred = args.deferred ?? false;
+    this.replied = args.replied ?? false;
     return this;
   }
 }
