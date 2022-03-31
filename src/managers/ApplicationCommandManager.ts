@@ -53,6 +53,16 @@ class ApplicationCommandManager {
     return this.updateOrSet(id, data);
   }
 
+  /** Deletes an application command */
+  async delete(id: string) {
+    if (this.guild) {
+      await this.client.rest.make(Routes.applicationGuildCommand(this.client.id, this.guild.id, id), 'Delete');
+      return undefined;
+    }
+    await this.client.rest.make(Routes.applicationCommand(this.client.id, id), 'Delete');
+    return undefined;
+  }
+
   /**
    * Updates or caches an {@link ApplicationCommand} with the provided {@link ApplicationCommand} data
    * @private
