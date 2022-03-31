@@ -62,6 +62,16 @@ export interface ClientCacheOptions {
    * @defaultValue `100`
    */
   bans: number;
+  /**
+   * Maximum amount of commands to cache - per guild
+   * @defaultValue `100`
+   */
+  guildCommands: number;
+  /**
+   * Maximum amount of global commands to cache
+   * @defaultValue `100`
+   */
+  commands: number;
 }
 
 /** Options for the {@link ClientOptions.rest | REST Manager} */
@@ -110,6 +120,8 @@ export const defaultClientOptions: ClientOptions = {
     users: Infinity,
     messages: 200,
     bans: 100,
+    guildCommands: 100,
+    commands: 100,
   },
   intents: 0,
   rest: {
