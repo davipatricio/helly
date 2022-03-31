@@ -1,15 +1,17 @@
 import { APIApplicationCommand, Routes } from 'discord-api-types/v10';
+import type { Guild } from '.';
 import type { Client } from '../client/Client';
+import { Transformers } from '../utils/transformers';
 import { BaseStructure } from './BaseStructure';
 
 class ApplicationCommand extends BaseStructure {
   /** Raw command data */
   data: APIApplicationCommand;
-  /** The Id of the {@link Guild} the member is in */
-  guildId: string;
-  constructor(client: Client, data: APIApplicationCommand) {
+  /** The guild this command is part of */
+  guild: Guild | undefined;
+  constructor(client: Client, data: APIApplicationCommand, guild?: Guild) {
     super(client);
-    this.parseData(data);
+    this.parseData(data, guild);
   }
 
   /** Unique id of the parent application */
@@ -56,14 +58,60 @@ class ApplicationCommand extends BaseStructure {
     return this.data.options ?? [];
   }
 
-  /** Deletes this command globally */
+  /** The guild's Id this command is part of, this may be non-null when `guild` is `null` */
+  get guildId() {
+    return this.guild?.id ?? this.data.guild_id;
+  }
+
+  /**
+   * Edits this application command
+   * @param data The data to update the command with
+   * @example
+   * ```js
+   * command.edit({ description: 'Shows the bot latency.' })
+   * ```
+   */
+  async edit(data: Partial<ApplicationCommand>) {
+    const transformedData = Transformers.applicationCommand(data);
+
+    if (this.guildId) {
+      const rawData = (await this.client.rest.make(Routes.applicationGuildCommand(this.applicationId, this.guildId, this.id), 'Patch', transformedData)) as APIApplicationCommand;
+      return this.parseData(rawData, this.guild);
+    }
+
+    const rawData = (await this.client.rest.make(Routes.applicationCommand(this.applicationId, this.id), 'Patch', transformedData)) as APIApplicationCommand;
+    return this.parseData(rawData);
+  }
+
+  /** Edits the name of this ApplicationCommand */
+  setName(name: string) {
+    return this.edit({ name });
+  }
+
+  /** Edits the description of this ApplicationCommand */
+  setDescription(description: string) {
+    return this.edit({ description });
+  }
+
+  /** Edits the default permission of this ApplicationCommand */
+  setDefaultPermission(defaultPermission = true) {
+    return this.edit({ defaultPermission });
+  }
+
+  /** Deletes this command */
   async delete() {
-    await this.client.rest.make(Routes.applicationCommand(this.applicationId, this.id), 'Delete');
+    if (this.guildId) {
+      await this.client.rest.make(Routes.applicationGuildCommand(this.applicationId, this.guildId, this.id), 'Delete');
+    } else await this.client.rest.make(Routes.applicationCommand(this.applicationId, this.id), 'Delete');
     return undefined;
   }
 
-  /** Fetches this global command */
+  /** Fetches this command */
   async fetch() {
+    if (this.guildId) {
+      const data = (await this.client.rest.make(Routes.applicationGuildCommand(this.applicationId, this.guildId, this.id), 'Get')) as APIApplicationCommand;
+      return this.parseData(data, this.guild);
+    }
     const data = (await this.client.rest.make(Routes.applicationCommand(this.applicationId, this.id), 'Get')) as APIApplicationCommand;
     return this.parseData(data);
   }
@@ -74,8 +122,9 @@ class ApplicationCommand extends BaseStructure {
   }
 
   /** @private */
-  parseData(data: APIApplicationCommand) {
+  parseData(data: APIApplicationCommand, guild?: Guild) {
     if (!data) return this;
+    this.guild = guild;
 
     this.data = { ...this.data, ...data };
     return this;
