@@ -1,6 +1,7 @@
 export * from './ApplicationCommandManager';
 export * from './CacheManager';
 export * from './ChannelManager';
+export * from './GuildApplicationCommandManager';
 export * from './GuildChannelManager';
 export * from './GuildManager';
 export * from './GuildMemberManager';
