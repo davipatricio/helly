@@ -17,7 +17,8 @@ A Node.js wrapper for interfacing with Discord.
 
 ## Installation
 
-#### Node.js 16.9.0 or newer is required
+#### Node.js 16.9.0 or newer is required.
+
 
 ### Stable version
 
