@@ -6,7 +6,11 @@ import type { Client } from '../Client';
 function handle(client: Client, data: GatewayInteractionCreateDispatchData) {
   if (client.ready) {
     let interaction: ChatInputCommandInteraction | null = null;
-    if (data.type === InteractionType.ApplicationCommand) interaction = new ChatInputCommandInteraction(client, data as APIChatInputApplicationCommandInteraction);
+    switch (data.type) {
+      case InteractionType.ApplicationCommand:
+        interaction = new ChatInputCommandInteraction(client, data as APIChatInputApplicationCommandInteraction);
+        break;
+    }
 
     if (!interaction) return client.emit(Events.Debug, '[DEBUG] Received a interaction with an unknown type', data.type);
 
