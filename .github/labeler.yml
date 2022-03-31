@@ -8,8 +8,6 @@ channels:
   - '**/?(*Channel*).ts'
 commands:
   - '**/?(*Command*).ts'
-commands:
-  - '**/?(*Command*).ts'
 client:
   - src/client/Client.ts
 dependecies:
