@@ -56,7 +56,7 @@ client.on(Events.Ready /* you can also use 'Ready', but using enums are recommen
 client.on(Events.MessageCreate /* you can also use 'MessageCreate', but using enums are recommended */, (message) => {
   if (message.content === '!ping') return message.reply(`🏓 ${client.ping}ms...`)
   if (message.content === 'Hi') return message.reply(`Hello, ${message.author}! How are you?`)
-})
+});
 
 // Replace TOKEN with your bot account's token
 client.login('TOKEN')
