@@ -184,7 +184,8 @@ class Webhook extends BaseStructure {
    */
   async editMessage(id: string, content: MessageOptions) {
     if (!this.token) throw new Error('Webhooks cannot edit messages without a token');
-    const data = (await this.client.rest.make(Routes.webhookMessage(this.id, this.token, id), 'Patch', content)) as APIMessage;
+    const parsedMessage = MakeAPIMessage.transform(content);
+    const data = (await this.client.rest.make(Routes.webhookMessage(this.id, this.token, id), 'Patch', parsedMessage)) as APIMessage;
     return this.client.messages.updateOrSet(data.id, data);
   }
 
