@@ -83,8 +83,8 @@ class GuildMemberManager {
    * Fetches member(s) from this guild, even if they're offline
    * @param Id If a ID, the user to fetch. If undefined, fetches all members
    */
-  fetch(id: string): Promise<GuildMember>;
-  fetch(id?: string): Promise<Collection<string, GuildMember>>;
+  async fetch(id: string): Promise<GuildMember>;
+  async fetch(id?: string): Promise<Collection<string, GuildMember>>;
   async fetch(id?: string) {
     if (!id) return this.#fetchAll({ limit: 0, guild_id: this.guild.id, query: '', nonce: Snowflake.generate() });
 
