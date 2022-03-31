@@ -1,3 +1,4 @@
+export * from './ApplicationCommand';
 export * from './BaseStructure';
 export * from './Channel';
 export * from './ClientUser';

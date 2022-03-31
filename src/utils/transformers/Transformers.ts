@@ -1,6 +1,7 @@
 import { ActionRowBuilder } from '@discordjs/builders';
 import type {
   APIActionRowComponent,
+  APIApplicationCommand,
   APIButtonComponent,
   APIChannel,
   APIEmbed,
@@ -15,6 +16,7 @@ import type {
   RESTPutAPIGuildBanJSONBody,
 } from 'discord-api-types/v10';
 import { EmbedBuilder } from '../../builders/Embed';
+import type { ApplicationCommand } from '../../structures/ApplicationCommand';
 import type { ChannelData, MessageReferenceSend } from '../../structures/Channel';
 import type { Guild, GuildWidgetSettingsData } from '../../structures/Guild';
 import type { BanOptions } from '../../structures/GuildMember';
@@ -22,6 +24,18 @@ import { MessageFlagsBitField } from '../bitfield/MessageFlagsBitField';
 import { SystemChannelFlagsBitField } from '../bitfield/SystemChannelFlagsBitField';
 
 class Transformers extends null {
+  static applicationCommand(): undefined;
+  static applicationCommand(data?: Partial<ApplicationCommand>, guild?: Guild): APIApplicationCommand;
+  static applicationCommand(data?: Partial<ApplicationCommand>, guild?: Guild) {
+    if (!data) return undefined;
+    const parsedData = data as unknown as APIApplicationCommand;
+    if (data.nameLocalizations) parsedData.name_localizations = data.nameLocalizations;
+    if (data.descriptionLocalizations) parsedData.description_localizations = data.descriptionLocalizations;
+    if (data.defaultPermission) parsedData.default_permission = data.defaultPermission;
+    if (guild) parsedData.guild_id = guild.id ?? data.guildId;
+    return parsedData;
+  }
+
   static messageReference(): undefined;
   static messageReference(data?: MessageReferenceSend): APIMessageReferenceSend;
   static messageReference(data?: MessageReferenceSend) {

@@ -2,7 +2,7 @@ import Collection from '@discordjs/collection';
 import { APIGuild, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Guild, GuildWidgetSettingsData } from '../structures/Guild';
-import { Transformers } from '../utils/transformers';
+import { Transformers } from '../utils/transformers/Transformers';
 
 // TODO: GuildManager methods (.create, .delete, .fetch etc)
 

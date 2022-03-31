@@ -5,7 +5,7 @@ import type { Guild } from '../structures/Guild';
 import { GuildBan } from '../structures/GuildBan';
 import type { BanOptions } from '../structures/GuildMember';
 import { LimitedCollection } from '../utils/LimitedCollection';
-import { Transformers } from '../utils/transformers';
+import { Transformers } from '../utils/transformers/Transformers';
 
 /** Manages API methods for {@link GuildMember}s */
 class GuildBanManager {
