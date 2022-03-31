@@ -92,11 +92,11 @@ class ApplicationCommandManager {
    * ```
    * @example
    * ```js
-   * guild.commands.create('123456789123456',{ name: 'serverinfo', description: 'Shows information about the server' });
+   * guild.commands.create('123456789123456', { name: 'serverinfo', description: 'Shows information about the server' });
    * ```
    * @example
    * ```js
-   * guild.commands.create('123456789123456',{ name: 'serverinfo', description: 'Shows information about the server' }, guild);
+   * guild.commands.create('123456789123456', { name: 'serverinfo', description: 'Shows information about the server' }, guild);
    * ```
    */
   async edit(id: string, data: Partial<ApplicationCommand>, guild = this.guild) {
