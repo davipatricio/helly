@@ -35,6 +35,12 @@ class CacheManager {
     this.channels = new LimitedCollection(this.#limits.channels);
     this.users = new LimitedCollection(this.#limits.users);
     this.messages = new LimitedCollection(this.#limits.messages);
+    // Do not add ApplicationCommandManager
+  }
+
+  /** Map that stores caches of {@link ApplicationCommand}s */
+  get commands() {
+    return this.client.commands.cache;
   }
 
   /** Erases all items that are stored in the cache */
@@ -44,6 +50,7 @@ class CacheManager {
     this.channels.clear();
     this.users.clear();
     this.messages.clear();
+    this.commands.clear();
     return this;
   }
 }

@@ -1,6 +1,7 @@
 import { APIWebhook, Routes } from 'discord-api-types/v10';
 import EventEmitter from 'node:events';
 import { Events } from '../constants/Events';
+import { ApplicationCommandManager } from '../managers';
 import { CacheManager } from '../managers/CacheManager';
 import { ChannelManager } from '../managers/ChannelManager';
 import { GuildManager } from '../managers/GuildManager';
@@ -54,6 +55,8 @@ class Client extends EventEmitter {
   guilds: GuildManager;
   /** Manages API methods for {@link Channel}s */
   channels: ChannelManager;
+  /** Manages API methods for {@link ApplicationCommand}s */
+  commands: ApplicationCommandManager;
   /** Manages API methods for {@link User}s */
   users: UserManager;
   /** Manages API methods for {@link Message}s */
@@ -162,6 +165,7 @@ class Client extends EventEmitter {
     this.channels = new ChannelManager(this);
     this.users = new UserManager(this);
     this.messages = new MessageManager(this);
+    this.commands = new ApplicationCommandManager(this);
   }
 
   /** @private */
