@@ -1,7 +1,7 @@
 import { APIApplicationCommand, Routes } from 'discord-api-types/v10';
 import type { Guild } from '.';
 import type { Client } from '../client/Client';
-import { Transformers } from '../utils/transformers';
+import { Transformers } from '../utils/transformers/Transformers';
 import { BaseStructure } from './BaseStructure';
 
 class ApplicationCommand extends BaseStructure {
