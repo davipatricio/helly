@@ -4,7 +4,7 @@ import type { Client } from '../client/Client';
 import type { Guild } from '../structures';
 import { ApplicationCommand } from '../structures/ApplicationCommand';
 import { LimitedCollection } from '../utils';
-import { Transformers } from '../utils/transformers';
+import { Transformers } from '../utils/transformers/Transformers';
 
 /** Manages API methods for {@link User}s */
 class ApplicationCommandManager {
@@ -18,11 +18,6 @@ class ApplicationCommandManager {
     this.client = client;
     this.guild = guild;
     this.cache = new LimitedCollection(this.guild ? this.client.options.caches.guildCommands : this.client.options.caches.commands);
-
-    // Pre-cache commands
-    this.fetch().catch(() => {
-      // Do nothing
-    });
   }
 
   /** Obtains one or multiple application commands from Discord */
