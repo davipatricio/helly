@@ -57,7 +57,7 @@ class ApplicationCommandManager {
   /**
    * Creates an application command
    * @param data The data to create the command with
-   * @param guild The guild to create the command in
+   * @param guild The {@link Guild} to create the command in
    * @example
    * ```js
    * client.commands.create({ name: 'ping', description: 'Shows the bot\'s ping' });
@@ -78,6 +78,34 @@ class ApplicationCommandManager {
       return this.updateOrSet(command.id, command);
     }
     const command = (await this.client.rest.make(Routes.applicationCommands(this.client.id), 'Post', transformedData)) as APIApplicationCommand;
+    return this.updateOrSet(command.id, command);
+  }
+
+  /**
+   * Edits an application command
+   * @param id The id of the command to edit
+   * @param data The data to edit the command with
+   * @param guild The {@link Guild} to edit the command in
+   * @example
+   * ```js
+   * client.commands.edit('123456789123456', { name: 'ping', description: 'Shows the bot\'s ping' });
+   * ```
+   * @example
+   * ```js
+   * guild.commands.create('123456789123456',{ name: 'serverinfo', description: 'Shows information about the server' });
+   * ```
+   * @example
+   * ```js
+   * guild.commands.create('123456789123456',{ name: 'serverinfo', description: 'Shows information about the server' }, guild);
+   * ```
+   */
+  async edit(id: string, data: Partial<ApplicationCommand>, guild = this.guild) {
+    const transformedData = Transformers.applicationCommand(data, guild);
+    if (guild) {
+      const command = (await this.client.rest.make(Routes.applicationGuildCommand(this.client.id, id, guild.id), 'Patch', transformedData)) as APIApplicationCommand;
+      return this.updateOrSet(command.id, command);
+    }
+    const command = (await this.client.rest.make(Routes.applicationCommand(this.client.id, id), 'Patch', transformedData)) as APIApplicationCommand;
     return this.updateOrSet(command.id, command);
   }
 
