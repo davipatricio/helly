@@ -131,6 +131,20 @@ class ChatInputCommandInteraction extends BaseStructure {
     return options.fetchReply ? this.fetchReply() : undefined;
   }
 
+  /**
+   * Edits the initial reply to this interaction
+   * @param content The new options for the message
+   * @example
+   * ```js
+   * // Edit the original interaction message
+   * interaction.editReply(`Bot ping: ${client.ping}`)
+   * ```
+   * @example
+   * ```js
+   * // Edit the original interaction message and remove all embeds
+   * interaction.editReply({ content: 'Hey there!', embeds: [] })
+   * ```
+   */
   async editReply(content: MessageOptions) {
     if (!this.deferred && !this.replied) throw new Error('This interaction has not been replied to');
     const message = await this.webhook.editMessage('@original', content);
@@ -138,6 +152,26 @@ class ChatInputCommandInteraction extends BaseStructure {
     return message;
   }
 
+  /**
+   * Replies to the interaction
+   * @param content The options for the reply
+   * @example
+   * ```js
+   * // Reply to the interaction
+   * interaction.reply('Hello!')
+   * ```
+   * @example
+   * ```js
+   * // Reply to the interaction with an ephemeral reply
+   * interaction.reply({ content: 'Hey there!', ephemeral: true })
+   * ```
+   * @example
+   * ```js
+   * // Reply to the interaction with an ephemeral reply and fetch the reply
+   * const message = await interaction.reply({ content: 'Hey there!', ephemeral: true, fetchReply: true })
+   * console.log(message.content)
+   * ```
+   */
   async reply(content: MessageOptions & InteractionDeferReplyOptions & { fetchReply: false }): Promise<undefined>;
   async reply(content: MessageOptions & InteractionDeferReplyOptions & { fetchReply: true }): Promise<Message>;
   async reply(content: MessageOptions & InteractionDeferReplyOptions) {
@@ -154,6 +188,10 @@ class ChatInputCommandInteraction extends BaseStructure {
     return content.fetchReply ? this.fetchReply() : undefined;
   }
 
+  /**
+   * Send a follow-up message to this interaction
+   * @param content The options for the reply
+   */
   followUp(options: MessageOptions & InteractionDeferReplyOptions) {
     if (!this.deferred && !this.replied) throw new Error('This interaction has not been replied to');
     return this.webhook.send(options);
