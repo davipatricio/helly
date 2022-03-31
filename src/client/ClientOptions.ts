@@ -18,6 +18,11 @@ export interface ClientOptions {
   rest: RestOptions;
   /** Options for the WebSocket */
   ws: WebSocketOptions;
+  /**
+   * Time in milliseconds that Clients with the GUILDS intent should wait for missing guilds to be received before starting the bot. If not specified, the default is 15 seconds
+   * @defaultValue `15_000`
+   */
+  waitGuildTimeout: number;
 }
 
 export interface ParsedClientOptions extends ClientOptions {
@@ -112,6 +117,7 @@ export const defaultClientOptions: ClientOptions = {
     bans: 100,
   },
   intents: 0,
+  waitGuildTimeout: 15_000,
   rest: {
     api: 'https://discord.com/api',
     cdn: RouteBases.cdn,
