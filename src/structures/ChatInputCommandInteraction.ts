@@ -3,6 +3,8 @@ import type { Client } from '../client/Client';
 import { Snowflake } from '../utils';
 import { MessageFlagsBitField } from '../utils/bitfield';
 import { BaseStructure } from './BaseStructure';
+import type { Message } from './Message';
+import { Webhook } from './Webhook';
 
 // TODO: fetchReply() option
 
@@ -10,6 +12,8 @@ import { BaseStructure } from './BaseStructure';
 export interface InteractionDeferReplyOptions {
   /** Whether the reply should be ephemeral */
   ephemeral?: boolean;
+  /** Whether to fetch the reply */
+  fetchReply?: boolean;
 }
 
 class ChatInputCommandInteraction extends BaseStructure {
@@ -19,8 +23,11 @@ class ChatInputCommandInteraction extends BaseStructure {
   ephemeral: boolean | undefined;
   /** Whether the reply to this interaction has been deferred */
   deferred: boolean;
+  /** An associated interaction webhook, can be used to further interact with this interaction */
+  webhook: Webhook;
   constructor(client: Client, data: APIChatInputApplicationCommandInteraction) {
     super(client);
+    this.webhook = new Webhook(client, { channel_id: data.channel_id, guild_id: data.guild_id, id: data.id, token: data.token, application_id: data.application_id });
     this.parseData(data);
   }
 
@@ -105,22 +112,35 @@ class ChatInputCommandInteraction extends BaseStructure {
    * // Defer to send an ephemeral reply later
    * interaction.deferReply({ ephemeral: true })
    */
+  async deferReply(options?: InteractionDeferReplyOptions & { fetchReply: false }): Promise<undefined>;
+  async deferReply(options?: InteractionDeferReplyOptions & { fetchReply: true }): Promise<Message>;
   async deferReply(options: InteractionDeferReplyOptions = {}) {
     this.ephemeral = options.ephemeral ?? false;
     await this.client.rest.make(Routes.interactionCallback(this.id, this.token), 'Post', {
       type: InteractionResponseType.DeferredChannelMessageWithSource,
       data: {
-        flags: this.ephemeral ? MessageFlagsBitField.Flags.Ephemeral : undefined,
+        flags: options.ephemeral ? MessageFlagsBitField.Flags.Ephemeral : undefined,
       },
     });
-    return this;
+    return options.fetchReply ? this.fetchReply() : undefined;
+  }
+
+  /** Fetches the initial reply to this interaction */
+  deleteReply() {
+    if (this.ephemeral) throw new Error('Cannot delete an ephemeral reply');
+    return this.webhook.deleteMessage('@original');
+  }
+
+  /** Fetches the initial reply to this interaction */
+  fetchReply() {
+    return this.webhook.fetchMessage('@original');
   }
 
   /** @private */
   parseData(data: APIChatInputApplicationCommandInteraction, args: Partial<ChatInputCommandInteraction> = {}) {
     this.data = { ...this.data, ...data };
-    if (args.ephemeral) this.ephemeral = undefined;
-    if (args.deferred) this.deferred = false;
+    this.ephemeral = args.ephemeral ?? false;
+    this.deferred = args.deferred ?? false;
     return this;
   }
 }
