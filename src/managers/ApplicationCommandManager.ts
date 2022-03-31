@@ -4,6 +4,7 @@ import type { Client } from '../client/Client';
 import type { Guild } from '../structures';
 import { ApplicationCommand } from '../structures/ApplicationCommand';
 import { LimitedCollection } from '../utils';
+import { Transformers } from '../utils/transformers';
 
 /** Manages API methods for {@link User}s */
 class ApplicationCommandManager {
@@ -51,6 +52,33 @@ class ApplicationCommandManager {
     // Fetch a global command with a specific Id
     const data = (await this.client.rest.make(Routes.applicationCommand(this.client.id, id))) as APIApplicationCommand;
     return this.updateOrSet(id, data);
+  }
+
+  /**
+   * Creates an application command
+   * @param data The data to create the command with
+   * @param guild The guild to create the command in
+   * @example
+   * ```js
+   * client.commands.create({ name: 'ping', description: 'Shows the bot\'s ping' });
+   * ```
+   * @example
+   * ```js
+   * guild.commands.create({ name: 'serverinfo', description: 'Shows information about the server' });
+   * ```
+   * @example
+   * ```js
+   * guild.commands.create({ name: 'serverinfo', description: 'Shows information about the server' }, guild);
+   * ```
+   */
+  async create(data: Partial<ApplicationCommand>, guild = this.guild) {
+    const transformedData = Transformers.applicationCommand(data, guild);
+    if (guild) {
+      const command = (await this.client.rest.make(Routes.applicationGuildCommands(this.client.id, guild.id), 'Post', transformedData)) as APIApplicationCommand;
+      return this.updateOrSet(command.id, command);
+    }
+    const command = (await this.client.rest.make(Routes.applicationCommands(this.client.id), 'Post', transformedData)) as APIApplicationCommand;
+    return this.updateOrSet(command.id, command);
   }
 
   /** Deletes an application command */

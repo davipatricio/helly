@@ -25,13 +25,14 @@ import { SystemChannelFlagsBitField } from '../bitfield/SystemChannelFlagsBitFie
 
 class Transformers extends null {
   static applicationCommand(): undefined;
-  static applicationCommand(data?: Partial<ApplicationCommand>): APIApplicationCommand;
-  static applicationCommand(data?: Partial<ApplicationCommand>) {
+  static applicationCommand(data?: Partial<ApplicationCommand>, guild?: Guild): APIApplicationCommand;
+  static applicationCommand(data?: Partial<ApplicationCommand>, guild?: Guild) {
     if (!data) return undefined;
     const parsedData = data as unknown as APIApplicationCommand;
     if (data.nameLocalizations) parsedData.name_localizations = data.nameLocalizations;
     if (data.descriptionLocalizations) parsedData.description_localizations = data.descriptionLocalizations;
     if (data.defaultPermission) parsedData.default_permission = data.defaultPermission;
+    if (guild) parsedData.guild_id = guild.id ?? data.guildId;
     return parsedData;
   }
 
