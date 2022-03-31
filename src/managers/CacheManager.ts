@@ -1,5 +1,6 @@
 import type { Client } from '../client/Client';
 import type { ClientCacheOptions } from '../client/ClientOptions';
+import type { ApplicationCommand } from '../structures';
 import type { Channel } from '../structures/Channel';
 import type { Guild } from '../structures/Guild';
 import type { Message } from '../structures/Message';
@@ -22,6 +23,8 @@ class CacheManager {
   users: LimitedCollection<string, User>;
   /** Map that stores caches of {@link Message}s */
   messages: LimitedCollection<string, Message>;
+  /** Map that stores caches of {@link ApplicationCommand}s */
+  commands: LimitedCollection<string, ApplicationCommand>;
   constructor(client: Client, limits: ClientCacheOptions) {
     this.client = client;
     this.#limits = limits;
@@ -35,12 +38,7 @@ class CacheManager {
     this.channels = new LimitedCollection(this.#limits.channels);
     this.users = new LimitedCollection(this.#limits.users);
     this.messages = new LimitedCollection(this.#limits.messages);
-    // Do not add ApplicationCommandManager
-  }
-
-  /** Map that stores caches of {@link ApplicationCommand}s */
-  get commands() {
-    return this.client.commands.cache;
+    this.commands = new LimitedCollection(this.#limits.commands);
   }
 
   /** Erases all items that are stored in the cache */

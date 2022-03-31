@@ -3,21 +3,23 @@ import { APIApplicationCommand, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import type { Guild } from '../structures';
 import { ApplicationCommand } from '../structures/ApplicationCommand';
-import { LimitedCollection } from '../utils';
 import { Transformers } from '../utils/transformers/Transformers';
 
 /** Manages API methods for {@link User}s */
 class ApplicationCommandManager {
   /** The {@link Client} that instantiated this Manager */
   client: Client;
-  /** The cached commands for this Manager */
-  cache: LimitedCollection<string, ApplicationCommand>;
   /** The guild that instantiated this Manager */
   guild: Guild | undefined;
   constructor(client: Client, guild?: Guild) {
     this.client = client;
     this.guild = guild;
-    this.cache = new LimitedCollection(this.guild ? this.client.options.caches.guildCommands : this.client.options.caches.commands);
+  }
+
+  /** The cached commands for this Manager */
+  get cache() {
+    if (!this.guild) return this.client.caches.commands;
+    return this.client.caches.commands.filter(c => c.guildId === this.guild?.id);
   }
 
   /** Obtains one or multiple application commands from Discord */
@@ -63,7 +65,7 @@ class ApplicationCommandManager {
    * ```
    * @example
    * ```js
-   * guild.commands.create({ name: 'serverinfo', description: 'Shows information about the server' }, guild);
+   * client.commands.create({ name: 'serverinfo', description: 'Shows information about the server' }, guild);
    * ```
    */
   async create(data: Partial<ApplicationCommand>, guild = this.guild) {
