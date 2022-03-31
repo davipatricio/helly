@@ -15,8 +15,13 @@ class ApplicationCommandManager {
   guild: Guild | undefined;
   constructor(client: Client, guild?: Guild) {
     this.client = client;
-    this.cache = new LimitedCollection(guild ? this.client.options.caches.guildCommands : this.client.options.caches.commands);
     this.guild = guild;
+    this.cache = new LimitedCollection(this.guild ? this.client.options.caches.guildCommands : this.client.options.caches.commands);
+
+    // Pre-cache commands
+    this.fetch().catch(() => {
+      // Do nothing
+    });
   }
 
   /** Obtains one or multiple application commands from Discord */
