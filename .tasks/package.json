@@ -1,5 +1,6 @@
 {
     "dependencies": {
         "axios": "0.26.1"
-    }
+    },
+    "version": "0.0.0"
 }
