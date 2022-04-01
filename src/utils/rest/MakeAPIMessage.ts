@@ -1,8 +1,8 @@
-import type { APIActionRowComponent, APIEmbed, APIMessageActionRowComponent, RESTPostAPIChannelMessageJSONBody } from 'discord-api-types/v10';
+import { APIActionRowComponent, APIEmbed, APIMessageActionRowComponent, MessageFlags, RESTPostAPIChannelMessageJSONBody } from 'discord-api-types/v10';
 import type { ActionRowBuilder } from '../../builders/ActionRow';
 import type { EmbedBuilder } from '../../builders/Embed';
-import { Transformers } from '../transformers/Transformers';
 import { MessageFlagsBitField } from '../bitfield';
+import { Transformers } from '../transformers/Transformers';
 
 class MakeAPIMessage extends null {
   static transform(data: any): RESTPostAPIChannelMessageJSONBody {
