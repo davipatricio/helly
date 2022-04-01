@@ -1,6 +1,6 @@
 import { APIGuild, GatewayIntentBits, GatewayReadyDispatchData } from 'discord-api-types/v10';
 import { Events } from '../../constants/Events';
-import { ClientUser } from '../../structures';
+import { ClientUser } from '../../structures/ClientUser';
 import type { Client } from '../Client';
 
 function handle(client: Client, data: GatewayReadyDispatchData) {

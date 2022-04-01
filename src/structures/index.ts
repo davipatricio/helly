@@ -3,6 +3,7 @@ export * from './BaseStructure';
 export * from './ButtonInteraction';
 export * from './Channel';
 export * from './ChatInputCommandInteraction';
+export * from './ClientUser';
 export * from './Guild';
 export * from './GuildMember';
 export * from './Message';
