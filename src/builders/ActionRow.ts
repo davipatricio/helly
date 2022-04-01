@@ -66,7 +66,7 @@ class ActionRowBuilder {
           }
           return undefined;
         })
-        .filter(c => typeof c !== 'undefined') ?? []
+        .filter((c): c is ButtonBuilder | SelectMenuBuilder => !!c) ?? []
     );
   }
 
