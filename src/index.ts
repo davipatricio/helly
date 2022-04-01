@@ -37,7 +37,6 @@ export {
   APIWebhook,
   ApplicationCommandOptionType,
   ApplicationCommandType,
-  ApplicationCommandType,
   ButtonStyle,
   ChannelType,
   ComponentType,
