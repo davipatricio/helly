@@ -29,19 +29,19 @@ async function publish() {
 
     // Set version
     console.log(`Setting version to ${version}-dev${lastCommitHashString}`);
-    await exec(`cd .. && npm version ${version}-dev${lastCommitHashString} --force --no-git-tag-version --no-commit-hooks`);
+    await exec(`cd .. && yarn version ${version}-dev${lastCommitHashString} --force --no-git-tag-version --no-commit-hooks`);
 
     // Publish
     console.log('Publishing...');
-    await exec(`cd .. && npm publish --tag dev`);
+    await exec(`cd .. && yarn publish --tag dev`);
     console.log('Published!')
 
     process.exit(0);
 }
 
 async function transpileCode() {
-    await exec('cd .. && npm i');
-    await exec('cd .. && npm run build');
+    await exec('cd .. && yarn');
+    await exec('cd .. && yarn build');
 }
 
 async function wasLastCommitPublished(lastHash) {
