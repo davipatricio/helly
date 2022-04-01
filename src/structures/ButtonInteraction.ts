@@ -1,23 +1,17 @@
-import { APIChatInputApplicationCommandInteraction, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
+import { APIButtonComponent, APIMessageComponentButtonInteraction, APISelectMenuComponent, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
+import { ButtonBuilder } from '../builders/Button';
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils';
 import { MakeAPIMessage } from '../utils/rest';
 import { BaseStructure } from './BaseStructure';
 import type { MessageOptions } from './Channel';
+import type { InteractionDeferReplyOptions } from './ChatInputCommandInteraction';
 import type { Message } from './Message';
 import { Webhook } from './Webhook';
 
-/** Options for deferring the reply to a {@link ChatInputCommandInteraction} */
-export interface InteractionDeferReplyOptions {
-  /** Whether the reply should be ephemeral */
-  ephemeral?: boolean;
-  /** Whether to fetch the reply */
-  fetchReply?: boolean;
-}
-
-class ChatInputCommandInteraction extends BaseStructure {
-  /** Raw {@link ChatInputCommandInteraction} data */
-  data: APIChatInputApplicationCommandInteraction;
+class ButtonInteraction extends BaseStructure {
+  /** Raw {@link ButtonInteraction} data */
+  data: APIMessageComponentButtonInteraction;
   /** Whether the reply to this interaction is ephemeral */
   ephemeral: boolean;
   /** Whether the reply to this interaction has been deferred */
@@ -26,25 +20,19 @@ class ChatInputCommandInteraction extends BaseStructure {
   replied: boolean;
   /** An associated interaction webhook, can be used to further interact with this interaction */
   webhook: Webhook;
-  constructor(client: Client, data: APIChatInputApplicationCommandInteraction) {
+  constructor(client: Client, data: APIMessageComponentButtonInteraction) {
     super(client);
     this.webhook = new Webhook(client, { channel_id: data.channel_id, guild_id: data.guild_id, id: data.application_id, token: data.token, application_id: data.application_id });
     this.parseData(data);
   }
 
-  /** The invoked application command's Id */
-  get commandId() {
-    return this.data.data.id;
+  get customId() {
+    return this.data.data.custom_id;
   }
 
-  /** The invoked application command's type */
-  get commandType() {
-    return this.data.data.type;
-  }
-
-  /** The invoked application command's name */
-  get commandName() {
-    return this.data.data.name;
+  /** The type of component which was interacted with */
+  get componentType() {
+    return this.data.data.component_type;
   }
 
   /** The {@link Channel} that the interaction belongs to */
@@ -77,10 +65,28 @@ class ChatInputCommandInteraction extends BaseStructure {
     return this.data.id;
   }
 
+  /** The interaction's type */
+  get type() {
+    return this.data.type;
+  }
+
   /** The interaction's Id */
   get user() {
-    if (!this.data.user) return undefined;
-    return this.client.caches.users.get(this.data.user.id) ?? this.client.users.updateOrSet(this.data.user.id, this.data.user);
+    if (this.data.member) {
+      return this.client.caches.users.get(this.data.member.user.id) ?? this.client.users.updateOrSet(this.data.member.user.id, this.data.member.user);
+    }
+    if (this.data.user) return this.client.caches.users.get(this.data.user.id) ?? this.client.users.updateOrSet(this.data.user.id, this.data.user);
+    return undefined;
+  }
+
+  get member() {
+    if (!this.guildId || !this.data.member) return undefined;
+    return this.client.caches.guilds.get(this.guildId)?.members.updateOrSet(this.data.member.user.id, this.data.member);
+  }
+
+  /** The message to which the component was attached */
+  get message() {
+    return this.client.messages.updateOrSet(this.data.message.id, this.data.message);
   }
 
   /** The locale of the user who invoked this interaction */
@@ -124,6 +130,26 @@ class ChatInputCommandInteraction extends BaseStructure {
         flags: options.ephemeral ? MessageFlags.Ephemeral : undefined,
       },
     });
+    this.deferred = true;
+
+    return options.fetchReply ? this.fetchReply() : undefined;
+  }
+
+  /**
+   * Defers the update of this interaction
+   * @param options Options for deferring the update of this interaction
+   * @example
+   * // Defer the reply to this interaction
+   * interaction.deferUpdate()
+   * @example
+   * // Defer to send an ephemeral reply later
+   * interaction.deferUpdate({ ephemeral: true })
+   */
+  async deferUpdate(options?: InteractionDeferReplyOptions & { fetchReply: false }): Promise<undefined>;
+  async deferUpdate(options?: InteractionDeferReplyOptions & { fetchReply: true }): Promise<Message>;
+  async deferUpdate(options: InteractionDeferReplyOptions = {}) {
+    if (this.deferred || this.replied) throw new Error('This interaction has already been replied to');
+    await this.client.rest.make(Routes.interactionCallback(this.id, this.token), 'Post', { type: InteractionResponseType.DeferredMessageUpdate });
     this.deferred = true;
 
     return options.fetchReply ? this.fetchReply() : undefined;
@@ -187,6 +213,42 @@ class ChatInputCommandInteraction extends BaseStructure {
   }
 
   /**
+   * Updates the original message of the component on which the interaction was received on
+   * @param content The options for the updated message
+   * @example
+   * ```js
+   * // Reply to the interaction
+   * interaction.update('Hello!')
+   * ```
+   * @example
+   * ```js
+   * // Reply to the interaction with an ephemeral reply
+   * interaction.update({ content: 'Hey there!', ephemeral: true })
+   * ```
+   * @example
+   * ```js
+   * // Reply to the interaction with an ephemeral reply and fetch the reply
+   * const message = await interaction.update({ content: 'Hey there!', ephemeral: true, fetchReply: true })
+   * console.log(message.content)
+   * ```
+   */
+  async update(content: MessageOptions & InteractionDeferReplyOptions & { fetchReply: false }): Promise<undefined>;
+  async update(content: MessageOptions & InteractionDeferReplyOptions & { fetchReply: true }): Promise<Message>;
+  async update(content: MessageOptions & InteractionDeferReplyOptions) {
+    if (this.deferred || this.replied) throw new Error('This interaction has already been replied to');
+    this.ephemeral = content.ephemeral ?? false;
+    const parsedMessage = MakeAPIMessage.transform(content);
+
+    await this.client.rest.make(Routes.interactionCallback(this.id, this.token), 'Post', {
+      type: InteractionResponseType.UpdateMessage,
+      data: parsedMessage,
+    });
+    this.replied = true;
+
+    return content.fetchReply ? this.fetchReply() : undefined;
+  }
+
+  /**
    * Send a follow-up message to this interaction
    * @param content The options for the reply
    */
@@ -207,7 +269,7 @@ class ChatInputCommandInteraction extends BaseStructure {
   }
 
   /** @private */
-  parseData(data: APIChatInputApplicationCommandInteraction, args: Partial<ChatInputCommandInteraction> = {}) {
+  parseData(data: APIMessageComponentButtonInteraction, args: Partial<ButtonInteraction> = {}) {
     this.data = { ...this.data, ...data };
     this.ephemeral = args.ephemeral ?? false;
     this.deferred = args.deferred ?? false;
@@ -216,4 +278,4 @@ class ChatInputCommandInteraction extends BaseStructure {
   }
 }
 
-export { ChatInputCommandInteraction };
+export { ButtonInteraction };
