@@ -103,6 +103,12 @@ class ChatInputCommandInteraction extends BaseStructure {
     return !this.guildId ? undefined : this.client.caches.guilds.get(this.guildId) ?? this.channel?.guild;
   }
 
+  /** The message to which the component was attached */
+  get message() {
+    if (!this.data.message) return undefined;
+    return this.client.messages.updateOrSet(this.data.message.id, this.data.message);
+  }
+
   /**
    * Defers the reply to this interaction
    * @param options Options for deferring the reply to this interaction
