@@ -40,7 +40,7 @@ class Transformers extends null {
   static emoji(data?: APIMessageComponentEmoji | APIPartialEmoji | string): APIMessageComponentEmoji;
   static emoji(data?: APIMessageComponentEmoji | APIPartialEmoji | string) {
     if (!data) return undefined;
-    if (typeof data === 'object') return { animated: Boolean(data.animated), id: data?.id, name: data?.name ?? '' } as APIMessageComponentEmoji;
+    if (typeof data === 'object') return { animated: Boolean(data.animated), id: data.id, name: data.name ?? '' } as APIMessageComponentEmoji;
 
     // eslint-disable-next-line no-param-reassign
     if (data.includes('%')) data = decodeURIComponent(data);
