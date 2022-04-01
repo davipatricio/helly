@@ -1,5 +1,5 @@
-import type { ActionRowBuilder } from '@discordjs/builders';
 import type { APIActionRowComponent, APIEmbed, APIMessageActionRowComponent, RESTPostAPIChannelMessageJSONBody } from 'discord-api-types/v10';
+import type { ActionRowBuilder } from '../../builders/ActionRow';
 import type { EmbedBuilder } from '../../builders/Embed';
 import { Transformers } from '../transformers/Transformers';
 

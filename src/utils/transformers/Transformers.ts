@@ -1,20 +1,18 @@
-import { ActionRowBuilder } from '@discordjs/builders';
 import type {
   APIActionRowComponent,
   APIApplicationCommand,
-  APIButtonComponent,
   APIChannel,
   APIEmbed,
   APIGuild,
   APIGuildWidgetSettings,
   APIMessageActionRowComponent,
   APIMessageReferenceSend,
-  APISelectMenuComponent,
   APITextChannel,
   APITextInputComponent,
   MessageFlags,
   RESTPutAPIGuildBanJSONBody,
 } from 'discord-api-types/v10';
+import { ActionRowBuilder } from '../../builders/ActionRow';
 import { EmbedBuilder } from '../../builders/Embed';
 import type { ApplicationCommand } from '../../structures/ApplicationCommand';
 import type { ChannelData, MessageReferenceSend } from '../../structures/Channel';
@@ -112,8 +110,8 @@ class Transformers extends null {
   }
 
   static messageComponents(
-    data: ActionRowBuilder | APIActionRowComponent<APIMessageActionRowComponent> | undefined,
-  ): APIActionRowComponent<APIButtonComponent | APISelectMenuComponent | APITextInputComponent> | undefined {
+    data: ActionRowBuilder | APIActionRowComponent<APIMessageActionRowComponent | APITextInputComponent> | undefined,
+  ): APIActionRowComponent<APIMessageActionRowComponent | APITextInputComponent> | undefined {
     if (!data) return undefined;
     if (data instanceof ActionRowBuilder) return data.toJSON();
     return data;
