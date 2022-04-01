@@ -34,6 +34,11 @@ class ButtonInteraction extends BaseStructure {
     return this.data.data.component_type;
   }
 
+  /** The component which was interacted with */
+  get component() {
+    return this.message.components.flatMap(row => row.components).find(component => component.customId === this.customId);
+  }
+
   /** The {@link Channel} that the interaction belongs to */
   get channel() {
     return !this.channelId ? undefined : this.client.caches.channels.get(this.channelId);
