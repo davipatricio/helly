@@ -32,6 +32,8 @@ pnpm add helly
 
 ```sh-session
 npm install helly@dev
+yarn add helly@dev
+pnpm add helly@dev
 ```
 
 ### Optional packages
