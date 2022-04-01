@@ -1,5 +1,4 @@
-import { APIButtonComponent, APIMessageComponentButtonInteraction, APISelectMenuComponent, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
-import { ButtonBuilder } from '../builders/Button';
+import { APIMessageComponentButtonInteraction, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils';
 import { MakeAPIMessage } from '../utils/rest';
