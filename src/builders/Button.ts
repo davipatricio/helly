@@ -1,4 +1,5 @@
-import { APIButtonComponent, APIButtonComponentWithCustomId, APIButtonComponentWithURL, ButtonStyle, ComponentType } from 'discord-api-types/v10';
+import { APIButtonComponent, APIButtonComponentWithCustomId, APIButtonComponentWithURL, APIMessageComponentEmoji, ButtonStyle, ComponentType } from 'discord-api-types/v10';
+import { Transformers } from '../utils/transformers';
 
 /** Represents a validated button component */
 class ButtonBuilder {
@@ -98,6 +99,22 @@ class ButtonBuilder {
    */
   setURL(url: string) {
     (this.data as APIButtonComponentWithURL).url = url;
+    return this;
+  }
+
+  /**
+   * Sets the emoji to display to the left of the button
+   * @example
+   * ```js
+   * button.setEmoji('😱');
+   * ```
+   * @example
+   * ```js
+   * button.setEmoji('<:funny:957998724506857472>');
+   * ```
+   */
+  setEmoji(emoji?: APIMessageComponentEmoji) {
+    this.data.emoji = Transformers.emoji(emoji);
     return this;
   }
 

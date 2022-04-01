@@ -6,7 +6,9 @@ import type {
   APIGuild,
   APIGuildWidgetSettings,
   APIMessageActionRowComponent,
+  APIMessageComponentEmoji,
   APIMessageReferenceSend,
+  APIPartialEmoji,
   APITextChannel,
   APITextInputComponent,
   MessageFlags,
@@ -32,6 +34,20 @@ class Transformers extends null {
     if (data.defaultPermission) parsedData.default_permission = data.defaultPermission;
     if (guild) parsedData.guild_id = guild.id ?? data.guildId;
     return parsedData;
+  }
+
+  static emoji(): undefined;
+  static emoji(data?: APIMessageComponentEmoji | APIPartialEmoji | string): APIMessageComponentEmoji;
+  static emoji(data?: APIMessageComponentEmoji | APIPartialEmoji | string) {
+    if (!data) return undefined;
+    if (typeof data === 'object') return { animated: Boolean(data.animated), id: data?.id, name: data?.name ?? '' } as APIMessageComponentEmoji;
+
+    // eslint-disable-next-line no-param-reassign
+    if (data.includes('%')) data = decodeURIComponent(data);
+    if (!data.includes(':')) return { animated: false, id: undefined, name: data } as APIMessageComponentEmoji;
+
+    const match = data.match(/<?(?:(a):)?(\w{2,32}):(\d{17,19})?>?/);
+    return match && ({ animated: Boolean(match[1]), id: match[3], name: match[2] } as APIMessageComponentEmoji);
   }
 
   static messageReference(): undefined;

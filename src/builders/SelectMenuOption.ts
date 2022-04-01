@@ -1,4 +1,5 @@
 import type { APIMessageComponentEmoji, APISelectMenuOption } from 'discord-api-types/v10';
+import { Transformers } from '../utils/transformers';
 
 /** Represents a validated button component */
 class SelectMenuOptionBuilder {
@@ -47,9 +48,19 @@ class SelectMenuOptionBuilder {
     return this;
   }
 
-  /** Sets the emoji to display to the left of the option */
+  /**
+   * Sets the emoji to display to the left of the option
+   * @example
+   * ```js
+   * selectMenuOption.setEmoji('😱');
+   * ```
+   * @example
+   * ```js
+   * selectMenuOption.setEmoji('<:funny:957998724506857472>');
+   * ```
+   */
   setEmoji(emoji?: APIMessageComponentEmoji) {
-    this.data.emoji = emoji;
+    this.data.emoji = Transformers.emoji(emoji);
     return this;
   }
 
