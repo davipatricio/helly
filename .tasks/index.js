@@ -29,7 +29,7 @@ async function publish() {
 
     // Set version
     console.log(`Setting version to ${version}-dev${lastCommitHashString}`);
-    await exec(`cd .. && yarn version ${version}-dev${lastCommitHashString} --force --no-git-tag-version --no-commit-hooks`);
+    await exec(`cd .. && yarn version --new-version ${version}-dev${lastCommitHashString} --force --no-git-tag-version --no-commit-hooks`);
 
     // Publish
     console.log('Publishing...');
