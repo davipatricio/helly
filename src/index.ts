@@ -36,6 +36,7 @@ export {
   APIWebhook,
   ApplicationCommandOptionType,
   ApplicationCommandType,
+  ButtonStyle,
   ChannelType,
   GatewayActivityUpdateData,
   GatewayDispatchEvents,
