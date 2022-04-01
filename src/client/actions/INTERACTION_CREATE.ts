@@ -1,6 +1,7 @@
 import {
   APIChatInputApplicationCommandInteraction,
   APIMessageComponentButtonInteraction,
+  APIMessageComponentSelectMenuInteraction,
   ApplicationCommandType,
   ComponentType,
   GatewayInteractionCreateDispatchData,
@@ -10,10 +11,11 @@ import { Events } from '../../constants/Events';
 import { ChatInputCommandInteraction } from '../../structures/ChatInputCommandInteraction';
 import { ButtonInteraction } from '../../structures/ButtonInteraction';
 import type { Client } from '../Client';
+import { SelectMenuInteraction } from '../../structures/SelectMenuInteraction';
 
 function handle(client: Client, data: GatewayInteractionCreateDispatchData) {
   if (client.ready) {
-    let interaction: ChatInputCommandInteraction | ButtonInteraction | null = null;
+    let interaction: ChatInputCommandInteraction | SelectMenuInteraction | ButtonInteraction | null = null;
     switch (data.type) {
       case InteractionType.ApplicationCommand:
         switch (data.data.type) {
@@ -27,6 +29,9 @@ function handle(client: Client, data: GatewayInteractionCreateDispatchData) {
         switch (data.data.component_type) {
           case ComponentType.Button:
             interaction = new ButtonInteraction(client, data as APIMessageComponentButtonInteraction);
+            break;
+          case ComponentType.SelectMenu:
+            interaction = new SelectMenuInteraction(client, data as APIMessageComponentSelectMenuInteraction);
             break;
         }
         break;
