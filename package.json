@@ -37,13 +37,13 @@
     "url": "https://github.com/davipatricio/helly/issues"
   },
   "scripts": {
-    "docs": "npx typedoc --options typedoc.json",
-    "build": "npx tsc --project tsconfig.json",
+    "docs": "yarn typedoc --options typedoc.json",
+    "build": "yarn tsc --project tsconfig.json",
     "test": "node tests/index",
-    "lint": "npx eslint src",
-    "lint:fix": "npm run lint:prettier && npx eslint src --fix",
-    "lint:prettier": "npx prettier -w src",
-    "types:check": " npx tsc --noEmit --incremental false"
+    "lint": "yarn eslint src",
+    "lint:fix": "yarn lint:prettier && yarn eslint src --fix",
+    "lint:prettier": "yarn prettier -w src",
+    "types:check": "yarn tsc --noEmit --incremental false"
   },
   "author": "Davi Patricio <davipatricio@pm.me>",
   "devDependencies": {
