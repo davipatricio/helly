@@ -1,4 +1,5 @@
 import { APIMessageComponentSelectMenuInteraction, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
+import type { SelectMenuBuilder } from '../builders';
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils';
 import { MakeAPIMessage } from '../utils/rest';
@@ -25,13 +26,14 @@ class SelectMenuInteraction extends BaseStructure {
     this.parseData(data);
   }
 
+  /** The custom Id of the interacted select menu */
   get customId() {
     return this.data.data.custom_id;
   }
 
   /** The component which was interacted with */
   get component() {
-    return this.message.components.flatMap(row => row.components).find(component => component.customId === this.customId);
+    return this.message.components.flatMap(row => row.components).find(component => component.customId === this.customId) as SelectMenuBuilder;
   }
 
   /** The type of component which was interacted with */
@@ -79,7 +81,7 @@ class SelectMenuInteraction extends BaseStructure {
     return this.data.type;
   }
 
-  /** The interaction's Id */
+  /** The user that used this modal */
   get user() {
     if (this.data.member) {
       return this.client.caches.users.get(this.data.member.user.id) ?? this.client.users.updateOrSet(this.data.member.user.id, this.data.member.user);
@@ -88,6 +90,7 @@ class SelectMenuInteraction extends BaseStructure {
     return undefined;
   }
 
+  /** The member that used this modal */
   get member() {
     if (!this.guildId || !this.data.member) return undefined;
     return this.client.caches.guilds.get(this.guildId)?.members.updateOrSet(this.data.member.user.id, this.data.member);
