@@ -43,6 +43,11 @@ class ButtonBuilder {
     return this.data.style;
   }
 
+  /** The emoji of this button */
+  get emoji() {
+    return this.data.emoji;
+  }
+
   /**
    * Sets the style of this button
    * @example
