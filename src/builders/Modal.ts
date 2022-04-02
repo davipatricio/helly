@@ -45,8 +45,8 @@ class ModalBuilder {
     this.data.components.push(
       ...components
         .map(component => {
-          if (component instanceof ActionRowBuilder) return component.toJSON() as unknown as APIActionRowComponent<APITextInputComponent>;
-          return new ActionRowBuilder(component).toJSON() as unknown as APIActionRowComponent<APITextInputComponent>;
+          if (component instanceof ActionRowBuilder) return component.toJSON() as unknown as RawComponentTypes;
+          return new ActionRowBuilder(component).toJSON() as unknown as RawComponentTypes;
         })
         .filter(c => typeof c !== 'undefined'),
     );
@@ -60,8 +60,8 @@ class ModalBuilder {
   setComponents(...components: (RawComponentTypes | ActionRowBuilder)[]) {
     this.data.components = components
       .map(component => {
-        if (component instanceof ActionRowBuilder) return component.toJSON() as unknown as APIActionRowComponent<APITextInputComponent>;
-        return new ActionRowBuilder(component).toJSON() as unknown as APIActionRowComponent<APITextInputComponent>;
+        if (component instanceof ActionRowBuilder) return component.toJSON() as unknown as RawComponentTypes;
+        return new ActionRowBuilder(component).toJSON() as unknown as RawComponentTypes;
       })
       .filter(c => typeof c !== 'undefined');
     return this;
