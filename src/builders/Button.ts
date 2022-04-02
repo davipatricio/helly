@@ -3,6 +3,7 @@ import { Transformers } from '../utils/transformers';
 
 /** Represents a validated button component */
 class ButtonBuilder {
+  /** The raw data of this button */
   data: APIButtonComponent;
   constructor(data?: APIButtonComponent) {
     this.data = data ?? {
