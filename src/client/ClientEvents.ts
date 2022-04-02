@@ -1,7 +1,9 @@
+import type { ButtonInteraction, SelectMenuInteraction } from '../structures';
 import type { Channel } from '../structures/Channel';
 import type { ChatInputCommandInteraction } from '../structures/ChatInputCommandInteraction';
 import type { Guild } from '../structures/Guild';
 import type { Message } from '../structures/Message';
+import type { ModalSubmitInteraction } from '../structures/ModalSubmitInteraction';
 import type { GuildMembersChunkEventArgs } from './actions/GUILD_MEMBERS_CHUNK';
 import type { Client } from './Client';
 
@@ -34,5 +36,5 @@ export interface ClientEvents {
    * Can miss structures if the message is not cached
    */
   MessageDelete: [data: Message];
-  InteractionCreate: [interaction: ChatInputCommandInteraction];
+  InteractionCreate: [interaction: ChatInputCommandInteraction | ButtonInteraction | SelectMenuInteraction | ModalSubmitInteraction];
 }

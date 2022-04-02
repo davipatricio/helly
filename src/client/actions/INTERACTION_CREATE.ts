@@ -12,10 +12,11 @@ import { ChatInputCommandInteraction } from '../../structures/ChatInputCommandIn
 import { ButtonInteraction } from '../../structures/ButtonInteraction';
 import type { Client } from '../Client';
 import { SelectMenuInteraction } from '../../structures/SelectMenuInteraction';
+import { ModalSubmitInteraction } from '../../structures/ModalSubmitInteraction';
 
 function handle(client: Client, data: GatewayInteractionCreateDispatchData) {
   if (client.ready) {
-    let interaction: ChatInputCommandInteraction | SelectMenuInteraction | ButtonInteraction | null = null;
+    let interaction: ChatInputCommandInteraction | ButtonInteraction | SelectMenuInteraction | ModalSubmitInteraction | null = null;
     switch (data.type) {
       case InteractionType.ApplicationCommand:
         switch (data.data.type) {
@@ -34,6 +35,10 @@ function handle(client: Client, data: GatewayInteractionCreateDispatchData) {
             interaction = new SelectMenuInteraction(client, data as APIMessageComponentSelectMenuInteraction);
             break;
         }
+        break;
+
+      case InteractionType.ModalSubmit:
+        interaction = new ModalSubmitInteraction(client, data);
         break;
     }
 
