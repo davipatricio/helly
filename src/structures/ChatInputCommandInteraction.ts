@@ -4,6 +4,7 @@ import { Snowflake } from '../utils';
 import { MakeAPIMessage } from '../utils/rest';
 import { BaseStructure } from './BaseStructure';
 import type { MessageOptions } from './Channel';
+import { ChatInputCommandOptionResolver } from './ChatInputCommandOptionResolver';
 import type { Message } from './Message';
 import { Webhook } from './Webhook';
 
@@ -82,8 +83,15 @@ class ChatInputCommandInteraction extends BaseStructure {
     return this.data.type;
   }
 
+  get options() {
+    return new ChatInputCommandOptionResolver(this.data.data.options ?? []);
+  }
+
   /** The user that used this command */
   get user() {
+    if (this.guildId && this.data.member) {
+      return this.client.caches.users.get(this.data.member.user.id) ?? this.client.users.updateOrSet(this.data.member.user.id, this.data.member.user);
+    }
     if (!this.data.user) return undefined;
     return this.client.caches.users.get(this.data.user.id) ?? this.client.users.updateOrSet(this.data.user.id, this.data.user);
   }
@@ -91,7 +99,7 @@ class ChatInputCommandInteraction extends BaseStructure {
   /** The member that used this command */
   get member() {
     if (!this.guildId || !this.data.member) return undefined;
-    return this.client.caches.guilds.get(this.guildId)?.members.updateOrSet(this.data.member.user.id, this.data.member);
+    return this.guild?.members.updateOrSet(this.data.member.user.id, this.data.member);
   }
 
   /** The locale of the user who invoked this interaction */
@@ -221,6 +229,10 @@ class ChatInputCommandInteraction extends BaseStructure {
   /** Fetches the initial reply to this interaction */
   fetchReply() {
     return this.webhook.fetchMessage('@original');
+  }
+
+  override toString() {
+    return `/${this.commandName}`;
   }
 
   /** @private */
