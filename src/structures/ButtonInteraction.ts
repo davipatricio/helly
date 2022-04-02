@@ -1,4 +1,5 @@
 import { APIMessageComponentButtonInteraction, APIModalActionRowComponent, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
+import type { ButtonBuilder } from '../builders';
 import { ModalBuilder } from '../builders/Modal';
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils';
@@ -26,6 +27,7 @@ class ButtonInteraction extends BaseStructure {
     this.parseData(data);
   }
 
+  /** The custom Id of the interacted button */
   get customId() {
     return this.data.data.custom_id;
   }
@@ -37,7 +39,7 @@ class ButtonInteraction extends BaseStructure {
 
   /** The component which was interacted with */
   get component() {
-    return this.message.components.flatMap(row => row.components).find(component => component.customId === this.customId);
+    return this.message.components.flatMap(row => row.components).find(component => component.customId === this.customId) as ButtonBuilder;
   }
 
   /** The {@link Channel} that the interaction belongs to */
@@ -75,7 +77,7 @@ class ButtonInteraction extends BaseStructure {
     return this.data.type;
   }
 
-  /** The interaction's Id */
+  /** The user that used this modal */
   get user() {
     if (this.data.member) {
       return this.client.caches.users.get(this.data.member.user.id) ?? this.client.users.updateOrSet(this.data.member.user.id, this.data.member.user);
@@ -84,6 +86,7 @@ class ButtonInteraction extends BaseStructure {
     return undefined;
   }
 
+  /** The member that used this modal */
   get member() {
     if (!this.guildId || !this.data.member) return undefined;
     return this.client.caches.guilds.get(this.guildId)?.members.updateOrSet(this.data.member.user.id, this.data.member);
