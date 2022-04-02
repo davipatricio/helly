@@ -61,6 +61,7 @@ export {
   PresenceUpdateStatus,
   RouteBases,
   Routes,
+  TextInputStyle,
   UserFlags,
   WebhookType,
 } from 'discord-api-types/v10';

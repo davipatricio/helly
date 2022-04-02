@@ -1,8 +1,9 @@
-import { APIActionRowComponent, APIMessageActionRowComponent, APITextInputComponent, ComponentType } from 'discord-api-types/v10';
+import { APIActionRowComponent, APIMessageActionRowComponent, APIModalActionRowComponent, ComponentType } from 'discord-api-types/v10';
 import { ButtonBuilder } from './Button';
 import { SelectMenuBuilder } from './SelectMenu';
+import { TextInputBuilder } from './TextInput';
 
-type RawComponentTypes = APIMessageActionRowComponent | APITextInputComponent;
+type RawComponentTypes = APIMessageActionRowComponent | APIModalActionRowComponent;
 class ActionRowBuilder {
   /** The raw data of this action row */
   data: APIActionRowComponent<RawComponentTypes>;
@@ -18,16 +19,37 @@ class ActionRowBuilder {
     return this.data.type;
   }
 
+  /** The components within this action row */
+  get components() {
+    return (
+      this.data.components
+        ?.map(component => {
+          switch (component.type) {
+            case ComponentType.Button:
+              return new ButtonBuilder(component);
+            case ComponentType.SelectMenu:
+              return new SelectMenuBuilder(component);
+            case ComponentType.TextInput:
+              return new TextInputBuilder(component);
+            default:
+              return component;
+          }
+        })
+        .filter((c): c is ButtonBuilder | SelectMenuBuilder | TextInputBuilder => !!c) ?? []
+    );
+  }
+
   /**
    * Adds components to this action row
    * @param components The components to add to this action row
    */
-  addComponents(...components: (RawComponentTypes | ButtonBuilder | SelectMenuBuilder)[]) {
+  addComponents(...components: (RawComponentTypes | ButtonBuilder | SelectMenuBuilder | TextInputBuilder)[]) {
     this.data.components.push(
       ...components
         .map(component => {
           if (component instanceof ButtonBuilder) return component.toJSON();
           if (component instanceof SelectMenuBuilder) return component.toJSON();
+          if (component instanceof TextInputBuilder) return component.toJSON();
           // Raw object components
           return component;
         })
@@ -40,34 +62,18 @@ class ActionRowBuilder {
    * Sets the components in this action row
    * @param components The components to set this row to
    */
-  setComponents(...components: (RawComponentTypes | ButtonBuilder | SelectMenuBuilder)[]) {
+  setComponents(...components: (RawComponentTypes | ButtonBuilder | SelectMenuBuilder | TextInputBuilder)[]) {
     this.data.components = components
       .map(component => {
         if (component instanceof ButtonBuilder) return component.toJSON();
         if (component instanceof SelectMenuBuilder) return component.toJSON();
+        if (component instanceof TextInputBuilder) return component.toJSON();
         // Raw object components
         return component;
       })
       .filter(c => typeof c !== 'undefined');
 
     return this;
-  }
-
-  /** The components within this action row */
-  get components() {
-    return (
-      this.data.components
-        ?.map(component => {
-          switch (component.type) {
-            case ComponentType.Button:
-              return new ButtonBuilder(component);
-            case ComponentType.SelectMenu:
-              return new SelectMenuBuilder(component);
-          }
-          return undefined;
-        })
-        .filter((c): c is ButtonBuilder | SelectMenuBuilder => !!c) ?? []
-    );
   }
 
   /** Returns the raw data of this action row */

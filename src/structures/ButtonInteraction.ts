@@ -1,4 +1,5 @@
-import { APIMessageComponentButtonInteraction, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
+import { APIMessageComponentButtonInteraction, APIModalActionRowComponent, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
+import { ModalBuilder } from '../builders/Modal';
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils';
 import { MakeAPIMessage } from '../utils/rest';
@@ -250,6 +251,16 @@ class ButtonInteraction extends BaseStructure {
     this.replied = true;
 
     return content.fetchReply ? this.fetchReply() : undefined;
+  }
+
+  async showModal(modal: ModalBuilder | APIModalActionRowComponent) {
+    await this.client.rest.post(Routes.interactionCallback(this.id, this.token), {
+      body: {
+        type: InteractionResponseType.Modal,
+        data: modal instanceof ModalBuilder ? modal.toJSON() : modal,
+      },
+    });
+    this.replied = true;
   }
 
   /**
