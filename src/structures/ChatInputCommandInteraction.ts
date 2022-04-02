@@ -77,10 +77,21 @@ class ChatInputCommandInteraction extends BaseStructure {
     return this.data.id;
   }
 
-  /** The interaction's Id */
+  /** The interaction's type */
+  get type() {
+    return this.data.type;
+  }
+
+  /** The user that used this command */
   get user() {
     if (!this.data.user) return undefined;
     return this.client.caches.users.get(this.data.user.id) ?? this.client.users.updateOrSet(this.data.user.id, this.data.user);
+  }
+
+  /** The member that used this command */
+  get member() {
+    if (!this.guildId || !this.data.member) return undefined;
+    return this.client.caches.guilds.get(this.guildId)?.members.updateOrSet(this.data.member.user.id, this.data.member);
   }
 
   /** The locale of the user who invoked this interaction */
