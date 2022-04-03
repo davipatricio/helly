@@ -1,4 +1,4 @@
-import { APIMessageComponentButtonInteraction, APIModalActionRowComponent, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
+import { APIMessageComponentButtonInteraction, APIModalInteractionResponseCallbackData, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
 import type { ButtonBuilder } from '../builders';
 import { ModalBuilder } from '../builders/Modal';
 import type { Client } from '../client/Client';
@@ -256,7 +256,11 @@ class ButtonInteraction extends BaseStructure {
     return content.fetchReply ? this.fetchReply() : undefined;
   }
 
-  async showModal(modal: ModalBuilder | APIModalActionRowComponent) {
+  /**
+   * Shows a modal component
+   * @param modal The modal to show
+   */
+  async showModal(modal: ModalBuilder | APIModalInteractionResponseCallbackData) {
     await this.client.rest.post(Routes.interactionCallback(this.id, this.token), {
       body: {
         type: InteractionResponseType.Modal,
