@@ -1,4 +1,5 @@
-import { APIChatInputApplicationCommandInteraction, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
+import { APIChatInputApplicationCommandInteraction, APIModalInteractionResponseCallbackData, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
+import { ModalBuilder } from '../builders';
 import type { Client } from '../client/Client';
 import { Snowflake } from '../utils';
 import { MakeAPIMessage } from '../utils/rest';
@@ -229,6 +230,20 @@ class ChatInputCommandInteraction extends BaseStructure {
   /** Fetches the initial reply to this interaction */
   fetchReply() {
     return this.webhook.fetchMessage('@original');
+  }
+
+  /**
+   * Shows a modal component
+   * @param modal The modal to show
+   */
+  async showModal(modal: ModalBuilder | APIModalInteractionResponseCallbackData) {
+    await this.client.rest.post(Routes.interactionCallback(this.id, this.token), {
+      body: {
+        type: InteractionResponseType.Modal,
+        data: modal instanceof ModalBuilder ? modal.toJSON() : modal,
+      },
+    });
+    this.replied = true;
   }
 
   override toString() {
