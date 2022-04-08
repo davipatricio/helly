@@ -1,7 +1,7 @@
-import { APIChannel, APIDMChannel, APIEmbed, APITextChannel, APIVoiceChannel, ChannelType } from 'discord-api-types/v10';
+import { APIDMChannel, APIEmbed, APIGuildChannel, APITextChannel, APIVoiceChannel, ChannelType } from 'discord-api-types/v10';
 import type { EmbedBuilder } from '../builders/Embed';
 import type { Client } from '../client/Client';
-import { Snowflake } from '../utils/Snowflake';
+import { SnowflakeUtil } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
 import type { User } from './User';
@@ -35,11 +35,11 @@ export type MessageOptions = string | MessagePayload;
 
 /** Represents any channel on Discord */
 class Channel extends BaseStructure {
-  /** Raw {@link Role} data */
-  data: APIChannel;
+  /** Raw {@link Channel} data */
+  data: APIGuildChannel<ChannelType>;
   /** Theof the guild the channel is in */
   guildId: string | undefined;
-  constructor(client: Client, data: APIChannel, guild?: Guild) {
+  constructor(client: Client, data: APIGuildChannel<ChannelType>, guild?: Guild) {
     super(client);
     this.client = client;
     this.parseData(data, guild);
@@ -57,12 +57,12 @@ class Channel extends BaseStructure {
 
   /** The timestamp the channel was created at */
   get createdTimestamp() {
-    return Snowflake.deconstruct(this.id);
+    return SnowflakeUtil.deconstruct(this.id);
   }
 
   /** The name of the channel */
   get name() {
-    return this.data.name;
+    return this.data.name ?? undefined;
   }
 
   /** Theof the channel */
@@ -339,7 +339,7 @@ class Channel extends BaseStructure {
   }
 
   /** @private */
-  parseData(data: APIChannel, guild?: Guild) {
+  parseData(data: APIGuildChannel<ChannelType>, guild?: Guild) {
     if (!data) return this;
 
     this.data = { ...this.data, ...data };

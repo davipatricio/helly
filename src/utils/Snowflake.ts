@@ -3,13 +3,13 @@ const epoch = new Date('2015-01-01T00:00:00.000Z').getTime();
 let INCREMENT = BigInt(0);
 
 /** Utility class for working with Snowflakes */
-class Snowflake extends null {
+class SnowflakeUtil extends null {
   /**
    * Deconstructs a Discord snowflake
    * @param id The snowflake to deconstruct
    * @example
    * ```js
-   * const timestamp = Snowflake.deconstruct('934675087108481044');
+   * const timestamp = SnowflakeUtil.deconstruct('934675087108481044');
    * ```
    */
   static deconstruct(id: string | bigint) {
@@ -29,4 +29,4 @@ class Snowflake extends null {
   }
 }
 
-export { Snowflake };
+export { SnowflakeUtil };

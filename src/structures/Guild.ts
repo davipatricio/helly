@@ -1,5 +1,5 @@
 import Collection from '@discordjs/collection';
-import { APIGuild, APIWebhook, Routes } from 'discord-api-types/v10';
+import { APIGuild, APIGuildChannel, APIWebhook, ChannelType, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { GuildApplicationCommandManager } from '../managers/GuildApplicationCommandManager';
 import { GuildBanManager } from '../managers/GuildBanManager';
@@ -7,7 +7,7 @@ import type { GuildChannelManager as GuildChannelManagerType } from '../managers
 import { GuildMemberManager } from '../managers/GuildMemberManager';
 import { RoleManager } from '../managers/RoleManager';
 import { SystemChannelFlagsBitField } from '../utils/bitfield/SystemChannelFlagsBitField';
-import { Snowflake } from '../utils/Snowflake';
+import { SnowflakeUtil } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
 import type { Channel } from './Channel';
 import { Webhook } from './Webhook';
@@ -86,7 +86,7 @@ class Guild extends BaseStructure {
 
   /** The timestamp the guild was created at */
   get createdTimestamp() {
-    return Snowflake.deconstruct(this.id);
+    return SnowflakeUtil.deconstruct(this.id);
   }
 
   /** The description of the guild, if any */
@@ -248,7 +248,7 @@ class Guild extends BaseStructure {
       this.members.updateOrSet(apiMember.user.id, apiMember);
     });
     data.channels?.forEach(apiChannel => {
-      this.client.channels.updateOrSet(apiChannel.id, apiChannel, this);
+      this.client.channels.updateOrSet(apiChannel.id, apiChannel as APIGuildChannel<ChannelType>, this);
     });
 
     return this;

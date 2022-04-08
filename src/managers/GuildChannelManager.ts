@@ -1,4 +1,4 @@
-import { APIChannel, Routes } from 'discord-api-types/v10';
+import { APIGuildChannel, ChannelType, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Channel, ChannelData } from '../structures/Channel';
 import type { Guild } from '../structures/Guild';
@@ -34,8 +34,8 @@ class GuildChannelManager extends ChannelManager {
    */
   async edit(id: string, options: ChannelData, reason = '') {
     const transformed = Transformers.channelData(options);
-    const data = await this.client.rest.make(Routes.channel(id), 'Patch', transformed, { 'X-Audit-Log-Reason': reason });
-    return this.updateOrSet(id, data as APIChannel, this.guild);
+    const data = (await this.client.rest.make(Routes.channel(id), 'Patch', transformed, { 'X-Audit-Log-Reason': reason })) as APIGuildChannel<ChannelType>;
+    return this.updateOrSet(id, data, this.guild);
   }
 
   /**
@@ -53,7 +53,7 @@ class GuildChannelManager extends ChannelManager {
    */
   async create(options: ChannelData, reason = '') {
     const transformed = Transformers.channelData(options);
-    const channel = (await this.client.rest.make(Routes.guildChannels(this.guild.id), 'Post', transformed, { 'X-Audit-Log-Reason': reason })) as APIChannel;
+    const channel = (await this.client.rest.make(Routes.guildChannels(this.guild.id), 'Post', transformed, { 'X-Audit-Log-Reason': reason })) as APIGuildChannel<ChannelType>;
     return this.updateOrSet(channel.id, channel, this.guild);
   }
 
@@ -67,7 +67,7 @@ class GuildChannelManager extends ChannelManager {
    * ```
    */
   async delete(id: string, reason = '') {
-    const data = (await this.client.rest.make(Routes.channel(id), 'Delete', undefined, { 'X-Audit-Log-Reason': reason })) as APIChannel;
+    const data = (await this.client.rest.make(Routes.channel(id), 'Delete', undefined, { 'X-Audit-Log-Reason': reason })) as APIGuildChannel<ChannelType>;
 
     const channel = new Channel(this.client, data, this.guild);
     this.client.caches.channels.delete(id);

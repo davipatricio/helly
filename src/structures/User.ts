@@ -1,7 +1,7 @@
 import type { APIUser } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { CDNEndpoints, AnimatedImageFormats, AllowedImageSizes } from '../constants/CDN';
-import { Snowflake } from '../utils';
+import { SnowflakeUtil } from '../utils';
 import { UserFlagsBitField } from '../utils/bitfield/UserFlagsBitField';
 import { BaseStructure } from './BaseStructure';
 import type { MessageOptions } from './Channel';
@@ -49,7 +49,7 @@ class User extends BaseStructure {
 
   /** The timestamp the user was created at */
   get createdTimestamp() {
-    return Snowflake.deconstruct(this.id);
+    return SnowflakeUtil.deconstruct(this.id);
   }
 
   /** The DM{@link Channel} between the client's user and this user */
