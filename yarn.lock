@@ -1465,10 +1465,10 @@ typedoc-plugin-extras@2.2.3:
   resolved "https://registry.yarnpkg.com/typedoc-plugin-extras/-/typedoc-plugin-extras-2.2.3.tgz#fb292b66f68e450d049251036d6528e4c5badfd4"
   integrity sha512-G4sLPKHO/Q2AB3arxy8Co0jdvO6glGCHtGOUxiiR/Kx1fz+C+/ZbN6Jxu3qi7nyVVW5sX39bW26w+7EjpxicqQ==
 
-typedoc@0.22.14:
-  version "0.22.14"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.22.14.tgz#c690677c31bc1dd5618caffc001bfa8554c4c02f"
-  integrity sha512-tlf9wIcsrnQSjetStrnRutuy2RjZkG5PK2umwveZLTkuC2K9VywOZTdu2G19BdOPzGrhZjf9WK7pthXqnFQejg==
+typedoc@0.22.15:
+  version "0.22.15"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.22.15.tgz#c6ad7ed9d017dc2c3a06c9189cb392bd8e2d8c3f"
+  integrity sha512-CMd1lrqQbFvbx6S9G6fL4HKp3GoIuhujJReWqlIvSb2T26vGai+8Os3Mde7Pn832pXYemd9BMuuYWhFpL5st0Q==
   dependencies:
     glob "^7.2.0"
     lunr "^2.3.9"
