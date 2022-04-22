@@ -7,20 +7,20 @@
   resolved "https://registry.yarnpkg.com/@discordjs/collection/-/collection-0.6.0.tgz#ee9c7b349a61d081fcdbda36df4187e575510952"
   integrity sha512-Ieaetb36l0nmAS5X9Upqk4W7euAO6FdXPxn3I8vBAKEcoIzEZI1mcVcPfCfagGJZSgBKpENnAnKkP4GAn+MV8w==
 
-"@discordjs/collection@^0.6.0-dev":
-  version "0.6.0-dev.1649160495-402514f"
-  resolved "https://registry.yarnpkg.com/@discordjs/collection/-/collection-0.6.0-dev.1649160495-402514f.tgz#db159cb55cf8bd0fa0bd5d18dc588caa07cc8074"
-  integrity sha512-AIoWLKLB6SZXojB0oiWMfCmrKFwzmCYWa2DEEcZzo3hMTDd13Vxi30WCuXnqriG7tmYdvDEf3E9r3Z5kdm/igQ==
+"@discordjs/collection@^0.7.0-dev":
+  version "0.7.0-dev.1650586175-61a44c5"
+  resolved "https://registry.yarnpkg.com/@discordjs/collection/-/collection-0.7.0-dev.1650586175-61a44c5.tgz#361f45854d75f0ea3dd08f46f5b5e9f86ec62c67"
+  integrity sha512-GyBtogCnQjh0AKdBFU+ScoCLbaQuUoOzA6e1+ckDe/7coOFEheOlt4wN03eolW6v/raAZpA1ozJZDGB7VHTDIA==
 
-"@discordjs/rest@0.4.0-dev.1649505800-3c0bbac":
-  version "0.4.0-dev.1649505800-3c0bbac"
-  resolved "https://registry.yarnpkg.com/@discordjs/rest/-/rest-0.4.0-dev.1649505800-3c0bbac.tgz#0b2f3001abcd3307c4417cf9640f16c2ef771dfe"
-  integrity sha512-cGtQE6T2g4/2d++JqSuwxJF7ulkQOLUod8WtBFlJ2iPu1u79ZzEBu9VEUKQ9GJGVm5FIAKJxwvpKe+iJiIZrCg==
+"@discordjs/rest@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@discordjs/rest/-/rest-0.4.1.tgz#d0a7e79df7a7f59bd01630013b3c70231e22a31d"
+  integrity sha512-rtWy+AIfNlfjGkAgA2TJLASdqli07aTNQceVGT6RQQiQaEqV0nsfBO4WtDlDzk7PmO3w+InP3dpwEolJI5jz0A==
   dependencies:
-    "@discordjs/collection" "^0.6.0-dev"
-    "@sapphire/async-queue" "^1.2.0"
-    "@sapphire/snowflake" "^3.1.0"
-    "@types/node-fetch" "^2.5.12"
+    "@discordjs/collection" "^0.7.0-dev"
+    "@sapphire/async-queue" "^1.3.1"
+    "@sapphire/snowflake" "^3.2.1"
+    "@types/node-fetch" "^2.6.1"
     discord-api-types "^0.29.0"
     form-data "^4.0.0"
     node-fetch "^2.6.7"
@@ -76,7 +76,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@sapphire/async-queue@^1.2.0":
+"@sapphire/async-queue@^1.3.1":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@sapphire/async-queue/-/async-queue-1.3.1.tgz#9d861e626dbffae02d808e13f823d4510e450a78"
   integrity sha512-FFTlPOWZX1kDj9xCAsRzH5xEJfawg1lNoYAA+ecOWJMHOfiZYb1uXOI3ne9U4UILSEPwfE68p3T9wUHwIQfR0g==
@@ -88,7 +88,7 @@
   dependencies:
     "@sapphire/time-utilities" "^1.7.4"
 
-"@sapphire/snowflake@^3.1.0":
+"@sapphire/snowflake@^3.2.1":
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/@sapphire/snowflake/-/snowflake-3.2.1.tgz#027f217779ec7fd324d35cf941b3de49b4f67877"
   integrity sha512-vmZq1I6J6iNRQVXP+N9HzOMOY4ORB3MunoFeWCw/aBnZTf1cDgDvP0RZFQS53B1TN95AIgFY9T+ItQ/fWAUYWQ==
@@ -115,7 +115,7 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
-"@types/node-fetch@^2.5.12":
+"@types/node-fetch@^2.6.1":
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.6.1.tgz#8f127c50481db65886800ef496f20bbf15518975"
   integrity sha512-oMqjURCaxoSIsHSr1E47QHzbmzNR5rK8McHuNb11BOM9cHcIK3Avy0s/b2JlXHoQGTYS3NsvWzV1M0iK7l0wbA==
