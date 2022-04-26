@@ -1481,10 +1481,10 @@ typedoc@0.22.15:
     minimatch "^5.0.1"
     shiki "^0.10.1"
 
-typescript@4.7.0-dev.20220422:
-  version "4.7.0-dev.20220422"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.7.0-dev.20220422.tgz#19dccf6adb94ebf87c5e1cc13d85ee8b5c54621d"
-  integrity sha512-Kqw1BNhbhJ+Gvg+Mydh9mcb+hCHfoflVpA+H6pnSdcUxAT7kLMj+kna0IX35J1cHsogZolaiLKM8G3FJnZcURQ==
+typescript@4.7.0-dev.20220426:
+  version "4.7.0-dev.20220426"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.7.0-dev.20220426.tgz#7924d223a4e111e5bb30c8d99ed989c4a594ab69"
+  integrity sha512-Kp2HY+EFd3ohtistJ+C4Px4esymoC90SFH9/aNOhD7pyoan9DSRmzcqOgN6zdwbSH4T1Riju+p6Flc1VnVlhrg==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"
