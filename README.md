@@ -68,5 +68,6 @@ client.login('TOKEN')
 
 ## Useful Links
 - [The website](https://helly.js.org) has more details and documentation.
-- [The GitHub repo](https://github.com/davipatricio/helly) is where development primarily happens.
+- [The GitHub repo](https://github.com/denkylabs/helly) is where development primarily happens.
 - [The NPM package webpage](https://npmjs.com/package/helly) is, well, the webpage for the NPM package.
+- [Denky Labs Discord server](https://discord.gg/98DNuKDx8j) helly support server on discord
