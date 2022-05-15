@@ -5,3 +5,6 @@ node_modules
 .vscode
 .git
 tests/config.json
+
+package-lock.json
+yarn.lock
