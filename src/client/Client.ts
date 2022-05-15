@@ -55,6 +55,7 @@ class Client extends EventEmitter {
   guilds: GuildManager;
   /** Manages API methods for {@link Channel}s */
   channels: ChannelManager;
+  // TODO: move to application when ClientApplication is implemented
   /** Manages API methods for {@link ApplicationCommand}s */
   commands: ApplicationCommandManager;
   /** Manages API methods for {@link User}s */
@@ -63,6 +64,7 @@ class Client extends EventEmitter {
   messages: MessageManager;
   /** The Id of the logged client */
   id: string;
+  /* The manager that handles requests to the Discord API */
   rest: RestManager;
   /**
    * @param options The options for the client
