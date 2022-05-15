@@ -21,7 +21,7 @@ class SnowflakeUtil extends null {
    * Generates a Discord snowflake
    * @param timestamp Timestamp of the snowflake to generate
    */
-  static generate(timestamp = Date.now() as number) {
+  static generate(timestamp = Date.now()) {
     if (INCREMENT >= 4095n) INCREMENT = BigInt(0);
 
     // Assign WorkerId as 1 and ProcessId as 0:

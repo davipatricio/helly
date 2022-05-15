@@ -1,9 +1,9 @@
 import { APIGuildMember, APIMessage, MessageType } from 'discord-api-types/v10';
+import { EmbedBuilder } from '../builders/Embed';
 import type { Client } from '../client/Client';
 import { Parsers } from '../utils/transformers/Parsers';
 import { BaseStructure } from './BaseStructure';
-import type { MessageOptions, MessagePayload } from './Channel';
-import { EmbedBuilder } from '../builders/Embed';
+import type { MessageOptions } from './Channel';
 import { GuildMember } from './GuildMember';
 
 export type MessageData = Partial<Message>;
@@ -144,7 +144,7 @@ class Message extends BaseStructure {
    * ```
    */
   reply(content: MessageOptions) {
-    const parsedContent = (typeof content === 'string' ? { content } : content) as MessagePayload;
+    const parsedContent = typeof content === 'string' ? { content } : content;
 
     parsedContent.messageReference = {
       messageId: this.id,
