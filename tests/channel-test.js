@@ -13,7 +13,7 @@ module.exports.startChannelTests = (client) => {
         if (channel.id !== '949804142048727050') throw new Error('Role ID is not equal to \'949804142048727050\'.');
 
         await channel.setName(`auto-helly-test-${randomNumber}`).then(channel => {
-            if (channel.name !== `auto-helly-test-${randomNumber}`) throw new Error(`Channel name is not equal to \'auto-helly-test-${randomNumber}\'`);
+            if (channel.name !== `auto-helly-test-${randomNumber}`) throw new Error(`Channel name is not equal to 'auto-helly-test-${randomNumber}'`);
         })
 
         console.log('   [Channel Tests] ✅ Channel tests passed.')
