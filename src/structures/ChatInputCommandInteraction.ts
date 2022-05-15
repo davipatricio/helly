@@ -1,7 +1,7 @@
 import { APIChatInputApplicationCommandInteraction, APIModalInteractionResponseCallbackData, InteractionResponseType, MessageFlags, Routes } from 'discord-api-types/v10';
 import { ModalBuilder } from '../builders';
 import type { Client } from '../client/Client';
-import { Snowflake } from '../utils';
+import { SnowflakeUtil } from '../utils';
 import { MakeAPIMessage } from '../utils/rest';
 import { BaseStructure } from './BaseStructure';
 import type { MessageOptions } from './Channel';
@@ -66,7 +66,7 @@ class ChatInputCommandInteraction extends BaseStructure {
 
   /** The timestamp the interaction was created Id */
   get createdTimestamp() {
-    return Snowflake.deconstruct(this.id);
+    return SnowflakeUtil.deconstruct(this.id);
   }
 
   /** The interaction's token */

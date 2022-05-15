@@ -2,7 +2,7 @@ import { APIActionRowComponent, APIModalSubmitInteraction, APITextInputComponent
 import type { MessageOptions } from '.';
 import { ActionRowBuilder } from '../builders';
 import type { Client } from '../client/Client';
-import { Snowflake } from '../utils';
+import { SnowflakeUtil } from '../utils';
 import { MakeAPIMessage } from '../utils/rest';
 import { BaseStructure } from './BaseStructure';
 import type { InteractionDeferReplyOptions } from './ChatInputCommandInteraction';
@@ -59,7 +59,7 @@ class ModalSubmitInteraction extends BaseStructure {
 
   /** The timestamp the interaction was created Id */
   get createdTimestamp() {
-    return Snowflake.deconstruct(this.id);
+    return SnowflakeUtil.deconstruct(this.id);
   }
 
   /** The interaction's token */

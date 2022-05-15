@@ -1,4 +1,4 @@
-import { APIDMChannel, APIEmbed, APIGuildChannel, APITextChannel, APIVoiceChannel, ChannelType } from 'discord-api-types/v10';
+import { APIActionRowComponent, APIActionRowComponentTypes, APIDMChannel, APIEmbed, APIGuildChannel, APITextChannel, APIVoiceChannel, ChannelType } from 'discord-api-types/v10';
 import type { ActionRowBuilder, EmbedBuilder } from '../builders';
 import type { Client } from '../client/Client';
 import { SnowflakeUtil } from '../utils/Snowflake';
