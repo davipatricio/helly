@@ -5,7 +5,7 @@ import type { Client } from '../client/Client';
 import { Events } from '../constants';
 import type { BanOptions, Guild } from '../structures';
 import { GuildMember } from '../structures/GuildMember';
-import { LimitedCollection, Snowflake } from '../utils';
+import { LimitedCollection, SnowflakeUtil } from '../utils';
 
 /** The data for editing a guild member */
 export interface GuildMemberEditData {
@@ -86,7 +86,7 @@ class GuildMemberManager {
   async fetch(id: string): Promise<GuildMember>;
   async fetch(id?: string): Promise<Collection<string, GuildMember>>;
   async fetch(id?: string) {
-    if (!id) return this.#fetchAll({ limit: 0, guild_id: this.guild.id, query: '', nonce: Snowflake.generate() });
+    if (!id) return this.#fetchAll({ limit: 0, guild_id: this.guild.id, query: '', nonce: SnowflakeUtil.generate() });
 
     const data = (await this.client.rest.make(Routes.guildMember(this.guild.id, id), 'Get')) as APIGuildMember;
     const member = this.updateOrSet(id, data);

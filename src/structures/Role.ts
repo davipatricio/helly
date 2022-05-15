@@ -2,7 +2,7 @@ import type { APIRole } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Parsers } from '../utils/transformers/Parsers';
 import { PermissionsBitField } from '../utils/bitfield/PermissionsBitField';
-import { Snowflake } from '../utils/Snowflake';
+import { SnowflakeUtil } from '../utils/Snowflake';
 import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
 
@@ -38,7 +38,7 @@ class Role extends BaseStructure {
 
   /** The timestamp the role was created at */
   get createdTimestamp() {
-    return Snowflake.deconstruct(this.id);
+    return SnowflakeUtil.deconstruct(this.id);
   }
 
   /** The name of this role */

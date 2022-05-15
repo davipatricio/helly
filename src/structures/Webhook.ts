@@ -2,7 +2,7 @@ import { APIGuild, APIMessage, APIWebhook, Routes } from 'discord-api-types/v10'
 import type { MessageOptions } from '.';
 import type { Client } from '../client/Client';
 import { CDNEndpoints } from '../constants';
-import { Snowflake } from '../utils';
+import { SnowflakeUtil } from '../utils';
 import { MakeAPIMessage } from '../utils/rest';
 import { BaseStructure } from './BaseStructure';
 import type { ImageURLOptions } from './User';
@@ -29,7 +29,7 @@ class Webhook extends BaseStructure {
 
   /** The timestamp the webhook was created at */
   get createdTimestamp() {
-    return Snowflake.deconstruct(this.id);
+    return SnowflakeUtil.deconstruct(this.id);
   }
 
   /** The {@link Channel} this webhook belongs to */
