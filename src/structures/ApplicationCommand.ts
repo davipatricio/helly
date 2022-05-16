@@ -48,11 +48,6 @@ class ApplicationCommand extends BaseStructure {
     return this.data.description_localizations;
   }
 
-  /** Whether the command is enabled by default when the app is added to a guild */
-  get defaultPermission() {
-    return this.data.default_permission;
-  }
-
   /** The default bitfield used to determine whether this command be used in a guild */
   get defaultMemberPermissions() {
     return this.data.default_member_permissions;
@@ -101,11 +96,6 @@ class ApplicationCommand extends BaseStructure {
   /** Edits the description of this ApplicationCommand */
   setDescription(description: string) {
     return this.edit({ description });
-  }
-
-  /** Edits the default permission of this ApplicationCommand */
-  setDefaultPermission(defaultPermission = true) {
-    return this.edit({ defaultPermission });
   }
 
   /** Edits the default member permissions of this ApplicationCommand */
