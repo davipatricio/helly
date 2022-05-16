@@ -32,6 +32,8 @@ class Transformers extends null {
     if (data.nameLocalizations) parsedData.name_localizations = data.nameLocalizations;
     if (data.descriptionLocalizations) parsedData.description_localizations = data.descriptionLocalizations;
     if (data.defaultPermission) parsedData.default_permission = data.defaultPermission;
+    if (data.dmPermission) parsedData.dm_permission = data.dmPermission;
+    if (data.defaultMemberPermissions) parsedData.default_member_permissions = data.defaultMemberPermissions;
     if (guild) parsedData.guild_id = guild.id ?? data.guildId;
     return parsedData;
   }

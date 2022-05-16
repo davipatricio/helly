@@ -53,6 +53,16 @@ class ApplicationCommand extends BaseStructure {
     return this.data.default_permission;
   }
 
+  /** The default bitfield used to determine whether this command be used in a guild */
+  get defaultMemberPermissions() {
+    return this.data.default_member_permissions;
+  }
+
+  /** Whether the command can be used in dms */
+  get dmPermission() {
+    return this.data.dm_permission;
+  }
+
   /** The options for the command */
   get options() {
     return this.data.options ?? [];
@@ -96,6 +106,16 @@ class ApplicationCommand extends BaseStructure {
   /** Edits the default permission of this ApplicationCommand */
   setDefaultPermission(defaultPermission = true) {
     return this.edit({ defaultPermission });
+  }
+
+  /** Edits the default member permissions of this ApplicationCommand */
+  setDefaultMemberPermissions(defaultMemberPermissions: string) {
+    return this.edit({ defaultMemberPermissions });
+  }
+
+  /** Edits the dm permission of this ApplicationCommand */
+  setDMPermission(dmPermission = true) {
+    return this.edit({ dmPermission });
   }
 
   /** Deletes this command */
