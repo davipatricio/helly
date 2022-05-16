@@ -6,6 +6,12 @@ import { BaseStructure } from './BaseStructure';
 import type { Guild } from './Guild';
 import type { User } from './User';
 
+export interface GuildChannel extends Omit<Channel, 'recipient'> {
+  guild: Guild;
+}
+
+export type DMChannel = Pick<Channel, 'id' | 'messages' | 'url' | 'createdAt' | 'createdTimestamp' | 'recipient' | 'id' | 'send'>;
+
 /** Reference data sent in a message that contains Ids identifying the referenced message */
 export interface MessageReference {
   /** The message'sthat was referenced */
@@ -276,6 +282,16 @@ class Channel extends BaseStructure {
    */
   setType(type = ChannelType.GuildText, reason = '') {
     return this.guild?.channels.edit(this.id, { type }, reason);
+  }
+
+  /** Whether this channel is in a guild */
+  inGuild(): this is GuildChannel {
+    return Boolean(this.guild);
+  }
+
+  /** Whether this channel is a DM channel */
+  inDM(): this is DMChannel {
+    return Boolean(this.recipient);
   }
 
   /** Indicates whether this channel is a text channel */
