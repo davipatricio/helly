@@ -1,4 +1,4 @@
-import { APIGuild, GatewayIntentBits, GatewayReadyDispatchData } from 'discord-api-types/v10';
+import { GatewayGuildCreateDispatchData, GatewayIntentBits, GatewayReadyDispatchData } from 'discord-api-types/v10';
 import { Events } from '../../constants/Events';
 import { ClientUser } from '../../structures';
 import type { Client } from '../Client';
@@ -10,7 +10,7 @@ function handle(client: Client, data: GatewayReadyDispatchData) {
   const user = new ClientUser(client, data.user);
   client.caches.users.set(user.id, user);
 
-  data.guilds.forEach(guild => client.guilds.updateOrSet(guild.id, guild as APIGuild));
+  data.guilds.forEach(guild => client.guilds.updateOrSet(guild.id, guild as GatewayGuildCreateDispatchData));
   client.commands.fetch();
 
   setTimeout(

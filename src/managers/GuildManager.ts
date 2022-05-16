@@ -1,5 +1,5 @@
 import Collection from '@discordjs/collection';
-import { APIGuild, Routes } from 'discord-api-types/v10';
+import { GatewayGuildCreateDispatchData, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { Guild, GuildWidgetSettingsData } from '../structures/Guild';
 import { Transformers } from '../utils/transformers/Transformers';
@@ -27,7 +27,7 @@ class GuildManager {
   fetch(id?: string): Promise<Guild>;
   async fetch(id?: string) {
     if (!id) {
-      const guilds = (await this.client.rest.make(Routes.userGuilds(), 'Get')) as APIGuild[];
+      const guilds = (await this.client.rest.make(Routes.userGuilds(), 'Get')) as GatewayGuildCreateDispatchData[];
       const fetchedGuilds = new Collection<string, Guild>();
 
       for (const guild of guilds) {
@@ -37,7 +37,7 @@ class GuildManager {
       return fetchedGuilds;
     }
 
-    const fetchedGuild = (await this.client.rest.make(Routes.guild(id), 'Get')) as APIGuild;
+    const fetchedGuild = (await this.client.rest.make(Routes.guild(id), 'Get')) as GatewayGuildCreateDispatchData;
     const cachedGuild = this.updateOrSet(id, fetchedGuild);
     return cachedGuild;
   }
@@ -55,7 +55,7 @@ class GuildManager {
   async edit(guildId: string, options: Partial<Guild>, reason = '') {
     const transformed = Transformers.guildData(options);
     const data = await this.client.rest.make(Routes.guild(guildId), 'Patch', transformed, { 'X-Audit-Log-Reason': reason });
-    return this.updateOrSet(guildId, data as APIGuild);
+    return this.updateOrSet(guildId, data as GatewayGuildCreateDispatchData);
   }
 
   /**
@@ -80,7 +80,7 @@ class GuildManager {
    * Updates or caches a {@link Guild} with the provided {@link APIGuild} data
    * @private
    */
-  updateOrSet(id: string, data: APIGuild) {
+  updateOrSet(id: string, data: GatewayGuildCreateDispatchData) {
     const cachedGuild = this.client.caches.guilds.get(id);
     if (cachedGuild) return cachedGuild.parseData(data);
 

@@ -1,4 +1,4 @@
-import { APIGuild, APIMessage, APIWebhook, Routes } from 'discord-api-types/v10';
+import { APIMessage, APIWebhook, GatewayGuildCreateDispatchData, Routes } from 'discord-api-types/v10';
 import type { MessageOptions } from '.';
 import type { Client } from '../client/Client';
 import { CDNEndpoints } from '../constants';
@@ -84,7 +84,7 @@ class Webhook extends BaseStructure {
   /** The source guild of the webhook */
   get sourceGuild() {
     if (!this.data.source_guild) return undefined;
-    return this.client.guilds.updateOrSet(this.data.source_guild.id, this.data.source_guild as APIGuild);
+    return this.client.guilds.updateOrSet(this.data.source_guild.id, this.data.source_guild as GatewayGuildCreateDispatchData);
   }
 
   /** The owner of the webhook */
