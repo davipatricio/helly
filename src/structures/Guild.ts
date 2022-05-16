@@ -1,5 +1,5 @@
 import Collection from '@discordjs/collection';
-import { APIGuild, APIGuildChannel, APIWebhook, ChannelType, Routes } from 'discord-api-types/v10';
+import { GatewayGuildCreateDispatchData, APIGuildChannel, APIWebhook, ChannelType, Routes } from 'discord-api-types/v10';
 import type { Client } from '../client/Client';
 import { GuildApplicationCommandManager } from '../managers/GuildApplicationCommandManager';
 import { GuildBanManager } from '../managers/GuildBanManager';
@@ -21,7 +21,7 @@ export interface GuildWidgetSettingsData {
 
 class Guild extends BaseStructure {
   /** Raw guild data */
-  data: APIGuild;
+  data: GatewayGuildCreateDispatchData;
   /** A manager of the {@link Role}s belonging to this guild */
   roles: RoleManager;
   /**
@@ -35,7 +35,7 @@ class Guild extends BaseStructure {
   commands: GuildApplicationCommandManager;
   /** A manager of the {@link GuildMember}s belonging to this guild */
   members: GuildMemberManager;
-  constructor(client: Client, data: APIGuild) {
+  constructor(client: Client, data: GatewayGuildCreateDispatchData) {
     super(client);
     this.roles = new RoleManager(client, this);
 
@@ -236,7 +236,7 @@ class Guild extends BaseStructure {
   }
 
   /** @private */
-  parseData(data: APIGuild) {
+  parseData(data: GatewayGuildCreateDispatchData) {
     if (!data) return this;
 
     this.data = { ...this.data, ...data };
