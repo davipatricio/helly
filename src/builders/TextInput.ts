@@ -17,7 +17,12 @@ class TextInputBuilder {
     return this.data.type;
   }
 
-  /** The custom Id of this modal */
+  /** The style of this component */
+  get style() {
+    return this.data.style;
+  }
+
+  /** The custom Id of this  */
   get customId() {
     return this.data.custom_id;
   }
@@ -27,7 +32,7 @@ class TextInputBuilder {
     return this.data.label;
   }
 
-  /**  Maximal length of text input */
+  /** Maximal length of text input */
   get maxLength() {
     return this.data.max_length;
   }
@@ -115,6 +120,12 @@ class TextInputBuilder {
   /** Sets the minimum length of this text input */
   setMinLength(minLength?: number) {
     this.data.min_length = minLength;
+    return this;
+  }
+
+  /** Sets the style of this text input */
+  setStyle(type: TextInputStyle) {
+    this.data.style = type;
     return this;
   }
 
