@@ -4,9 +4,11 @@ import type { Client } from '../client/Client';
 import { SnowflakeUtil } from '../utils';
 import { MakeAPIMessage } from '../utils/rest';
 import { BaseStructure } from './BaseStructure';
+import type { ButtonInteraction } from './ButtonInteraction';
 import type { MessageOptions } from './Channel';
-import type { InteractionDeferReplyOptions } from './ChatInputCommandInteraction';
+import type { ChatInputCommandInteraction, InteractionDeferReplyOptions } from './ChatInputCommandInteraction';
 import type { Message } from './Message';
+import type { ModalSubmitInteraction } from './ModalSubmitInteraction';
 import { Webhook } from './Webhook';
 
 class SelectMenuInteraction extends BaseStructure {
@@ -292,6 +294,22 @@ class SelectMenuInteraction extends BaseStructure {
       },
     });
     this.replied = true;
+  }
+
+  isCommand(): this is ChatInputCommandInteraction {
+    return false;
+  }
+
+  isModal(): this is ModalSubmitInteraction {
+    return false;
+  }
+
+  isButton(): this is ButtonInteraction {
+    return false;
+  }
+
+  isSelectMenu(): this is SelectMenuInteraction {
+    return true;
   }
 
   /** @private */

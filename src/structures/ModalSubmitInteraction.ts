@@ -5,8 +5,10 @@ import type { Client } from '../client/Client';
 import { SnowflakeUtil } from '../utils';
 import { MakeAPIMessage } from '../utils/rest';
 import { BaseStructure } from './BaseStructure';
-import type { InteractionDeferReplyOptions } from './ChatInputCommandInteraction';
+import type { ChatInputCommandInteraction, InteractionDeferReplyOptions } from './ChatInputCommandInteraction';
 import type { Message } from './Message';
+import type { SelectMenuInteraction } from './SelectMenuInteraction';
+import type { ButtonInteraction } from './ButtonInteraction';
 import { ModalFields } from './ModalFieldResolver';
 import { Webhook } from './Webhook';
 
@@ -275,6 +277,22 @@ class ModalSubmitInteraction extends BaseStructure {
   /** Fetches the initial reply to this interaction */
   fetchReply() {
     return this.webhook.fetchMessage('@original');
+  }
+
+  isCommand(): this is ChatInputCommandInteraction {
+    return false;
+  }
+
+  isModal(): this is ModalSubmitInteraction {
+    return true;
+  }
+
+  isButton(): this is ButtonInteraction {
+    return false;
+  }
+
+  isSelectMenu(): this is SelectMenuInteraction {
+    return false;
   }
 
   /** @private */

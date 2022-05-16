@@ -6,8 +6,10 @@ import { SnowflakeUtil } from '../utils';
 import { MakeAPIMessage } from '../utils/rest';
 import { BaseStructure } from './BaseStructure';
 import type { MessageOptions } from './Channel';
-import type { InteractionDeferReplyOptions } from './ChatInputCommandInteraction';
+import type { ChatInputCommandInteraction, InteractionDeferReplyOptions } from './ChatInputCommandInteraction';
 import type { Message } from './Message';
+import type { ModalSubmitInteraction } from './ModalSubmitInteraction';
+import type { SelectMenuInteraction } from './SelectMenuInteraction';
 import { Webhook } from './Webhook';
 
 class ButtonInteraction extends BaseStructure {
@@ -288,6 +290,22 @@ class ButtonInteraction extends BaseStructure {
   /** Fetches the initial reply to this interaction */
   fetchReply() {
     return this.webhook.fetchMessage('@original');
+  }
+
+  isCommand(): this is ChatInputCommandInteraction {
+    return false;
+  }
+
+  isModal(): this is ModalSubmitInteraction {
+    return false;
+  }
+
+  isButton(): this is ButtonInteraction {
+    return true;
+  }
+
+  isSelectMenu(): this is SelectMenuInteraction {
+    return false;
   }
 
   /** @private */

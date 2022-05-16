@@ -4,9 +4,12 @@ import type { Client } from '../client/Client';
 import { SnowflakeUtil } from '../utils';
 import { MakeAPIMessage } from '../utils/rest';
 import { BaseStructure } from './BaseStructure';
+import type { ButtonInteraction } from './ButtonInteraction';
 import type { MessageOptions } from './Channel';
 import { ChatInputCommandOptionResolver } from './ChatInputCommandOptionResolver';
 import type { Message } from './Message';
+import type { ModalSubmitInteraction } from './ModalSubmitInteraction';
+import type { SelectMenuInteraction } from './SelectMenuInteraction';
 import { Webhook } from './Webhook';
 
 /** Options for deferring the reply to a {@link ChatInputCommandInteraction} */
@@ -244,6 +247,22 @@ class ChatInputCommandInteraction extends BaseStructure {
       },
     });
     this.replied = true;
+  }
+
+  isCommand(): this is ChatInputCommandInteraction {
+    return true;
+  }
+
+  isModal(): this is ModalSubmitInteraction {
+    return false;
+  }
+
+  isButton(): this is ButtonInteraction {
+    return false;
+  }
+
+  isSelectMenu(): this is SelectMenuInteraction {
+    return false;
   }
 
   override toString() {
