@@ -20,6 +20,7 @@ import type { ApplicationCommand } from '../../structures/ApplicationCommand';
 import type { ChannelData, MessageReferenceSend } from '../../structures/Channel';
 import type { Guild, GuildWidgetSettingsData } from '../../structures/Guild';
 import type { BanOptions } from '../../structures/GuildMember';
+import { PermissionsBitField } from '../bitfield';
 import { MessageFlagsBitField } from '../bitfield/MessageFlagsBitField';
 import { SystemChannelFlagsBitField } from '../bitfield/SystemChannelFlagsBitField';
 
@@ -32,8 +33,13 @@ class Transformers extends null {
     if (data.nameLocalizations) parsedData.name_localizations = data.nameLocalizations;
     if (data.descriptionLocalizations) parsedData.description_localizations = data.descriptionLocalizations;
     if (data.dmPermission) parsedData.dm_permission = data.dmPermission;
-    if (data.defaultMemberPermissions) parsedData.default_member_permissions = data.defaultMemberPermissions;
+    if (data.defaultMemberPermissions) {
+      if (data.defaultMemberPermissions instanceof PermissionsBitField) parsedData.default_member_permissions = `${data.defaultMemberPermissions.bitfield}`;
+      else parsedData.default_member_permissions = `${data.defaultMemberPermissions}`;
+    }
     if (guild) parsedData.guild_id = guild.id ?? data.guildId;
+
+    delete (parsedData as unknown as Partial<ApplicationCommand>).data?.default_member_permissions;
     return parsedData;
   }
 

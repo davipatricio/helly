@@ -1,6 +1,7 @@
 import { APIApplicationCommand, Routes } from 'discord-api-types/v10';
 import type { Guild } from '.';
 import type { Client } from '../client/Client';
+import { PermissionsBitField } from '../utils/bitfield';
 import { Transformers } from '../utils/transformers/Transformers';
 import { BaseStructure } from './BaseStructure';
 
@@ -50,7 +51,7 @@ class ApplicationCommand extends BaseStructure {
 
   /** The default bitfield used to determine whether this command be used in a guild */
   get defaultMemberPermissions() {
-    return this.data.default_member_permissions;
+    return new PermissionsBitField(this.data.default_member_permissions ?? BigInt(0));
   }
 
   /** Whether the command can be used in dms */
@@ -99,7 +100,7 @@ class ApplicationCommand extends BaseStructure {
   }
 
   /** Edits the default member permissions of this ApplicationCommand */
-  setDefaultMemberPermissions(defaultMemberPermissions: string) {
+  setDefaultMemberPermissions(defaultMemberPermissions: PermissionsBitField) {
     return this.edit({ defaultMemberPermissions });
   }
 
