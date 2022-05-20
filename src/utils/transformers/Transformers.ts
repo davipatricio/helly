@@ -35,7 +35,7 @@ class Transformers extends null {
     if (data.dmPermission) parsedData.dm_permission = data.dmPermission;
     if (data.defaultMemberPermissions) {
       if (data.defaultMemberPermissions instanceof PermissionsBitField) parsedData.default_member_permissions = `${data.defaultMemberPermissions.bitfield}`;
-      else parsedData.default_member_permissions = `${data.defaultMemberPermissions}`;
+      else parsedData.default_member_permissions = data.defaultMemberPermissions;
     }
     if (guild) parsedData.guild_id = guild.id ?? data.guildId;
 
