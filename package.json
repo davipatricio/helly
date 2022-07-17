@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "@discordjs/collection": "0.6.0",
-    "@discordjs/rest": "0.4.1",
+    "@discordjs/rest": "0.6.0",
     "@sapphire/ratelimits": "2.4.4",
     "axios": "0.27.2",
     "discord-api-types": "0.33.0",
