@@ -6,7 +6,6 @@
         "alwaysStrict": true,
         "checkJs": false,
         "declaration": true,
-        "declarationDir": "build/types",
         "declarationMap": true,
         "esModuleInterop": true,
         // if true: conflicts with discord-api-types
@@ -25,7 +24,7 @@
         "noImplicitReturns": false,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "outDir": "build/cjs",
+        "outDir": "dist",
         "pretty": true,
         "preserveConstEnums": true,
         "removeComments": false,
@@ -40,14 +39,5 @@
         ],
         "useDefineForClassFields": false,
         "useUnknownInCatchVariables": true
-    },
-    "exclude": [
-        "build",
-        "node_modules",
-        "package-lock.json",
-        "package.json"
-    ],
-    "include": [
-        "packages/**/*.ts"
-    ]
+    }
 }
