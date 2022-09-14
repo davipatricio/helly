@@ -10,6 +10,7 @@ import type {
   GuildSystemChannelFlags,
   GuildVerificationLevel,
 } from 'discord-api-types/v10';
+import { Sticker } from './Sticker';
 
 export class Guild {
   /**
@@ -172,7 +173,7 @@ export class Guild {
    * Custom guild stickers
    * See https://discord.com/developers/docs/resources/sticker#sticker-object
    */
-  stickers: unknown[];
+  stickers: Sticker[];
   /**
    * System channel flags
    * See https://discord.com/developers/docs/resources/guild#guild-object-system-channel-flags
@@ -244,7 +245,8 @@ export class Guild {
     if ('roles' in data) this.roles = data.roles;
     if ('rules_channel_id' in data) this.rulesChannelId = data.rules_channel_id;
     if ('splash' in data) this.splash = data.splash;
-    if ('stickers' in data) this.stickers = data.stickers;
+    // TODO: better sticker parsing
+    if ('stickers' in data) this.stickers = data.stickers.map(sticker => new Sticker(sticker));
     if ('system_channel_flags' in data) this.systemChannelFlags = data.system_channel_flags;
     if ('system_channel_id' in data) this.systemChannelId = data.system_channel_id;
     if ('vanity_url_code' in data) this.vanityURLCode = data.vanity_url_code;
