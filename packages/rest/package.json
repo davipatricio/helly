@@ -2,9 +2,9 @@
     "name": "@hellyjs/rest",
     "version": "0.0.1",
     "description": "Minimal REST Client to make HTTP requests to Discord",
-    "main": "dist/index.js",
-    "module": "dist/index.mjs",
-    "typings": "dist/index.d.ts",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "typings": "./dist/index.d.ts",
     "exports": {
         "import": "./dist/index.mjs",
         "require": "./dist/index.js",
