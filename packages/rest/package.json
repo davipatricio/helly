@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "description": "Minimal REST Client to make HTTP requests to Discord",
     "main": "dist/index.js",
-    "types": "dist/typings/index.d.ts",
+    "typings": "dist/index.d.ts",
     "scripts": {
         "build": "tsup",
         "types:check": "tsc --noEmit"
