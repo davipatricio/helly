@@ -1,4 +1,5 @@
 import type { APIGuildWelcomeScreen } from 'discord-api-types/v10';
+import { GuildWelcomeScreenChannel } from './GuildWelcomeScreenChannel';
 
 export class GuildWelcomeScreen {
   /**
@@ -8,7 +9,7 @@ export class GuildWelcomeScreen {
   /**
    * Array of suggested channels
    */
-  welcomeChannels: unknown[];
+  welcomeChannels: GuildWelcomeScreenChannel[];
   constructor(data: APIGuildWelcomeScreen) {
     this.#parseData(data);
   }
@@ -16,6 +17,6 @@ export class GuildWelcomeScreen {
   #parseData(data: APIGuildWelcomeScreen) {
     if ('description' in data) this.description = data.description;
     // TODO: better parsing
-    if ('welcome_channels' in data) this.welcomeChannels = data.welcome_channels;
+    if ('welcome_channels' in data) this.welcomeChannels = data.welcome_channels.map(channel => new GuildWelcomeScreenChannel(channel));
   }
 }
