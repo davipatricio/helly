@@ -92,6 +92,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@hellyjs/structures@workspace:packages/structures":
+  version: 0.0.0-use.local
+  resolution: "@hellyjs/structures@workspace:packages/structures"
+  dependencies:
+    "@types/node": "npm:18.7.18"
+    discord-api-types: "npm:0.37.9"
+  languageName: unknown
+  linkType: soft
+
 "@humanwhocodes/config-array@npm:^0.10.4":
   version: 0.10.4
   resolution: "@humanwhocodes/config-array@npm:0.10.4"
@@ -1331,6 +1340,13 @@ __metadata:
   version: 1.2.2
   resolution: "@types/minimist@npm:1.2.2"
   checksum: 7fd2a4dc547de09d78c688d79aefcceb54e8c86eb61a5b1a593dfc03bbf1f8589a616ae978585211d078e51abc55b93064b2039c34266db8f277bd6bc03557c3
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:18.7.18":
+  version: 18.7.18
+  resolution: "@types/node@npm:18.7.18"
+  checksum: 833883d724d9f980c6918f1a52f396cb351bf22e83b787481c992402e702e4a3658bd3ff5b561c878d3d9e253fb315eb6f7eb0db95804222669f18d3b54ea0f2
   languageName: node
   linkType: hard
 

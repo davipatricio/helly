@@ -1,0 +1,46 @@
+{
+    "name": "@hellyjs/structures",
+    "version": "0.0.1",
+    "description": "Tranforms Discord common objects into structures",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "typings": "./dist/index.d.ts",
+    "exports": {
+        "import": "./dist/index.mjs",
+        "require": "./dist/index.js",
+        "types": "./dist/index.d.ts"
+    },
+    "scripts": {
+        "build": "tsup",
+        "types:check": "tsc --noEmit"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/denkylabs/helly.git"
+    },
+    "bugs": {
+        "url": "https://github.com/denkylabs/helly/issues"
+    },
+    "files": [
+        "dist"
+    ],
+    "author": "Davi Patricio <davipatricio@pm.me>",
+    "license": "Apache-2.0",
+    "keywords": [
+        "discord",
+        "api",
+        "structures",
+        "discordapp",
+        "helly"
+    ],
+    "homepage": "https://helly.denkylabs.com",
+    "engines": {
+        "node": ">=16.9.0"
+    },
+    "dependencies": {
+        "discord-api-types": "0.37.9"
+    },
+    "devDependencies": {
+        "@types/node": "18.7.18"
+    }
+}
