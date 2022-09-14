@@ -1,259 +1,335 @@
-import type {
-  APIGuild,
-  GuildDefaultMessageNotifications,
-  GuildExplicitContentFilter,
-  GuildFeature,
-  GuildHubType,
-  GuildMFALevel,
-  GuildNSFWLevel,
-  GuildPremiumTier,
-  GuildSystemChannelFlags,
-  GuildVerificationLevel,
-} from 'discord-api-types/v10';
+import type { APIGuild } from 'discord-api-types/v10';
 import { GuildWelcomeScreen } from './GuildWelcomeScreen';
 import { Sticker } from './Sticker';
 
 export class Guild {
   /**
+   * Raw Guild object
+   */
+  data: APIGuild;
+  constructor(data: APIGuild) {
+    this.#parseData(data);
+  }
+
+  /**
    * ID of afk channel
    */
-  afkChannelId: string | null;
+  get afkChannelId() {
+    return this.data.afk_channel_id;
+  }
+
   /**
    * Afk timeout in seconds
    */
-  afkTimeout: number;
+  get afkTimeout() {
+    return this.data.afk_timeout;
+  }
+
   /**
    * Application id of the guild creator if it is bot-created
    */
-  applicationId: string | null;
+  get applicationId() {
+    return this.data.application_id;
+  }
+
   /**
    * **This field is only received from https://discord.com/developers/docs/resources/guild#get-guild with the `with_counts` query parameter set to `true`**
    */
-  approximateMemberCount?: number;
+  get approximateMemberCount() {
+    return this.data.approximate_member_count;
+  }
+
   /**
    * **This field is only received from https://discord.com/developers/docs/resources/guild#get-guild with the `with_counts` query parameter set to `true`**
    */
-  approximatePresenceCount?: number;
+  get approximatePresenceCount() {
+    return this.data.approximate_presence_count;
+  }
+
   /**
    * Banner hash
    * See https://discord.com/developers/docs/reference#image-formatting
    */
-  banner: string | null;
+  get banner() {
+    return this.data.banner;
+  }
+
   /**
    * Default message notifications level
    * See https://discord.com/developers/docs/resources/guild#guild-object-default-message-notification-level
    */
-  defaultMessageNotifications: GuildDefaultMessageNotifications;
+  get defaultMessageNotifications() {
+    return this.data.default_message_notifications;
+  }
+
   /**
    * The description for the guild
    */
-  description: string | null;
+  get description() {
+    return this.data.description;
+  }
+
   /**
-   * Discovery splash hash; only present for guilds with the "DISCOVERABLE" feature
+   * Discovery splash hash only present for guilds with the "DISCOVERABLE" feature
    */
-  discoverySplash: string | null;
+  get discoverySplash() {
+    return this.data.discovery_splash;
+  }
+
   // TODO: Emoji structure
   /**
    * Custom guild emojis
    * See https://discord.com/developers/docs/resources/emoji#emoji-object
    */
-  emojis: unknown[];
+  get emojis() {
+    return this.data.emojis;
+  }
+
   /**
    * Explicit content filter level
    * See https://discord.com/developers/docs/resources/guild#guild-object-explicit-content-filter-level
    */
-  explicitContentFilter: GuildExplicitContentFilter;
+  get explicitContentFilter() {
+    return this.data.explicit_content_filter;
+  }
+
   /**
    * Enabled guild features
    * See https://discord.com/developers/docs/resources/guild#guild-object-guild-features
    */
-  features: GuildFeature[];
+  get features() {
+    return this.data.features;
+  }
+
   /**
    * The type of Student Hub the guild is
    */
-  hubType: GuildHubType | null;
+  get hubType() {
+    return this.data.hub_type;
+  }
+
   /**
    * Icon hash
    * See https://discord.com/developers/docs/reference#image-formatting
    */
-  icon: string | null;
+  get icon() {
+    return this.data.icon;
+  }
+
   /**
    * Icon hash, retured when in the template object
    * See https://discord.com/developers/docs/reference#image-formatting
    */
-  iconHash?: string | null;
+  get iconHash() {
+    return this.data.icon_hash;
+  }
+
   /**
    * Guild id
    */
-  id: string;
+  get id() {
+    return this.data.id;
+  }
+
   /**
    * The maximum number of members for the guild
    */
-  maxMembers?: number | null;
+  get maxMembers() {
+    return this.data.max_members;
+  }
+
   /**
    * The maximum number of presences for the guild (`null` is always returned, apart from the largest of guilds)
    */
-  maxPresences?: number | null;
+  get maxPresences() {
+    return this.data.max_presences;
+  }
+
   /**
    * The maximum amount of users in a video channel
    */
-  maxVideoChannelUsers?: number;
+  get maxVideoChannelUsers() {
+    return this.data.max_video_channel_users;
+  }
+
   /**
    * Required MFA level for the guild
    * See https://discord.com/developers/docs/resources/guild#guild-object-mfa-level
    */
-  mfaLevel: GuildMFALevel;
+  get mfaLevel() {
+    return this.data.mfa_level;
+  }
+
   /**
    * Guild name (2-100 characters, excluding trailing and leading whitespace)
    */
-  name: string;
+  get name() {
+    return this.data.name;
+  }
+
   /**
    * The nsfw level of the guild
    * See https://discord.com/developers/docs/resources/guild#guild-object-guild-nsfw-level
    */
-  nsfwLevel: GuildNSFWLevel;
+  get nsfwLevel() {
+    return this.data.nsfw_level;
+  }
+
   /**
    * `true` if the user is the owner of the guild
    * **This field is only received from https://discord.com/developers/docs/resources/user#get-current-user-guilds**
    */
-  owner?: boolean;
+  get owner() {
+    return this.data.owner;
+  }
+
   /**
    * ID of owner
    */
-  ownerId: string;
+  get ownerId() {
+    return this.data.owner_id;
+  }
+
+  // TODO: better permission parsing
   /**
    * Total permissions for the user in the guild (excludes overrides)
    * **This field is only received from https://discord.com/developers/docs/resources/user#get-current-user-guilds**
    */
-  permissions?: string;
+  get permissions() {
+    return this.data.permissions;
+  }
+
   /**
-   * The preferred locale of a Community guild; used in guild discovery and notices from Discord
+   * The preferred locale of a Community guild used in guild discovery and notices from Discord
    * @default 'en-US'
    */
-  preferredLocale: string;
+  get preferredLocale() {
+    return this.data.preferred_locale;
+  }
+
   /**
    * Whether the guild has the boost progress bar enabled.
    */
-  premiumProgressBarEnabled: boolean;
+  get premiumProgressBarEnabled() {
+    return this.data.premium_progress_bar_enabled;
+  }
+
   /**
    * The number of boosts this guild currently has
    */
-  premiumSubscriptionCount?: number;
+  get premiumSubscriptionCount() {
+    return this.data.premium_subscription_count;
+  }
+
   /**
    * Premium tier (Server Boost level)
    * See https://discord.com/developers/docs/resources/guild#guild-object-premium-tier
    */
-  premiumTier: GuildPremiumTier;
+  get premiumTier() {
+    return this.data.premium_tier;
+  }
+
   /**
    * The id of the channel where admins and moderators of Community guilds receive notices from Discord
    */
-  publicUpdatesChannelId: string | null;
+  get publicUpdatesChannelId() {
+    return this.data.public_updates_channel_id;
+  }
+
   /**
    * Voice region id for the guild
    * See https://discord.com/developers/docs/resources/voice#voice-region-object
    * @deprecated This field has been deprecated in favor of `rtc_region` on the channel.
    */
-  region: string;
-  // TODO: Role structure
+  get region() {
+    return this.data.region;
+  }
+
+  // TODO: {}Role structure
   /**
    * Roles in the guild
    * See https://discord.com/developers/docs/topics/permissions#role-object
    */
-  roles: unknown[];
+  get roles() {
+    return this.data.roles;
+  }
+
   /**
    * The id of the channel where Community guilds can display rules and/or guidelines
    */
-  rulesChannelId: string | null;
+  get rulesChannelId() {
+    return this.data.rules_channel_id;
+  }
+
   /**
    * Splash hash
    * See https://discord.com/developers/docs/reference#image-formatting
    */
-  splash: string | null;
-  // TODO: Sticker structure
+  get splash() {
+    return this.data.splash;
+  }
+
   /**
    * Custom guild stickers
    * See https://discord.com/developers/docs/resources/sticker#sticker-object
    */
-  stickers: Sticker[];
+  get stickers() {
+    return this.data.stickers.map(sticker => new Sticker(sticker));
+  }
+
   /**
    * System channel flags
    * See https://discord.com/developers/docs/resources/guild#guild-object-system-channel-flags
    */
-  systemChannelFlags: GuildSystemChannelFlags;
+  get systemChannelFlags() {
+    return this.data.system_channel_flags;
+  }
+
   /**
    * The id of the channel where guild notices such as welcome messages and boost events are posted
    */
-  systemChannelId: string | null;
+  get systemChannelId() {
+    return this.data.system_channel_id;
+  }
+
   /**
    * The vanity url code for the guild
    */
-  vanityURLCode: string | null;
+  get vanityURLCode() {
+    return this.data.vanity_url_code;
+  }
+
   /**
    * Verification level required for the guild
    * See https://discord.com/developers/docs/resources/guild#guild-object-verification-level
    */
-  verificationLevel: GuildVerificationLevel;
-  // TODO: GuildWelcomeScreen structure
+  get verificationLevel() {
+    return this.data.verification_level;
+  }
+
   /**
    * The welcome screen of a Community guild, shown to new members
    * Returned in the invite object
-   */
-  welcomeScreen: GuildWelcomeScreen;
+   * */
+  get welcomeScreen() {
+    return this.data.welcome_screen ? new GuildWelcomeScreen(this.data.welcome_screen) : null;
+  }
+
   /**
    * The channel id that the widget will generate an invite to, or `null` if set to no invite
    */
-  widgetChannelId?: string | null;
+  get widgetChannelId() {
+    return this.data.widget_channel_id;
+  }
+
   /**
    * `true` if the guild widget is enabled
    */
-  widgetEnabled?: boolean;
-  constructor(data: APIGuild) {
-    this.#parseData(data);
+  get widgetEnabled() {
+    return this.data.widget_enabled;
   }
 
   #parseData(data: APIGuild) {
-    if ('afk_channel_id' in data) this.afkChannelId = data.afk_channel_id;
-    if ('afk_timeout' in data) this.afkTimeout = data.afk_timeout;
-    if ('application_id' in data) this.applicationId = data.application_id;
-    if ('approximate_member_count' in data) this.approximateMemberCount = data.approximate_member_count;
-    if ('approximate_presence_count' in data) this.approximatePresenceCount = data.approximate_presence_count;
-    if ('banner' in data) this.banner = data.banner;
-    if ('default_message_notifications' in data) this.defaultMessageNotifications = data.default_message_notifications;
-    if ('description' in data) this.description = data.description;
-    if ('discovery_splash' in data) this.discoverySplash = data.discovery_splash;
-    if ('emojis' in data) this.emojis = data.emojis;
-    if ('explicit_content_filter' in data) this.explicitContentFilter = data.explicit_content_filter;
-    if ('features' in data) this.features = data.features;
-    if ('hub_type' in data) this.hubType = data.hub_type;
-    if ('icon' in data) this.icon = data.icon;
-    if ('icon_hash' in data) this.iconHash = data.icon_hash;
-    if ('id' in data) this.id = data.id;
-    if ('max_members' in data) this.maxMembers = data.max_members;
-    if ('max_presences' in data) this.maxPresences = data.max_presences;
-    if ('max_video_channel_users' in data) this.maxVideoChannelUsers = data.max_video_channel_users;
-    if ('mfa_level' in data) this.mfaLevel = data.mfa_level;
-    if ('name' in data) this.name = data.name;
-    if ('nsfw_level' in data) this.nsfwLevel = data.nsfw_level;
-    if ('owner' in data) this.owner = data.owner;
-    if ('owner_id' in data) this.ownerId = data.owner_id;
-    if ('permissions' in data) this.permissions = data.permissions;
-    if ('preferred_locale' in data) this.preferredLocale = data.preferred_locale;
-    if ('premium_progress_bar_enabled' in data) this.premiumProgressBarEnabled = data.premium_progress_bar_enabled;
-    if ('premium_subscription_count' in data) this.premiumSubscriptionCount = data.premium_subscription_count;
-    if ('premium_tier' in data) this.premiumTier = data.premium_tier;
-    if ('public_updates_channel_id' in data) this.publicUpdatesChannelId = data.public_updates_channel_id;
-    if ('region' in data) this.region = data.region;
-    if ('roles' in data) this.roles = data.roles;
-    if ('rules_channel_id' in data) this.rulesChannelId = data.rules_channel_id;
-    if ('splash' in data) this.splash = data.splash;
-    // TODO: better sticker parsing
-    if ('stickers' in data) this.stickers = data.stickers.map(sticker => new Sticker(sticker));
-    if ('system_channel_flags' in data) this.systemChannelFlags = data.system_channel_flags;
-    if ('system_channel_id' in data) this.systemChannelId = data.system_channel_id;
-    if ('vanity_url_code' in data) this.vanityURLCode = data.vanity_url_code;
-    if ('verification_level' in data) this.verificationLevel = data.verification_level;
-    if ('welcome_screen' in data) this.welcomeScreen = new GuildWelcomeScreen(data.welcome_screen!);
-    if ('widget_channel_id' in data) this.widgetChannelId = data.widget_channel_id;
-    if ('widget_enabled' in data) this.widgetEnabled = data.widget_enabled;
+    this.data = { ...data };
   }
 }

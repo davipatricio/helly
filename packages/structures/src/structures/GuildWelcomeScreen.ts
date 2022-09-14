@@ -3,20 +3,28 @@ import { GuildWelcomeScreenChannel } from './GuildWelcomeScreenChannel';
 
 export class GuildWelcomeScreen {
   /**
-   * The welcome screen short message
+   * Raw GuildWelcomeScreen object
    */
-  description: string | null;
-  /**
-   * Array of suggested channels
-   */
-  welcomeChannels: GuildWelcomeScreenChannel[];
+  data: APIGuildWelcomeScreen;
   constructor(data: APIGuildWelcomeScreen) {
     this.#parseData(data);
   }
 
+  /**
+   * The welcome screen short message
+   */
+  get description() {
+    return this.data.description;
+  }
+
+  /**
+   * Array of suggested channels
+   */
+  get welcomeChannels() {
+    return this.data.welcome_channels.map(channel => new GuildWelcomeScreenChannel(channel));
+  }
+
   #parseData(data: APIGuildWelcomeScreen) {
-    if ('description' in data) this.description = data.description;
-    // TODO: better parsing
-    if ('welcome_channels' in data) this.welcomeChannels = data.welcome_channels.map(channel => new GuildWelcomeScreenChannel(channel));
+    this.data = { ...data };
   }
 }
