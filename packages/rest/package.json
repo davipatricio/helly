@@ -22,7 +22,16 @@
         "url": "https://github.com/denkylabs/helly/issues"
     },
     "author": "Davi Patricio <davipatricio@pm.me>",
+	"license": "Apache-2.0",
+	"keywords": [
+		"discord",
+		"api",
+		"rest",
+		"discordapp",
+        "helly"
+	],
+    "homepage": "https://helly.denkylabs.com",
     "engines": {
-        "node": ">=18.0.0"
+        "node": ">=16.9.0"
     }
 }
