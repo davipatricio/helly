@@ -26,7 +26,7 @@
     ],
     "rules": {
         "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-unused-vars": "error",
+        "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/member-ordering": [
             "error",
             {
@@ -132,7 +132,6 @@
         ],
         "class-methods-use-this": "off",
         "default-case": "off",
-        "default-param-last": "off",
         "import/prefer-default-export": "off",
         "import/extensions": "off",
         "import/no-unresolved": "off",
