@@ -87,6 +87,8 @@ __metadata:
 "@hellyjs/rest@workspace:packages/rest":
   version: 0.0.0-use.local
   resolution: "@hellyjs/rest@workspace:packages/rest"
+  dependencies:
+    discord-api-types: "npm:0.37.9"
   languageName: unknown
   linkType: soft
 
@@ -2462,6 +2464,13 @@ __metadata:
   dependencies:
     path-type: "npm:^4.0.0"
   checksum: 713590b89f9d09b80da82094419260ee15f4e67da692659876ac747ee38788dbb8b2bd5d2749bbcf298ce934888e378569f01895a136a09b54d1b28753e337c7
+  languageName: node
+  linkType: hard
+
+"discord-api-types@npm:0.37.9":
+  version: 0.37.9
+  resolution: "discord-api-types@npm:0.37.9"
+  checksum: c8ff4f6a76ba5b8fc3e5a56f84fba1e1db09bc5aff20f52e4758ddb613c99409607e7eb28c8ba92d22759fdcc405a1c9c0309f1302bc281096bd67a0f29bd9b9
   languageName: node
   linkType: hard
 

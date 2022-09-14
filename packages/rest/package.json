@@ -36,5 +36,8 @@
     "homepage": "https://helly.denkylabs.com",
     "engines": {
         "node": ">=16.9.0"
+    },
+    "dependencies": {
+        "discord-api-types": "0.37.9"
     }
 }
