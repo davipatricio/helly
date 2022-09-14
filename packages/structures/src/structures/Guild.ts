@@ -10,6 +10,7 @@ import type {
   GuildSystemChannelFlags,
   GuildVerificationLevel,
 } from 'discord-api-types/v10';
+import { GuildWelcomeScreen } from './GuildWelcomeScreen';
 import { Sticker } from './Sticker';
 
 export class Guild {
@@ -197,7 +198,7 @@ export class Guild {
    * The welcome screen of a Community guild, shown to new members
    * Returned in the invite object
    */
-  welcomeScreen: unknown;
+  welcomeScreen: GuildWelcomeScreen;
   /**
    * The channel id that the widget will generate an invite to, or `null` if set to no invite
    */
@@ -251,7 +252,7 @@ export class Guild {
     if ('system_channel_id' in data) this.systemChannelId = data.system_channel_id;
     if ('vanity_url_code' in data) this.vanityURLCode = data.vanity_url_code;
     if ('verification_level' in data) this.verificationLevel = data.verification_level;
-    if ('welcome_screen' in data) this.welcomeScreen = data.welcome_screen;
+    if ('welcome_screen' in data) this.welcomeScreen = new GuildWelcomeScreen(data.welcome_screen!);
     if ('widget_channel_id' in data) this.widgetChannelId = data.widget_channel_id;
     if ('widget_enabled' in data) this.widgetEnabled = data.widget_enabled;
   }
