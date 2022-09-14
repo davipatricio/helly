@@ -14,11 +14,11 @@
     "url": "https://github.com/denkylabs/helly/issues"
   },
   "scripts": {
-    "docs": "yarn typedoc --options typedoc.json",
-    "build": "yarn tsc --project tsconfig.json",
+    "build": "lerna run build",
+    "docs": "typedoc --options typedoc.json",
     "lint:fix": "yarn lint:prettier && yarn eslint src --fix",
     "lint:prettier": "yarn prettier -w src",
-    "types:check": "yarn tsc --noEmit --incremental false"
+    "types:check": "lerna run types:check"
   },
   "author": "Davi Patricio <davipatricio@pm.me>",
   "devDependencies": {
