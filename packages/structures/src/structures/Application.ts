@@ -1,4 +1,5 @@
 import type { APIApplication } from 'discord-api-types/v10';
+import { ApplicationInstallParams } from './ApplicationInstallParams';
 import { User } from './User';
 
 export class Application {
@@ -75,12 +76,11 @@ export class Application {
     return this.data.id;
   }
 
-  // TODO: ApplicationInstallParams
   /**
    * Settings for the application’s default in-app authorization link, if enabled
    */
   get installParams() {
-    return this.data.install_params;
+    return this.data.install_params ? new ApplicationInstallParams(this.data.install_params) : undefined;
   }
 
   /**
