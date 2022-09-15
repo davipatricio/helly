@@ -1,4 +1,5 @@
 export * from './Application';
+export * from './ApplicationInstallParams';
 export * from './Guild';
 export * from './GuildTemplate';
 export * from './GuildWelcomeScreen';

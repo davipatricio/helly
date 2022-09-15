@@ -165,9 +165,6 @@ export class Application {
     return this.data.verify_key;
   }
 
-  /**
-   *
-   */
   #parseData(data: APIApplication) {
     this.data = { ...data };
   }
