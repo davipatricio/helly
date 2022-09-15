@@ -10,9 +10,9 @@ export interface Routes {
 }
 
 export interface RequesterOptions {
-  routes: Partial<Routes>;
   authorization: string;
   authorizationPrefix: 'Bearer' | 'Bot';
+  routes: Partial<Routes>;
 }
 
 const DEFAULT_REQUESTER_OPTIONS: RequesterOptions = {
