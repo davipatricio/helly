@@ -1,5 +1,6 @@
 import type { APIApplication } from 'discord-api-types/v10';
 import { ApplicationInstallParams } from './ApplicationInstallParams';
+import { Team } from './Team';
 import { User } from './User';
 
 export class Application {
@@ -141,13 +142,12 @@ export class Application {
     return this.data.tags;
   }
 
-  // TODO: team structure
   /**
    * The team this application belongs to
    * See https://discord.com/developers/docs/topics/teams#data-models-team-object
    */
   get team() {
-    return this.data.team;
+    return this.data.team ? new Team(this.data.team) : null;
   }
 
   /**
