@@ -135,6 +135,7 @@
         "import/prefer-default-export": "off",
         "import/extensions": "off",
         "import/no-unresolved": "off",
+        "sort-keys": "error",
         "lines-between-class-members": [
             "error",
             "always",
