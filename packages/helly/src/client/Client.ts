@@ -1,6 +1,7 @@
+import EventEmitter from 'events';
 import { ClientOptions, defaultClientOptions } from './ClientOptions';
 
-export class Client {
+export class Client extends EventEmitter {
   /**
    * The options the client was instantiated with
    */
@@ -14,6 +15,7 @@ export class Client {
    * ```
    */
   constructor(options: Partial<ClientOptions> = {}) {
+    super();
     this.options = Object.assign(defaultClientOptions, options);
   }
 }
