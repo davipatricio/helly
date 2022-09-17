@@ -123,15 +123,6 @@ export interface WebSocketOptions {
 
 export const defaultClientOptions: ClientOptions = {
   autoReconnect: true,
-  rest: {
-    api: RouteBases.api,
-    cdn: RouteBases.cdn,
-    gift: RouteBases.gift,
-    invite: RouteBases.invite,
-    scheduledEvent: RouteBases.scheduledEvent,
-    template: RouteBases.template,
-  },
-  token: process.env.DISCORD_TOKEN ?? process.env.BOT_TOKEN ?? '',
   cache: {
     bans: 100,
     channels: Infinity,
@@ -143,10 +134,19 @@ export const defaultClientOptions: ClientOptions = {
     roles: Infinity,
     users: Infinity,
   },
+  rest: {
+    api: RouteBases.api,
+    cdn: RouteBases.cdn,
+    gift: RouteBases.gift,
+    invite: RouteBases.invite,
+    scheduledEvent: RouteBases.scheduledEvent,
+    template: RouteBases.template,
+  },
+  token: process.env.DISCORD_TOKEN ?? process.env.BOT_TOKEN ?? '',
   waitGuildTimeout: 15_000,
   ws: {
     gateway: 'wss://gateway.discord.gg/',
-    version: GatewayVersion,
     largeThreshold: 50,
+    version: GatewayVersion,
   },
 };
