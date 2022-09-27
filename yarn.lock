@@ -101,6 +101,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@hellyjs/ws@workspace:packages/ws":
+  version: 0.0.0-use.local
+  resolution: "@hellyjs/ws@workspace:packages/ws"
+  dependencies:
+    "@types/node": "npm:18.7.18"
+    "@types/ws": "npm:^8"
+    discord-api-types: "npm:0.37.9"
+    ws: "npm:8.9.0"
+  languageName: unknown
+  linkType: soft
+
 "@humanwhocodes/config-array@npm:^0.10.4":
   version: 0.10.4
   resolution: "@humanwhocodes/config-array@npm:0.10.4"
@@ -1343,6 +1354,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:*":
+  version: 18.7.23
+  resolution: "@types/node@npm:18.7.23"
+  checksum: 83f50561f3858e514d864cea3fbfc3142ec58a6acaf9c405609776b97b67a4692309feb1b9f928cca8ebdc964554a2e02480feb98f1774881ce440a9df722924
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:18.7.18":
   version: 18.7.18
   resolution: "@types/node@npm:18.7.18"
@@ -1361,6 +1379,15 @@ __metadata:
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
   checksum: bea37b307bdeb352d27a4467cac738387641c4f9dfe6c8bf559d474a036952f7b998f0ac54290f9d8765fb79e154f3941dfefbb47296a987fb55ccedf344a0e6
+  languageName: node
+  linkType: hard
+
+"@types/ws@npm:^8":
+  version: 8.5.3
+  resolution: "@types/ws@npm:8.5.3"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 079fdee163d7cb86d59e5379d2ea6511ba6a46210af420320a4bd52b04b06f86d2c3acc89289f5eae16c8815a562faada8c717fd55a4888c8a5a5f8ce1420112
   languageName: node
   linkType: hard
 
@@ -3733,6 +3760,15 @@ __metadata:
   checksum: 3e8c4d87ccd9c160d61a5db829b5fb647acac79e482476c857d5d1dc580517c6a77cf84337808f28361f6263008ce1ce5aff44407bd9241af93c623ef8d8d4f1
   languageName: node
   linkType: hard
+
+"helly@workspace:packages/helly":
+  version: 0.0.0-use.local
+  resolution: "helly@workspace:packages/helly"
+  dependencies:
+    "@types/node": "npm:18.7.18"
+    discord-api-types: "npm:0.37.9"
+  languageName: unknown
+  linkType: soft
 
 "hosted-git-info@npm:^2.1.4":
   version: 2.8.9
@@ -7195,6 +7231,21 @@ __metadata:
     type-fest: "npm:^0.4.1"
     write-json-file: "npm:^3.2.0"
   checksum: 201678e707e4672b2d0cd118d89b94a6c09df7a86972e21b8c45d383046fc5e41a7eb71a808bacabfedc88eb28c5ecbc8a6c1dcf4d4c429a1ad957ac7a0548f1
+  languageName: node
+  linkType: hard
+
+"ws@npm:8.9.0":
+  version: 8.9.0
+  resolution: "ws@npm:8.9.0"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ^5.0.2
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 681a378593686892f4472f5367c0a607482e77d52e4d9ef99fa1137451662639d249ebc55997983829499dadd34dbc28c4e047da6d5fd443f7ad49517d5077b0
   languageName: node
   linkType: hard
 
