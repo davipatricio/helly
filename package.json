@@ -1,5 +1,5 @@
 {
-  "name": "@denkylabs/helly",
+  "name": "@hellyjs/helly",
   "version": "0.0.0",
   "description": "A simple, typed, performance-focused Discord API Wrapper.",
   "private": true,

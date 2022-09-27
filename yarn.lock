@@ -32,27 +32,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@denkylabs/helly@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@denkylabs/helly@workspace:."
-  dependencies:
-    "@typescript-eslint/eslint-plugin": "npm:5.37.0"
-    "@typescript-eslint/parser": "npm:5.37.0"
-    eslint: "npm:8.23.1"
-    eslint-config-airbnb-base: "npm:15.0.0"
-    eslint-config-prettier: "npm:8.5.0"
-    eslint-plugin-import: "npm:2.26.0"
-    eslint-plugin-prettier: "npm:4.2.1"
-    lerna: "npm:^5.5.1"
-    prettier: "npm:2.7.1"
-    tslib: "npm:2.4.0"
-    tsup: "npm:6.2.3"
-    typedoc: "npm:0.22.16"
-    typedoc-plugin-extras: "npm:2.3.0"
-    typescript: "npm:4.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@esbuild/linux-loong64@npm:0.15.7":
   version: 0.15.7
   resolution: "@esbuild/linux-loong64@npm:0.15.7"
@@ -84,6 +63,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hellyjs/helly@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@hellyjs/helly@workspace:."
+  dependencies:
+    "@typescript-eslint/eslint-plugin": "npm:5.37.0"
+    "@typescript-eslint/parser": "npm:5.37.0"
+    eslint: "npm:8.23.1"
+    eslint-config-airbnb-base: "npm:15.0.0"
+    eslint-config-prettier: "npm:8.5.0"
+    eslint-plugin-import: "npm:2.26.0"
+    eslint-plugin-prettier: "npm:4.2.1"
+    lerna: "npm:^5.5.1"
+    prettier: "npm:2.7.1"
+    tslib: "npm:2.4.0"
+    tsup: "npm:6.2.3"
+    typedoc: "npm:0.22.16"
+    typedoc-plugin-extras: "npm:2.3.0"
+    typescript: "npm:4.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@hellyjs/rest@workspace:packages/rest":
   version: 0.0.0-use.local
   resolution: "@hellyjs/rest@workspace:packages/rest"
@@ -101,7 +101,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hellyjs/ws@workspace:packages/ws":
+"@hellyjs/ws@workspace:*, @hellyjs/ws@workspace:packages/ws":
   version: 0.0.0-use.local
   resolution: "@hellyjs/ws@workspace:packages/ws"
   dependencies:
@@ -3765,6 +3765,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "helly@workspace:packages/helly"
   dependencies:
+    "@hellyjs/ws": "workspace:*"
     "@types/node": "npm:18.7.18"
     discord-api-types: "npm:0.37.9"
   languageName: unknown
