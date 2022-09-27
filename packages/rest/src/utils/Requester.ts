@@ -16,6 +16,8 @@ export interface RequesterOptions {
 }
 
 const DEFAULT_REQUESTER_OPTIONS: RequesterOptions = {
+  authorization: '',
+  authorizationPrefix: 'Bot',
   routes: {
     api: RouteBases.api,
     cdn: RouteBases.cdn,
@@ -23,8 +25,6 @@ const DEFAULT_REQUESTER_OPTIONS: RequesterOptions = {
     invite: RouteBases.invite,
     scheduledEvent: RouteBases.scheduledEvent,
   },
-  authorization: '',
-  authorizationPrefix: 'Bot',
 };
 
 export class Requester {
@@ -34,11 +34,6 @@ export class Requester {
   }
 
   #checkOptions(options?: Partial<RequesterOptions>) {
-    if (typeof options === 'undefined') {
-      this.options = DEFAULT_REQUESTER_OPTIONS;
-      return;
-    }
-
     this.options = { ...options, ...DEFAULT_REQUESTER_OPTIONS };
 
     if (this.options.authorization === '') {
