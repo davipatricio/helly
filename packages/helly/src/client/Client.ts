@@ -24,6 +24,6 @@ export class Client extends EventEmitter {
    */
   constructor(options: Partial<ClientOptions> = {}) {
     super();
-    this.options = Object.assign(defaultClientOptions, options);
+    this.options = { ...options, ...defaultClientOptions };
   }
 }
