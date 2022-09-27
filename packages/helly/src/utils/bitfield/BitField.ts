@@ -6,13 +6,13 @@ function staticImplements<T>() {
 
 interface BitFieldStaticFields {
   defaultBit: bigint | number;
-  Flags: Record<string, bigint | number>;
+  Flags: Record<string, unknown>;
 }
 
 @staticImplements<BitFieldStaticFields>()
 export class BitField {
   public static defaultBit: bigint | number;
-  public static Flags: Record<string, bigint | number>;
+  public static Flags = {};
   bits: number | bigint;
   // https://stackoverflow.com/questions/33387318/access-to-static-properties-via-this-constructor-in-typescript
   ['constructor']: typeof BitField;
