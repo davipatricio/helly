@@ -24,8 +24,8 @@ export class BitField<Resolvable = BitFieldResolvable> {
   bits: number | bigint;
   // https://stackoverflow.com/questions/33387318/access-to-static-properties-via-this-constructor-in-typescript
   ['constructor']: typeof BitField;
-  constructor(defaultBit: Resolvable) {
-    this.add(defaultBit);
+  constructor(bits: Resolvable) {
+    this.add(bits);
   }
 
   get bitfield() {

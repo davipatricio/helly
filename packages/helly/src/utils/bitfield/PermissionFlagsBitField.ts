@@ -3,7 +3,7 @@ import { BitField } from './BitField';
 
 export type PermissionResolvable = keyof typeof PermissionFlagsBits | number | PermissionBitField | (keyof typeof PermissionFlagsBits | number | PermissionBitField)[];
 
-export class PermissionBitField extends BitField {
+export class PermissionBitField extends BitField<PermissionResolvable> {
   public static override Flags = PermissionFlagsBits;
   override bits: bigint;
 }

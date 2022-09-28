@@ -3,7 +3,7 @@ import { BitField } from './BitField';
 
 export type IntentsResolvable = keyof typeof GatewayIntentBits | number | IntentsBitField | (keyof typeof GatewayIntentBits | number | IntentsBitField)[];
 
-export class IntentsBitField extends BitField<keyof typeof GatewayIntentBits> {
+export class IntentsBitField extends BitField<IntentsResolvable> {
   public static override Flags = GatewayIntentBits;
   override bits: number;
 }
