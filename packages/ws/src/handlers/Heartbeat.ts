@@ -2,7 +2,7 @@ import { GatewayHeartbeat, GatewayOpcodes } from 'discord-api-types/v10';
 import type { WebSocketClient } from '../client/WebSocketClient';
 
 export function sendHeartbeat(client: WebSocketClient) {
-  client.ws?.send(JSON.stringify({ op: GatewayOpcodes.Heartbeat } as GatewayHeartbeat));
+  client.manager?.send(JSON.stringify({ op: GatewayOpcodes.Heartbeat } as GatewayHeartbeat));
 }
 
 export function handleHeartbeat(client: WebSocketClient) {
