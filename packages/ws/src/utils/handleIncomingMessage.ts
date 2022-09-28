@@ -9,10 +9,9 @@ import { handleInvalidSession } from '../handlers/InvalidSession';
 import { handleReconnect } from '../handlers/Reconnect';
 
 export function handleIncomingMessage(client: WebSocketClient, data: WebSocket.Data) {
-  // TODO: handle compression
-  if (typeof data !== 'string') return;
+  const dataString = data.toString();
 
-  const message = JSON.parse(data) as GatewayReceivePayload;
+  const message = JSON.parse(dataString) as GatewayReceivePayload;
   switch (message.op) {
     case GatewayOpcodes.Dispatch:
       handleDispatch(client, message);
