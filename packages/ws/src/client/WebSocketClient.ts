@@ -2,6 +2,9 @@ import type { GatewayIdentifyData } from 'discord-api-types/v10';
 import EventEmitter from 'events';
 import WebSocket from 'ws';
 import { handleIncomingMessage } from '../utils';
+import type { ClientEvents } from './ClientEvents';
+
+type Awaitable<T> = T | Promise<T>;
 
 export interface WebSocketClientOptions extends GatewayIdentifyData {
   url: string;
@@ -71,7 +74,36 @@ export class WebSocketClient extends EventEmitter {
 
   disconnect() {
     if (!this.socket) throw new Error('WebSocket not initialized yet');
-
     this.socket.close();
+  }
+
+  override emit<K extends keyof ClientEvents>(event: K, ...args: any[]): boolean;
+  override emit<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, ...args: any[]): boolean;
+  override emit(event: string | symbol, ...args: any[]): boolean {
+    return super.emit(event, ...args);
+  }
+
+  override off<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
+  override off<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
+  override off(event: string | symbol, listener: (...args: any[]) => void): this {
+    return super.off(event, listener);
+  }
+
+  override on<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
+  override on<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
+  override on(event: string | symbol, listener: (...args: any[]) => void): this {
+    return super.on(event, listener);
+  }
+
+  override once<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
+  override once<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
+  override once(event: string | symbol, listener: (...args: any[]) => void): this {
+    return super.once(event, listener);
+  }
+
+  override removeAllListeners<K extends keyof ClientEvents>(event?: K): this;
+  override removeAllListeners<S extends string | symbol>(event?: Exclude<S, keyof ClientEvents>): this;
+  override removeAllListeners(event: string | symbol): this {
+    return super.removeAllListeners(event);
   }
 }
