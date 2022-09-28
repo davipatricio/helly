@@ -3,7 +3,7 @@ import EventEmitter from 'events';
 import WebSocket from 'ws';
 import { handleIncomingMessage } from '../utils';
 
-interface WebSocketClientOptions extends GatewayIdentifyData {
+export interface WebSocketClientOptions extends GatewayIdentifyData {
   url: string;
 }
 
