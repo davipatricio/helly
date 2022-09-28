@@ -1,4 +1,5 @@
 import { GatewayVersion, RouteBases } from 'discord-api-types/v10';
+import type { IntentsResolvable } from '../utils';
 
 /**
  * Options for a {@link Client}
@@ -13,6 +14,10 @@ export interface ClientOptions {
    * Limit caching of specific structures
    */
   cache: Partial<ClientCacheOptions>;
+  /**
+   * Intents to enable for this connection
+   */
+  intents: IntentsResolvable;
   /**
    * Options for the REST Manager
    */
@@ -81,6 +86,7 @@ export interface ClientCacheOptions {
    */
   users: number;
 }
+
 /** Options for the {@link ClientOptions.rest | REST Manager} */
 export interface RestOptions {
   /**
@@ -134,6 +140,7 @@ export const defaultClientOptions: ClientOptions = {
     roles: Infinity,
     users: Infinity,
   },
+  intents: [],
   rest: {
     api: RouteBases.api,
     cdn: RouteBases.cdn,
