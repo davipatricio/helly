@@ -39,13 +39,13 @@ export class WebSocketClient extends EventEmitter {
   #addListeners() {
     if (!this.socket) throw new Error('WebSocket not initialized yet');
 
-    this.socket.on('open', () => this.emit('open'));
+    this.socket.on('close', (code, reason) => this.emit('close', code, reason));
+    this.socket.on('error', error => this.emit('error', error));
     this.socket.on('message', data => {
       handleIncomingMessage(this, data);
       this.emit('raw', data);
     });
-    this.socket.on('close', (code, reason) => this.emit('close', code, reason));
-    this.socket.on('error', error => this.emit('error', error));
+    this.socket.on('open', () => this.emit('open'));
   }
 
   #applyDefaultOptions(options?: Partial<WebSocketClientOptions>) {
@@ -67,5 +67,11 @@ export class WebSocketClient extends EventEmitter {
   connect() {
     this.socket = new WebSocket(this.options.url);
     this.#addListeners();
+  }
+
+  disconnect() {
+    if (!this.socket) throw new Error('WebSocket not initialized yet');
+
+    this.socket.close();
   }
 }
