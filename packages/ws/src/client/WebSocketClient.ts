@@ -19,8 +19,8 @@ interface WebSocketClientData {
 
 export class WebSocketClient extends EventEmitter {
   data: WebSocketClientData;
-  manager?: WebSocket;
   options: WebSocketClientOptions;
+  socket?: WebSocket;
   constructor(options?: Partial<WebSocketClientOptions>) {
     super();
     this.#applyDefaultOptions(options);
@@ -37,15 +37,15 @@ export class WebSocketClient extends EventEmitter {
   }
 
   #addListeners() {
-    if (!this.manager) throw new Error('WebSocket not initialized yet');
+    if (!this.socket) throw new Error('WebSocket not initialized yet');
 
-    this.manager.on('open', () => this.emit('open'));
-    this.manager.on('message', data => {
+    this.socket.on('open', () => this.emit('open'));
+    this.socket.on('message', data => {
       handleIncomingMessage(this, data);
       this.emit('raw', data);
     });
-    this.manager.on('close', (code, reason) => this.emit('close', code, reason));
-    this.manager.on('error', error => this.emit('error', error));
+    this.socket.on('close', (code, reason) => this.emit('close', code, reason));
+    this.socket.on('error', error => this.emit('error', error));
   }
 
   #applyDefaultOptions(options?: Partial<WebSocketClientOptions>) {
@@ -65,7 +65,7 @@ export class WebSocketClient extends EventEmitter {
   }
 
   connect() {
-    this.manager = new WebSocket(this.options.url);
+    this.socket = new WebSocket(this.options.url);
     this.#addListeners();
   }
 }

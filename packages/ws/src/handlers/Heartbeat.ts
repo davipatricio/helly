@@ -3,7 +3,7 @@ import type { WebSocketClient } from '../client/WebSocketClient';
 
 export function sendHeartbeat(client: WebSocketClient) {
   client.emit('debug', 'Sending heartbeat to Discord.');
-  client.manager?.send(JSON.stringify({ op: GatewayOpcodes.Heartbeat } as GatewayHeartbeat));
+  client.socket?.send(JSON.stringify({ op: GatewayOpcodes.Heartbeat } as GatewayHeartbeat));
 }
 
 export function handleHeartbeat(client: WebSocketClient) {
