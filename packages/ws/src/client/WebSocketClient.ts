@@ -50,7 +50,6 @@ export class WebSocketClient extends EventEmitter {
 
   #applyDefaultOptions(options?: Partial<WebSocketClientOptions>) {
     this.options = {
-      ...options,
       ...{
         intents: 0,
         properties: {
@@ -61,6 +60,7 @@ export class WebSocketClient extends EventEmitter {
         token: '',
         url: 'wss://gateway.discord.gg',
       },
+      ...options,
     };
   }
 

@@ -1,6 +1,6 @@
 import { GatewayIdentify, GatewayIdentifyData, GatewayOpcodes } from 'discord-api-types/v10';
 import type { WebSocketClient } from '../client/WebSocketClient';
 
-export function sendIdentify(client: WebSocketClient, data: GatewayIdentifyData) {
-  client.manager?.send(JSON.stringify({ d: data, op: GatewayOpcodes.Identify } as GatewayIdentify));
+export function sendIdentify(client: WebSocketClient, d: GatewayIdentifyData) {
+  client.manager?.send(JSON.stringify({ d, op: GatewayOpcodes.Identify } as GatewayIdentify));
 }

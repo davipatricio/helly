@@ -13,10 +13,6 @@ export class Client extends EventEmitter {
    */
   options: Required<ClientOptions>;
   /**
-   * Authorization token for the logged in bot
-   */
-  token: string;
-  /**
    * A {@WebSocketClient} instance
    */
   ws: WebSocketClient;
@@ -30,12 +26,12 @@ export class Client extends EventEmitter {
    */
   constructor(options: Partial<ClientOptions> = {}) {
     super();
-    this.options = { ...options, ...defaultClientOptions };
+    this.options = { ...defaultClientOptions, ...options };
     this.ws = new WebSocketClient({
       // TODO: compression
       compress: false,
       intents: Number(new IntentsBitField(this.options.intents).bitfield),
-      token: this.token,
+      token: this.options.token,
       url: this.options.ws.gateway,
     });
   }
