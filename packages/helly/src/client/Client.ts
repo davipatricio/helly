@@ -1,6 +1,8 @@
 import { WebSocketClient } from '@hellyjs/ws';
 import EventEmitter from 'events';
 import { IntentsBitField } from '../utils';
+import type { Awaitable } from '../utils/types';
+import type { ClientEvents } from './ClientEvents';
 import { ClientOptions, defaultClientOptions } from './ClientOptions';
 
 export class Client extends EventEmitter {
@@ -38,5 +40,35 @@ export class Client extends EventEmitter {
 
   connect() {
     this.ws.connect();
+  }
+
+  override emit<K extends keyof ClientEvents>(event: K, ...args: any[]): boolean;
+  override emit<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, ...args: any[]): boolean;
+  override emit(event: string | symbol, ...args: any[]) {
+    return super.emit(event, ...args);
+  }
+
+  override off<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>);
+  override off<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>);
+  override off(event: string | symbol, listener: (...args: any[]) => void) {
+    return super.off(event, listener);
+  }
+
+  override on<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>);
+  override on<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>);
+  override on(event: string | symbol, listener: (...args: any[]) => void) {
+    return super.on(event, listener);
+  }
+
+  override once<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>);
+  override once<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>);
+  override once(event: string | symbol, listener: (...args: any[]) => void) {
+    return super.once(event, listener);
+  }
+
+  override removeAllListeners<K extends keyof ClientEvents>(event?: K);
+  override removeAllListeners<S extends string | symbol>(event?: Exclude<S, keyof ClientEvents>);
+  override removeAllListeners(event: string | symbol) {
+    return super.removeAllListeners<string | symbol>(event);
   }
 }
