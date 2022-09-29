@@ -1,4 +1,5 @@
 import { GatewayVersion, RouteBases } from 'discord-api-types/v10';
+import { GatewayURL } from '../constants';
 import type { IntentsResolvable } from '../utils';
 
 /**
@@ -152,7 +153,7 @@ export const defaultClientOptions: ClientOptions = {
   token: process.env.DISCORD_TOKEN ?? process.env.BOT_TOKEN ?? '',
   waitGuildTimeout: 15_000,
   ws: {
-    gateway: 'wss://gateway.discord.gg/',
+    gateway: GatewayURL,
     largeThreshold: 50,
     version: GatewayVersion,
   },

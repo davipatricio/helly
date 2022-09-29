@@ -2,6 +2,7 @@ import { WebSocketClient } from '@hellyjs/ws';
 import EventEmitter from 'events';
 import { IntentsBitField } from '../utils';
 import type { Awaitable } from '../utils/types';
+import { websocketVersion } from '../utils/websocketVersion';
 import { ActionManager } from './actions';
 import type { ClientEvents } from './ClientEvents';
 import { ClientOptions, defaultClientOptions } from './ClientOptions';
@@ -46,7 +47,8 @@ export class Client extends EventEmitter {
       compress: false,
       intents: Number(new IntentsBitField(this.options.intents).bitfield),
       token: this.options.token,
-      url: this.options.ws.gateway,
+      // TODO: compression
+      url: websocketVersion(this.options.ws.gateway!, this.options.ws.version, 'json'),
     });
     this.actions = new ActionManager(this);
   }
