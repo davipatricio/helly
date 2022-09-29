@@ -105,6 +105,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@hellyjs/ws@workspace:packages/ws"
   dependencies:
+    "@sapphire/ratelimits": "npm:2.4.5"
     "@types/node": "npm:18.7.18"
     "@types/ws": "npm:^8"
     discord-api-types: "npm:0.37.9"
@@ -1316,6 +1317,22 @@ __metadata:
     node-gyp: "npm:latest"
     node-gyp-build: "npm:^4.3.0"
   checksum: f2b44efbd40f888f27d444468561b584d9c5c50de5f91acf7c56b975a39b105546a160820c330fa7148e42375498fca837cd6162adfd5c04d4fec19daf38d317
+  languageName: node
+  linkType: hard
+
+"@sapphire/ratelimits@npm:2.4.5":
+  version: 2.4.5
+  resolution: "@sapphire/ratelimits@npm:2.4.5"
+  dependencies:
+    "@sapphire/timer-manager": "npm:^1.0.0"
+  checksum: b514a920a78bb7aadc72aa283e22fc16aef866f1543c72aeb3809da03afe9202f36d2cad97d1de407382518534e98bf1d7caa13a6d2aa6d182aa5b9affac8248
+  languageName: node
+  linkType: hard
+
+"@sapphire/timer-manager@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@sapphire/timer-manager@npm:1.0.0"
+  checksum: 3358333ebd96731b406933c0a60be1ba6d3223d39826ecb82228625bb8f92b1b31e23bbbbd0d329847ce121fff642fc75be7efec3e2ac1ac7db00679dce9d1e9
   languageName: node
   linkType: hard
 

@@ -1,3 +1,4 @@
+import { RateLimit, RateLimitManager } from '@sapphire/ratelimits';
 import type { GatewayIdentifyData } from 'discord-api-types/v10';
 import EventEmitter from 'events';
 import WebSocket from 'ws';
@@ -21,8 +22,21 @@ interface WebSocketClientData {
 }
 
 export class WebSocketClient extends EventEmitter {
+  /**
+   * Useful data for the client.
+   */
   data: WebSocketClientData;
+  /**
+   * The options the client was instantiated with
+   */
   options: WebSocketClientOptions;
+  /**
+   * A class that handles ratelimits
+   */
+  ratelimit: RateLimit;
+  /**
+   * The WebSocket object. Only available when {@link WebSocketClient#connect} is been called
+   */
   socket?: WebSocket;
   constructor(options?: Partial<WebSocketClientOptions>) {
     super();
@@ -37,6 +51,9 @@ export class WebSocketClient extends EventEmitter {
       sequence: null,
       sessionId: null,
     };
+
+    // Clients are allowed to send 120 gateway commands every 60 seconds, meaning you can send an average of 2 commands per second
+    this.ratelimit = new RateLimit(new RateLimitManager(60_000, 120));
   }
 
   #addListeners() {
@@ -105,5 +122,20 @@ export class WebSocketClient extends EventEmitter {
   override removeAllListeners<S extends string | symbol>(event?: Exclude<S, keyof ClientEvents>);
   override removeAllListeners(event: string | symbol) {
     return super.removeAllListeners(event);
+  }
+
+  send(data: string | Record<string, unknown> | unknown[]) {
+    if (!this.socket) throw new Error('WebSocket not initialized yet');
+
+    if (this.ratelimit.limited) {
+      this.emit('Debug', `Ratelimited while sending a Gateway Command, waiting for ${this.ratelimit.remainingTime}ms...`);
+      setTimeout(() => this.send(data), this.ratelimit.remainingTime);
+      return;
+    }
+
+    this.ratelimit.consume();
+    if (typeof data === 'string') {
+      this.socket.send(data);
+    } else this.socket.send(JSON.stringify(data));
   }
 }
