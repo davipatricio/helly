@@ -1,5 +1,5 @@
 import { RateLimit, RateLimitManager } from '@sapphire/ratelimits';
-import type { GatewayIdentifyData } from 'discord-api-types/v10';
+import type { GatewayIdentifyData, GatewaySendPayload } from 'discord-api-types/v10';
 import EventEmitter from 'events';
 import WebSocket from 'ws';
 import { handleIncomingMessage } from '../utils';
@@ -124,7 +124,7 @@ export class WebSocketClient extends EventEmitter {
     return super.removeAllListeners(event);
   }
 
-  send(data: string | Record<string, unknown> | unknown[]) {
+  send(data: string | GatewaySendPayload | unknown[]) {
     if (!this.socket) throw new Error('WebSocket not initialized yet');
 
     if (this.ratelimit.limited) {

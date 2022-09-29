@@ -1,9 +1,9 @@
-import { GatewayHeartbeat, GatewayOpcodes } from 'discord-api-types/v10';
+import { GatewayOpcodes } from 'discord-api-types/v10';
 import type { WebSocketClient } from '../client/WebSocketClient';
 
 export function sendHeartbeat(client: WebSocketClient) {
-  client.emit('debug', 'Sending heartbeat to Discord.');
-  client.socket?.send(JSON.stringify({ op: GatewayOpcodes.Heartbeat } as GatewayHeartbeat));
+  client.emit('Debug', 'Sending heartbeat to Discord.');
+  client.send({ d: client.data.sequence, op: GatewayOpcodes.Heartbeat });
 }
 
 export function handleHeartbeat(client: WebSocketClient) {
@@ -21,7 +21,7 @@ export function startHeartbeatInterval(client: WebSocketClient) {
 
 export function stopHeartbeatInterval(client: WebSocketClient) {
   if (!client.data.heartbeater) return;
-  client.emit('debug', 'Stopped sending heartbeats to Discord.');
+  client.emit('Debug', 'Stopped sending heartbeats to Discord.');
 
   clearInterval(client.data.heartbeater);
   client.data.heartbeater = null;
