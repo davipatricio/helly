@@ -2,10 +2,15 @@ import { WebSocketClient } from '@hellyjs/ws';
 import EventEmitter from 'events';
 import { IntentsBitField } from '../utils';
 import type { Awaitable } from '../utils/types';
+import { ActionManager } from './actions';
 import type { ClientEvents } from './ClientEvents';
 import { ClientOptions, defaultClientOptions } from './ClientOptions';
 
 export class Client extends EventEmitter {
+  /**
+   * @private @internal
+   */
+  actions: ActionManager;
   /**
    * The id of the logged client
    */
@@ -15,7 +20,11 @@ export class Client extends EventEmitter {
    */
   options: Required<ClientOptions>;
   /**
-   * A {@WebSocketClient} instance
+   * Whether the client is ready
+   */
+  ready: boolean;
+  /**
+   * A {@link WebSocketClient} instance
    */
   ws: WebSocketClient;
   /**
@@ -28,6 +37,9 @@ export class Client extends EventEmitter {
    */
   constructor(options: Partial<ClientOptions> = {}) {
     super();
+
+    this.id = '';
+    this.ready = false;
     this.options = { ...defaultClientOptions, ...options };
     this.ws = new WebSocketClient({
       // TODO: compression
@@ -36,6 +48,7 @@ export class Client extends EventEmitter {
       token: this.options.token,
       url: this.options.ws.gateway,
     });
+    this.actions = new ActionManager(this);
   }
 
   connect() {
