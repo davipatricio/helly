@@ -1,3 +1,4 @@
+import type { GatewayDispatchPayload } from 'discord-api-types/v10';
 import type WebSocket from 'ws';
 
 export interface ClientEvents {
@@ -9,6 +10,10 @@ export interface ClientEvents {
    * Emitted for general debugging information
    */
   Debug: [message: string];
+  /**
+   * Emitted when Discord sends a dispatch event
+   */
+  Dispatch: [data: GatewayDispatchPayload];
   /**
    * Emitted when the client encounters an error
    */
