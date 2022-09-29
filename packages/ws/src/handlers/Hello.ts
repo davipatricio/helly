@@ -7,9 +7,14 @@ export function handleHello(client: WebSocketClient, data: GatewayHelloData) {
   client.data.heartbeatInterval = data.heartbeat_interval;
 
   client.emit('Debug', 'Handling hello request from Discord.');
+
   if (client.data.sessionId && client.data.sequence && client.options.token) {
     client.emit('Debug', 'WebSocketClient has a session ID and sequence, attempting to resume.');
-    sendResume(client, { seq: client.data.sequence, session_id: client.data.sessionId, token: client.options.token });
+    sendResume(client, {
+      seq: client.data.sequence,
+      session_id: client.data.sessionId,
+      token: client.options.token,
+    });
     return;
   }
 
