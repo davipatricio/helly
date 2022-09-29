@@ -59,13 +59,13 @@ export class WebSocketClient extends EventEmitter {
   #addListeners() {
     if (!this.socket) throw new Error('WebSocket not initialized yet');
 
-    this.socket.on('close', (code, reason) => this.emit('close', code, reason));
-    this.socket.on('error', error => this.emit('error', error));
+    this.socket.on('close', (code, reason) => this.emit('Close', code, reason));
+    this.socket.on('error', error => this.emit('Error', error));
     this.socket.on('message', data => {
       handleIncomingMessage(this, data);
-      this.emit('raw', data);
+      this.emit('Raw', data);
     });
-    this.socket.on('open', () => this.emit('open'));
+    this.socket.on('open', () => this.emit('Open'));
   }
 
   #applyDefaultOptions(options?: Partial<WebSocketClientOptions>) {
