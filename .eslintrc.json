@@ -161,7 +161,12 @@
         ],
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": [
-            "error"
+            "error", {
+                "functions": false,
+                "classes": false,
+                "variables": false,
+                "typedefs": false
+            }
         ],
         "require-await": "off",
         "@typescript-eslint/require-await": "error"
