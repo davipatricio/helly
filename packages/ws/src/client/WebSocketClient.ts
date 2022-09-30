@@ -1,5 +1,5 @@
 import { RateLimit, RateLimitManager } from '@sapphire/ratelimits';
-import type { GatewayIdentifyData, GatewaySendPayload } from 'discord-api-types/v10';
+import { GatewayCloseCodes, GatewayIdentifyData, GatewaySendPayload } from 'discord-api-types/v10';
 import EventEmitter from 'events';
 import WebSocket from 'ws';
 import { handleIncomingMessage } from '../utils';
@@ -10,6 +10,17 @@ type Awaitable<T> = T | Promise<T>;
 export interface WebSocketClientOptions extends GatewayIdentifyData {
   url: string;
 }
+
+const Codes = {
+  AllowReconnect: [
+    GatewayCloseCodes.UnknownError,
+    GatewayCloseCodes.UnknownOpcode,
+    GatewayCloseCodes.DecodeError,
+    GatewayCloseCodes.NotAuthenticated,
+    GatewayCloseCodes.AlreadyAuthenticated,
+    GatewayCloseCodes.RateLimited,
+  ],
+};
 
 interface WebSocketClientData {
   heartbeater: NodeJS.Timeout | null;
@@ -59,7 +70,16 @@ export class WebSocketClient extends EventEmitter {
   #addListeners() {
     if (!this.socket) throw new Error('WebSocket not initialized yet');
 
-    this.socket.on('close', (code, reason) => this.emit('Close', code, reason));
+    this.socket.on('close', (code, reason) => {
+      this.emit('Close', code, reason);
+
+      if (code || !Codes.AllowReconnect.includes(code)) {
+        this.data.sessionId = null;
+        this.data.sequence = null;
+      }
+
+      this.connect();
+    });
     this.socket.on('error', error => this.emit('Error', error));
     this.socket.on('message', data => {
       handleIncomingMessage(this, data);

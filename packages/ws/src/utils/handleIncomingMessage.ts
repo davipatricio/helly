@@ -26,7 +26,7 @@ export function handleIncomingMessage(client: WebSocketClient, data: WebSocket.D
       handleHello(client, message.d);
       break;
     case GatewayOpcodes.InvalidSession:
-      handleInvalidSession(client, message.d);
+      handleInvalidSession(client, message);
       break;
     case GatewayOpcodes.Reconnect:
       handleReconnect(client);
