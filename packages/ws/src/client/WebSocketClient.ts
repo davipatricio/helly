@@ -52,16 +52,7 @@ export class WebSocketClient extends EventEmitter {
   constructor(options?: Partial<WebSocketClientOptions>) {
     super();
     this.#applyDefaultOptions(options);
-
-    this.data = {
-      heartbeater: null,
-      heartbeatInterval: 0,
-      lastHeartbeatAck: false,
-      lastHeartbeatTime: 0,
-      resumeGatewayUrl: null,
-      sequence: null,
-      sessionId: null,
-    };
+    this.cleanUp();
 
     // Clients are allowed to send 120 gateway commands every 60 seconds, meaning you can send an average of 2 commands per second
     this.ratelimit = new RateLimit(new RateLimitManager(60_000, 120));
@@ -73,10 +64,7 @@ export class WebSocketClient extends EventEmitter {
     this.socket.on('close', (code, reason) => {
       this.emit('Close', code, reason);
 
-      if (code || !Codes.AllowReconnect.includes(code)) {
-        this.data.sessionId = null;
-        this.data.sequence = null;
-      }
+      if (code || !Codes.AllowReconnect.includes(code)) this.cleanUp();
 
       this.connect();
     });
@@ -101,6 +89,18 @@ export class WebSocketClient extends EventEmitter {
         url: 'wss://gateway.discord.gg',
       },
       ...options,
+    };
+  }
+
+  cleanUp() {
+    this.data = {
+      heartbeater: null,
+      heartbeatInterval: 0,
+      lastHeartbeatAck: false,
+      lastHeartbeatTime: 0,
+      resumeGatewayUrl: null,
+      sequence: null,
+      sessionId: null,
     };
   }
 

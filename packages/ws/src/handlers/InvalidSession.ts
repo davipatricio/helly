@@ -8,8 +8,7 @@ export function handleInvalidSession(client: WebSocketClient, data: GatewayInval
   if (data.d && client.data.sessionId && client.data.sequence && client.options.token) {
     client.socket?.close(4000);
   } else {
-    client.data.sessionId = null;
-    client.data.sequence = null;
+    client.cleanUp();
     client.socket?.close(1000);
   }
   client.connect();
