@@ -24,6 +24,14 @@ export class ActionManager {
     this.client = client;
     this.loaded = {} as LoadedActions;
     this.loadActions();
+    this.handleActions();
+  }
+
+  handleActions() {
+    // this.client.ws.on('Raw', data => {
+    //   const dataString = data.toString();
+    //   const message = JSON.parse(dataString) as GatewayReceivePayload;
+    // });
   }
 
   async loadActions() {
