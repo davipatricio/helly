@@ -47,7 +47,6 @@ export class Client extends EventEmitter {
       compress: false,
       intents: Number(new IntentsBitField(this.options.intents).bitfield),
       token: this.options.token,
-      // TODO: compression
       url: websocketVersion(this.options.ws.gateway!, this.options.ws.version, 'json'),
     });
     this.actions = new ActionManager(this);
