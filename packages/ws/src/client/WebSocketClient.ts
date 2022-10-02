@@ -67,9 +67,8 @@ export class WebSocketClient extends EventEmitter {
     this.socket.on('close', (code, reason) => {
       this.emit('Close', code, reason);
 
-      if (code || !Codes.AllowReconnect.includes(code)) this.cleanUp();
-
-      this.connect();
+      if (code && !Codes.AllowReconnect.includes(code)) this.cleanUp();
+      else this.connect();
     });
     this.socket.on('error', error => this.emit('Error', error));
     this.socket.on('message', data => {
