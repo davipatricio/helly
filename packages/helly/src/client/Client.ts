@@ -26,7 +26,7 @@ export class Client extends EventEmitter {
   /**
    * The options the client was instantiated with
    */
-  options: ParsedClientOptions;
+  readonly options: ParsedClientOptions;
   /**
    * Whether the client is ready
    */
@@ -48,7 +48,8 @@ export class Client extends EventEmitter {
 
     this.id = '';
     this.ready = false;
-    this.options = this.#parseOptions({ ...defaultClientOptions, ...options });
+    Object.defineProperty(this, 'options', { configurable: false, value: this.#parseOptions({ ...defaultClientOptions, ...options }), writable: false });
+
     this.ws = new WebSocketClient({
       // TODO: compression
       compress: false,
