@@ -10,9 +10,10 @@ type Awaitable<T> = T | Promise<T>;
 
 export interface WebSocketClientOptions extends GatewayIdentifyData {
   /**
-   * The WebSocket URL to connect to
+   * Which version of the gateway to use
+   * @defaultValue `10`
    */
-  url: string;
+  version?: number;
 }
 
 const Codes = {
@@ -50,6 +51,8 @@ export class WebSocketClient extends EventEmitter {
    * The options the client was instantiated with
    */
   options: WebSocketClientOptions;
+  /** @private @internal */
+  packetCompress: boolean;
   /**
    * A class that handles ratelimits
    */
@@ -58,12 +61,13 @@ export class WebSocketClient extends EventEmitter {
    * The WebSocket object. Only available when {@link WebSocketClient#connect} is been called
    */
   socket?: WebSocket;
+  /** @private @internal */
+  transportCompress: boolean;
   /**
    * @param options The options for the client
    * @example
    * ```js
    * const client = new WebSocketClient({
-   *  url: 'wss://gateway.discord.gg',
    *  token: 'my token',
    *  intents: 513,
    * });
@@ -71,7 +75,6 @@ export class WebSocketClient extends EventEmitter {
    * @example
    * ```js
    * const client = new WebSocketClient({
-   *  url: 'wss://gateway.discord.gg/?v=10&encoding=json',
    *  token: 'my token',
    *  intents: 0,
    * });
@@ -84,7 +87,7 @@ export class WebSocketClient extends EventEmitter {
 
     // Clients are allowed to send 120 gateway commands every 60 seconds, meaning you can send an average of 2 commands per second
     this.ratelimit = new RateLimit(new RateLimitManager(60_000, 120));
-    this.#messageReader = new MessageReader();
+    this.#messageReader = new MessageReader(this);
   }
 
   #addListeners() {
@@ -97,8 +100,10 @@ export class WebSocketClient extends EventEmitter {
       else this.connect();
     });
     this.socket.on('error', error => this.emit('Error', error));
-    this.socket.on('message', data => {
-      const parsedMessage = this.#messageReader.read(data, this.options.compress);
+    this.socket.on('message', async (data, isBinary) => {
+      const parsedMessage = await this.#messageReader.read(data as Buffer | ArrayBuffer, isBinary);
+      if (!parsedMessage) return;
+
       handleIncomingMessage(this, parsedMessage);
       this.emit('Message', parsedMessage);
     });
@@ -116,7 +121,7 @@ export class WebSocketClient extends EventEmitter {
           os: process.platform,
         },
         token: '',
-        url: 'wss://gateway.discord.gg/?v=10&encoding=json',
+        version: 10,
       },
       ...options,
     };
@@ -141,7 +146,19 @@ export class WebSocketClient extends EventEmitter {
    * Connects to the WebSocket and sets up the listeners
    */
   connect() {
-    this.socket = new WebSocket(this.options.url);
+    let url = `wss://gateway.discord.gg/?v=${this.options.version}&encoding=json`;
+    if (this.options.compress) {
+      if (this.#messageReader.isZlibSyncAvailable()) {
+        url += '&compress=zlib-stream';
+        this.transportCompress = true;
+        this.emit('Debug', 'Using zlib-stream compression');
+      } else {
+        this.packetCompress = true;
+        this.emit('Debug', 'zlib-sync is not available, falling back to packet compression');
+      }
+    }
+    this.socket = new WebSocket(url);
+    this.socket.binaryType = 'arraybuffer';
     this.#addListeners();
   }
 
