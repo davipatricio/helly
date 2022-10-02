@@ -148,7 +148,7 @@ export class WebSocketClient extends EventEmitter {
   connect() {
     let url = `wss://gateway.discord.gg/?v=${this.options.version}&encoding=json`;
     if (this.options.compress) {
-      if (this.#messageReader.isZlibSyncAvailable()) {
+      if (this.#messageReader.inflate) {
         url += '&compress=zlib-stream';
         this.transportCompress = true;
         this.emit('Debug', 'Using zlib-stream compression');

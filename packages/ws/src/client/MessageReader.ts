@@ -21,7 +21,7 @@ export class MessageReader {
   /**
    * The class that handles decompression
    */
-  inflate: import('zlib-sync').Inflate;
+  inflate?: import('zlib-sync').Inflate;
   /**
    * The text decoder used to decode incoming messages
    */
@@ -33,10 +33,6 @@ export class MessageReader {
         chunkSize: 65_535,
         to: 'string',
       });
-  }
-
-  isZlibSyncAvailable() {
-    return !!ZlibSync;
   }
 
   async read(data: ArrayBuffer | Buffer, isBinary: boolean) {
