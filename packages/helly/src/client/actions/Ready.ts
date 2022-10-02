@@ -1,5 +1,4 @@
 import { GatewayIntentBits } from 'discord-api-types/v10';
-import { IntentsBitField } from '../../utils';
 import type { Client } from '../Client';
 
 function handle(client: Client /* data: GatewayReadyDispatch */) {
