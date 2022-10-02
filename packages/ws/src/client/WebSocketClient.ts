@@ -4,6 +4,7 @@ import EventEmitter from 'events';
 import WebSocket from 'ws';
 import { handleIncomingMessage } from '../utils';
 import type { ClientEvents } from './ClientEvents';
+import { MessageReader } from './MessageReader';
 
 type Awaitable<T> = T | Promise<T>;
 
@@ -37,6 +38,7 @@ export class WebSocketClient extends EventEmitter {
    * Useful data for the client.
    */
   data: WebSocketClientData;
+  #messageReader: MessageReader;
   /**
    * The options the client was instantiated with
    */
@@ -56,6 +58,7 @@ export class WebSocketClient extends EventEmitter {
 
     // Clients are allowed to send 120 gateway commands every 60 seconds, meaning you can send an average of 2 commands per second
     this.ratelimit = new RateLimit(new RateLimitManager(60_000, 120));
+    this.#messageReader = new MessageReader();
   }
 
   #addListeners() {
@@ -70,7 +73,8 @@ export class WebSocketClient extends EventEmitter {
     });
     this.socket.on('error', error => this.emit('Error', error));
     this.socket.on('message', data => {
-      handleIncomingMessage(this, data);
+      const parsedMessage = this.#messageReader.read(data);
+      handleIncomingMessage(this, parsedMessage);
       this.emit('Raw', data);
     });
     this.socket.on('open', () => this.emit('Open'));

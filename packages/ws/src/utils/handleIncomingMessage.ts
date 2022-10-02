@@ -1,5 +1,4 @@
 import { GatewayOpcodes, GatewayReceivePayload } from 'discord-api-types/v10';
-import type WebSocket from 'ws';
 import type { WebSocketClient } from '../client/WebSocketClient';
 import { handleDispatch } from '../handlers/Dispatch';
 import { handleHeartbeat } from '../handlers/Heartbeat';
@@ -8,13 +7,10 @@ import { handleHello } from '../handlers/Hello';
 import { handleInvalidSession } from '../handlers/InvalidSession';
 import { handleReconnect } from '../handlers/Reconnect';
 
-export function handleIncomingMessage(client: WebSocketClient, data: WebSocket.Data) {
-  const dataString = data.toString();
-
-  const message = JSON.parse(dataString) as GatewayReceivePayload;
-  switch (message.op) {
+export function handleIncomingMessage(client: WebSocketClient, data: GatewayReceivePayload) {
+  switch (data.op) {
     case GatewayOpcodes.Dispatch:
-      handleDispatch(client, message);
+      handleDispatch(client, data);
       break;
     case GatewayOpcodes.Heartbeat:
       handleHeartbeat(client);
@@ -23,10 +19,10 @@ export function handleIncomingMessage(client: WebSocketClient, data: WebSocket.D
       handleHeartbeatAck(client);
       break;
     case GatewayOpcodes.Hello:
-      handleHello(client, message.d);
+      handleHello(client, data.d);
       break;
     case GatewayOpcodes.InvalidSession:
-      handleInvalidSession(client, message);
+      handleInvalidSession(client, data);
       break;
     case GatewayOpcodes.Reconnect:
       handleReconnect(client);
