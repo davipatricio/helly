@@ -7,6 +7,13 @@ import { ActionManager } from './actions';
 import type { ClientEvents } from './ClientEvents';
 import { ClientOptions, defaultClientOptions } from './ClientOptions';
 
+/**
+ * A object representing the client options after they have been resolved
+ */
+export interface ParsedClientOptions extends ClientOptions {
+  intents: IntentsBitField;
+}
+
 export class Client extends EventEmitter {
   /**
    * @private @internal
@@ -19,7 +26,7 @@ export class Client extends EventEmitter {
   /**
    * The options the client was instantiated with
    */
-  options: Required<ClientOptions>;
+  options: ParsedClientOptions;
   /**
    * Whether the client is ready
    */
@@ -41,11 +48,11 @@ export class Client extends EventEmitter {
 
     this.id = '';
     this.ready = false;
-    this.options = { ...defaultClientOptions, ...options };
+    this.options = this.#parseOptions({ ...defaultClientOptions, ...options });
     this.ws = new WebSocketClient({
       // TODO: compression
       compress: false,
-      intents: Number(new IntentsBitField(this.options.intents).bitfield),
+      intents: Number(this.options.intents.bitfield),
       token: this.options.token,
       url: websocketVersion(this.options.ws.gateway!, this.options.ws.version, 'json'),
     });
@@ -78,6 +85,13 @@ export class Client extends EventEmitter {
   override once<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>);
   override once(event: string | symbol, listener: (...args: any[]) => void) {
     return super.once(event, listener);
+  }
+
+  #parseOptions(options: ClientOptions): ParsedClientOptions {
+    const parsedOptions = options as ParsedClientOptions;
+    if (options.intents) parsedOptions.intents = new IntentsBitField(options.intents);
+
+    return parsedOptions;
   }
 
   override removeAllListeners<K extends keyof ClientEvents>(event?: K);
