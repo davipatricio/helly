@@ -51,11 +51,10 @@ export class Client extends EventEmitter {
     Object.defineProperty(this, 'options', { configurable: false, value: this.#parseOptions({ ...defaultClientOptions, ...options }), writable: false });
 
     this.ws = new WebSocketClient({
-      // TODO: compression
-      compress: false,
+      compress: this.options.ws.compress,
       intents: Number(this.options.intents.bitfield),
       token: this.options.token,
-      url: websocketVersion(this.options.ws.gateway!, this.options.ws.version, 'json'),
+      url: websocketVersion(this.options.ws.gateway!, this.options.ws.version, this.options.ws.encoding, this.options.ws.compress ? 'zlib-stream' : undefined),
     });
     this.actions = new ActionManager(this);
   }

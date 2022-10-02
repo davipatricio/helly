@@ -120,6 +120,10 @@ export interface RestOptions {
  * Options for the {@link ClientOptions.ws | WebSocket}
  */
 export interface WebSocketOptions {
+  /** @defaultValue `true` */
+  compress: boolean;
+  /** @defaultValue `json` */
+  encoding: 'json' | 'etf';
   /** @defaultValue `wss://gateway.discord.gg/` */
   gateway: string;
   /** @defaultValue `50` */
@@ -153,6 +157,8 @@ export const defaultClientOptions: ClientOptions = {
   token: process.env.DISCORD_TOKEN ?? process.env.BOT_TOKEN ?? '',
   waitGuildTimeout: 15_000,
   ws: {
+    compress: false,
+    encoding: 'json',
     gateway: GatewayURL,
     largeThreshold: 50,
     version: GatewayVersion,
