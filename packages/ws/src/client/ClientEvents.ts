@@ -1,5 +1,4 @@
-import type { GatewayDispatchPayload } from 'discord-api-types/v10';
-import type WebSocket from 'ws';
+import type { GatewayDispatchPayload, GatewayReceivePayload } from 'discord-api-types/v10';
 
 export interface ClientEvents {
   /**
@@ -19,11 +18,11 @@ export interface ClientEvents {
    */
   Error: [error: Error];
   /**
+   * Emitted when the client receives a message from the WebSocket
+   */
+  Message: [data: GatewayReceivePayload];
+  /**
    * Emitted when the client starts a new WebSocket connection
    */
   Open: [];
-  /**
-   * Emitted when the client receives a message from the WebSocket
-   */
-  Raw: [data: WebSocket.Data];
 }

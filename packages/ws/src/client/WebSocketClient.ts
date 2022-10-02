@@ -74,7 +74,7 @@ export class WebSocketClient extends EventEmitter {
     this.socket.on('message', data => {
       const parsedMessage = this.#messageReader.read(data, this.options.compress);
       handleIncomingMessage(this, parsedMessage);
-      this.emit('Raw', data);
+      this.emit('Message', parsedMessage);
     });
     this.socket.on('open', () => this.emit('Open'));
   }
