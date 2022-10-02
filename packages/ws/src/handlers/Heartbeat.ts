@@ -19,6 +19,7 @@ export function handleHeartbeat(client: WebSocketClient) {
 export function startHeartbeatInterval(client: WebSocketClient) {
   if (client.data.heartbeater) return;
 
+  client.emit('Debug', 'Starting Heartbeater interval.');
   client.data.heartbeater = setInterval(() => sendHeartbeat(client), client.data.heartbeatInterval);
 }
 
