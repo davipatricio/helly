@@ -9,6 +9,9 @@ import { MessageReader } from './MessageReader';
 type Awaitable<T> = T | Promise<T>;
 
 export interface WebSocketClientOptions extends GatewayIdentifyData {
+  /**
+   * The WebSocket URL to connect to
+   */
   url: string;
 }
 
@@ -35,9 +38,13 @@ interface WebSocketClientData {
 
 export class WebSocketClient extends EventEmitter {
   /**
-   * Useful data for the client.
+   * Useful data for the client
    */
   data: WebSocketClientData;
+  /**
+   * Reads messages incoming from the WebSocket.
+   * Also decomperesses and parses binary messages
+   */
   #messageReader: MessageReader;
   /**
    * The options the client was instantiated with
@@ -51,6 +58,25 @@ export class WebSocketClient extends EventEmitter {
    * The WebSocket object. Only available when {@link WebSocketClient#connect} is been called
    */
   socket?: WebSocket;
+  /**
+   * @param options The options for the client
+   * @example
+   * ```js
+   * const client = new WebSocketClient({
+   *  url: 'wss://gateway.discord.gg',
+   *  token: 'my token',
+   *  intents: 513,
+   * });
+   * ```
+   * @example
+   * ```js
+   * const client = new WebSocketClient({
+   *  url: 'wss://gateway.discord.gg/?v=10&encoding=json',
+   *  token: 'my token',
+   *  intents: 0,
+   * });
+   * ```
+   */
   constructor(options?: Partial<WebSocketClientOptions>) {
     super();
     this.#applyDefaultOptions(options);
@@ -90,12 +116,15 @@ export class WebSocketClient extends EventEmitter {
           os: process.platform,
         },
         token: '',
-        url: 'wss://gateway.discord.gg',
+        url: 'wss://gateway.discord.gg/?v=10&encoding=json',
       },
       ...options,
     };
   }
 
+  /**
+   * Sets the `client.data` property to its default values. Not recommended to be used outside of the library
+   */
   cleanUp() {
     this.data = {
       heartbeater: null,
@@ -108,14 +137,20 @@ export class WebSocketClient extends EventEmitter {
     };
   }
 
+  /**
+   * Connects to the WebSocket and sets up the listeners
+   */
   connect() {
     this.socket = new WebSocket(this.options.url);
     this.#addListeners();
   }
 
-  disconnect() {
+  /**
+   * Disconnects from the WebSocket with the specified code
+   */
+  disconnect(code = 1000) {
     if (!this.socket) throw new Error('WebSocket not initialized yet');
-    this.socket.close();
+    this.socket.close(code);
   }
 
   override emit<K extends keyof ClientEvents>(event: K, ...args: any[]);
@@ -148,6 +183,10 @@ export class WebSocketClient extends EventEmitter {
     return super.removeAllListeners(event);
   }
 
+  /**
+   * Sends data to the WebSocket
+   * @param data The data to send
+   */
   send(data: string | GatewaySendPayload | unknown[]) {
     if (!this.socket) throw new Error('WebSocket not initialized yet');
 
