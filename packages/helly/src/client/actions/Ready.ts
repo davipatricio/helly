@@ -2,7 +2,7 @@ import { GatewayIntentBits } from 'discord-api-types/v10';
 import { IntentsBitField } from '../../utils';
 import type { Client } from '../Client';
 
-export function handle(client: Client /* data: GatewayReadyDispatch */) {
+function handle(client: Client /* data: GatewayReadyDispatch */) {
   const baseIntents = new IntentsBitField(client.options.intents);
   if (!client.ready) {
     setTimeout(
@@ -15,3 +15,5 @@ export function handle(client: Client /* data: GatewayReadyDispatch */) {
     );
   }
 }
+
+export default { handle };
