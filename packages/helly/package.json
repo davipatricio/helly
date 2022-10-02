@@ -35,6 +35,11 @@
         "helly"
     ],
     "homepage": "https://helly.denkylabs.com",
+    "typedoc": {
+        "entryPoint": "./src/index.ts",
+        "readmeFile": "./README.md",
+        "displayName": "helly"
+    },
     "engines": {
         "node": ">=16.9.0"
     },
