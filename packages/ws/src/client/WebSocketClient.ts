@@ -73,7 +73,7 @@ export class WebSocketClient extends EventEmitter {
     });
     this.socket.on('error', error => this.emit('Error', error));
     this.socket.on('message', data => {
-      const parsedMessage = this.#messageReader.read(data);
+      const parsedMessage = this.#messageReader.read(data, this.options.compress);
       handleIncomingMessage(this, parsedMessage);
       this.emit('Raw', data);
     });
@@ -83,6 +83,7 @@ export class WebSocketClient extends EventEmitter {
   #applyDefaultOptions(options?: Partial<WebSocketClientOptions>) {
     this.options = {
       ...{
+        compress: false,
         intents: 0,
         properties: {
           browser: 'helly',

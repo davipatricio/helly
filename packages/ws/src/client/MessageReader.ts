@@ -18,28 +18,33 @@ try {
 export class MessageReader {
   inflate: import('zlib-sync').Inflate;
   constructor() {
-    this.inflate = new ZlibSync.Inflate({
-      chunkSize: 128 * 1024,
-    });
+    if (ZlibSync)
+      this.inflate = new ZlibSync.Inflate({
+        chunkSize: 128 * 1024,
+      });
   }
 
   read(data: WebSocket.Data, isCompressed = false) {
+    if (isCompressed && !ZlibSync) {
+      throw new Error('zlib-sync is required to decompress messages. Install zlib-sync or disable the compress option.');
+    }
+
     let newData = data as Buffer;
     if (data instanceof ArrayBuffer && (isCompressed || Erlpack)) {
       newData = Buffer.from(data);
       // Fragmented messages
     } else if (Array.isArray(data)) newData = Buffer.concat(data);
 
-    if (newData.length >= 4 && newData.readUInt32BE(newData.length - 4) === 0xffff) {
-      this.inflate.push(data as Buffer, ZlibSync.Z_SYNC_FLUSH);
-      if (this.inflate.err) throw new Error(`zlib error: ${this.inflate.msg}`);
+    if (isCompressed) {
+      if (newData.length >= 4 && newData.readUInt32BE(newData.length - 4) === 0xffff) {
+        this.inflate.push(data as Buffer, ZlibSync.Z_SYNC_FLUSH);
+        if (this.inflate.err) throw new Error(`zlib error: ${this.inflate.msg}`);
 
-      newData = Buffer.from(this.inflate.result as string);
-    } else this.inflate.push(newData, false);
-
-    if (Erlpack) {
-      return Erlpack.unpack(newData) as GatewayReceivePayload;
+        newData = Buffer.from(this.inflate.result as string);
+      } else this.inflate.push(newData, false);
     }
+
+    if (Erlpack) return Erlpack.unpack(newData) as GatewayReceivePayload;
     return JSON.parse(newData.toString()) as GatewayReceivePayload;
   }
 }
