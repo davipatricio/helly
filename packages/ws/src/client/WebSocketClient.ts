@@ -2,7 +2,7 @@ import { RateLimit, RateLimitManager } from '@sapphire/ratelimits';
 import { GatewayCloseCodes, GatewayIdentifyData, GatewaySendPayload } from 'discord-api-types/v10';
 import EventEmitter from 'events';
 import WebSocket from 'ws';
-import { handleIncomingMessage } from '../utils';
+import { handleIncomingMessage } from '../utils/handleIncomingMessage';
 import type { ClientEvents } from './ClientEvents';
 import { MessageReader } from './MessageReader';
 
