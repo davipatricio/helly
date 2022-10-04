@@ -1,5 +1,8 @@
 import type { Client } from '../client';
 
+/**
+ * A manager of channels belonging to a client
+ */
 export class ChannelManager {
   /**
    * The client this manager belongs to

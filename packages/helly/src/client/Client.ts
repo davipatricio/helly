@@ -29,7 +29,7 @@ export class Client extends EventEmitter {
    */
   channels: ChannelManager;
   /**
-   * A manager of channels belonging to a client
+   * A manager of guilds belonging to a client
    */
   guilds: GuildManager;
   /**
@@ -45,7 +45,7 @@ export class Client extends EventEmitter {
    */
   ready: boolean;
   /**
-   * A manager of channels belonging to a client
+   * A manager of users belonging to a client
    */
   users: UserManager;
   /**

@@ -1,5 +1,8 @@
 import type { Client } from '../client';
 
+/**
+ * A manager of guilds belonging to a client
+ */
 export class GuildManager {
   /**
    * The client this manager belongs to
