@@ -1,5 +1,7 @@
 import { WebSocketClient } from '@hellyjs/ws';
 import EventEmitter from 'events';
+import type { ChannelManager, GuildManager, UserManager } from '../managers';
+import type { CacheManager } from '../managers/CacheManager';
 import { IntentsBitField } from '../utils';
 import type { Awaitable } from '../utils/types';
 import { ActionManager } from './actions';
@@ -19,6 +21,18 @@ export class Client extends EventEmitter {
    */
   actions: ActionManager;
   /**
+   * A class that handles all the caching
+   */
+  cache: CacheManager;
+  /**
+   *A manager of channels belonging to a client
+   */
+  channels: ChannelManager;
+  /**
+   *A manager of channels belonging to a client
+   */
+  guilds: GuildManager;
+  /**
    * The id of the logged client
    */
   id: string;
@@ -30,6 +44,10 @@ export class Client extends EventEmitter {
    * Whether the client is ready
    */
   ready: boolean;
+  /**
+   *A manager of channels belonging to a client
+   */
+  users: UserManager;
   /**
    * A {@link WebSocketClient} instance
    */

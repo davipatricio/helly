@@ -44,6 +44,7 @@
         "node": ">=16.9.0"
     },
     "dependencies": {
+        "@hellyjs/structures": "workspace:*",
         "@hellyjs/ws": "workspace:*",
         "discord-api-types": "0.37.9"
     },

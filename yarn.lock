@@ -92,7 +92,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hellyjs/structures@workspace:packages/structures":
+"@hellyjs/structures@workspace:*, @hellyjs/structures@workspace:packages/structures":
   version: 0.0.0-use.local
   resolution: "@hellyjs/structures@workspace:packages/structures"
   dependencies:
@@ -3816,6 +3816,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "helly@workspace:packages/helly"
   dependencies:
+    "@hellyjs/structures": "workspace:*"
     "@hellyjs/ws": "workspace:*"
     "@types/node": "npm:18.7.18"
     discord-api-types: "npm:0.37.9"
