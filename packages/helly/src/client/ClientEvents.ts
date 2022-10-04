@@ -331,13 +331,13 @@ declare module 'events' {
     emit<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, ...args: unknown[]): boolean;
     off<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
 
-    off<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
+    off<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: unknown[]) => Awaitable<void>): this;
 
     on<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
-    on<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
+    on<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: unknown[]) => Awaitable<void>): this;
 
     once<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>): this;
-    once<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>): this;
+    once<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: unknown[]) => Awaitable<void>): this;
 
     removeAllListeners<K extends keyof ClientEvents>(event?: K): this;
     removeAllListeners<S extends string | symbol>(event?: Exclude<S, keyof ClientEvents>): this;

@@ -170,27 +170,27 @@ export class WebSocketClient extends EventEmitter {
     this.socket.close(code);
   }
 
-  override emit<K extends keyof ClientEvents>(event: K, ...args: any[]);
-  override emit<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, ...args: any[]);
-  override emit(event: string | symbol, ...args: any[]) {
+  override emit<K extends keyof ClientEvents>(event: K, ...args: unknown[]);
+  override emit<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, ...args: unknown[]);
+  override emit(event: string | symbol, ...args: unknown[]) {
     return super.emit(event, ...args);
   }
 
   override off<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>);
-  override off<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>);
-  override off(event: string | symbol, listener: (...args: any[]) => void) {
+  override off<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: unknown[]) => Awaitable<void>);
+  override off(event: string | symbol, listener: (...args: unknown[]) => void) {
     return super.off(event, listener);
   }
 
   override on<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>);
-  override on<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>);
-  override on(event: string | symbol, listener: (...args: any[]) => void) {
+  override on<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: unknown[]) => Awaitable<void>);
+  override on(event: string | symbol, listener: (...args: unknown[]) => void) {
     return super.on(event, listener);
   }
 
   override once<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => Awaitable<void>);
-  override once<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: any[]) => Awaitable<void>);
-  override once(event: string | symbol, listener: (...args: any[]) => void) {
+  override once<S extends string | symbol>(event: Exclude<S, keyof ClientEvents>, listener: (...args: unknown[]) => Awaitable<void>);
+  override once(event: string | symbol, listener: (...args: unknown[]) => void) {
     return super.once(event, listener);
   }
 
