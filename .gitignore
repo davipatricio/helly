@@ -1,10 +1,12 @@
-build
+dist
 docs
 node_modules
-.env
 .vscode
-.git
-tests/config.json
 
-package-lock.json
-yarn.lock
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

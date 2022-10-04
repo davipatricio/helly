@@ -1,9 +1,7 @@
 addReviewers: true
-
 addAssignees: false
 
 reviewers: 
   - davipatricio
-  - whoisniskii
 
 numberOfReviewers: 0

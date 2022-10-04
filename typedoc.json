@@ -1,10 +1,11 @@
 {
+    "$schema": "https://typedoc.org/schema.json",
     "name": "helly",
     "customTitle": "helly - Discord API Wrapper",
     "customTitleLink": "https://helly.js.org",
     "customDescription": "A minimalist and perfomance-focused library in development designed to interact with Discord API.",
-    "entryPoints": ["./src/index.ts"],
-    "entryPointStrategy": "resolve",
+    "entryPoints": ["./packages/**"],
+    "entryPointStrategy": "packages",
     "out": "docs",
     "footerDate": true,
     "footerTime": true,

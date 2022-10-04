@@ -1,0 +1,54 @@
+{
+    "name": "helly",
+    "version": "0.0.1",
+    "description": "A simple, typed, performance-focused Discord API Wrapper.",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "typings": "./dist/index.d.ts",
+    "exports": {
+        "import": "./dist/index.mjs",
+        "require": "./dist/index.js",
+        "types": "./dist/index.d.ts"
+    },
+    "scripts": {
+        "build": "tsup",
+        "types:check": "tsc --noEmit"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/denkylabs/helly.git"
+    },
+    "bugs": {
+        "url": "https://github.com/denkylabs/helly/issues"
+    },
+    "files": [
+        "dist"
+    ],
+    "author": "Davi Patricio <davipatricio@pm.me>",
+    "license": "Apache-2.0",
+    "keywords": [
+        "discord",
+        "api",
+        "client",
+        "websocket",
+        "discordapp",
+        "helly"
+    ],
+    "homepage": "https://helly.denkylabs.com",
+    "typedoc": {
+        "entryPoint": "./src/index.ts",
+        "readmeFile": "./README.md",
+        "displayName": "helly"
+    },
+    "engines": {
+        "node": ">=16.9.0"
+    },
+    "dependencies": {
+        "@hellyjs/structures": "workspace:*",
+        "@hellyjs/ws": "workspace:*",
+        "discord-api-types": "0.37.9"
+    },
+    "devDependencies": {
+        "@types/node": "18.7.18"
+    }
+}
