@@ -88,7 +88,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@hellyjs/rest@workspace:packages/rest"
   dependencies:
+    "@sapphire/ratelimits": "npm:2.4.5"
     discord-api-types: "npm:0.37.9"
+    undici: "npm:5.11.0"
   languageName: unknown
   linkType: soft
 
@@ -1906,6 +1908,15 @@ __metadata:
   peerDependencies:
     esbuild: ">=0.13"
   checksum: 6d8dd83591b1ffb09242aa3635e094d061ecac4bf7c042c99cb373ecadecfc3ad7357edbd2b876bdbb7fc01063eb9df59eb78cf7d44b7d1f251139f186d98acf
+  languageName: node
+  linkType: hard
+
+"busboy@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "busboy@npm:1.6.0"
+  dependencies:
+    streamsearch: "npm:^1.1.0"
+  checksum: 4f9b97d97465ab8d7da3f9ee34129e4e92e473451547f3960224f209249b2546006c0bc66842932c0646c98247facf7f3341a20966114fadd234434e319411ad
   languageName: node
   linkType: hard
 
@@ -6471,6 +6482,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"streamsearch@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "streamsearch@npm:1.1.0"
+  checksum: 8d7c4b5046cf7ff528421d6e2ee0d8335da82a34edca4c58e2022390f4f73be1c83deeb14010bf939bb71e7990bd06367ca0382b3c6df1b932ecb1b98bb50e22
+  languageName: node
+  linkType: hard
+
 "string-width@npm:^1.0.2 || 2 || 3 || 4, string-width@npm:^4.1.0, string-width@npm:^4.2.0, string-width@npm:^4.2.3":
   version: 4.2.3
   resolution: "string-width@npm:4.2.3"
@@ -6991,6 +7009,15 @@ __metadata:
     has-symbols: "npm:^1.0.3"
     which-boxed-primitive: "npm:^1.0.2"
   checksum: de21ca5e49bb56d46c7d3672d3d2900b3859ee9541903993bca02a94a317ec1c720b316f025bf5c0f51f7ff9ad383782970acae0408b900ae0537727f614c4e1
+  languageName: node
+  linkType: hard
+
+"undici@npm:5.11.0":
+  version: 5.11.0
+  resolution: "undici@npm:5.11.0"
+  dependencies:
+    busboy: "npm:^1.6.0"
+  checksum: b90f395b47ed3bac45441ab102480d186238dba043eeaddf897030d68d547ed5f67d23f3a6706b4b58feb778540c086156c961f86694944ac4eb53bff86f7ba7
   languageName: node
   linkType: hard
 

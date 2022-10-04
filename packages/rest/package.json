@@ -43,6 +43,8 @@
         "node": ">=16.9.0"
     },
     "dependencies": {
-        "discord-api-types": "0.37.9"
+        "@sapphire/ratelimits": "2.4.5",
+        "discord-api-types": "0.37.9",
+        "undici": "5.11.0"
     }
 }
