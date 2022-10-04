@@ -100,8 +100,8 @@ export class WebSocketClient extends EventEmitter {
       else this.connect();
     });
     this.socket.on('error', error => this.emit('Error', error));
-    this.socket.on('message', async (data, isBinary) => {
-      const parsedMessage = await this.#messageReader.read(data as Buffer | ArrayBuffer, isBinary);
+    this.socket.on('message', async (data: Buffer | ArrayBuffer, isBinary) => {
+      const parsedMessage = await this.#messageReader.read(data, isBinary);
       if (!parsedMessage) return;
 
       handleIncomingMessage(this, parsedMessage);
